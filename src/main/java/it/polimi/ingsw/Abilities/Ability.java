@@ -64,7 +64,7 @@ public class Ability {
             this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
             this.transmutationAbilityBehavior = new WithTransmutationAbilityBehavior(map);
         }
-        //questo else lo teniamo come paraculo
+        //questo else lo teniamo per sicurezza
         else{
             this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
             this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();

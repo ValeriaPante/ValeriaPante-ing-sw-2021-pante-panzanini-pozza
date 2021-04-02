@@ -19,7 +19,7 @@ public class RealPlayer extends Player{
     private boolean actionDone;
     private DevSlot[] devSlots;
     private Shelf[] shelves;
-    private Depot depot; //sarebbe la strongbox??
+    private Depot depot;
     private Depot gainedFromMarket;
     private PopeFavorCard[] popeFavorCards;
     private ArrayList<LeaderCard> leaderCards;
