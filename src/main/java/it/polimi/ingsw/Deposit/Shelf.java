@@ -3,7 +3,7 @@ package it.polimi.ingsw.Deposit;
 import it.polimi.ingsw.Enums.Resource;
 import java.util.EnumMap;
 
-public class Shelf{
+public class Shelf implements Payable{
     private final int capacity;
     private int usage;
     private Resource resType;
@@ -118,5 +118,33 @@ public class Shelf{
         this.capacity = capacity;
         this.usage = 0;
         this.resType = null;
+    }
+
+    @Override
+    public boolean contains(EnumMap<Resource, Integer> checkMap) throws NullPointerException{
+        if (checkMap == null)
+            throw new NullPointerException();
+
+        for (Resource r : Resource.values())
+            if ((checkMap.get(r) != null) && ((checkMap.get(r) > usage) || (r != resType)))
+                return false;
+
+        return true;
+    }
+
+    @Override
+    public void pay(EnumMap<Resource, Integer> removeMap) throws NullPointerException, IllegalArgumentException{
+        if (removeMap == null)
+            throw new NullPointerException();
+        //the following instruction are written so the parameter won't be changed by this method if an Exception is thrown
+        EnumMap<Resource, Integer> checkOnlyOneRes;
+        checkOnlyOneRes = removeMap.clone();
+        checkOnlyOneRes.remove(resType);
+        if (checkOnlyOneRes.isEmpty())
+            throw new IllegalArgumentException();
+
+        usage =- removeMap.get(resType);
+        if (0 == usage)
+            resType = null;
     }
 }

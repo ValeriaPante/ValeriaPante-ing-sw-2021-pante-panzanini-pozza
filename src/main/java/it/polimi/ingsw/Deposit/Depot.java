@@ -3,7 +3,7 @@ package it.polimi.ingsw.Deposit;
 import it.polimi.ingsw.Enums.Resource;
 import java.util.EnumMap;
 
-public class Depot{
+public class Depot implements Payable{
     private final EnumMap <Resource, Integer> inside;
 
     public synchronized Resource singleRemove(Resource toBeRemoved) throws IndexOutOfBoundsException{
@@ -118,5 +118,27 @@ public class Depot{
 
     public Depot(){
         inside = new EnumMap<>(Resource.class);
+    }
+
+    @Override
+    public boolean contains(EnumMap<Resource, Integer> checkMap) throws NullPointerException{
+        if (checkMap == null)
+            throw new NullPointerException();
+
+        for (Resource r : Resource.values())
+            if ((checkMap.get(r) != null) && (checkMap.get(r) > inside.get(r)))
+                return false;
+
+        return true;
+    }
+
+    @Override
+    public void pay(EnumMap<Resource, Integer> removeMap) throws NullPointerException{
+        if (removeMap == null)
+            throw new NullPointerException();
+
+        for (Resource r : Resource.values())
+            if (removeMap.get(r) != null)
+                inside.put(r, inside.get(r) - removeMap.get(r));
     }
 }
