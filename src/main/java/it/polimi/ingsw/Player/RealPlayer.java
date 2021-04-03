@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Player;
 
 import it.polimi.ingsw.Abilities.ProductionPower.ProductionPower;
+import it.polimi.ingsw.Cards.DevCard;
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Cards.PopeFavorCard;
 import it.polimi.ingsw.Deposit.Depot;
@@ -25,6 +26,7 @@ public class RealPlayer extends Player{
     private PopeFavorCard[] popeFavorCards;
     private ArrayList<LeaderCard> leaderCards;
     private HashMap<Payable, EnumMap<Resource, Integer>> selected;
+    private EnumMap<Resource, Integer> discounts;
 
     private void initialisePopeFavorCards(){
         this.popeFavorCards = new PopeFavorCard[]{
@@ -59,6 +61,7 @@ public class RealPlayer extends Player{
        this.depot = new Depot();
        initialisePopeFavorCards();
        this.leaderCards = new ArrayList<>();
+       this.discounts = new EnumMap<>(Resource.class);
     }
     //--------
 
@@ -77,6 +80,15 @@ public class RealPlayer extends Player{
 
     public ProductionPower basicProductionPower(EnumMap<Resource, Integer> input, EnumMap<Resource, Integer> output){
         return new ProductionPower(input, output);
+    }
+
+    public void addDiscount(EnumMap<Resource, Integer> discountToAdd){
+        for (EnumMap.Entry<Resource, Integer> entry : discountToAdd.entrySet())
+            discounts.put(entry.getKey(), ((discounts.get(entry.getKey()) == null)? entry.getValue() : discounts.get(entry.getKey()) + entry.getValue()));
+    }
+
+    public void addDevCard(DevCard card, int devSlot){
+        devSlots[devSlot].addCard(card);
     }
 
     //--- Selection Section ---
@@ -112,6 +124,8 @@ public class RealPlayer extends Player{
     public LeaderCard[] getLeaderCards(){
         return this.leaderCards.toArray(new LeaderCard[0]);
     }
+
+    public EnumMap<Resource, Integer> getDiscounts(){ return this.discounts.clone(); }
     //-----
 
 }

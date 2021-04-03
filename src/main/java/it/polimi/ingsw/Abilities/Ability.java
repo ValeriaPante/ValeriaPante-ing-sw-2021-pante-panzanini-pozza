@@ -35,6 +35,7 @@ public class Ability {
     public boolean isEmpty(){
         return this.storageAbilityBehavior.isEmpty();
     }
+    public boolean isFull(Resource resource){ return getCapacity().get(resource).equals(getContent().get(resource));}
 
     public EnumMap<Resource, Integer> getWhiteInto(){
         return this.transmutationAbilityBehavior.getWhiteInto();

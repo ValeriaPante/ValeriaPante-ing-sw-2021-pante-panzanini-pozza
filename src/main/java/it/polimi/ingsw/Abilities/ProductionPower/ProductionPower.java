@@ -42,4 +42,8 @@ public class ProductionPower {
     public EnumMap<Resource, Integer> getOutput() {
         return this.output.clone();
     }
+
+    public boolean equals(ProductionPower prodPower){
+        return this.input.equals(prodPower.getInput()) && this.output.equals(prodPower.getOutput());
+    }
 }

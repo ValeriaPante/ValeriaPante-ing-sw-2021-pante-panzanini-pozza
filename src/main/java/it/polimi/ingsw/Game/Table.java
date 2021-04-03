@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Game;
 
+import it.polimi.ingsw.Cards.DevCard;
 import it.polimi.ingsw.Cards.DevCardType;
+import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Decks.DevDeck;
 import it.polimi.ingsw.Decks.LeaderDeck;
 import it.polimi.ingsw.Deposit.Market;
@@ -105,5 +107,13 @@ public class Table {
 
     public DevDeck[] getDevDecks() {
         return Arrays.copyOf(this.devDecks, this.devDecks.length);
+    }
+
+    public LeaderCard drawLeaderDeck(){
+        return this.leaderDeck.draw();
+    }
+
+    public DevCard drawDevDeck(int numberOfDeck){
+        return this.devDecks[numberOfDeck].draw();
     }
 }

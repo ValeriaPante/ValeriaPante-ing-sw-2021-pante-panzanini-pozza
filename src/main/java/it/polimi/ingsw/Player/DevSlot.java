@@ -2,6 +2,7 @@ package it.polimi.ingsw.Player;
 
 import it.polimi.ingsw.Cards.DevCard;
 import it.polimi.ingsw.Cards.DevCardType;
+import it.polimi.ingsw.Exceptions.*;
 
 import java.util.*;
 
@@ -33,8 +34,16 @@ public class DevSlot{
         return cards.get(0).clone();
     }
 
-    public void addCard(DevCard card){
-        cards.add(0, card.clone());
+    public void addCard(DevCard card) throws CantPutThisHere{
+        if(this.isInsertable(card)) {
+            cards.add(0, card.clone());
+        } else {
+            throw new CantPutThisHere();
+        }
+    }
+
+    public boolean isInsertable(DevCard card){
+        return (this.isEmpty() && card.getType().getLevel() == 1)|| (card.getType().getLevel() == this.topCard().getType().getLevel() + 1);
     }
 
     public ArrayList<DevCardType> getDevCardTypeContained(){

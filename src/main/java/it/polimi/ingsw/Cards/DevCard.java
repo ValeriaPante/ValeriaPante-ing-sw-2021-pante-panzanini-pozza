@@ -36,4 +36,8 @@ public class DevCard extends CardVP implements Cloneable{
     public DevCard clone(){
         return new DevCard(this.getVictoryPoints(), cost.clone(), new DevCardType(type.getLevel(), type.getColor()), new ProductionPower(prodPower.getInput().clone(), prodPower.getOutput().clone()));
     }
+
+    public boolean equals(DevCard card){
+        return this.cost.equals(card.getCost()) && this.type == card.getType() && this.prodPower.equals(card.getProdPower());
+    }
 }

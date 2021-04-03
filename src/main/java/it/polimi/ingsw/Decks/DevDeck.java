@@ -484,6 +484,10 @@ public class DevDeck implements Deck{
         return deck.remove(0);
     }
 
+    public DevCard getTopCard(){
+        return this.deck.get(0).clone();
+    }
+
     public boolean isEmpty(){
         return this.deck.isEmpty();
     }
