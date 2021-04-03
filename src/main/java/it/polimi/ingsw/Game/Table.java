@@ -67,14 +67,14 @@ public class Table {
         return this.market;
     }
 
-    public void addPlayer(String nickname) throws WeDontDoSuchThingsHere {
-        if (this.players.size() >= Table.maxPlayers){
+    public void addPlayer(RealPlayer player) throws WeDontDoSuchThingsHere {
+        if (player == null){
             throw new WeDontDoSuchThingsHere();
         }
-        this.players.add(new RealPlayer(nickname));
+        this.players.add(player);
     }
     public RealPlayer[] getPlayers(){
-        return this.players.toArray(new RealPlayer[this.players.size()]);
+        return this.players.toArray(new RealPlayer[0]);
     }
 
     public LorenzoIlMagnifico getLorenzo(){
