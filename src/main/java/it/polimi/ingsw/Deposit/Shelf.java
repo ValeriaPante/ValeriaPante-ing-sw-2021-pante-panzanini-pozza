@@ -126,7 +126,7 @@ public class Shelf implements Payable{
             throw new NullPointerException();
 
         for (Resource r : Resource.values())
-            if ((checkMap.get(r) != null) && ((checkMap.get(r) > usage) || (r != resType)))
+            if ((checkMap.get(r) != null) && ((r != resType) || (checkMap.get(r) > usage)))
                 return false;
 
         return true;
@@ -136,6 +136,7 @@ public class Shelf implements Payable{
     public void pay(EnumMap<Resource, Integer> removeMap) throws NullPointerException, IllegalArgumentException{
         if (removeMap == null)
             throw new NullPointerException();
+
         //the following instruction are written so the parameter won't be changed by this method if an Exception is thrown
         EnumMap<Resource, Integer> checkOnlyOneRes;
         checkOnlyOneRes = removeMap.clone();

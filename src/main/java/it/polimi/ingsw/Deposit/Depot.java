@@ -126,7 +126,7 @@ public class Depot implements Payable{
             throw new NullPointerException();
 
         for (Resource r : Resource.values())
-            if ((checkMap.get(r) != null) && (checkMap.get(r) > inside.get(r)))
+            if ((checkMap.get(r) != null) && ((inside.get(r) == null) || (checkMap.get(r) > inside.get(r))))
                 return false;
 
         return true;
