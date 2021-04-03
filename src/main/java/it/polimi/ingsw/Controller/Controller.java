@@ -1,5 +1,10 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Game.Table;
+import it.polimi.ingsw.FaithTrack.*;
+import it.polimi.ingsw.Player.*;
+import it.polimi.ingsw.Cards.*;
+
 import java.util.List;
 
 public class Controller {
@@ -19,7 +24,7 @@ public class Controller {
 
     }
 
-    public void playTurn(Player playerOfTurn){
+    public void playTurn(RealPlayer playerOfTurn){
 
     }
 
@@ -27,19 +32,19 @@ public class Controller {
 
     }
 
-    private void playMarketTurn(Player playerOfTurn){
+    private void playMarketTurn(RealPlayer playerOfTurn){
 
     }
 
-    private void playBuyCardTurn(Player playerOfTurn){
+    private void playBuyCardTurn(RealPlayer playerOfTurn){
 
     }
 
-    private void playProductionTurn(Player playerOfTurn) {
+    private void playProductionTurn(RealPlayer playerOfTurn) {
 
     }
 
-    public void actionOnLeaderCard(Player playerOfTurn, LeaderCard leaderCardForAction, Boolean playOrDiscard){
+    public void actionOnLeaderCard(RealPlayer playerOfTurn, LeaderCard leaderCardForAction, Boolean playOrDiscard){
 
     }
 }
