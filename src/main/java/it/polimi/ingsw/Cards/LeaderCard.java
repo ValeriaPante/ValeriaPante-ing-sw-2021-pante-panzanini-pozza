@@ -81,7 +81,7 @@ public class LeaderCard extends CardVP{
 
     public void play(){
         this.played = true;
-        this.ability = (this.type == LeaderCardType.PRODPOWER) ? new Ability(this.input, this.output) : new Ability(this.input, this.type);
+        this.ability = new Ability(this.input, this.type);
 
     }
 }

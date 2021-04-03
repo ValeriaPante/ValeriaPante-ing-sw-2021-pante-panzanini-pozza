@@ -16,8 +16,8 @@ public class Ability {
     private final DiscountAbilityBehavior discountAbilityBehavior;
     private final TransmutationAbilityBehavior transmutationAbilityBehavior;
 
-    public ProductionPower getProductionPower(){
-        return this.productionPowerBehavior.getProductionPower();
+    public ProductionPower getProductionPower(EnumMap<Resource, Integer> output){
+        return this.productionPowerBehavior.getProductionPower(output);
     }
 
     public void add(Resource resource){
@@ -48,36 +48,36 @@ public class Ability {
     //type == LeaderCardType.TRANSMUTATION, map represent the amount of resources that the white must be transmuted in to
     //type == LeaderCardType.STORAGE map, represent the capacity of the storage
     public Ability(EnumMap<Resource, Integer> map, LeaderCardType type){
-        this.productionPowerBehavior = new WithoutProductionPowerBehavior();
         if (type == LeaderCardType.STORAGE){
             this.storageAbilityBehavior = new WithStorageAbilityBehavior(map);
             this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
             this.transmutationAbilityBehavior = new WithoutTransmutationAbilityBehavior();
+            this.productionPowerBehavior = new WithoutProductionPowerBehavior();
         }
         else if (type == LeaderCardType.DISCOUNT){
             this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
             this.discountAbilityBehavior = new WithDiscountAbilityBehavior(map);
             this.transmutationAbilityBehavior = new WithoutTransmutationAbilityBehavior();
+            this.productionPowerBehavior = new WithoutProductionPowerBehavior();
         }
         else if (type == LeaderCardType.TRANSMUTATION){
             this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
             this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
             this.transmutationAbilityBehavior = new WithTransmutationAbilityBehavior(map);
+            this.productionPowerBehavior = new WithoutProductionPowerBehavior();
+        }
+        else if (type == LeaderCardType.PRODPOWER){
+            this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
+            this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
+            this.transmutationAbilityBehavior = new WithoutTransmutationAbilityBehavior();
+            this.productionPowerBehavior = new WithProductionPowerBehavior(map);
         }
         //questo else lo teniamo per sicurezza
         else{
             this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
             this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
             this.transmutationAbilityBehavior = new WithoutTransmutationAbilityBehavior();
+            this.productionPowerBehavior = new WithoutProductionPowerBehavior();
         }
     }
-
-    //use this only when you want to create a Production Power Ability
-    public Ability(EnumMap<Resource, Integer> input, EnumMap<Resource, Integer> output){
-        this.productionPowerBehavior = new WithProductionPowerBehavior(input, output);
-        this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
-        this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
-        this.transmutationAbilityBehavior = new WithoutTransmutationAbilityBehavior();
-    }
-
 }
