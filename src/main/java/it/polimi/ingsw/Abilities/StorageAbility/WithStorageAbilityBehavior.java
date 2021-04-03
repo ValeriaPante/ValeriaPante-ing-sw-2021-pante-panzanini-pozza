@@ -31,22 +31,31 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
     }
 
     public EnumMap<Resource, Integer> getCapacity(){
-        return this.capacity.clone();
+        return slimMap(this.capacity);
     }
     public EnumMap<Resource, Integer> getContent(){
-        return this.content.clone();
+        return slimMap(this.content);
     }
 
     private void initialise(){
-        this.content = new EnumMap<Resource, Integer>(Resource.class);
-        this.capacity = new EnumMap<Resource, Integer>(Resource.class);
+        this.content = new EnumMap<>(Resource.class);
+        this.capacity = new EnumMap<>(Resource.class);
+    }
+
+    private EnumMap<Resource, Integer> slimMap(EnumMap<Resource, Integer> map){
+        EnumMap<Resource, Integer> temp = new EnumMap<>(Resource.class);
+        for (Resource resource : map.keySet()){
+            if (map.get(resource) != 0){
+                temp.put(resource, map.get(resource));
+            }
+        }
+        return temp;
     }
 
     //complete the map initialising the missing keys as 0
     private void completeTheMAp(EnumMap<Resource, Integer> map){
-        EnumMap<Resource, Integer> temp = new EnumMap<Resource, Integer>(Resource.class);
         for (Resource resource: Resource.values()){
-            if (!map.keySet().contains(resource)){
+            if (!map.containsKey(resource)){
                 map.put(resource, 0);
             }
         }
