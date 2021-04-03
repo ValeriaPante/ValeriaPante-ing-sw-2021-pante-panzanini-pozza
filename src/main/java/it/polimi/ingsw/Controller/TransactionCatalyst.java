@@ -4,36 +4,55 @@ import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.Resource;
 
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 
-//this class may become a lambda since there are no attributes needed.
-// My only concern is about deleting the exceptions, it may be difficult to distinguish each case
-
 public class TransactionCatalyst {
+    private Map<Payable, EnumMap<Resource, Integer>> howToPay;
+    private EnumMap<Resource, Integer> goal;
 
-    public boolean isAffordable(Map<Payable, EnumMap<Resource, Integer>> payingMethod) throws NullPointerException,IllegalArgumentException{
-        if (payingMethod == null)
+    public void put(Payable container, EnumMap<Resource, Integer> quantity)throws NullPointerException, IllegalArgumentException{
+        if ((container == null) || (quantity == null))
             throw new NullPointerException();
 
-        if (payingMethod.isEmpty())
+        if ( !(container.contains(quantity)))
             throw new IllegalArgumentException();
 
-        for (Map.Entry<Payable, EnumMap<Resource, Integer>> elementOfMap : payingMethod.entrySet())
-            if ( !(elementOfMap.getKey().contains(elementOfMap.getValue())) )
-                return false;
-
-       return true;
+        howToPay.put(container, quantity);
     }
 
-    public void commit(Map<Payable, EnumMap<Resource, Integer>> payingMethod) throws NullPointerException,IllegalArgumentException{
-        if (payingMethod == null)
+    public void remove(Payable container) throws NullPointerException{
+        if (container == null)
             throw new NullPointerException();
 
-        if (payingMethod.isEmpty())
-            throw new IllegalArgumentException();
+        howToPay.remove(container);
+    }
 
-        for (Map.Entry<Payable, EnumMap<Resource, Integer>> elementOfMap : payingMethod.entrySet())
+    private EnumMap<Resource, Integer> countAll(){
+        EnumMap<Resource, Integer> amount = new EnumMap<>(Resource.class);
+
+        for (Map.Entry<Payable, EnumMap<Resource, Integer>> elementOfMap : howToPay.entrySet())
+            for (Resource r : Resource.values())
+                if (elementOfMap.getValue().get(r) != null)
+                    amount.put(r, elementOfMap.getValue().get(r) + ((amount.get(r) == null) ? 0 : amount.get(r)) );
+
+        return amount;
+    }
+
+    private boolean isCommittable(){
+        return goal.equals( this.countAll() );
+    }
+
+    public void commit() throws IndexOutOfBoundsException{
+        if ( !isCommittable() )
+            throw new IndexOutOfBoundsException();
+
+        for (Map.Entry<Payable, EnumMap<Resource, Integer>> elementOfMap : howToPay.entrySet())
             elementOfMap.getKey().pay(elementOfMap.getValue());
+    }
 
+    public TransactionCatalyst(EnumMap<Resource, Integer> cost){
+        this.goal = cost.clone();
+        this.howToPay = new HashMap<>();
     }
 }
