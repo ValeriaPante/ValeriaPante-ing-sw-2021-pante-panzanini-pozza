@@ -9,7 +9,6 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
 
     public boolean isEmpty() throws WeDontDoSuchThingsHere{
         throw new WeDontDoSuchThingsHere();
-        //Exception
     }
 
     public void singleAdd(Resource toBeAdded) throws WeDontDoSuchThingsHere{
@@ -18,12 +17,10 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
 
     public void singleRemove(Resource resource) throws WeDontDoSuchThingsHere{
         throw new WeDontDoSuchThingsHere();
-        //Exception or empty
     }
 
     public EnumMap<Resource, Integer> getCapacity() throws WeDontDoSuchThingsHere{
         throw new WeDontDoSuchThingsHere();
-        //return null;
     }
 
     public EnumMap<Resource, Integer> getContent(){
