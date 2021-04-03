@@ -4,7 +4,7 @@ import it.polimi.ingsw.Enums.Resource;
 
 import java.util.EnumMap;
 
-public interface StorageAbilityBehavior {
+public interface StorageAbilityBehavior{
     void singleAdd (Resource toBeAdded);
     void singleRemove (Resource toBeRemoved);
     boolean isEmpty();

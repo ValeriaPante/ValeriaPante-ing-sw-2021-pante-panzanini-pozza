@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Abilities.StorageAbility;
 
+import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.Resource;
 import java.util.EnumMap;
 
@@ -7,7 +8,7 @@ import java.util.EnumMap;
 //se invece vogliamo fare le cose un po più fat e vogliamo lasciar perdere la parametrizzazione su questo punto
 // possiamo usare una shelf il problema è che la shelf per come è fatta non permette una capacità massima ma per tutti i tipi
 
-public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
+public class WithStorageAbilityBehavior implements StorageAbilityBehavior, Payable{
     EnumMap<Resource, Integer> content;
     EnumMap<Resource, Integer> capacity;
 
@@ -28,6 +29,23 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
             }
         }
         return true;
+    }
+
+    @Override
+    public boolean contains(EnumMap<Resource, Integer> checkMap) {
+        for (Resource resource : checkMap.keySet()){
+            if (!(this.content.get(resource)!=null && this.content.get(resource)>=checkMap.get(resource))){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void pay(EnumMap<Resource, Integer> removeMap) {
+        for (Resource resource : removeMap.keySet()){
+            this.content.put(resource,this.content.get(resource) - removeMap.get(resource));
+        }
     }
 
     public EnumMap<Resource, Integer> getCapacity(){

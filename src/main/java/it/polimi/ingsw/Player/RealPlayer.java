@@ -5,11 +5,13 @@ import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Cards.PopeFavorCard;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.Shelf;
+import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.Resource;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 
 public class RealPlayer extends Player{
 
@@ -20,9 +22,9 @@ public class RealPlayer extends Player{
     private DevSlot[] devSlots;
     private Shelf[] shelves;
     private Depot depot;
-    private Depot gainedFromMarket;
     private PopeFavorCard[] popeFavorCards;
     private ArrayList<LeaderCard> leaderCards;
+    private HashMap<Payable, EnumMap<Resource, Integer>> selected;
 
     private void initialisePopeFavorCards(){
         this.popeFavorCards = new PopeFavorCard[]{
@@ -55,7 +57,6 @@ public class RealPlayer extends Player{
        initialiseDevSlots();
        initialiseShelves();
        this.depot = new Depot();
-       this.gainedFromMarket = new Depot();
        initialisePopeFavorCards();
        this.leaderCards = new ArrayList<>();
     }
@@ -70,7 +71,6 @@ public class RealPlayer extends Player{
     }
     //-----
 
-
     public void setActionDone(boolean actionDone){
         this.actionDone = actionDone;
     }
@@ -78,6 +78,20 @@ public class RealPlayer extends Player{
     public ProductionPower basicProductionPower(EnumMap<Resource, Integer> input, EnumMap<Resource, Integer> output){
         return new ProductionPower(input, output);
     }
+
+    //--- Selection Section ---
+    public void paySelected(){
+        for (Payable toPay : this.selected.keySet()){
+            toPay.pay(this.selected.get(toPay));
+        }
+    }
+    public void swipeSelected(){
+        this.selected.clear();
+    }
+    public void addSelection(Payable container, EnumMap<Resource, Integer> amount){
+        this.selected.put(container, amount);
+    }
+    //------
 
     //---Getters---
     public boolean isActionDone(){
@@ -91,9 +105,6 @@ public class RealPlayer extends Player{
     }
     public Depot getDepot(){
         return this.depot;
-    }
-    public Depot getGainedFromMarket(){
-        return this.gainedFromMarket;
     }
     public PopeFavorCard[] getPopeFavorCards(){
         return Arrays.copyOf(this.popeFavorCards, this.popeFavorCards.length);
