@@ -3,7 +3,7 @@ package it.polimi.ingsw.FaithTrack;
 public class FaithTrack {
     private static FaithTrack instance;
 
-    private static final int length = 20;
+    public static final int length = 20;
     private SmallPath[] smallPaths;
     private VaticanRelation[] vaticanRelations;
 
@@ -38,12 +38,7 @@ public class FaithTrack {
 
     //ritorna true se la posizione supera la lunghezza del percorso
     public boolean finished(int pos){
-        if (pos >=length){
-            return true;
-        }
-        else{
-            return false;
-        }
+        return pos >= length;
     }
 
     //costruttore privato per signletone
