@@ -23,18 +23,9 @@ public class RealPlayer extends Player{
     private DevSlot[] devSlots;
     private Shelf[] shelves;
     private Depot depot;
-    private PopeFavorCard[] popeFavorCards;
     private ArrayList<LeaderCard> leaderCards;
     private HashMap<Payable, EnumMap<Resource, Integer>> selected;
     private EnumMap<Resource, Integer> discounts;
-
-    private void initialisePopeFavorCards(){
-        this.popeFavorCards = new PopeFavorCard[]{
-                new PopeFavorCard(2),
-                new PopeFavorCard(3),
-                new PopeFavorCard(4),
-        };
-    }
 
     private void initialiseShelves(){
         this.shelves = new Shelf[]{
@@ -59,7 +50,6 @@ public class RealPlayer extends Player{
        initialiseDevSlots();
        initialiseShelves();
        this.depot = new Depot();
-       initialisePopeFavorCards();
        this.leaderCards = new ArrayList<>();
        this.discounts = new EnumMap<>(Resource.class);
     }
@@ -117,9 +107,6 @@ public class RealPlayer extends Player{
     }
     public Depot getDepot(){
         return this.depot;
-    }
-    public PopeFavorCard[] getPopeFavorCards(){
-        return Arrays.copyOf(this.popeFavorCards, this.popeFavorCards.length);
     }
     public LeaderCard[] getLeaderCards(){
         return this.leaderCards.toArray(new LeaderCard[0]);
