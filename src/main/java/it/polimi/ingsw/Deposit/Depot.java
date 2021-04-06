@@ -141,4 +141,8 @@ public class Depot implements Payable{
             if (removeMap.get(r) != null)
                 inside.put(r, inside.get(r) - removeMap.get(r));
     }
+
+    public String toString(){
+        return new String("Deposit");
+    }
 }

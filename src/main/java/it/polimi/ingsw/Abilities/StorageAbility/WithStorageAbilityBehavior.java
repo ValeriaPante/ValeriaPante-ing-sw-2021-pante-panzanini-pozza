@@ -86,4 +86,14 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior, Payab
         this.capacity = capacity.clone();
         completeTheMAp(this.capacity);
     }
+
+    @Override
+    public String toString(){
+        return new String("LeaderDeposit");
+    }
+
+    @Override
+    public String toString(int number){
+        return new String("LeaderDeposit" + String.valueOf(number));
+    }
 }

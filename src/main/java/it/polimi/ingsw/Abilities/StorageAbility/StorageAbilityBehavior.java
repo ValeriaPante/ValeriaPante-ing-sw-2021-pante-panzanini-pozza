@@ -10,4 +10,6 @@ public interface StorageAbilityBehavior{
     boolean isEmpty();
     EnumMap<Resource, Integer> getContent();
     EnumMap<Resource, Integer> getCapacity();
+    String toString();
+    String toString(int number);
 }
