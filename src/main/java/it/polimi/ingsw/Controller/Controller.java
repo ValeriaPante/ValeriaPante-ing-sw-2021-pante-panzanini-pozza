@@ -195,8 +195,9 @@ public class Controller {
 
     private boolean checkResourceReq(RealPlayer playerOfTurn, LeaderCard leaderCardForAction){
         // prende il contenuto che hai da tutti
-        Depot d = new Depot();
-        return d.contains(leaderCardForAction.getResourceReq());
+        Depot allResourceOwned = new Depot();
+        allResourceOwned.addEnumMap(playerOfTurn.resourcesOwned());
+        return allResourceOwned.contains(leaderCardForAction.getResourceReq());
     }
 
     private boolean checkDevCardTypeReq(RealPlayer playerOfTurn, LeaderCard leaderCardForAction){
