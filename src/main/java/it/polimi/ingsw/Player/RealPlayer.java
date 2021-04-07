@@ -113,27 +113,32 @@ public class RealPlayer extends Player{
     }
     //-----
 
-
+    // returns null if the player owns no Resources, otherwise it will return an EnumMap with the copy of all resources
     public EnumMap<Resource, Integer> resourcesOwned(){
         Depot allResources = new Depot();
 
-        if (null != this.depot.content())
+        if ( !this.depot.isEmpty())
             allResources.addEnumMap(this.depot.content());
 
         for (Shelf shelf: shelves)
-            if (null != shelf.content())
+            if ( !shelf.isEmpty())
                 allResources.addEnumMap(shelf.content());
 
         for (LeaderCard lc : leaderCards)
             if (lc.getType() == LeaderCardType.STORAGE){
                 try{
-                    allResources.addEnumMap(lc.getAbility().getContent());
+                    if ( !lc.getAbility().isEmpty())
+                        allResources.addEnumMap(lc.getAbility().getContent());
                 }
                 catch (WeDontDoSuchThingsHere e) {
                     e.printStackTrace();
                 }
             }
         return (allResources.isEmpty()) ? null : allResources.content();
+    }
 
+    //it can be used to know if the player owns any Resource
+    public boolean isBroken(){
+        return (this.resourcesOwned() == null);
     }
 }
