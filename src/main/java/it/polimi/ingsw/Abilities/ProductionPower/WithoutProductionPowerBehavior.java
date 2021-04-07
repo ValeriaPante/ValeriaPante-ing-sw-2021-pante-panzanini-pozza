@@ -6,7 +6,7 @@ import java.util.EnumMap;
 
 public class WithoutProductionPowerBehavior implements ProductionPowerBehavior {
     @Override
-     public ProductionPower getProductionPower(EnumMap<Resource, Integer> output) throws WeDontDoSuchThingsHere {
+     public ProductionPower getProductionPower() throws WeDontDoSuchThingsHere {
         throw new WeDontDoSuchThingsHere();
     }
 }
