@@ -3,8 +3,19 @@ import java.util.EnumMap;
 import it.polimi.ingsw.Enums.Resource;
 
 public class ProductionPower {
+    private final String toString;
     private final EnumMap<Resource,Integer> input;
     private final EnumMap<Resource,Integer> output;
+
+    private String initialiseToStringParam(EnumMap<Resource, Integer> map){
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("(");
+        for (Resource resource : map.keySet()){
+            stringBuilder.append(" ").append(resource.toString()).append(":").append(map.get(resource)).append(" ");
+        }
+        stringBuilder.append(")");
+        return stringBuilder.toString();
+    }
 
     //@ signals (IllegalArgumentException e)    (resourcesTypeInput == null || resourceAmountInput == null || resourcesTypeOutput == null || resourcesAmountOutput == null) ||
     //                                          (resourcesTypeInput.length != resourceAmountInput.length || resourcesTypeOutput.length != resourcesAmountOutput.length)
@@ -24,6 +35,7 @@ public class ProductionPower {
         for (i=0; i<resourcesTypeOutput.length; i++){
             this.output.put(resourcesTypeOutput[i], resourcesAmountOutput[i]);
         }
+        this.toString = initialiseToStringParam(this.input) + " -> " + initialiseToStringParam(this.output);
     }
 
     //@ signals (IllegalArgumentException e)    (input == null || output == null)
@@ -33,6 +45,7 @@ public class ProductionPower {
         }
         this.input = input.clone();
         this.output = output.clone();
+        this.toString = initialiseToStringParam(this.input) + " -> " + initialiseToStringParam(this.output);
     }
 
     public EnumMap<Resource,Integer> getInput(){
@@ -45,5 +58,9 @@ public class ProductionPower {
 
     public boolean equals(ProductionPower prodPower){
         return this.input.equals(prodPower.getInput()) && this.output.equals(prodPower.getOutput());
+    }
+
+    public String toString(){
+        return this.toString;
     }
 }
