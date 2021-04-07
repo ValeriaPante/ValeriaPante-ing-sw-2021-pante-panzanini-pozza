@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.Resource;
 
@@ -8,8 +9,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TransactionCatalyst {
-    private Map<Payable, EnumMap<Resource, Integer>> howToPay;
-    private EnumMap<Resource, Integer> goal;
+    private final Map<Payable, Depot> howToPay;
+    private final EnumMap<Resource, Integer> goal;
+
 
     public void put(Payable container, EnumMap<Resource, Integer> quantity)throws NullPointerException, IllegalArgumentException{
         if ((container == null) || (quantity == null))
@@ -18,7 +20,37 @@ public class TransactionCatalyst {
         if ( !(container.contains(quantity)))
             throw new IllegalArgumentException();
 
-        howToPay.put(container, quantity);
+        Depot insertingDepot = new Depot();
+        insertingDepot.addEnumMap(quantity);
+        howToPay.put(container, insertingDepot);
+    }
+
+    public void add(Payable container, EnumMap<Resource, Integer> quantity)throws NullPointerException, IllegalArgumentException{
+        if ((container == null) || (quantity == null))
+            throw new NullPointerException();
+
+        //the following instructions can raise an IllegalArgumentException because of "put"
+        if ( !howToPay.containsKey(container)){
+            this.put(container, quantity);
+            return;
+        }
+
+        //the following instructions can raise an IllegalArgumentException because of "put"
+        Depot mergedDepot = new Depot();
+        mergedDepot.addEnumMap(quantity);
+        mergedDepot.addEnumMap(howToPay.get(container).content());
+        this.put(container, mergedDepot.content());
+    }
+
+    public void subtract(Payable container, EnumMap<Resource, Integer> quantity) throws NullPointerException, IllegalArgumentException, IndexOutOfBoundsException{
+        if ((container == null) || (quantity == null))
+            throw new NullPointerException();
+
+        if ( !howToPay.containsKey(container))
+            throw new IllegalArgumentException();
+
+        //the following instruction can raise an IndexOutOfBoundsException because of "removeEnumMapIfPossible"
+        howToPay.get(container).removeEnumMapIfPossible(quantity);
     }
 
     public void remove(Payable container) throws NullPointerException{
@@ -29,26 +61,24 @@ public class TransactionCatalyst {
     }
 
     private EnumMap<Resource, Integer> countAll(){
-        EnumMap<Resource, Integer> amount = new EnumMap<>(Resource.class);
+        Depot amount = new Depot();
 
-        for (Map.Entry<Payable, EnumMap<Resource, Integer>> elementOfMap : howToPay.entrySet())
-            for (Resource r : Resource.values())
-                if (elementOfMap.getValue().get(r) != null)
-                    amount.put(r, elementOfMap.getValue().get(r) + ((amount.get(r) == null) ? 0 : amount.get(r)) );
+        for (Map.Entry<Payable, Depot> elementOfMap : howToPay.entrySet())
+            amount.addEnumMap(elementOfMap.getValue().content());
 
-        return amount;
+        return amount.content();
     }
 
     private boolean isCommittable(){
-        return goal.equals( this.countAll() );
+        return goal.equals(this.countAll());
     }
 
     public void commit() throws IndexOutOfBoundsException{
-        if ( !isCommittable() )
+        if ( !this.isCommittable())
             throw new IndexOutOfBoundsException();
 
-        for (Map.Entry<Payable, EnumMap<Resource, Integer>> elementOfMap : howToPay.entrySet())
-            elementOfMap.getKey().pay(elementOfMap.getValue());
+        for (Map.Entry<Payable, Depot> elementOfMap : howToPay.entrySet())
+            elementOfMap.getKey().pay(elementOfMap.getValue().content());
     }
 
     public TransactionCatalyst(EnumMap<Resource, Integer> cost){

@@ -89,11 +89,11 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior, Payab
 
     @Override
     public String toString(){
-        return new String("LeaderDeposit");
+        return "LeaderDeposit";
     }
 
     @Override
     public String toString(int number){
-        return new String("LeaderDeposit" + String.valueOf(number));
+        return "LeaderDeposit" + number;
     }
 }

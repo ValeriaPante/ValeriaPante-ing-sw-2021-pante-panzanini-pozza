@@ -17,18 +17,25 @@ public class Depot implements Payable{
     }
 
     public synchronized EnumMap<Resource, Integer> removeEnumMapIfPossible(EnumMap<Resource, Integer> mapToBeRemoved) throws IndexOutOfBoundsException, NullPointerException{
-        if (mapToBeRemoved == null)
-            throw new NullPointerException();
-        for (Resource r : Resource.values())
-            if (mapToBeRemoved.containsKey(r) && ( !(inside.containsKey(r)) || (mapToBeRemoved.get(r) > inside.get(r))))
-                throw new IndexOutOfBoundsException();
+        //if (mapToBeRemoved == null)
+        //    throw new NullPointerException();
+        //for (Resource r : Resource.values())
+        //    if (mapToBeRemoved.containsKey(r) && ( !(inside.containsKey(r)) || (mapToBeRemoved.get(r) > inside.get(r))))
+        //        throw new IndexOutOfBoundsException();
+        //
+        //for (Resource r : Resource.values())
+        //    if (mapToBeRemoved.containsKey(r)){
+        //        inside.put(r, inside.get(r) - mapToBeRemoved.get(r));
+        //        if (inside.get(r) == 0)
+        //            inside.remove(r);
+        //    }
+        //
+        //return new EnumMap<>(mapToBeRemoved);
 
-        for (Resource r : Resource.values())
-            if (mapToBeRemoved.containsKey(r)){
-                inside.put(r, inside.get(r) - mapToBeRemoved.get(r));
-                if (inside.get(r) == 0)
-                    inside.remove(r);
-            }
+        if (!this.contains(mapToBeRemoved))
+            throw new IndexOutOfBoundsException();
+
+        this.removeEnumMapWhatPossible(mapToBeRemoved);
 
         return new EnumMap<>(mapToBeRemoved);
     }
@@ -45,7 +52,7 @@ public class Depot implements Payable{
                         notRemoved.put(r, mapToBeRemoved.get(r) - inside.get(r));
                         inside.remove(r);
                     }
-                    else if (mapToBeRemoved.get(r) == inside.get(r))
+                    else if (mapToBeRemoved.get(r).equals(inside.get(r)))
                         inside.remove(r);
                     else
                         inside.put(r, inside.get(r) - mapToBeRemoved.get(r));
@@ -143,6 +150,6 @@ public class Depot implements Payable{
     }
 
     public String toString(){
-        return new String("Deposit");
+        return "Deposit";
     }
 }

@@ -150,6 +150,6 @@ public class Shelf implements Payable{
     }
 
     public String toString(){
-        return new String("Shelf" + String.valueOf(capacity));
+        return "Shelf" + capacity;
     }
 }
