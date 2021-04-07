@@ -3,6 +3,7 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Exceptions.EmptyContainerException;
 
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -79,6 +80,18 @@ public class TransactionCatalyst {
 
         for (Map.Entry<Payable, Depot> elementOfMap : howToPay.entrySet())
             elementOfMap.getKey().pay(elementOfMap.getValue().content());
+    }
+
+    //this method will not return a copy of the Payable, so be careful
+    public Map<Payable, EnumMap<Resource, Integer>> getContent() throws EmptyContainerException {
+        if (howToPay.isEmpty())
+            throw new EmptyContainerException();
+
+        Map<Payable, EnumMap<Resource, Integer>> mapToBeReturned = new HashMap<>();
+        for (Map.Entry<Payable, Depot> elementOfMap : howToPay.entrySet())
+            mapToBeReturned.put(elementOfMap.getKey(), elementOfMap.getValue().content());
+
+        return mapToBeReturned;
     }
 
     public TransactionCatalyst(EnumMap<Resource, Integer> cost){
