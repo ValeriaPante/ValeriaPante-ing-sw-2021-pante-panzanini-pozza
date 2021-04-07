@@ -8,9 +8,9 @@ import java.util.EnumMap;
 //se invece vogliamo fare le cose un po più fat e vogliamo lasciar perdere la parametrizzazione su questo punto
 // possiamo usare una shelf il problema è che la shelf per come è fatta non permette una capacità massima ma per tutti i tipi
 
-public class WithStorageAbilityBehavior implements StorageAbilityBehavior, Payable{
-    EnumMap<Resource, Integer> content;
-    EnumMap<Resource, Integer> capacity;
+public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
+    private EnumMap<Resource, Integer> content;
+    private EnumMap<Resource, Integer> capacity;
 
     public void singleAdd(Resource toBeAdded){
         //per come lo creo non è possibile che la get ritorni null
@@ -31,7 +31,6 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior, Payab
         return true;
     }
 
-    @Override
     public boolean contains(EnumMap<Resource, Integer> checkMap) {
         for (Resource resource : checkMap.keySet()){
             if (!(this.content.get(resource)!=null && this.content.get(resource)>=checkMap.get(resource))){
@@ -41,7 +40,6 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior, Payab
         return true;
     }
 
-    @Override
     public void pay(EnumMap<Resource, Integer> removeMap) {
         for (Resource resource : removeMap.keySet()){
             this.content.put(resource,this.content.get(resource) - removeMap.get(resource));
@@ -51,7 +49,7 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior, Payab
     public EnumMap<Resource, Integer> getCapacity(){
         return slimMap(this.capacity);
     }
-    public EnumMap<Resource, Integer> getContent(){
+    public EnumMap<Resource, Integer> content(){
         return slimMap(this.content);
     }
 

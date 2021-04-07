@@ -6,7 +6,7 @@ import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 
 import java.util.EnumMap;
 
-public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior, Payable {
+public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
 
     @Override
     public boolean isEmpty() throws WeDontDoSuchThingsHere{
@@ -32,16 +32,14 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior, Pa
     }
 
     @Override
-    public EnumMap<Resource, Integer> getContent(){
+    public EnumMap<Resource, Integer> content(){
         throw new WeDontDoSuchThingsHere();
     }
 
-    @Override
     public boolean contains(EnumMap<Resource, Integer> checkMap) {
         throw new WeDontDoSuchThingsHere();
     }
 
-    @Override
     public void pay(EnumMap<Resource, Integer> removeMap) {
         throw new WeDontDoSuchThingsHere();
     }
