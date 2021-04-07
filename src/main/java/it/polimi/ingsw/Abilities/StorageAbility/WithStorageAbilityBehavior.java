@@ -87,11 +87,11 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
 
     @Override
     public String toString(){
-        return new String("LeaderDeposit");
+        return "LeaderDeposit";
     }
 
     @Override
     public String toString(int number){
-        return new String("LeaderDeposit" + String.valueOf(number));
+        return "LeaderDeposit" + number;
     }
 }
