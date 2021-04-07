@@ -26,6 +26,7 @@ public class RealPlayer extends Player{
     private ArrayList<LeaderCard> leaderCards;
     private HashMap<Payable, EnumMap<Resource, Integer>> selected;
     private EnumMap<Resource, Integer> discounts;
+    private ProductionPower basicProductionPower;
 
     private void initialiseShelves(){
         this.shelves = new Shelf[]{
@@ -43,15 +44,24 @@ public class RealPlayer extends Player{
         };
     }
 
+    private void initialiseBasicProductionPower(){
+        EnumMap<Resource, Integer> tempInput = new EnumMap<>(Resource.class);
+        EnumMap<Resource, Integer> tempOutput = new EnumMap<>(Resource.class);
+        tempInput.put(Resource.ANY, 2);
+        tempOutput.put(Resource.ANY,1);
+        this.basicProductionPower = new ProductionPower(tempInput, tempOutput);
+    }
+
     //---Constructor---
     public RealPlayer(String nickname){
        super(nickname);
        this.actionDone = false;
-       initialiseDevSlots();
-       initialiseShelves();
+       this.initialiseDevSlots();
+       this.initialiseShelves();
        this.depot = new Depot();
        this.leaderCards = new ArrayList<>();
        this.discounts = new EnumMap<>(Resource.class);
+       this.initialiseBasicProductionPower();
     }
     //--------
 
@@ -68,17 +78,8 @@ public class RealPlayer extends Player{
         this.actionDone = actionDone;
     }
 
-    public ProductionPower basicProductionPower(EnumMap<Resource, Integer> input, EnumMap<Resource, Integer> output){
-        return new ProductionPower(input, output);
-    }
-
-    public void addDiscount(EnumMap<Resource, Integer> discountToAdd){
-        for (EnumMap.Entry<Resource, Integer> entry : discountToAdd.entrySet())
-            discounts.put(entry.getKey(), ((discounts.get(entry.getKey()) == null)? entry.getValue() : discounts.get(entry.getKey()) + entry.getValue()));
-    }
-
-    public void addDevCard(DevCard card, int devSlot){
-        devSlots[devSlot].addCard(card);
+    public ProductionPower getBasicProductionPower(){
+        return this.basicProductionPower;
     }
 
     //--- Selection Section ---
@@ -112,6 +113,7 @@ public class RealPlayer extends Player{
         return this.leaderCards.toArray(new LeaderCard[0]);
     }
 
+    //??????????
     public EnumMap<Resource, Integer> getDiscounts(){ return this.discounts.clone(); }
     //-----
 
