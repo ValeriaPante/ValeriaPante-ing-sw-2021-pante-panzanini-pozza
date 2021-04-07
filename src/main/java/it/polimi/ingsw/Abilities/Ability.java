@@ -4,20 +4,21 @@ import it.polimi.ingsw.Abilities.DiscountAbility.*;
 import it.polimi.ingsw.Abilities.ProductionPower.*;
 import it.polimi.ingsw.Abilities.StorageAbility.*;
 import it.polimi.ingsw.Abilities.TransmutationAbility.*;
+import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Enums.LeaderCardType;
 
 import java.util.EnumMap;
 
-public class Ability {
+public class Ability implements Payable{
 
     private final ProductionPowerBehavior productionPowerBehavior;
     private final StorageAbilityBehavior storageAbilityBehavior;
     private final DiscountAbilityBehavior discountAbilityBehavior;
     private final TransmutationAbilityBehavior transmutationAbilityBehavior;
 
-    public ProductionPower getProductionPower(EnumMap<Resource, Integer> output){
-        return this.productionPowerBehavior.getProductionPower(output);
+    public ProductionPower getProductionPower(){
+        return this.productionPowerBehavior.getProductionPower();
     }
 
     public void add(Resource resource){
@@ -27,7 +28,7 @@ public class Ability {
         this.storageAbilityBehavior.singleRemove(resource);
     }
     public EnumMap<Resource, Integer> getContent(){
-        return this.storageAbilityBehavior.getContent();
+        return this.storageAbilityBehavior.content();
     }
     public EnumMap<Resource,Integer> getCapacity(){
         return this.storageAbilityBehavior.getCapacity();
@@ -36,6 +37,12 @@ public class Ability {
         return this.storageAbilityBehavior.isEmpty();
     }
     public boolean isFull(Resource resource){ return getCapacity().get(resource).equals(getContent().get(resource));}
+    public boolean contains(EnumMap<Resource, Integer> checkMap){
+        return this.storageAbilityBehavior.contains(checkMap);
+    }
+    public void pay(EnumMap<Resource, Integer> removeMap) {
+        this.storageAbilityBehavior.pay(removeMap);
+    }
 
     public EnumMap<Resource, Integer> getWhiteInto(){
         return this.transmutationAbilityBehavior.getWhiteInto();
