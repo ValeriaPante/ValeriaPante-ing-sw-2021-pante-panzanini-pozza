@@ -148,4 +148,8 @@ public class Shelf implements Payable{
         if (0 == usage)
             resType = null;
     }
+
+    public String toString(){
+        return new String("Shelf" + String.valueOf(capacity));
+    }
 }

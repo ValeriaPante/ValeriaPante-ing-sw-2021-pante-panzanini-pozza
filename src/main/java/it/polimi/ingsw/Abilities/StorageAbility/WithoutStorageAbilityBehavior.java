@@ -43,4 +43,14 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
     public void pay(EnumMap<Resource, Integer> removeMap) {
         throw new WeDontDoSuchThingsHere();
     }
+
+    @Override
+    public String toString(){
+        throw new WeDontDoSuchThingsHere();
+    }
+
+    @Override
+    public String toString(int number){
+        throw new WeDontDoSuchThingsHere();
+    }
 }

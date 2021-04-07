@@ -18,7 +18,6 @@ public class LeaderDeck implements Deck{
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
         Map<DevCardType, Integer> devCardReq = new HashMap<>();
         EnumMap<Resource, Integer> input = new EnumMap<>(Resource.class);
-        EnumMap<Resource, Integer> output = new EnumMap<>(Resource.class);
 
         devCardReq.put(new DevCardType(0, Colour.YELLOW), 1);
         devCardReq.put(new DevCardType(0, Colour.GREEN), 1);
@@ -114,39 +113,28 @@ public class LeaderDeck implements Deck{
         devCardReq.put(new DevCardType(2, Colour.YELLOW), 1);
         input.clear();
         input.put(Resource.SHIELD, 1);
-        output.put(Resource.WHITE, 1);
-        output.put(Resource.FAITH, 1);
-        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input, output));
+        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input));
 
         //62
         devCardReq.clear();
         devCardReq.put(new DevCardType(2, Colour.BLUE), 1);
         input.clear();
         input.put(Resource.SERVANT, 1);
-        output.clear();
-        output.put(Resource.WHITE, 1);
-        output.put(Resource.FAITH, 1);
-        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input, output));
+        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input));
 
         //63
         devCardReq.clear();
         devCardReq.put(new DevCardType(2, Colour.PURPLE), 1);
         input.clear();
         input.put(Resource.STONE, 1);
-        output.clear();
-        output.put(Resource.WHITE, 1);
-        output.put(Resource.FAITH, 1);
-        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input, output));
+        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input));
 
         //64
         devCardReq.clear();
         devCardReq.put(new DevCardType(2, Colour.GREEN), 1);
         input.clear();
         input.put(Resource.COIN, 1);
-        output.clear();
-        output.put(Resource.WHITE, 1);
-        output.put(Resource.FAITH, 1);
-        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input, output));
+        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input));
 
         Collections.shuffle(deck);
     }

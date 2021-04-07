@@ -27,7 +27,7 @@ public class Table {
     private int turnOf;
     private RealPlayer winner;
 
-    private final LeaderDeck leaderDeck;
+    private final LeaderDeck leaderDeck;//forse non è necessario tenerlo, nel controller a inizio partita si distribuiscono le carte e poi non ci serve più
     private DevDeck[] devDecks;
 
     private void initialiseDevDecks(){

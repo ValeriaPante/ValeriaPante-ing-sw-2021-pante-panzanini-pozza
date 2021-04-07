@@ -7,7 +7,9 @@ import it.polimi.ingsw.Cards.PopeFavorCard;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.Shelf;
 import it.polimi.ingsw.Deposit.Payable;
+import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -24,8 +26,6 @@ public class RealPlayer extends Player{
     private Shelf[] shelves;
     private Depot depot;
     private ArrayList<LeaderCard> leaderCards;
-    private HashMap<Payable, EnumMap<Resource, Integer>> selected;
-    private EnumMap<Resource, Integer> discounts;
     private ProductionPower basicProductionPower;
 
     private void initialiseShelves(){
@@ -60,7 +60,6 @@ public class RealPlayer extends Player{
        this.initialiseShelves();
        this.depot = new Depot();
        this.leaderCards = new ArrayList<>();
-       this.discounts = new EnumMap<>(Resource.class);
        this.initialiseBasicProductionPower();
     }
     //--------
@@ -83,17 +82,17 @@ public class RealPlayer extends Player{
     }
 
     //--- Selection Section ---
-    public void paySelected(){
-        for (Payable toPay : this.selected.keySet()){
-            toPay.pay(this.selected.get(toPay));
-        }
-    }
-    public void swipeSelected(){
-        this.selected.clear();
-    }
-    public void addSelection(Payable container, EnumMap<Resource, Integer> amount){
-        this.selected.put(container, amount);
-    }
+    //public void paySelected(){
+    //    for (Payable toPay : this.selected.keySet()){
+    //        toPay.pay(this.selected.get(toPay));
+    //    }
+    //}
+    //public void swipeSelected(){
+    //    this.selected.clear();
+    //}
+    //public void addSelection(Payable container, EnumMap<Resource, Integer> amount){
+    //    this.selected.put(container, amount);
+    //}
     //------
 
     //---Getters---
@@ -112,9 +111,29 @@ public class RealPlayer extends Player{
     public LeaderCard[] getLeaderCards(){
         return this.leaderCards.toArray(new LeaderCard[0]);
     }
-
-    //??????????
-    public EnumMap<Resource, Integer> getDiscounts(){ return this.discounts.clone(); }
     //-----
 
+
+    public EnumMap<Resource, Integer> resourcesOwned(){
+        Depot allResources = new Depot();
+
+        if (null != this.depot.content())
+            allResources.addEnumMap(this.depot.content());
+
+        for (Shelf shelf: shelves)
+            if (null != shelf.content())
+                allResources.addEnumMap(shelf.content());
+
+        for (LeaderCard lc : leaderCards)
+            if (lc.getType() == LeaderCardType.STORAGE){
+                try{
+                    allResources.addEnumMap(lc.getAbility().getContent());
+                }
+                catch (WeDontDoSuchThingsHere e) {
+                    e.printStackTrace();
+                }
+            }
+        return (allResources.isEmpty()) ? null : allResources.content();
+
+    }
 }

@@ -43,7 +43,7 @@ public class DevSlot{
     }
 
     public boolean isInsertable(DevCard card){
-        return (this.isEmpty() && card.getType().getLevel() == 1)|| (card.getType().getLevel() == this.topCard().getType().getLevel() + 1);
+        return ((this.isEmpty() && card.getType().getLevel() == 1)) || (card.getType().getLevel() == this.topCard().getType().getLevel() + 1);
     }
 
     public ArrayList<DevCardType> getDevCardTypeContained(){
