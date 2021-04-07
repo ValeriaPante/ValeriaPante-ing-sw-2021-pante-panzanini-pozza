@@ -138,7 +138,7 @@ public class Controller {
         Scanner input = new Scanner(System.in);
         System.out.println("Choose how to pay.");
         String in = input.nextLine();
-        while(!in.equals('\n')){
+        while(!in.equals("\n")){
             howToPay.select(in);
             in = input.nextLine();
         }
