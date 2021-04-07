@@ -75,17 +75,20 @@ public class Controller {
                 } else {
                     System.out.println("Do you want to use discounts? 0 = no, else = yes");
                     int in = input.nextInt();
-                    TransactionCatalyst catalyst;
                     EnumMap<Resource, Integer> toBePaid = table.getDevDecks()[numberOfDeck - 1].getTopCard().getCost();
                     if (in == 0) {
                         System.out.println("Choose a Leader Card.");
                         in = input.nextInt();
-                        applyDiscountAbility(playerOfTurn.getLeaderCards()[in], toBePaid);
+                        try {
+                            applyDiscountAbility(playerOfTurn.getLeaderCards()[in], toBePaid);
+                        } catch (IndexOutOfBoundsException e) {
+                            //messaggio: indice di card non corretto
+                        }
                     }
-                    catalyst = new TransactionCatalyst(toBePaid);
-                    createWallet(playerOfTurn, catalyst);
+                    Payment howToPay = new Payment(playerOfTurn, toBePaid);
+                    createWallet(howToPay);
                     try {
-                        catalyst.commit();
+                        //committa tramite il transaction catalyst di howToPay (?)
                         chooseDevSlot(playerOfTurn, table.drawDevDeck(numberOfDeck - 1));
                     } catch (IndexOutOfBoundsException e) {
                         //messaggio: non hai le risorse necessarie
@@ -131,45 +134,13 @@ public class Controller {
         input.close();
     }
 
-    private void createWallet(RealPlayer playerOfTurn, TransactionCatalyst catalyst){
-        //senza controlli, solo per avere qualcosa che crei il wallet in questa fase della progettazione
+    private void createWallet(Payment howToPay){
         Scanner input = new Scanner(System.in);
-        System.out.println("What do you pay from the first Shelf? First resource, then quantity");
-        Resource resource = resourceConverter(input.nextInt());
-        int quantity = input.nextInt();
-        EnumMap<Resource, Integer> map = new EnumMap<>(Resource.class);
-        map.put(resource, quantity);
-        catalyst.put(playerOfTurn.getShelves()[0], map);
-        System.out.println("What do you pay from the second Shelf? First resource, then quantity");
-        resource = resourceConverter(input.nextInt());
-        quantity = input.nextInt();
-        map.clear();
-        map.put(resource, quantity);
-        catalyst.put(playerOfTurn.getShelves()[1], map);
-        System.out.println("What do you pay from the third Shelf? First resource, then quantity");
-        resource = resourceConverter(input.nextInt());
-        quantity = input.nextInt();
-        map.clear();
-        map.put(resource, quantity);
-        catalyst.put(playerOfTurn.getShelves()[2], map);
-        System.out.println("What do you pay from the StrongBox? First resource, then quantity");
-        int i = input.nextInt();
-        map.clear();
-        while(i>= 0 && i < 4){
-            resource = resourceConverter(i);
-            quantity = input.nextInt();
-            map.put(resource, quantity);
-            i = input.nextInt();
-        }
-        catalyst.put(playerOfTurn.getDepot(), map);
-        map.clear();
-        for(LeaderCard card: playerOfTurn.getLeaderCards()){
-            if (card.getType() == LeaderCardType.STORAGE){
-                System.out.println("What do you pay from the LeaderCard? First resource, then quantity");
-                resource = resourceConverter(i);
-                quantity = input.nextInt();
-                map.put(resource, quantity);
-            }
+        System.out.println("Choose how to pay.");
+        String in = input.nextLine();
+        while(!in.equals('\n')){
+            howToPay.select(in);
+            in = input.nextLine();
         }
         input.close();
     }
@@ -222,18 +193,16 @@ public class Controller {
         return devCardReq;
     }
 
-    private void applyStorageAbility(LeaderCard leaderCardForAction){
-        System.out.println("Choose the resource to put.");
-        //si deve gestire anche da dove prenderla
-        System.out.println("0 = stone\n1 = servant\n2 = shield\n3 = coin");
-        Scanner input = new Scanner(System.in);
-        Resource resource = resourceConverter(input.nextInt());
-        input.close();
-        if (resource != null && leaderCardForAction.getAbility().getCapacity().containsKey(resource) && !leaderCardForAction.getAbility().isFull(resource)){
-            leaderCardForAction.getAbility().add(resource);
-        } else {
-            //messaggio: non puoi inserire qui questa risorsa
-        }
+    private EnumMap<Resource, Integer> applyStorageAbility(LeaderCard leaderCardForAction, EnumMap<Resource, Integer> toPlace){
+        Depot remainedResources = new Depot();
+        for (EnumMap.Entry<Resource, Integer> entry : toPlace.entrySet())
+            for(int i = 0; i < entry.getValue(); i++)
+                if (!leaderCardForAction.getAbility().isFull(entry.getKey())){
+                    leaderCardForAction.getAbility().add(entry.getKey());
+                } else {
+                    remainedResources.singleAdd(entry.getKey());
+                }
+        return remainedResources.content();
     }
 
     private void applyDiscountAbility (LeaderCard leaderCardForAction, EnumMap<Resource, Integer> toBePaid){
@@ -278,22 +247,6 @@ public class Controller {
             applyTransmutationAbility(leaderCardForAction2, toBePlaced, secondQuantity);
             toBePlaced.remove(Resource.WHITE);
 
-        }
-    }
-
-    //creato per gestire l'input testuale di una risorsa
-    private Resource resourceConverter(int i){
-        switch(i) {
-            case 0:
-                return Resource.STONE;
-            case 1:
-                return Resource.SERVANT;
-            case 2:
-                return Resource.SHIELD;
-            case 3:
-                return Resource.COIN;
-            default:
-                return null;
         }
     }
 }
