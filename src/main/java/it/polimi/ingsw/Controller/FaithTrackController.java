@@ -7,7 +7,7 @@ import it.polimi.ingsw.Game.Table;
 import it.polimi.ingsw.Player.Player;
 
 public class FaithTrackController {
-    private FaithTrackController instance;
+    private static FaithTrackController instance;
     private final FaithTrack faithTrack;
 
     private void checkVaticanRelation(VaticanRelation vaticanRelation, Player[] players){
@@ -44,9 +44,9 @@ public class FaithTrackController {
         this.faithTrack = FaithTrack.getInstance();
     }
 
-    public FaithTrackController getInstance(){
-        if (this.instance == null){
-            this.instance = new FaithTrackController();
+    public static FaithTrackController getInstance(){
+        if (instance == null){
+            instance = new FaithTrackController();
         }
         return instance;
     }
