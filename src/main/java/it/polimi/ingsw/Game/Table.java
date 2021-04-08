@@ -26,7 +26,9 @@ public class Table {
     private LorenzoIlMagnifico lorenzoIlMagnifico;
     private int turnOf;
     private RealPlayer winner;
+    private boolean isLorenzoTurn;
 
+    //molto d'accordo
     private final LeaderDeck leaderDeck;//forse non è necessario tenerlo, nel controller a inizio partita si distribuiscono le carte e poi non ci serve più
     private DevDeck[] devDecks;
 
@@ -86,8 +88,14 @@ public class Table {
         return this.lorenzoIlMagnifico;
     }
 
+    public boolean isLorenzoTurn() {
+        return isLorenzoTurn;
+    }
+
+    //ritorna solo un realplayer
+    //SE volete lorenzo chiamate getLorenzo()
     public RealPlayer turnOf(){
-        return (this.players.size() == 0) ? null : this.players.get(this.turnOf);
+        return this.players.get(this.turnOf);
     }
 
     public void nextTurn(){
@@ -95,7 +103,7 @@ public class Table {
             this.turnOf = this.turnOf+1 % this.players.size();
         }
         else{
-            //da decidere: -1, lasciamo 0 bho
+            this.isLorenzoTurn = !this.isLorenzoTurn;
         }
     }
 
