@@ -5,22 +5,23 @@ import it.polimi.ingsw.FaithTrack.FaithTrack;
 import it.polimi.ingsw.FaithTrack.VaticanRelation;
 import it.polimi.ingsw.Game.Table;
 import it.polimi.ingsw.Player.Player;
+import it.polimi.ingsw.Player.RealPlayer;
 
 public class FaithTrackController {
     private static FaithTrackController instance;
     private final FaithTrack faithTrack;
 
-    private void checkVaticanRelation(VaticanRelation vaticanRelation, Player[] players){
+    private void checkVaticanRelation(VaticanRelation vaticanRelation, RealPlayer[] players){
         if (vaticanRelation != null){
             vaticanRelation.done();
 
-            for (Player player : players){
+            for (RealPlayer player : players){
                 this.updateCard(vaticanRelation, player);
             }
         }
     }
 
-    private void updateCard(VaticanRelation vaticanRelation, Player player){
+    private void updateCard(VaticanRelation vaticanRelation, RealPlayer player){
         PopeFavorCard popeFavorCard = player.getPopeFavorCards()[vaticanRelation.getId()];
         if (vaticanRelation.isInOrOver(player.getPosition())){
             popeFavorCard.toFaceUp();

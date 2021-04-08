@@ -5,7 +5,6 @@ import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Cards.PopeFavorCard;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.Shelf;
-import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.BrokenPlayerException;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
@@ -25,6 +24,7 @@ public class RealPlayer extends Player{
     private Shelf[] shelves;
     private Depot depot;
     private ArrayList<LeaderCard> leaderCards;
+    private PopeFavorCard[] popeFavorCards;
     private ProductionPower basicProductionPower;
 
     private void initialiseShelves(){
@@ -51,6 +51,14 @@ public class RealPlayer extends Player{
         this.basicProductionPower = new ProductionPower(tempInput, tempOutput);
     }
 
+    private void initialisePopeFavorCards(){
+        this.popeFavorCards = new PopeFavorCard[]{
+                new PopeFavorCard(2),
+                new PopeFavorCard(3),
+                new PopeFavorCard(4),
+        };
+    }
+
     //---Constructor---
     public RealPlayer(String nickname){
        super(nickname);
@@ -59,6 +67,7 @@ public class RealPlayer extends Player{
        this.initialiseShelves();
        this.depot = new Depot();
        this.leaderCards = new ArrayList<>();
+       this.initialisePopeFavorCards();
        this.initialiseBasicProductionPower();
     }
     //--------
@@ -115,33 +124,34 @@ public class RealPlayer extends Player{
     public EnumMap<Resource, Integer> getResourcesOwned(){
         return this.resourcesOwned();
     }
+    public PopeFavorCard[] getPopeFavorCards(){
+        return Arrays.copyOf(this.popeFavorCards, this.popeFavorCards.length);
+    }
     //-----
 
-    //returns null if the player owns no Resources, otherwise it will return an EnumMap with the copy of all resources
-    public EnumMap<Resource, Integer> resourcesOwned() throws BrokenPlayerException {
+    // returns null if the player owns no Resources, otherwise it will return an EnumMap with the copy of all resources
+    private EnumMap<Resource, Integer> resourcesOwned() {
         Depot allResources = new Depot();
 
-        if ( !this.depot.isEmpty())
+        if (!this.depot.isEmpty())
             allResources.addEnumMap(this.depot.content());
 
-        for (Shelf shelf: shelves)
-            if ( !shelf.isEmpty())
+        for (Shelf shelf : this.shelves)
+            if (!shelf.isEmpty())
                 allResources.addEnumMap(shelf.content());
 
-        for (LeaderCard lc : leaderCards)
-            if (lc.getType() == LeaderCardType.STORAGE){
-                try{
-                    if ( !lc.getAbility().isEmpty())
-                        allResources.addEnumMap(lc.getAbility().getContent());
-                }
-                catch (WeDontDoSuchThingsHere e) {
+        for (LeaderCard leaderCard : leaderCards) {
+            if (leaderCard.hasBeenPlayed()) {
+                try {
+                    if (!leaderCard.getAbility().isEmpty())
+                        allResources.addEnumMap(leaderCard.getAbility().getContent());
+                } catch (WeDontDoSuchThingsHere e) {
                     e.printStackTrace();
                 }
             }
-
-        if (allResources.isEmpty())
-            throw new BrokenPlayerException();
-
+            if (allResources.isEmpty())
+                throw new BrokenPlayerException();
+        }
         return allResources.content();
     }
 
@@ -178,7 +188,4 @@ public class RealPlayer extends Player{
         }
         return allProductionPowers;
     }
-
-
-
 }
