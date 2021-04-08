@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Decks.LeaderDeck;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Enums.*;
@@ -12,9 +13,9 @@ import it.polimi.ingsw.Cards.*;
 import java.util.*;
 
 public class Controller {
-    private Table table;
+    private final Table table;
     private FaithTrack faithTrack;
-    private List<String> players;
+    private final List<String> players;
 
     public void addNewPlayer(String playerName){
         players.add(playerName);
@@ -24,25 +25,81 @@ public class Controller {
         players.remove(playerName);
     }
 
-    public void startGame() {
+    private void initializePlayersLeaderCard(){
+        LeaderDeck leaderDeck = new LeaderDeck();
+        leaderDeck.shuffle();
+        RealPlayer[] lisOfPlayers = table.getPlayers();
 
+        if (table.isSinglePlayer()){
+            for (int i=0; i<4; i++)
+                lisOfPlayers[0].addLeaderCard(leaderDeck.draw());
+        }
+        else{
+            for (RealPlayer player : lisOfPlayers)
+                for (int i=0; i<4; i++)
+                    player.addLeaderCard(leaderDeck.draw());
+        }
+
+        waitForDiscarding();
+    }
+
+    private void waitForDiscarding(){
+        int totalNumberOfLCs;
+        RealPlayer[] listOfPlayers = table.getPlayers();
+        do{
+            totalNumberOfLCs = 0;
+            for (RealPlayer player : listOfPlayers)
+                totalNumberOfLCs += player.getLeaderCards().length;
+        } while(totalNumberOfLCs > ((listOfPlayers.length) * 2) );
+    }
+
+    public void startGame() {
+        Scanner input = new Scanner(System.in);
+
+        if (players.size()>1){
+            table.setMultiPlayer();
+            Collections.shuffle(players);  //Players' playing order is random
+
+            for (String nickName : players)
+                table.addPlayer(new RealPlayer(nickName));
+        }
+        else{
+            table.setSinglePlayer();
+            table.addPlayer(new RealPlayer(players.get(0)));
+        }
+
+        initializePlayersLeaderCard();
+
+        //assegnamento delle risorse ai giocatori
+
+        //inizia turno il primo giocatore
     }
 
     public void playTurn(RealPlayer playerOfTurn){
+        //controllare se bisogna fare azione sulle leader card (giocarle o scartarle)
 
+        //leggere il tipo di turno e chiamare chooseturntype, se ritorna l'eccezione, bisogna scegliere di nuovo il tipo di turno (loop)
+
+        //controllare se bisogna fare azione sulle leader card (giocarle o scartarle)
+
+        //finire il turno (far giocare il prossimo player, da leggere dal table)
     }
 
-    private void chooseTurnType(TurnType typeOfTurn){
-        switch(typeOfTurn) {
-            case BUYNEWCARD:
-                playBuyCardTurn(table.turnOf());
-                break;
-            case GETFROMMARKET:
-                playMarketTurn(table.turnOf());
-                break;
-            case PRODUCITON:
-                playProductionTurn(table.turnOf());
-                break;
+    private void chooseTurnType(TurnType typeOfTurn) throws ChangeTurnException{
+        try {
+            switch (typeOfTurn) {
+                case BUYNEWCARD:
+                    playBuyCardTurn(table.turnOf());
+                    break;
+                case GETFROMMARKET:
+                    playMarketTurn(table.turnOf());
+                    break;
+                case PRODUCITON:
+                    playProductionTurn(table.turnOf());
+                    break;
+            }
+        } catch (ActionNotDone e){
+            throw new ChangeTurnException();
         }
     }
 
@@ -248,5 +305,10 @@ public class Controller {
             toBePlaced.remove(Resource.WHITE);
 
         }
+    }
+
+    public Controller(){
+        this.table = new Table();
+        this.players = new ArrayList<>();
     }
 }
