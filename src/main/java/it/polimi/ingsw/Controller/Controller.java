@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Controller {
     private Table table;
-    private FaithTrack faithTrack;
+    private FaithTrackController faithTrackController;
     private final List<String> players;
 
     public void addNewPlayer(String playerName){
@@ -37,6 +37,7 @@ public class Controller {
         waitForDiscarding();
     }
 
+    //I need a way to receive in input the card that the player want to discard
     private void waitForDiscarding(){
         int totalNumberOfLCs;
         RealPlayer[] listOfPlayers = table.getPlayers();
@@ -54,11 +55,27 @@ public class Controller {
             throw eccezione;
     }
 
+    private void initializePlayersResources(){
+        RealPlayer[] listOfPlayers = table.getPlayers();
+
+        if(listOfPlayers.length > 2)
+            for(int i=2; i < listOfPlayers.length; i++)
+                listOfPlayers[i].moveForward(1);
+
+        for(int i=1; i < listOfPlayers.length; i++)
+            setInitialResources(listOfPlayers[i], (i == 3) ? 2 : 1);
+    }
+
+    private void setInitialResources(RealPlayer player, int numberOfResources){
+        Scanner input = new Scanner(System.in);
+
+    }
+
     public void startGame() {
         Scanner input = new Scanner(System.in);
 
         this.table = new Table(players.size());
-        this.faithTrack = FaithTrack.getInstance();
+        this.faithTrackController = FaithTrackController.getInstance();
 
         if (players.size()>1){
             table.setMultiPlayer();
@@ -75,6 +92,8 @@ public class Controller {
         initializePlayersLeaderCard();
 
         //assegnamento delle risorse ai giocatori
+        if (!table.isSinglePlayer())
+            initializePlayersResources();
 
         //inizia turno il primo giocatore
     }
@@ -107,21 +126,101 @@ public class Controller {
         }
     }
 
+    private int moveToShelves(EnumMap<Resource, Integer> mapToBePlaced, RealPlayer player){
+
+    }
+
+    private int numberOfPlayerTAs(RealPlayer player){
+        LeaderCard[] arrayOfLCs = player.getLeaderCards();
+        int accumulator = 0;
+
+        for (LeaderCard lc : arrayOfLCs)
+            if (lc.getType() == LeaderCardType.TRANSMUTATION)
+                accumulator++;
+
+        return accumulator;
+    }
+
+    private LeaderCard[] getArrayOfLCWTA(RealPlayer player){
+        LeaderCard[] arrayOfLCs = player.getLeaderCards();
+
+        if (numberOfPlayerTAs(player) == 2) //he only owns leader cards with transmutation ability
+            return arrayOfLCs;
+
+        LeaderCard[] arrayOfLCWTA = new LeaderCard[numberOfPlayerTAs(player)];
+
+        for (LeaderCard lc : arrayOfLCs)
+            if (lc.getType() == LeaderCardType.TRANSMUTATION)
+                arrayOfLCWTA[0] = lc;
+
+        return arrayOfLCWTA;
+    }
+
     private void playMarketTurn(RealPlayer playerOfTurn){
-        boolean rowOrColumn;
+        Scanner playerInput = new Scanner( System.in );
         int number;
-        EnumMap<Resource, Integer> stillToBeSet;
+        Depot stillToBeSet = new Depot();
 
-        //scegliere se riga o se colonna (suppongo boolean: 1 riga, 0 colonna)
-
-        if (rowOrColumn){       //Sceglie riga
-            stillToBeSet = table.getMarket().pickRow();
+        number = playerInput.nextInt(); //0 per riga, 1 per colonna
+        if (0 == number){       //Sceglie riga
+            do
+                number = playerInput.nextInt();
+            while(number > 2);
+            stillToBeSet.addEnumMap(table.getMarket().pickRow(number));
         }
         else{           //Sceglie colonna
-            stillToBeSet = table.getMarket().pickColumn();
+            do
+                number = playerInput.nextInt();
+            while(number > 3);
+            stillToBeSet.addEnumMap(table.getMarket().pickColumn(number));
         }
 
+        if (stillToBeSet.content().containsKey(Resource.FAITH))
+            faithTrackController.movePlayerOfTurn(table, stillToBeSet.content().get(Resource.FAITH));
 
+        if (stillToBeSet.content().containsKey(Resource.WHITE)){
+            int numberOPTAs = numberOfPlayerTAs(playerOfTurn);
+
+            if (numberOPTAs > 0){
+                number = playerInput.nextInt(); //1 per attivare, 0 per non attivare
+
+                if (number == 1){
+                    LeaderCard[] arrayOfLeaderCardTransmutation = getArrayOfLCWTA(playerOfTurn);
+
+                    if (numberOPTAs == 1){
+                        for (int i=0; i < stillToBeSet.content().get(Resource.WHITE); i++){
+                            stillToBeSet.singleRemove(Resource.WHITE);
+                            stillToBeSet.addEnumMap(arrayOfLeaderCardTransmutation[0].getAbility().getWhiteInto());
+                        }
+                    }
+
+                    else{
+                        number = playerInput.nextInt(); //0 per attivare la prima, 1 per non attivare la seconda
+                        for (int i=0; i < stillToBeSet.content().get(Resource.WHITE); i++){
+                            stillToBeSet.singleRemove(Resource.WHITE);
+                            stillToBeSet.addEnumMap(arrayOfLeaderCardTransmutation[number].getAbility().getWhiteInto());
+                        }
+                    }
+                }
+
+                else{
+                    for (int i=0; i < stillToBeSet.content().get(Resource.WHITE); i++)
+                        stillToBeSet.singleRemove(Resource.WHITE);
+                }
+            }
+
+            else{
+                for (int i=0; i < stillToBeSet.content().get(Resource.WHITE); i++)
+                    stillToBeSet.singleRemove(Resource.WHITE);
+            }
+        }
+
+        //at this point the depot contains exactly the resources the player needs to set in his shelves/ leader storages
+
+        number = moveToShelves(stillToBeSet.content(), playerOfTurn);
+
+        if (number != 0)
+            faithTrackController.moveAllTheOthers(table, number);
     }
 
     private void playBuyCardTurn(RealPlayer playerOfTurn) throws ActionNotDone {
@@ -313,5 +412,6 @@ public class Controller {
 
     public Controller(){
         this.players = new ArrayList<>();
+        this.faithTrackController = FaithTrackController.GetInstance();
     }
 }
