@@ -38,7 +38,10 @@ public class Table {
         };
     }
 
-    public Table(){
+    public Table(int numberOfPlayers){
+        if (1 == numberOfPlayers)
+            this.lorenzoIlMagnifico = new LorenzoIlMagnifico();
+
         this.market = new Market();
         this.isLastLap = false;
         this.turnOf = 0;

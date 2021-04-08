@@ -13,7 +13,7 @@ import it.polimi.ingsw.Cards.*;
 import java.util.*;
 
 public class Controller {
-    private final Table table;
+    private Table table;
     private FaithTrack faithTrack;
     private final List<String> players;
 
@@ -30,15 +30,9 @@ public class Controller {
         leaderDeck.shuffle();
         RealPlayer[] lisOfPlayers = table.getPlayers();
 
-        if (table.isSinglePlayer()){
-            for (int i=0; i<4; i++)
-                lisOfPlayers[0].addLeaderCard(leaderDeck.draw());
-        }
-        else{
-            for (RealPlayer player : lisOfPlayers)
+        for (RealPlayer player : lisOfPlayers)
                 for (int i=0; i<4; i++)
                     player.addLeaderCard(leaderDeck.draw());
-        }
 
         waitForDiscarding();
     }
@@ -53,8 +47,18 @@ public class Controller {
         } while(totalNumberOfLCs > ((listOfPlayers.length) * 2) );
     }
 
+    private controll(RealPlayer player, String inputPLayer){
+        InputManager input = InputManager.getInstance();
+        SelectResourceOutput output = input.selectResourcesInStorages(inputPLayer, player);
+        if (output.getStorage() == player.getDepot())
+            throw eccezione;
+    }
+
     public void startGame() {
         Scanner input = new Scanner(System.in);
+
+        this.table = new Table(players.size());
+        this.faithTrack = FaithTrack.getInstance();
 
         if (players.size()>1){
             table.setMultiPlayer();
@@ -308,7 +312,6 @@ public class Controller {
     }
 
     public Controller(){
-        this.table = new Table();
         this.players = new ArrayList<>();
     }
 }
