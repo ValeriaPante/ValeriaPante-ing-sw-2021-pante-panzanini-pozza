@@ -451,7 +451,11 @@ public class Controller {
         System.out.println("Choose how to pay.");
         String in = input.nextLine();
         while(!in.trim().isEmpty()){
-            howToPay.select(in);
+            try {
+                howToPay.select(in);
+            } catch (IndexOutOfBoundsException | IllegalArgumentException | NullPointerException e){
+                //messaggio: non puoi farlo
+            }
             in = input.nextLine();
         }
         input.close();
