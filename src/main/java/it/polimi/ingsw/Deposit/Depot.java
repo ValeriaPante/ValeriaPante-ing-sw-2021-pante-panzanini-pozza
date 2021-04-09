@@ -13,6 +13,7 @@ public class Depot implements Payable{
         inside.put(toBeRemoved, inside.get(toBeRemoved) - 1);
         if (inside.get(toBeRemoved) == 0)
             inside.remove(toBeRemoved);
+
         return toBeRemoved;
     }
 
