@@ -491,4 +491,6 @@ public class DevDeck implements Deck{
     public boolean isEmpty(){
         return this.deck.isEmpty();
     }
+
+    public int size(){ return this.deck.size(); }
 }

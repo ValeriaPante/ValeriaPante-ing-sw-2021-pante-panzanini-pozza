@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Decks.DevDeck;
 import it.polimi.ingsw.Decks.LeaderDeck;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Deposit.Depot;
@@ -100,12 +101,143 @@ public class Controller {
 
     public void playTurn(RealPlayer playerOfTurn){
         //controllare se bisogna fare azione sulle leader card (giocarle o scartarle)
-
+        Scanner input = new Scanner(System.in);
+        if(playerOfTurn.getLeaderCards().length != 0){
+            chooseLeaderCard(playerOfTurn, input);
+        }
         //leggere il tipo di turno e chiamare chooseturntype, se ritorna l'eccezione, bisogna scegliere di nuovo il tipo di turno (loop)
-
+        System.out.println("Choose the type of turn you want to play.");
+        String in = input.nextLine();
+        while(true){
+            try {
+                typeOfTurnConverter(in);
+                break;
+            } catch (ChangeTurnException e) {
+                //messaggio: non è stato possibile svolgere questo tipo di turno
+            }
+        }
         //controllare se bisogna fare azione sulle leader card (giocarle o scartarle)
-
+        if(playerOfTurn.getLeaderCards().length != 0){
+            chooseLeaderCard(playerOfTurn, input);
+        }
+        input.close();
         //finire il turno (far giocare il prossimo player, da leggere dal table)
+        if(table.isSinglePlayer()){
+            table.nextTurn();
+            playActionToken(table.getLorenzo().getActionTokenDeck().draw());
+        }
+        table.nextTurn();
+    }
+
+    private void playActionToken(ActionToken token){
+        switch (token.getType()){
+            case TWOFP:
+                faithTrackController.movePlayerOfTurn(this.table, 2);
+                break;
+            case RESETDECKONEFP:
+                faithTrackController.movePlayerOfTurn(this.table, 1);
+                table.getLorenzo().getActionTokenDeck().reset();
+                break;
+            case DISCARDGREEN:
+                discardDevCards(0);
+                break;
+            case DISCARDYELLOW:
+                discardDevCards(1);
+                break;
+            case DISCARDBLUE:
+                discardDevCards(2);
+                break;
+            case DISCARDPURPLE:
+                discardDevCards(3);
+                break;
+        }
+    }
+
+    private void discardDevCards(int color){
+        int cardsToDiscard = 2;
+        int level = 0;
+        ArrayList<DevDeck> lineOfDecks = new ArrayList<>();
+        lineOfDecks.add(table.getDevDecks()[color]);
+        lineOfDecks.add(table.getDevDecks()[color + 4]);
+        lineOfDecks.add(table.getDevDecks()[color + 8]);
+        while(cardsToDiscard > 0 && level < 3){
+            if (lineOfDecks.get(level).size() > 1){
+                lineOfDecks.get(level).draw();
+                cardsToDiscard--;
+            } else if (lineOfDecks.get(level).size() == 1) {
+                lineOfDecks.get(level).draw();
+                cardsToDiscard--;
+                level++;
+            } else {
+                level++;
+            }
+        }
+    }
+
+    //si potrebbe collassare in chooseTurnType passando un stringa al posto di un TurnType
+    private void typeOfTurnConverter(String s) throws ChangeTurnException{
+        switch (s.trim().toUpperCase()) {
+            case "BUYNEWCARD":
+                chooseTurnType(TurnType.BUYNEWCARD);
+                break;
+            case "GETFROMMARKET":
+                chooseTurnType(TurnType.GETFROMMARKET);
+                break;
+            case "PRODUCTION":
+                chooseTurnType(TurnType.PRODUCITON);
+                break;
+            default:
+                throw new ChangeTurnException();
+        }
+    }
+
+    private void chooseLeaderCard(RealPlayer playerOfTurn, Scanner input){
+        System.out.println("Choose how to play your Leader Card.");
+        String in = input.nextLine();
+        while(!in.trim().isEmpty()){
+            switch(in.trim()){
+                case "L1":
+                    try {
+                        actionOnLeaderCard(playerOfTurn, playerOfTurn.getLeaderCards()[0], false);
+                    } catch (UnsatisfiedRequirements e){
+                        // non hai i requisiti necessari per questa carta
+                    }
+                    break;
+                case "-L1":
+                    try {
+                        actionOnLeaderCard(playerOfTurn, playerOfTurn.getLeaderCards()[0], true);
+                    } catch (UnsatisfiedRequirements e){
+                        // non hai i requisiti necessari per questa carta
+                    }
+                    break;
+                case "L2":
+                    try {
+                        try {
+                            actionOnLeaderCard(playerOfTurn, playerOfTurn.getLeaderCards()[1], false);
+                        } catch (IndexOutOfBoundsException e){
+                            //hai solo una carta
+                        }
+                    } catch (UnsatisfiedRequirements e){
+                        // non hai i requisiti necessari per questa carta
+                    }
+                    break;
+                case "-L2":
+                    try {
+                        try {
+                            actionOnLeaderCard(playerOfTurn, playerOfTurn.getLeaderCards()[1], true);
+                        } catch (IndexOutOfBoundsException e){
+                            //hai solo una carta
+                        }
+                    } catch (UnsatisfiedRequirements e){
+                        // non hai i requisiti necessari per questa carta
+                    }
+                    break;
+                default:
+                    break;
+            }
+            in = input.nextLine();
+
+        }
     }
 
     private void chooseTurnType(TurnType typeOfTurn) throws ChangeTurnException{
@@ -298,7 +430,7 @@ public class Controller {
         Scanner input = new Scanner(System.in);
         System.out.println("Choose how to pay.");
         String in = input.nextLine();
-        while(!in.equals("\n")){
+        while(!in.trim().isEmpty()){
             howToPay.select(in);
             in = input.nextLine();
         }
@@ -312,7 +444,7 @@ public class Controller {
     public void actionOnLeaderCard(RealPlayer playerOfTurn, LeaderCard leaderCardForAction, Boolean discard) throws UnsatisfiedRequirements {
         if (discard){
             playerOfTurn.discardLeaderCard(leaderCardForAction);
-            playerOfTurn.moveForward(1);
+            FaithTrackController.getInstance().movePlayerOfTurn(table, 1);
         } else if (!leaderCardForAction.hasBeenPlayed()){
             if (!checkRequirements(playerOfTurn, leaderCardForAction))
                 throw new UnsatisfiedRequirements();
@@ -327,7 +459,7 @@ public class Controller {
     private boolean checkResourceReq(RealPlayer playerOfTurn, LeaderCard leaderCardForAction){
         // prende il contenuto che hai da tutti
         Depot allResourceOwned = new Depot();
-        allResourceOwned.addEnumMap(playerOfTurn.resourcesOwned());
+        allResourceOwned.addEnumMap(playerOfTurn.getResourcesOwned());
         return allResourceOwned.contains(leaderCardForAction.getResourceReq());
     }
 
@@ -412,6 +544,6 @@ public class Controller {
 
     public Controller(){
         this.players = new ArrayList<>();
-        this.faithTrackController = FaithTrackController.GetInstance();
+        this.faithTrackController = FaithTrackController.getInstance();
     }
 }
