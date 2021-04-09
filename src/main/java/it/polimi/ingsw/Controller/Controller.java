@@ -126,7 +126,12 @@ public class Controller {
         //finire il turno (far giocare il prossimo player, da leggere dal table)
         if(table.isSinglePlayer()){
             table.nextTurn();
-            playActionToken(table.getLorenzo().getActionTokenDeck().draw());
+            if(anEntireLineIsEmpty()){
+                table.setLastLap();
+            } else {
+                playActionToken(table.getLorenzo().getActionTokenDeck().draw());
+                if(anEntireLineIsEmpty()) table.setLastLap();
+            }
         }
         table.nextTurn();
     }
@@ -158,10 +163,7 @@ public class Controller {
     private void discardDevCards(int color){
         int cardsToDiscard = 2;
         int level = 0;
-        ArrayList<DevDeck> lineOfDecks = new ArrayList<>();
-        lineOfDecks.add(table.getDevDecks()[color]);
-        lineOfDecks.add(table.getDevDecks()[color + 4]);
-        lineOfDecks.add(table.getDevDecks()[color + 8]);
+        ArrayList<DevDeck> lineOfDecks = getLineOfDecks(color);
         while(cardsToDiscard > 0 && level < 3){
             if (lineOfDecks.get(level).size() > 1){
                 lineOfDecks.get(level).draw();
@@ -174,6 +176,21 @@ public class Controller {
                 level++;
             }
         }
+    }
+
+    private ArrayList<DevDeck> getLineOfDecks(int color){
+        ArrayList<DevDeck> lineOfDecks = new ArrayList<>();
+        lineOfDecks.add(table.getDevDecks()[color]);
+        lineOfDecks.add(table.getDevDecks()[color + 4]);
+        lineOfDecks.add(table.getDevDecks()[color + 8]);
+        return lineOfDecks;
+    }
+
+    private boolean anEntireLineIsEmpty(){
+        for(int i = 0; i < 4; i++){
+            if (getLineOfDecks(i).isEmpty()) return true;
+        }
+        return false;
     }
 
     //si potrebbe collassare in chooseTurnType passando un stringa al posto di un TurnType
@@ -384,6 +401,7 @@ public class Controller {
                     try {
                         howToPay.pay();
                         chooseDevSlot(playerOfTurn, table.drawDevDeck(numberOfDeck - 1));
+                        if(playerOfTurn.getNumberOfDevCardOwned() == 7) table.setLastLap();
                     } catch (IndexOutOfBoundsException e) {
                         //messaggio: non hai le risorse necessarie
                         throw new ActionNotDone();
