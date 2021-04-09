@@ -127,6 +127,13 @@ public class RealPlayer extends Player{
     public PopeFavorCard[] getPopeFavorCards(){
         return Arrays.copyOf(this.popeFavorCards, this.popeFavorCards.length);
     }
+    public int getNumberOfDevCardOwned(){
+        int result = 0;
+        for(int i = 0; i < devSlots.length; i++){
+            result += devSlots[i].getDevCardTypeContained().size();
+        }
+        return result;
+    }
     //-----
 
     // returns null if the player owns no Resources, otherwise it will return an EnumMap with the copy of all resources
