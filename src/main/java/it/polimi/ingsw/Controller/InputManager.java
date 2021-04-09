@@ -88,6 +88,39 @@ public class InputManager {
         }
     }
 
+    public EnumMap<Resource, Integer> selectResources(String selection) throws IllegalArgumentException{
+        selection = selection.trim();
+        selection= selection.toUpperCase();
+        if (!selection.matches("^(([1-9]\\d* (CO|SE|SH|ST))(, [1-9]\\d* (CO|SE|SH|ST))*)$")){
+            throw new IllegalArgumentException();
+        }
+        else{
+            EnumMap<Resource, Integer> result = new EnumMap<>(Resource.class);
+            int quantity;
+            Resource resource;
+            int i=0;
+            int j=-4;
+            do{
+                i = j+4;
+                j=i+1;
+                for (; Character.isDigit(selection.charAt(j)); j++);
+                quantity = Integer.parseInt(selection.substring(i,j));
+                //ora so che è su uno spazio
+
+                //-> i prossimi due caratteri identificheranno il tipo di risorsa
+                j++;
+                resource = legendResource(selection.substring(j, j+2));
+
+                result.put(resource, result.get(resource) == null ? quantity : result.get(resource) + quantity);
+
+                //se j+2 == alla lunghezza della stringa -> ho finito
+                //altrimenti si trova su una virgola e ricomincia,
+            }while(j+2<selection.length());
+
+            return result;
+        }
+    }
+
     //^(([-](L[1-2]|DE|S[1-3]))|(L[1-2]|DE|S[1-3])((: -?[1-9]\d* (CO|SE|SH|ST))(, -?[1-9]\d* (CO|SE|SH|ST))*))$
     public SelectResourceOutput selectResourcesInStorages(String string, RealPlayer player) throws IllegalArgumentException{
         string = string.trim();
@@ -113,13 +146,14 @@ public class InputManager {
                 //il quinto carattere so che è un numero oppure un '-'
                 //ma non so quanti numeri lo seguono
                 int i;
-                int j=0;
+                int j=2;
                 int quantity;
                 Resource resource;
+                EnumMap<Resource, Integer> resourceMap;
                 boolean remove;
                 do{
                     remove = false;
-                    i=j+4;
+                    i=j+2;
                     //System.out.println("i:" +i+"-----"); //DEBUG
                     //il quinto carattere so che è un numero oppure un '-'
                     //ma non so quanti numeri lo seguono
@@ -127,27 +161,28 @@ public class InputManager {
                         i+=1;
                         remove = true;
                     }
-                    j=i+1;
-                    for (; Character.isDigit(string.charAt(j)); j++);
-                    //System.out.println("j:" +j+"-----");      //DEBUG
-                    quantity = Integer.parseInt(string.substring(i,j));
 
-                    //a questo punto so che j è su qualcosa che non è un numero -> è per forza sullo spazio
-                    //-> i prossimi due caratteri identificheranno il tipo di risorsa
-                    j++;
-                    resource = legendResource(string.substring(j, j+2));
+                    j=i+1;
+                    //in sostanza cerco il terminatore
+                    for (; j<string.length() && string.charAt(j)!=','; j++){}
+                    //resourceMap avrà sempre e solo un elemento
+                    resourceMap = this.selectResources(string.substring(i,j));
+                    //funziona
+                    resource = resourceMap.keySet().iterator().next();
+                    quantity = resourceMap.get(resource);
 
                     //in base a remove so se questa risorsa la voglio levare o tenere
                     if (remove){
+
                         toRemove.put(resource, toRemove.get(resource) == null ? quantity : toRemove.get(resource) + quantity);
                     }
                     else{
                         toAdd.put(resource, toAdd.get(resource) == null ? quantity : toAdd.get(resource) + quantity);
                     }
                     //System.out.println(j); //DEBUG
-                    //se j+2 == alla lunghezza della stringa -> ho finito
+                    //se j == alla lunghezza della stringa -> ho finito
                     //altrimenti si trova su una virgola e ricomincia,
-                }while(j+2<string.length());
+                }while(j<string.length());
 
                 //arrivato a questo punto ho le mie due belle mappe
                 //devo capire se ci sono duplicati;
