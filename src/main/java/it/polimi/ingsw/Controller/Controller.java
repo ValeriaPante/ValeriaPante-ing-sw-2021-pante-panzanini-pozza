@@ -380,7 +380,7 @@ public class Controller {
                     Payment howToPay = new Payment(playerOfTurn, toBePaid);
                     createWallet(howToPay);
                     try {
-                        //committa tramite il transaction catalyst di howToPay (?)
+                        howToPay.pay();
                         chooseDevSlot(playerOfTurn, table.drawDevDeck(numberOfDeck - 1));
                     } catch (IndexOutOfBoundsException e) {
                         //messaggio: non hai le risorse necessarie
