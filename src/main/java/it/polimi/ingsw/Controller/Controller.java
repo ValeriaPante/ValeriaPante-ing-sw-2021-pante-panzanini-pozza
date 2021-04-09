@@ -78,17 +78,9 @@ public class Controller {
         this.table = new Table(players.size());
         this.faithTrackController = FaithTrackController.getInstance();
 
-        if (players.size()>1){
-            table.setMultiPlayer();
-            Collections.shuffle(players);  //Players' playing order is random
-
+        Collections.shuffle(players);  //Players' playing order is random
             for (String nickName : players)
                 table.addPlayer(new RealPlayer(nickName));
-        }
-        else{
-            table.setSinglePlayer();
-            table.addPlayer(new RealPlayer(players.get(0)));
-        }
 
         initializePlayersLeaderCard();
 
@@ -97,6 +89,16 @@ public class Controller {
             initializePlayersResources();
 
         //inizia turno il primo giocatore
+
+        if (table.isSinglePlayer()){
+            while((!table.isLastLap()) && ())
+        }
+        else{
+            while( (!(table.isLastLap())) || (!(table.getPlayers()[0] == table.turnOf())))
+            {
+                this.playTurn(table.turnOf());
+            }
+        }
     }
 
     public void playTurn(RealPlayer playerOfTurn){

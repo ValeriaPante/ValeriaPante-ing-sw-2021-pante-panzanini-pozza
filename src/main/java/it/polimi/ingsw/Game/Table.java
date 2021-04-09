@@ -41,8 +41,11 @@ public class Table {
     }
 
     public Table(int numberOfPlayers){
-        if (1 == numberOfPlayers)
+        if (1 == numberOfPlayers){
             this.lorenzoIlMagnifico = new LorenzoIlMagnifico();
+            this.setSinglePlayer();
+        }
+        else this.setMultiPlayer();
 
         this.market = new Market();
         this.isLastLap = false;
@@ -59,10 +62,10 @@ public class Table {
         return this.isLastLap;
     }
 
-    public void setMultiPlayer(){
+    private void setMultiPlayer(){
         this.singlePlayer = false;
     }
-    public void setSinglePlayer() {
+    private void setSinglePlayer() {
         this.singlePlayer = true;
         this.lorenzoIlMagnifico = new LorenzoIlMagnifico();
     }
