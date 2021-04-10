@@ -49,13 +49,6 @@ public class Controller {
         } while(totalNumberOfLCs > ((listOfPlayers.length) * 2) );
     }
 
-    private controll(RealPlayer player, String inputPLayer){
-        InputManager input = InputManager.getInstance();
-        SelectResourceOutput output = input.selectResourcesInStorages(inputPLayer, player);
-        if (output.getStorage() == player.getDepot())
-            throw eccezione;
-    }
-
     private void initializePlayersResources(){
         RealPlayer[] listOfPlayers = table.getPlayers();
 
@@ -278,7 +271,31 @@ public class Controller {
     }
 
     private int moveToShelves(EnumMap<Resource, Integer> mapToBePlaced, RealPlayer player){
+        Scanner inputPLayer = new Scanner(System.in);
+        Depot toBePlaced = new Depot();
+        String inputString;
 
+        toBePlaced.addEnumMap(mapToBePlaced);
+
+        inputString = inputPLayer.nextLine();
+        //write STOP to stop placing
+        while ( (toBePlaced.countAll() == 0) || (inputString.equals("STOP"))){
+            if (notDepot(player, inputString)){
+
+            }
+            inputString = inputPLayer.nextLine();
+        }
+
+        return toBePlaced.countAll();
+    }
+
+    private boolean notDepot(RealPlayer player, String inputPLayer){
+        InputManager input = InputManager.getInstance();
+        SelectResourceOutput output = input.selectResourcesInStorages(inputPLayer, player);
+        if (output.getStorage() == player.getDepot())
+            return false;
+
+        return true;
     }
 
     private int numberOfPlayerTAs(RealPlayer player){
