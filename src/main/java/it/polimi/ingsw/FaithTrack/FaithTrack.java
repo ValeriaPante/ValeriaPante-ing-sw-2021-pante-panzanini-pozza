@@ -1,11 +1,18 @@
 package it.polimi.ingsw.FaithTrack;
 
-public class FaithTrack {
-    private static FaithTrack instance;
+import com.google.gson.*;
 
-    public static final int length = 20;
-    private SmallPath[] smallPaths;
-    private VaticanRelation[] vaticanRelations;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class FaithTrack {
+
+    private final int length;
+    private final SmallPath[] smallPaths;
+    private final VaticanRelation[] vaticanRelations;
 
     //chiedo alla faith track quanti punti sono associati ad una determinata posizione
     public int victoryPoints(int pos){
@@ -15,14 +22,6 @@ public class FaithTrack {
             }
         }
         return 20;
-    }
-
-    //singletone
-    public static FaithTrack getInstance(){
-        if (instance == null){
-            instance = new FaithTrack();
-        }
-        return instance;
     }
 
     //mi ritorna il rapporto in vaticano se sulla posizione che ho inserito
@@ -36,33 +35,39 @@ public class FaithTrack {
         return null;
     }
 
+    public int getLength(){
+        return this.length;
+    }
+
     //ritorna true se la posizione supera la lunghezza del percorso
     public boolean finished(int pos){
         return pos >= length;
     }
 
-    //costruttore privato per signletone
-    //la faith track è composta da zone rapporto in vaticano e
-    //9 percorsi
-    private FaithTrack(){
-        //creo le 3 zone rapporto in vaticano
-        vaticanRelations = new VaticanRelation[]{
-                new VaticanRelation(5,8,0),
-                new VaticanRelation(12,16,1),
-                new VaticanRelation(19,24,2),
-        };
+    //costruttore
+    public FaithTrack() throws IllegalArgumentException{
+        Path path = Paths.get("C:\\Users\\Daniel\\IdeaProjects\\ing-sw-2021-pante-panzanini-pozza\\src\\main\\java\\it\\polimi\\ingsw\\Configs\\FaithTrackConfig.json");
+        String config;
 
-        //creo 9 le zone SmallPath
-        smallPaths = new SmallPath[]{
-                new SmallPath(0, 2, 0),
-                new SmallPath(3, 5, 1),
-                new SmallPath(6, 8, 2),
-                new SmallPath(9, 11, 4),
-                new SmallPath(12, 14, 6),
-                new SmallPath(15, 17, 9),
-                new SmallPath(18, 20, 12),
-                new SmallPath(21, 23, 16),
-                new SmallPath(24, 24, 20),
-        };
+        try {
+            config = Files.readString(path, StandardCharsets.UTF_8);
+        }
+        catch (IOException e){
+            throw new IllegalArgumentException("Error during the reading of the config file");
+        }
+
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonElement element = parser.parse(config);
+        if (!element.isJsonObject()){
+            throw new IllegalArgumentException("Check the config file and his syntax");
+        }
+        else{
+            JsonObject FaithTrack = element.getAsJsonObject();
+            this.length = FaithTrack.get("length").getAsInt();
+            JsonArray jsonArray = FaithTrack.getAsJsonArray("smallPaths");
+            this.smallPaths = gson.fromJson(jsonArray, SmallPath[].class);
+            this.vaticanRelations = gson.fromJson(FaithTrack.getAsJsonArray("vaticanRelations"), VaticanRelation[].class);
+        }
     }
 }
