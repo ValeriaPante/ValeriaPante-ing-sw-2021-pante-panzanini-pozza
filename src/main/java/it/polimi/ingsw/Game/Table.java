@@ -8,6 +8,7 @@ import it.polimi.ingsw.Decks.LeaderDeck;
 import it.polimi.ingsw.Deposit.Market;
 import it.polimi.ingsw.Enums.Colour;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
+import it.polimi.ingsw.FaithTrack.FaithTrack;
 import it.polimi.ingsw.Player.LorenzoIlMagnifico;
 import it.polimi.ingsw.Player.RealPlayer;
 
@@ -21,6 +22,7 @@ public class Table {
     private boolean singlePlayer;
 
     private final Market market;
+    private final FaithTrack faithTrack;
 
     private final LinkedList<RealPlayer> players;
     private LorenzoIlMagnifico lorenzoIlMagnifico;
@@ -52,6 +54,7 @@ public class Table {
         this.turnOf = 0;
         this.players = new LinkedList<>();
         this.leaderDeck = new LeaderDeck();
+        this.faithTrack = new FaithTrack();
         initialiseDevDecks();
     }
 
@@ -75,6 +78,10 @@ public class Table {
 
     public Market getMarket() {
         return this.market;
+    }
+
+    public FaithTrack getFaithTrack(){
+        return this.faithTrack;
     }
 
     public void addPlayer(RealPlayer player) throws WeDontDoSuchThingsHere {

@@ -31,10 +31,10 @@ public class FaithTrackController {
         }
     }
 
-    private boolean moveForward(Player player, int faithPoints){
+    private boolean moveForward(Player player, int faithPoints, FaithTrack faithTrack){
         //need to check if player exceed the faith track length
-        if (this.faithTrack.finished(player.getPosition() + faithPoints)) {
-            player.moveForward(FaithTrack.length - player.getPosition());
+        if (faithTrack.finished(player.getPosition() + faithPoints)) {
+            player.moveForward(faithTrack.getLength() - player.getPosition());
             return true;
         }
         player.moveForward(faithPoints);
@@ -42,7 +42,7 @@ public class FaithTrackController {
     }
 
     private FaithTrackController(){
-        this.faithTrack = FaithTrack.getInstance();
+        this.faithTrack = new FaithTrack();
     }
 
     public static FaithTrackController getInstance(){
@@ -55,14 +55,14 @@ public class FaithTrackController {
     public void movePlayerOfTurn(Table table, int faithPoints){
         if (table.isSinglePlayer()){
             if (table.isLorenzoTurn()){
-                if (this.moveForward(table.getLorenzo(), faithPoints)){
+                if (this.moveForward(table.getLorenzo(), faithPoints, table.getFaithTrack())){
                     table.setLastLap();
                 }
                 VaticanRelation vaticanRelation =this.faithTrack.popeRelation(table.getLorenzo().getPosition());
                 this.checkVaticanRelation(vaticanRelation, table.getPlayers());
             }
             else{
-                if (this.moveForward(table.turnOf(), faithPoints)){
+                if (this.moveForward(table.turnOf(), faithPoints, table.getFaithTrack())){
                     table.setLastLap();
                 }
                 //nella partita single player se il giocatore attiva il rapporto in vaticano
@@ -76,7 +76,7 @@ public class FaithTrackController {
         }
         else{
             //partita multi
-            if (this.moveForward(table.turnOf(), faithPoints)){
+            if (this.moveForward(table.turnOf(), faithPoints, table.getFaithTrack())){
                 table.setLastLap();
             }
             //controllo se ha attivato un rapporto in vaticano
@@ -89,7 +89,7 @@ public class FaithTrackController {
     public void moveAllTheOthers(Table table, int faithPoints){
         if (table.isSinglePlayer()){
             if (!table.isLorenzoTurn()){
-                if (this.moveForward(table.getLorenzo(), faithPoints)){
+                if (this.moveForward(table.getLorenzo(), faithPoints, table.getFaithTrack())){
                     table.setLastLap();
                 }
                 //a questo punto lorenzo potrebbe far partire un rapporto in vaticano
@@ -106,7 +106,7 @@ public class FaithTrackController {
 
             for (Player player : table.getPlayers()){
                 if (!(player == table.turnOf())){
-                    if (this.moveForward(player, faithPoints)){
+                    if (this.moveForward(player, faithPoints, table.getFaithTrack())){
                         table.setLastLap();
                     }
                 }
