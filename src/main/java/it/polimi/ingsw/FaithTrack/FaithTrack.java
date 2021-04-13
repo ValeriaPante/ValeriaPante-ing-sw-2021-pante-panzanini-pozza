@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class FaithTrack {
 
@@ -24,15 +25,22 @@ public class FaithTrack {
         return 20;
     }
 
-    //mi ritorna il rapporto in vaticano se sulla posizione che ho inserito
-    //devo far partire un rapporto in vaticano altrimenti null
-    public VaticanRelation popeRelation(int pos){
-        for (VaticanRelation elem: vaticanRelations){
-            if (elem.isOver(pos) && !elem.isAlreadyDone()){
-                return elem;
+    public void doneVaticanRelation(int idVaticanRelation) throws IllegalArgumentException{
+        for (VaticanRelation vaticanRelation: this.vaticanRelations){
+            if (vaticanRelation.getId() == idVaticanRelation){
+                vaticanRelation.done();
+                return;
             }
         }
-        return null;
+        throw new IllegalArgumentException("No vatican relation selected");
+    }
+
+    public VaticanRelation[] getVaticanRelations(){
+        ArrayList<VaticanRelation> copy = new ArrayList<>();
+        for (VaticanRelation vaticanRelation : this.vaticanRelations){
+            copy.add(vaticanRelation.clone());
+        }
+        return copy.toArray(new VaticanRelation[0]);
     }
 
     public int getLength(){

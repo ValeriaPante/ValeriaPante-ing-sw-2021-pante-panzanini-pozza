@@ -5,7 +5,7 @@ package it.polimi.ingsw.FaithTrack;
 //ha una posizione in cui sta il simbolo del Papa posPope
 //un id che mi rappresenta seè il primo/secondo/terzo
 //visto che il rapporto viene attivato una volta sola il boolean alreadyDone mi rappresenta questo
-public class VaticanRelation {
+public class VaticanRelation implements Cloneable{
     private final int id;
     private final int posStart;
     private final int posPope;
@@ -30,7 +30,7 @@ public class VaticanRelation {
 
     //chiamo questo metodo per capire se qualcuno è sopra o ha superato la posPope ->
     //faccio partire il rapporto in vaticano
-    boolean isOver(int pos){
+    public boolean isOnPopePositionOrOver(int pos){
         return pos>= posPope;
     }
 
@@ -43,5 +43,13 @@ public class VaticanRelation {
     //-> la prossima volta questo non lo consideri
     public void done(){
         this.alreadyDone = true;
+    }
+
+    public VaticanRelation clone(){
+        VaticanRelation clone = new VaticanRelation(this.posStart, this.posPope, this.id);
+        if (this.alreadyDone){
+            clone.alreadyDone = true;
+        }
+        return clone;
     }
 }
