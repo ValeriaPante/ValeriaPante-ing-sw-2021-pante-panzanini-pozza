@@ -52,6 +52,18 @@ public class Ability implements Payable{
         return this.discountAbilityBehavior.getDiscount();
     }
 
+    public EnumMap<Resource, Integer> getSelected(){
+        return this.storageAbilityBehavior.getSelected();
+    }
+
+    public void select(Resource resource){
+        this.storageAbilityBehavior.select(resource);
+    }
+
+    public void deselect(Resource resource){
+        this.storageAbilityBehavior.deselect(resource);
+    }
+
     //type == LeaderCardType.DISCOUNT, map represent the amount discount
     //type == LeaderCardType.TRANSMUTATION, map represent the amount of resources that the white must be transmuted in to
     //type == LeaderCardType.STORAGE map, represent the capacity of the storage

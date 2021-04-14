@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Abilities.StorageAbility;
 
-import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 
@@ -11,7 +10,6 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
     @Override
     public boolean isEmpty() throws WeDontDoSuchThingsHere{
         throw new WeDontDoSuchThingsHere();
-        //Exception
     }
 
     @Override
@@ -22,13 +20,11 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
     @Override
     public void singleRemove(Resource resource) throws WeDontDoSuchThingsHere{
         throw new WeDontDoSuchThingsHere();
-        //Exception or empty
     }
 
     @Override
     public EnumMap<Resource, Integer> getCapacity() throws WeDontDoSuchThingsHere{
         throw new WeDontDoSuchThingsHere();
-        //return null;
     }
 
     @Override
@@ -41,6 +37,18 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
     }
 
     public void pay(EnumMap<Resource, Integer> removeMap) {
+        throw new WeDontDoSuchThingsHere();
+    }
+
+    public void select(Resource resource){
+        throw new WeDontDoSuchThingsHere();
+    }
+
+    public void deselect(Resource resource) {
+        throw new WeDontDoSuchThingsHere();
+    }
+
+    public EnumMap<Resource, Integer> getSelected(){
         throw new WeDontDoSuchThingsHere();
     }
 

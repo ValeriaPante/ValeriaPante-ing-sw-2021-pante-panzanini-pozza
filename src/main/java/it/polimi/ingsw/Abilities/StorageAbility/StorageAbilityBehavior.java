@@ -12,6 +12,9 @@ public interface StorageAbilityBehavior{
     EnumMap<Resource, Integer> getCapacity();
     boolean contains(EnumMap<Resource, Integer> checkMap);
     void pay(EnumMap<Resource, Integer> removeMap);
+    void select(Resource resource) throws IllegalArgumentException;
+    void deselect(Resource resource) throws IllegalArgumentException;
+    EnumMap<Resource, Integer> getSelected();
     String toString();
     String toString(int number);
 }
