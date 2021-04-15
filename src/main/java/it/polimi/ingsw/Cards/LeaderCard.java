@@ -7,12 +7,20 @@ import it.polimi.ingsw.Abilities.Ability;
 import java.util.*;
 
 public class LeaderCard extends CardVP{
+    public static int progressiveId = 1;
+
     private final EnumMap<Resource, Integer> resourceReq;
     private final Map<DevCardType, Integer> devCardReq;
     private final LeaderCardType type;
     private final EnumMap<Resource, Integer> input;
     private Ability ability;
     private boolean played;
+    private final int id;
+    private boolean selected;
+
+    private static int getNextId(){
+        return progressiveId++;
+    }
 
     public LeaderCard(int vp, EnumMap<Resource, Integer> resourceReq, Map<DevCardType, Integer> devCardReq, LeaderCardType type, EnumMap<Resource, Integer> input) throws IllegalArgumentException{
         super(vp);
@@ -30,6 +38,8 @@ public class LeaderCard extends CardVP{
         this.input = input.clone();
         this.ability = null;
         played = false;
+        selected = false;
+        this.id = getNextId();
     }
 
     public EnumMap<Resource, Integer> getResourceReq(){
@@ -62,5 +72,17 @@ public class LeaderCard extends CardVP{
         this.played = true;
         this.ability = new Ability(this.input, this.type);
 
+    }
+
+    public boolean isSelected(){
+        return this.selected;
+    }
+
+    public void select(){
+        this.selected = !this.selected;
+    }
+
+    public int getId(){
+        return this.id;
     }
 }

@@ -493,4 +493,17 @@ public class DevDeck implements Deck{
     }
 
     public int size(){ return this.deck.size(); }
+
+    private DevCard findCardById(int id){
+        for(DevCard card: deck){
+            if(card.getId() == id)
+                return card;
+        }
+        return null;
+    }
+
+    public void selectCard(int id) throws IndexOutOfBoundsException{
+        DevCard card = findCardById(id);
+        if (card != null) card.select(); else throw  new IndexOutOfBoundsException();
+    }
 }

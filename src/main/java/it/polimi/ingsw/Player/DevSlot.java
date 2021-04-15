@@ -8,9 +8,11 @@ import java.util.*;
 
 public class DevSlot{
     private List<DevCard> cards;
+    private boolean selected;
 
     public DevSlot(){
         cards = new ArrayList<>();
+        selected = false;
     }
 
     public List<DevCard> getCards(){
@@ -53,4 +55,9 @@ public class DevSlot{
         }
         return result;
     }
+
+    public void select(){
+        this.selected = !this.selected;
+    }
+
 }
