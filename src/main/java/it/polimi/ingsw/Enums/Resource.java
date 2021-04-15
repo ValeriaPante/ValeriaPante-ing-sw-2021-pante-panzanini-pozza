@@ -8,6 +8,7 @@ public enum Resource {
     COIN("CO"), STONE("ST"), SERVANT("SE"), SHIELD("SH"), FAITH, WHITE, ANY;
 
     private /*static*/ final Map<String, Resource> resourcesAlias = new HashMap<>();
+    private boolean selected = false;
 
     private Resource(String... aliases) {
         for(final String alias : aliases)
@@ -33,4 +34,8 @@ public enum Resource {
     //            throw new IllegalArgumentException();
     //    }
     ////}
+
+    public void select(){
+        selected = !selected;
+    }
 }
