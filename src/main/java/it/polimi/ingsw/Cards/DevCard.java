@@ -62,7 +62,7 @@ public class DevCard extends CardVP implements Cloneable{
     }
 
     public boolean equals(DevCard card){
-        return this.cost.equals(card.getCost()) && this.type == card.getType() && this.prodPower.equals(card.getProdPower());
+        return this.cost.equals(card.getCost()) && this.type.equals(card.getType()) && this.prodPower.equals(card.getProdPower());
     }
 
     public boolean isSelected(){
