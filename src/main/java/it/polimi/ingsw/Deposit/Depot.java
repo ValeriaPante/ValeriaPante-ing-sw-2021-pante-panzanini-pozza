@@ -12,30 +12,13 @@ public class Depot implements Payable{
             throw new IndexOutOfBoundsException();
 
         inside.put(toBeRemoved, inside.get(toBeRemoved) - 1);
-        //if (inside.get(toBeRemoved) == 0)
-        //    inside.remove(toBeRemoved);
-        removeResourceIfZero();
+        removeResourceIfZeroOrLess();
 
         return toBeRemoved;
     }
 
     //remove an entire EnumMap (only if all the resources in it are less or equals to the contained), returns the removed map
     public synchronized EnumMap<Resource, Integer> removeEnumMapIfPossible(EnumMap<Resource, Integer> mapToBeRemoved) throws IndexOutOfBoundsException, NullPointerException{
-        //if (mapToBeRemoved == null)
-        //    throw new NullPointerException();
-        //for (Resource r : Resource.values())
-        //    if (mapToBeRemoved.containsKey(r) && ( !(inside.containsKey(r)) || (mapToBeRemoved.get(r) > inside.get(r))))
-        //        throw new IndexOutOfBoundsException();
-        //
-        //for (Resource r : Resource.values())
-        //    if (mapToBeRemoved.containsKey(r)){
-        //        inside.put(r, inside.get(r) - mapToBeRemoved.get(r));
-        //        if (inside.get(r) == 0)
-        //            inside.remove(r);
-        //    }
-        //
-        //return new EnumMap<>(mapToBeRemoved);
-
         if (!this.contains(mapToBeRemoved))
             throw new IndexOutOfBoundsException();
 
@@ -47,37 +30,19 @@ public class Depot implements Payable{
 
     //removes what can be removed (less or equals to contained), returns an EnumMap with the resources not removed (more than contained)
     public synchronized EnumMap<Resource, Integer> removeEnumMapWhatPossible (EnumMap<Resource, Integer> mapToBeRemoved) throws NullPointerException{
-        //if (mapToBeRemoved == null)
-        //    throw new NullPointerException();
-
         //this can raise a NullPointerException
         EnumMap<Resource, Integer> notRemoved = isMissing(mapToBeRemoved);
-
-        //for (Resource r : Resource.values())
-        //    if (mapToBeRemoved.containsKey(r)){
-        //        if (inside.containsKey(r)){
-        //            if (mapToBeRemoved.get(r) > inside.get(r)){
-        //                notRemoved.put(r, mapToBeRemoved.get(r) - inside.get(r));
-        //                //inside.remove(r);
-        //            }
-        //             //else if (mapToBeRemoved.get(r).equals(inside.get(r)))
-        //            //    inside.remove(r);
-        //            //else
-        //                inside.put(r, inside.get(r) - mapToBeRemoved.get(r));
-        //        }
-        //        else
-        //            notRemoved.put(r, mapToBeRemoved.get(r));
-        //    }
 
         for (Resource r: Resource.values())
             if ( (mapToBeRemoved.containsKey(r)) && (inside.containsKey(r)) )
                 inside.put(r, inside.get(r) - mapToBeRemoved.get(r));
 
-        removeResourceIfZero();
+        removeResourceIfZeroOrLess();
 
         return notRemoved;
     }
 
+    //no check if the Resource passed is null
     public synchronized void singleAdd(Resource toBeAdded) {
         inside.put(toBeAdded, ((inside.get(toBeAdded) == null)? 0 : inside.get(toBeAdded)) + 1);
     }
@@ -96,6 +61,7 @@ public class Depot implements Payable{
         if ( inside.isEmpty() )
             return null;
 
+        removeResourceIfZeroOrLess();
         return new EnumMap<>(inside);
     }
 
@@ -113,18 +79,6 @@ public class Depot implements Payable{
 
         return accumulator;
     }
-
-    //the same as contains()
-    //public synchronized boolean isAffordable(EnumMap<Resource, Integer> checkEnum) throws NullPointerException{
-    //    if (checkEnum == null)
-    //        throw new NullPointerException();
-    //
-    //    for (Resource r : Resource.values())
-    //       if (checkEnum.containsKey(r) && ( !(inside.containsKey(r)) || (checkEnum.get(r) > inside.get(r))))
-    //           return false;
-    //
-    //   return true;
-    //}
 
     //return the resources in the enumMap that are more than contained (null otherwise)
     public synchronized EnumMap<Resource, Integer> isMissing(EnumMap<Resource, Integer> checkEnum) throws NullPointerException{
@@ -161,6 +115,7 @@ public class Depot implements Payable{
         return true;
     }
 
+    //this method has to be called only if the EnumMap can be removed!
     @Override
     public void pay(EnumMap<Resource, Integer> removeMap) throws NullPointerException{
         if (removeMap == null)
@@ -169,6 +124,8 @@ public class Depot implements Payable{
         for (Resource r : Resource.values())
             if (removeMap.containsKey(r))
                 inside.put(r, inside.get(r) - removeMap.get(r));
+
+        removeResourceIfZeroOrLess();
     }
 
     public String toString(){
@@ -176,9 +133,9 @@ public class Depot implements Payable{
     }
 
     //removes the key if is mapped to zero or less
-    private synchronized void removeResourceIfZero(){
+    private synchronized void removeResourceIfZeroOrLess(){
         for (Resource r : Resource.values())
-            if (inside.get(r) <= 0)
+            if ((inside.get(r) != null) && (inside.get(r) <= 0))
                 inside.remove(r);
     }
 }

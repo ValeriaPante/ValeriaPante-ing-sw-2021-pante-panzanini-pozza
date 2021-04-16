@@ -63,11 +63,13 @@ public class Controller {
     private void setInitialResources(RealPlayer player, int numberOfResources){
         Scanner input = new Scanner(System.in);
 
+        //scelta delle risorse
+
+        //posizionamento delle risorse nelle shelf
+
     }
 
     public void startGame() {
-        Scanner input = new Scanner(System.in);
-
         this.table = new Table(players.size());
         this.faithTrackController = FaithTrackController.getInstance();
 
@@ -83,15 +85,21 @@ public class Controller {
 
         //inizia turno il primo giocatore
 
-        if (table.isSinglePlayer()){
-            while((!table.isLastLap()) && ())
-        }
-        else{
-            while( (!(table.isLastLap())) || (!(table.getPlayers()[0] == table.turnOf())))
-            {
-                this.playTurn(table.turnOf());
-            }
-        }
+        //if (table.isSinglePlayer()){
+        //    while(!table.isLastLap()){
+        //        this.playTurn(table.turnOf());
+        //    }
+        //}
+        //else{
+        //    while( (!(table.isLastLap())) || (!(table.getPlayers()[0] == table.turnOf())))
+        //    {
+        //        this.playTurn(table.turnOf());
+        //    }
+        //}
+
+        //accorpando i comandi sopra:
+        while((!(table.isLastLap())) || (!(table.getPlayers()[0] == table.turnOf())))
+            this.playTurn(table.turnOf());
     }
 
     public void playTurn(RealPlayer playerOfTurn){

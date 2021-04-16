@@ -8,8 +8,26 @@ import java.util.EnumMap;
 public class Market {
     private final Resource[][] grid;   //first position row, second position column: [row][column]
     private Resource slide;
+    int posSelected;        //if ==-1 not initialized
+    int isRowSelected;      //if ==1 selected row, ==0 column, ==-1 not initialized
 
-    public synchronized EnumMap<Resource, Integer> pickColumn(int chosenColumn) {
+    public synchronized void selectColumn(int columnSelected) throws IndexOutOfBoundsException{
+        if (columnSelected > 3)
+            throw new IndexOutOfBoundsException();
+
+        if ((isRowSelected == 0) && (posSelected == columnSelected)) //it is used just to speed up --> no toggle selection here!
+            return;
+
+        if(isRowSelected != -1)
+            deselectPreviousSelection();
+        isRowSelected = 0;
+        posSelected = columnSelected;
+        for (int i=0; i<3; i++)
+            grid[i][posSelected].select();
+    }
+
+    private synchronized EnumMap<Resource, Integer> pickColumn(int chosenColumn) {
+        deselectPreviousSelection();
         EnumMap<Resource, Integer> returningMap = new EnumMap<>(Resource.class);
         for (int i=0; i<3; i++)
             returningMap.put(grid[i][chosenColumn], 1 + ( (returningMap.get(grid[i][chosenColumn]) == null) ? 0 : returningMap.get(grid[i][chosenColumn]) ));
@@ -17,7 +35,7 @@ public class Market {
         return returningMap;
     }
 
-    private void shiftColumn(int column) {
+    private synchronized void shiftColumn(int column) {
         Resource support;
         support = slide;
         slide = grid[0][column];
@@ -26,7 +44,23 @@ public class Market {
         grid[2][column] = support;
     }
 
-    public synchronized EnumMap<Resource, Integer> pickRow(int chosenRow) {
+    public synchronized void selectRow(int rowSelected) throws IndexOutOfBoundsException{
+        if (rowSelected > 2)
+            throw new IndexOutOfBoundsException();
+
+        if ((isRowSelected == 1) && (posSelected == rowSelected)) //it is used just to speed up --> no toggle selection here!
+            return;
+
+        if(isRowSelected != -1)
+            deselectPreviousSelection();
+        isRowSelected = 1;
+        posSelected = rowSelected;
+        for (int i=0; i<4; i++)
+            grid[posSelected][i].select();
+    }
+
+    private synchronized EnumMap<Resource, Integer> pickRow(int chosenRow) {
+        deselectPreviousSelection();
         EnumMap<Resource, Integer> returningMap = new EnumMap<>(Resource.class);
         for (int i=0; i<4; i++)
             returningMap.put(grid[chosenRow][i], 1 + ((returningMap.get(grid[chosenRow][i]) == null) ? 0 : returningMap.get(grid[chosenRow][i])) );
@@ -34,7 +68,7 @@ public class Market {
         return returningMap;
     }
 
-    private void shiftRow(int row) {
+    private synchronized void shiftRow(int row) {
         Resource support;
         support = slide;
         slide = grid[row][0];
@@ -53,6 +87,42 @@ public class Market {
             }
         }
         return gridCopy;
+    }
+
+    public EnumMap<Resource, Integer> takeSelection() throws IllegalAccessException{
+        if (isRowSelected == -1)
+            throw new IllegalAccessException(); //there was no previous selection!
+
+        EnumMap<Resource, Integer> resourcesSelected;
+        if (isRowSelected == 1)
+            resourcesSelected = this.pickRow(posSelected);
+        else
+            resourcesSelected = this.pickColumn(posSelected);
+        posSelected = -1;
+        isRowSelected = -1;
+        return resourcesSelected;
+    }
+
+    public synchronized Resource getSlide(){
+        return slide;
+    }
+
+    private synchronized void deselectPreviousSelection(){
+        if (isRowSelected == 1){
+            for (int i=0; i<4; i++)
+                grid[posSelected][i].select();
+        }
+        else{
+            for (int i=0; i<3; i++)
+                grid[i][posSelected].select();
+        }
+    }
+
+    //it can be used when the player decide to not take anything from the market but had a previous selection
+    public synchronized void restoreState(){
+        deselectPreviousSelection();
+        isRowSelected = -1;
+        posSelected = -1;
     }
 
     public Market() {
@@ -76,5 +146,7 @@ public class Market {
             }
         }
         slide = pickingList.remove(0);
+        isRowSelected = -1;
+        posSelected = -1;
     }
 }
