@@ -1,0 +1,26 @@
+[
+	{
+		"id": 49,
+		"victoryPoints": 2,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "YELLOW"
+				},
+				"quantity": 1
+			},
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "GREEN"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "DISCOUNT",
+		"discount": {"SERVANT": 1}
+	},
+	{}
+]
