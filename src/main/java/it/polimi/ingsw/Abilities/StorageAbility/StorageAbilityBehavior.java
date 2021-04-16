@@ -11,10 +11,10 @@ public interface StorageAbilityBehavior{
     EnumMap<Resource, Integer> content();
     EnumMap<Resource, Integer> getCapacity();
     boolean contains(EnumMap<Resource, Integer> checkMap);
-    void pay(EnumMap<Resource, Integer> removeMap);
-    void select(Resource resource) throws IllegalArgumentException;
-    void deselect(Resource resource) throws IllegalArgumentException;
+    void removeSelected();
+    void select(Resource toSelect, int position) throws IllegalArgumentException;
     EnumMap<Resource, Integer> getSelected();
     String toString();
+    //per sapere se è il primo o il secondo
     String toString(int number);
 }

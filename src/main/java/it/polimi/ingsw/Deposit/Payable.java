@@ -7,5 +7,5 @@ import java.util.EnumMap;
 public interface Payable {
     boolean contains(EnumMap<Resource, Integer> checkMap);
 
-    void pay(EnumMap<Resource, Integer> removeMap);
+    void pay();
 }

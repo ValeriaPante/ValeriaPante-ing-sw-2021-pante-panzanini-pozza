@@ -40,8 +40,8 @@ public class Ability implements Payable{
     public boolean contains(EnumMap<Resource, Integer> checkMap){
         return this.storageAbilityBehavior.contains(checkMap);
     }
-    public void pay(EnumMap<Resource, Integer> removeMap) {
-        this.storageAbilityBehavior.pay(removeMap);
+    public void pay() {
+        this.storageAbilityBehavior.removeSelected();
     }
 
     public EnumMap<Resource, Integer> getWhiteInto(){
@@ -56,12 +56,8 @@ public class Ability implements Payable{
         return this.storageAbilityBehavior.getSelected();
     }
 
-    public void select(Resource resource){
-        this.storageAbilityBehavior.select(resource);
-    }
-
-    public void deselect(Resource resource){
-        this.storageAbilityBehavior.deselect(resource);
+    public void select(Resource resource, int position){
+        this.storageAbilityBehavior.select(resource, position);
     }
 
     //type == LeaderCardType.DISCOUNT, map represent the amount discount

@@ -28,6 +28,11 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
     }
 
     @Override
+    public void select(Resource toSelect, int position){
+        throw new WeDontDoSuchThingsHere();
+    }
+
+    @Override
     public EnumMap<Resource, Integer> content(){
         throw new WeDontDoSuchThingsHere();
     }
@@ -36,7 +41,7 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
         throw new WeDontDoSuchThingsHere();
     }
 
-    public void pay(EnumMap<Resource, Integer> removeMap) {
+    public void removeSelected() {
         throw new WeDontDoSuchThingsHere();
     }
 

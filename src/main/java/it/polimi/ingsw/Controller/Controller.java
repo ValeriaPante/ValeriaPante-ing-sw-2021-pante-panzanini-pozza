@@ -83,20 +83,6 @@ public class Controller {
         if (!table.isSinglePlayer())
             initializePlayersResources();
 
-        //inizia turno il primo giocatore
-
-        //if (table.isSinglePlayer()){
-        //    while(!table.isLastLap()){
-        //        this.playTurn(table.turnOf());
-        //    }
-        //}
-        //else{
-        //    while( (!(table.isLastLap())) || (!(table.getPlayers()[0] == table.turnOf())))
-        //    {
-        //        this.playTurn(table.turnOf());
-        //    }
-        //}
-
         //accorpando i comandi sopra:
         while((!(table.isLastLap())) || (!(table.getPlayers()[0] == table.turnOf())))
             this.playTurn(table.turnOf());

@@ -1,122 +1,143 @@
 package it.polimi.ingsw.Abilities.StorageAbility;
 
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Deposit.Depot;
+
+import java.util.ArrayList;
 import java.util.EnumMap;
 
-//per rispettare il concetto di fat controller farei tutto super stupido
-//se invece vogliamo fare le cose un po più fat e vogliamo lasciar perdere la parametrizzazione su questo punto
-// possiamo usare una shelf il problema è che la shelf per come è fatta non permette una capacità massima ma per tutti i tipi
 public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
-    private final EnumMap<Resource, Integer> content;
-    private final EnumMap<Resource, Integer> capacity;
-    private final EnumMap<Resource, Integer> selected;
 
-    public void singleAdd(Resource toBeAdded){
-        //per come lo creo non è possibile che la get ritorni null
-        content.put(toBeAdded, content.get(toBeAdded)+1);
+    private enum State{
+        SELECTED, NOTSELECTED, UNPRESENT
     }
 
-    public void singleRemove(Resource toBeRemoved){
-        //per come lo creo non è possibile che la get ritorni null
-        content.put(toBeRemoved, content.get(toBeRemoved)-1);
-    }
+    private final EnumMap<Resource, State[]> contentState;
 
     public boolean isEmpty(){
-        for (Resource resource : content.keySet()){
-            if (content.get(resource)>0){
-                return false;
+        for (Resource resource : contentState.keySet()){
+            for (State state : this.contentState.get(resource)){
+                if (state != State.UNPRESENT){
+                    return false;
+                }
             }
         }
         return true;
     }
 
-    public boolean contains(EnumMap<Resource, Integer> checkMap) {
-        for (Resource resource : checkMap.keySet()){
-            if (!(this.content.get(resource)!=null && this.content.get(resource)>=checkMap.get(resource))){
-                return false;
+    public void removeSelected() {
+        State[] elements;
+        for (Resource resource : this.contentState.keySet()){
+            elements = this.contentState.get(resource);
+            for (int i=0; i<elements.length; i++){
+                if (elements[i] == State.SELECTED){
+                   elements[i] = State.UNPRESENT;
+                }
             }
         }
-        return true;
+        //rimuovi tute le risorse selezionate
     }
 
-    public void pay(EnumMap<Resource, Integer> removeMap) {
-        for (Resource resource : removeMap.keySet()){
-            this.content.put(resource,this.content.get(resource) - removeMap.get(resource));
+    public boolean contains(EnumMap<Resource, Integer> checkMap){
+        Depot content = new Depot(){{addEnumMap(this.content());}};
+        return content.contains(checkMap);
+    }
+
+    public void select(Resource toSelect, int position){
+        State[] elements = this.contentState.get(toSelect);
+        if (elements != null){
+            if (position<=elements.length && elements[position]!=State.UNPRESENT){
+                if (elements[position] == State.NOTSELECTED){
+                    elements[position] = State.SELECTED;
+                }
+                else if (elements[position] == State.SELECTED){
+                    elements[position] = State.NOTSELECTED;
+                }
+            }
         }
+    }
+
+    public EnumMap<Resource, Integer> content(){
+        EnumMap<Resource, Integer> result = new EnumMap<>(Resource.class);
+        int amount;
+        for (Resource resource : this.contentState.keySet()){
+            amount = 0;
+            for (State state : this.contentState.get(resource)){
+                if (state != State.UNPRESENT){
+                    amount += 1;
+                }
+            }
+            if (amount != 0) {
+                result.put(resource, amount);
+            }
+        }
+        return result;
     }
 
     public EnumMap<Resource, Integer> getCapacity(){
-        return slimMap(this.capacity);
+        EnumMap<Resource, Integer> result = new EnumMap<>(Resource.class);
+        for (Resource resource : this.contentState.keySet()){
+            result.put(resource, this.contentState.get(resource).length);
+        }
+        return result;
     }
-    public EnumMap<Resource, Integer> content(){
-        return slimMap(this.content);
+
+    public void singleAdd(Resource toAdd){
+        State[] elements = this.contentState.get(toAdd);
+        if (elements!=null){
+            for (int i=0; i<elements.length; i++){
+                if (elements[i]==State.UNPRESENT){
+                    elements[i]=State.NOTSELECTED;
+                    break;
+                }
+            }
+        }
     }
+
+    public void singleRemove(Resource toRemove){
+        State[] elements = this.contentState.get(toRemove);
+        if (elements != null){
+            if (elements[elements.length-1]!=State.UNPRESENT){
+                elements[elements.length-1] = State.UNPRESENT;
+            }
+        }
+    }
+
     public EnumMap<Resource, Integer> getSelected(){
-        return this.slimMap(this.selected);
-    }
-
-    private EnumMap<Resource, Integer> slimMap(EnumMap<Resource, Integer> map){
-        EnumMap<Resource, Integer> temp = new EnumMap<>(Resource.class);
-        for (Resource resource : map.keySet()){
-            if (map.get(resource) != 0){
-                temp.put(resource, map.get(resource));
+        EnumMap<Resource, Integer> result = new EnumMap<>(Resource.class);
+        int amount;
+        for (Resource resource : this.contentState.keySet()){
+            amount = 0;
+            for (State state : this.contentState.get(resource)){
+                if (state == State.SELECTED){
+                    amount += 1;
+                }
+            }
+            if (amount!=0){
+                result.put(resource, amount);
             }
         }
-        return temp;
+        return result;
     }
 
-    //complete the map initialising the missing keys as 0
-    private void completeTheMAp(EnumMap<Resource, Integer> map){
-        for (Resource resource: Resource.values()){
-            if (!map.containsKey(resource)){
-                map.put(resource, 0);
-            }
-        }
+    public String toString(){
+        return "Storage Ability";
+    }
+
+    public String toString(int x){
+        return this.toString()+x;
     }
 
     public WithStorageAbilityBehavior(EnumMap<Resource, Integer> capacity){
-        //il contenuto lo setto a zero
-        this.content = new EnumMap<>(Resource.class);
-        completeTheMAp(this.content);
-        this.capacity = capacity.clone();
-        completeTheMAp(this.capacity);
-        this.selected = new EnumMap<>(Resource.class);
-        completeTheMAp(this.selected);
+        this.contentState = new EnumMap<>(Resource.class);
+        ArrayList<State> state = new ArrayList<>();
+        for (Resource resource : capacity.keySet()){
+            state.clear();
+            for (int i=0; i<capacity.get(resource); i++) {
+                state.add(State.UNPRESENT);
+            }
+            this.contentState.put(resource, state.toArray(new State[0]));
+        }
     }
 
-    @Override
-    public void select(Resource resource) throws IllegalArgumentException{
-        /*
-        if (this.content.get(resource)>0 && this.content.get(resource) - this.selected.get(resource) >= 1){
-            this.selected.put(resource, this.selected.get(resource));
-        }
-        else{
-            throw new IllegalArgumentException("Cant select this resource");
-        }
-         */
-        this.selected.put(resource, this.selected.get(resource)+1);
-    }
-
-    public void deselect(Resource resource) throws IllegalArgumentException{
-        /*
-        int amount = this.selected.get(resource);
-        if (amount>0){
-            this.selected.put(resource, amount-1);
-        }
-        else{
-            throw new IllegalArgumentException("No such resource to deselect");
-        }
-         */
-        this.selected.put(resource, this.selected.get(resource)-1);
-    }
-
-    @Override
-    public String toString(){
-        return "LeaderDeposit";
-    }
-
-    @Override
-    public String toString(int number){
-        return "LeaderDeposit" + number;
-    }
 }
