@@ -5,6 +5,8 @@ import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Cards.PopeFavorCard;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.Shelf;
+import it.polimi.ingsw.Enums.MacroTurnType;
+import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.BrokenPlayerException;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
@@ -16,16 +18,14 @@ import java.util.LinkedList;
 
 public class RealPlayer extends Player{
 
-    private final static int maxProductionPowerInputs = 2;
-    private final static int maxProductionPowerOutputs = 3;
-
     private boolean actionDone;
     private DevSlot[] devSlots;
     private Shelf[] shelves;
     private Depot depot;
     private ArrayList<LeaderCard> leaderCards;
     private PopeFavorCard[] popeFavorCards;
-    private ProductionPower basicProductionPower;
+    private BasicProductionPower basicProductionPower;
+    private TurnType turnType;
 
     private void initialiseShelves(){
         this.shelves = new Shelf[]{
@@ -41,14 +41,6 @@ public class RealPlayer extends Player{
                 new DevSlot(),
                 new DevSlot(),
         };
-    }
-
-    private void initialiseBasicProductionPower(){
-        EnumMap<Resource, Integer> tempInput = new EnumMap<>(Resource.class);
-        EnumMap<Resource, Integer> tempOutput = new EnumMap<>(Resource.class);
-        tempInput.put(Resource.ANY, 2);
-        tempOutput.put(Resource.ANY,1);
-        this.basicProductionPower = new ProductionPower(tempInput, tempOutput);
     }
 
     private void initialisePopeFavorCards(){
@@ -68,7 +60,8 @@ public class RealPlayer extends Player{
        this.depot = new Depot();
        this.leaderCards = new ArrayList<>();
        this.initialisePopeFavorCards();
-       this.initialiseBasicProductionPower();
+       this.basicProductionPower = new BasicProductionPower();
+       this.turnType = new TurnType();
     }
     //--------
 
@@ -100,7 +93,7 @@ public class RealPlayer extends Player{
     //------
 
     //---Getters---
-    public ProductionPower getBasicProductionPower(){
+    public BasicProductionPower getBasicProductionPower(){
         return this.basicProductionPower;
     }
     public boolean isActionDone(){
@@ -124,6 +117,12 @@ public class RealPlayer extends Player{
     public EnumMap<Resource, Integer> getResourcesOwned(){
         return this.resourcesOwned();
     }
+    public MacroTurnType getMacroTurnType(){
+        return this.turnType.getMacroTurnType();
+    }
+    public MicroTurnType getMicroTurnType(){
+        return this.turnType.getMicroTurnType();
+    }
     public PopeFavorCard[] getPopeFavorCards(){
         return Arrays.copyOf(this.popeFavorCards, this.popeFavorCards.length);
     }
@@ -135,6 +134,15 @@ public class RealPlayer extends Player{
         return result;
     }
     //-----
+
+    //--Setter
+    public void setMacroTurnType(MacroTurnType type){
+        this.turnType.setMacroTurnType(type);
+    }
+    public void setMicroTurnType(MicroTurnType type){
+        this.turnType.setMicroTurnType(type);
+    }
+    //
 
     // returns null if the player owns no Resources, otherwise it will return an EnumMap with the copy of all resources
     private EnumMap<Resource, Integer> resourcesOwned() {
@@ -172,7 +180,7 @@ public class RealPlayer extends Player{
         LinkedList<ProductionPower> allProductionPowers = new LinkedList<>();
 
         //default
-        allProductionPowers.add(this.basicProductionPower);
+        allProductionPowers.add(this.basicProductionPower.getProductionPower());
 
         //ProdPowers in devslots
         for (DevSlot devSlot : this.devSlots){

@@ -184,13 +184,13 @@ public class Controller {
     private void typeOfTurnConverter(String s) throws ChangeTurnException{
         switch (s.trim().toUpperCase()) {
             case "BUYNEWCARD":
-                chooseTurnType(TurnType.BUYNEWCARD);
+                chooseTurnType(MacroTurnType.BUYNEWCARD);
                 break;
             case "GETFROMMARKET":
-                chooseTurnType(TurnType.GETFROMMARKET);
+                chooseTurnType(MacroTurnType.GETFROMMARKET);
                 break;
             case "PRODUCTION":
-                chooseTurnType(TurnType.PRODUCITON);
+                chooseTurnType(MacroTurnType.PRODUCTION);
                 break;
             default:
                 throw new ChangeTurnException();
@@ -246,7 +246,7 @@ public class Controller {
         }
     }
 
-    private void chooseTurnType(TurnType typeOfTurn) throws ChangeTurnException{
+    private void chooseTurnType(MacroTurnType typeOfTurn) throws ChangeTurnException{
         try {
             switch (typeOfTurn) {
                 case BUYNEWCARD:
@@ -255,7 +255,7 @@ public class Controller {
                 case GETFROMMARKET:
                     playMarketTurn(table.turnOf());
                     break;
-                case PRODUCITON:
+                case PRODUCTION:
                     playProductionTurn(table.turnOf());
                     break;
             }

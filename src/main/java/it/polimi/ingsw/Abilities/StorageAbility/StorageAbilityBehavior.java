@@ -12,7 +12,7 @@ public interface StorageAbilityBehavior{
     EnumMap<Resource, Integer> getCapacity();
     boolean contains(EnumMap<Resource, Integer> checkMap);
     void removeSelected();
-    void select(Resource toSelect, int position) throws IllegalArgumentException;
+    void select(Resource toSelect, int position);
     EnumMap<Resource, Integer> getSelected();
     String toString();
     //per sapere se è il primo o il secondo
