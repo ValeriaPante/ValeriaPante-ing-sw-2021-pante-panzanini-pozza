@@ -55,24 +55,22 @@ public class DevDeck implements Deck{
             for (int i = 0; i < cards.size(); i++) {
                 JsonObject card = cards.get(i).getAsJsonObject();
 
-                HashMap<String, Integer>map = gson.fromJson(card.get("cost"),new TypeToken<HashMap<String, Integer>>(){}.getType());
-                for(Map.Entry<String, Integer> entry: map.entrySet()){
-                    cost.put(Resource.valueOf(entry.getKey()), entry.getValue());
+                HashMap<Resource, Integer>map = gson.fromJson(card.get("cost"),new TypeToken<HashMap<Resource, Integer>>(){}.getType());
+                for(Map.Entry<Resource, Integer> entry: map.entrySet()){
+                    cost.put(entry.getKey(), entry.getValue());
                 }
 
                 JsonObject prodpower = card.getAsJsonObject("prodpower");
 
-                map = gson.fromJson(prodpower.get("input"),new TypeToken<HashMap<String, Integer>>(){}.getType());
-                for(Map.Entry<String, Integer> entry: map.entrySet()){
-                    input.put(Resource.valueOf(entry.getKey()), entry.getValue());
+                map = gson.fromJson(prodpower.get("input"),new TypeToken<HashMap<Resource, Integer>>(){}.getType());
+                for(Map.Entry<Resource, Integer> entry: map.entrySet()){
+                    input.put(entry.getKey(), entry.getValue());
                 }
 
-                map = gson.fromJson(prodpower.get("output"),new TypeToken<HashMap<String, Integer>>(){}.getType());
-                for(Map.Entry<String, Integer> entry: map.entrySet()){
-                    output.put(Resource.valueOf(entry.getKey()), entry.getValue());
+                map = gson.fromJson(prodpower.get("output"),new TypeToken<HashMap<Resource, Integer>>(){}.getType());
+                for(Map.Entry<Resource, Integer> entry: map.entrySet()){
+                    output.put(entry.getKey(), entry.getValue());
                 }
-
-
 
                 deck.add(new DevCard(card.get("victoryPoints").getAsInt(), cost.clone(), type, new ProductionPower(input.clone(), output.clone()), card.get("id").getAsInt()));
 
