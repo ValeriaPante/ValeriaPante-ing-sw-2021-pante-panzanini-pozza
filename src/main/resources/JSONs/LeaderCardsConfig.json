@@ -20,7 +20,318 @@
 			}
 		],
 		"LeaderCardType": "DISCOUNT",
-		"discount": {"SERVANT": 1}
+		"discount": {
+			"SERVANT": 1
+		}
 	},
-	{}
+
+	{
+		"id": 50,
+		"victoryPoints": 2,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "BLUE"
+				},
+				"quantity": 1
+			},
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "PURPLE"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "DISCOUNT",
+		"discount": {
+			"SHIELD": 1
+		}
+	},
+
+	{
+		"id": 51,
+		"victoryPoints": 2,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "BLUE"
+				},
+				"quantity": 1
+			},
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "GREEN"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "DISCOUNT",
+		"discount": {
+			"STONE": 1
+		}
+	},
+
+	{
+		"id": 52,
+		"victoryPoints": 2,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "YELLOW"
+				},
+				"quantity": 1
+			},
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "PURPLE"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "DISCOUNT",
+		"discount": {
+			"COIN": 1
+		}
+	},
+
+	{
+		"id": 53,
+		"victoryPoints": 3,
+		"resourceReq": {
+			"COIN": 5
+		},
+		"devCardReq": [],
+		"LeaderCardType": "STORAGE",
+		"storage": {
+			"STONE": 2
+		}
+	},
+
+	{
+		"id": 54,
+		"victoryPoints": 3,
+		"resourceReq": {
+			"STONE": 5
+		},
+		"devCardReq": [],
+		"LeaderCardType": "STORAGE",
+		"storage": {
+			"SERVANT": 2
+		}
+	},
+
+	{
+		"id": 55,
+		"victoryPoints": 3,
+		"resourceReq": {
+			"SERVANT": 5
+		},
+		"devCardReq": [],
+		"LeaderCardType": "STORAGE",
+		"storage": {
+			"SHIELD": 2
+		}
+	},
+
+	{
+		"id": 56,
+		"victoryPoints": 3,
+		"resourceReq": {
+			"SHIELD": 5
+		},
+		"devCardReq": [],
+		"LeaderCardType": "STORAGE",
+		"storage": {
+			"COIN": 2
+		}
+	},
+
+	{
+		"id": 57,
+		"victoryPoints": 5,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "YELLOW"
+				},
+				"quantity": 2
+			},
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "BLUE"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "TRANSMUTATION",
+		"transmutation": {
+			"SERVANT": 1
+		}
+	},
+
+	{
+		"id": 58,
+		"victoryPoints": 5,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "GREEN"
+				},
+				"quantity": 2
+			},
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "PURPLE"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "TRANSMUTATION",
+		"transmutation": {
+			"SHIELD": 1
+		}
+	},
+
+	{
+		"id": 59,
+		"victoryPoints": 5,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "BLUE"
+				},
+				"quantity": 2
+			},
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "YELLOW"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "TRANSMUTATION",
+		"transmutation": {
+			"STONE": 1
+		}
+	},
+
+	{
+		"id": 60,
+		"victoryPoints": 5,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "PURPLE"
+				},
+				"quantity": 2
+			},
+			{
+				"devCardType": {
+					"level": 0,
+					"color": "GREEN"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "TRANSMUTATION",
+		"transmutation": {
+			"COIN": 1
+		}
+	},
+
+	{
+		"id": 61,
+		"victoryPoints": 4,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 2,
+					"color": "YELLOW"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "PRODPOWER",
+		"prodpower": {
+			"SHIELD": 1
+		}
+	},
+
+	{
+		"id": 62,
+		"victoryPoints": 4,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 2,
+					"color": "BLUE"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "PRODPOWER",
+		"prodpower": {
+			"SERVANT": 1
+		}
+	},
+
+	{
+		"id": 63,
+		"victoryPoints": 4,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 2,
+					"color": "PURPLE"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "PRODPOWER",
+		"prodpower": {
+			"STONE": 1
+		}
+	},
+
+	{
+		"id": 64,
+		"victoryPoints": 4,
+		"resourceReq": {},
+		"devCardReq": [
+			{
+				"devCardType": {
+					"level": 2,
+					"color": "GREEN"
+				},
+				"quantity": 1
+			}
+		],
+		"LeaderCardType": "PRODPOWER",
+		"prodpower": {
+			"COIN": 1
+		}
+	}
 ]

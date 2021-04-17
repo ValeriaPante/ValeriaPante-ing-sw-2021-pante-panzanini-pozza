@@ -1,11 +1,18 @@
 package it.polimi.ingsw.Decks;
 
+import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Cards.DevCardType;
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Enums.Colour;
 import it.polimi.ingsw.Enums.LeaderCardType;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class LeaderDeck implements Deck{
@@ -14,127 +21,72 @@ public class LeaderDeck implements Deck{
     public LeaderDeck(){
         deck = new ArrayList<>();
 
-        //49
+        Path path = Paths.get(this.getClass().getResource("/JSONs/LeaderCardsConfig.json").toString().substring(6));
+        String config;
+
+        try {
+            config = Files.readString(path, StandardCharsets.UTF_8);
+        }
+        catch (IOException e){
+            throw new IllegalArgumentException("Error during the reading of the config file");
+        }
+
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
         Map<DevCardType, Integer> devCardReq = new HashMap<>();
         EnumMap<Resource, Integer> input = new EnumMap<>(Resource.class);
 
-        devCardReq.put(new DevCardType(0, Colour.YELLOW), 1);
-        devCardReq.put(new DevCardType(0, Colour.GREEN), 1);
-        input.put(Resource.SERVANT, 1);
-        deck.add(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input));
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonElement elements = parser.parse(config);
+        if (!elements.isJsonArray()){
+            throw new IllegalArgumentException("Check the config file and his syntax");
+        }
+        else{
+            JsonArray array = elements.getAsJsonArray();
+            String s = null;
+            for (int i = 0; i < array.size(); i++) {
+                JsonObject card = array.get(i).getAsJsonObject();
 
-        //50
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(0, Colour.BLUE), 1);
-        devCardReq.put(new DevCardType(0, Colour.PURPLE), 1);
-        input.clear();
-        input.put(Resource.SHIELD, 1);
-        deck.add(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input));
+                LeaderCardType type = LeaderCardType.valueOf(card.get("LeaderCardType").getAsString());
+                switch(type){
+                    case DISCOUNT:
+                        s = "discount";
+                        break;
+                    case PRODPOWER:
+                        s = "prodpower";
+                        break;
+                    case STORAGE:
+                        s = "storage";
+                        break;
+                    case TRANSMUTATION:
+                        s = "transmutation";
+                        break;
+                }
 
-        //51
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(0, Colour.GREEN), 1);
-        devCardReq.put(new DevCardType(0, Colour.BLUE), 1);
-        input.clear();
-        input.put(Resource.STONE, 1);
-        deck.add(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input));
+                HashMap<String, Integer> map = gson.fromJson(card.get(s), new TypeToken<HashMap<String, Integer>>(){}.getType());
+                for(Map.Entry<String, Integer> entry: map.entrySet()){
+                    input.put(Resource.valueOf(entry.getKey()), entry.getValue());
+                }
 
-        //52
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(0, Colour.YELLOW), 1);
-        devCardReq.put(new DevCardType(0, Colour.PURPLE), 1);
-        input.clear();
-        input.put(Resource.COIN, 1);
-        deck.add(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input));
+                map = gson.fromJson(card.get("resourceReq"),new TypeToken<HashMap<String, Integer>>(){}.getType());
+                for(Map.Entry<String, Integer> entry: map.entrySet()){
+                    resourceReq.put(Resource.valueOf(entry.getKey()), entry.getValue());
+                }
 
-        //53
-        resourceReq.put(Resource.COIN, 5);
-        devCardReq.clear();
-        input.clear();
-        input.put(Resource.STONE, 2);
-        deck.add(new LeaderCard(3, resourceReq, devCardReq, LeaderCardType.STORAGE, input));
+                JsonArray devMap = card.get("devCardReq").getAsJsonArray();
+                for(int j = 0; j < devMap.size(); j++){
+                    JsonObject obj = devMap.get(j).getAsJsonObject();
+                    JsonObject dct = obj.get("devCardType").getAsJsonObject();
+                    devCardReq.put(new DevCardType(dct.get("level").getAsInt(), Colour.valueOf(dct.get("color").getAsString())), obj.get("quantity").getAsInt());
+                }
 
-        //54
-        resourceReq.clear();
-        resourceReq.put(Resource.STONE, 5);
-        input.clear();
-        input.put(Resource.SERVANT, 2);
-        deck.add(new LeaderCard(3, resourceReq, devCardReq, LeaderCardType.STORAGE, input));
+                deck.add(new LeaderCard(card.get("victoryPoints").getAsInt(), resourceReq, devCardReq, type, input, card.get("id").getAsInt()));
 
-        //55
-        resourceReq.clear();
-        resourceReq.put(Resource.SERVANT, 5);
-        input.clear();
-        input.put(Resource.SHIELD, 2);
-        deck.add(new LeaderCard(3, resourceReq, devCardReq, LeaderCardType.STORAGE, input));
-
-        //56
-        resourceReq.clear();
-        resourceReq.put(Resource.SHIELD, 5);
-        input.clear();
-        input.put(Resource.COIN, 2);
-        deck.add(new LeaderCard(3, resourceReq, devCardReq, LeaderCardType.STORAGE, input));
-
-        //57
-        resourceReq.clear();
-        devCardReq.put(new DevCardType(0, Colour.YELLOW), 2);
-        devCardReq.put(new DevCardType(0, Colour.BLUE), 1);
-        input.clear();
-        input.put(Resource.SERVANT, 1);
-        deck.add(new LeaderCard(5, resourceReq, devCardReq, LeaderCardType.TRANSMUTATION, input));
-
-        //58
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(0, Colour.GREEN), 2);
-        devCardReq.put(new DevCardType(0, Colour.PURPLE), 1);
-        input.clear();
-        input.put(Resource.SHIELD, 1);
-        deck.add(new LeaderCard(5, resourceReq, devCardReq, LeaderCardType.TRANSMUTATION, input));
-
-        //59
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(0, Colour.BLUE), 2);
-        devCardReq.put(new DevCardType(0, Colour.YELLOW), 1);
-        input.clear();
-        input.put(Resource.STONE, 1);
-        deck.add(new LeaderCard(5, resourceReq, devCardReq, LeaderCardType.TRANSMUTATION, input));
-
-        //60
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(0, Colour.PURPLE), 2);
-        devCardReq.put(new DevCardType(0, Colour.GREEN), 1);
-        input.clear();
-        input.put(Resource.COIN, 1);
-        deck.add(new LeaderCard(5, resourceReq, devCardReq, LeaderCardType.TRANSMUTATION, input));
-
-        //61
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(2, Colour.YELLOW), 1);
-        input.clear();
-        input.put(Resource.SHIELD, 1);
-        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input));
-
-        //62
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(2, Colour.BLUE), 1);
-        input.clear();
-        input.put(Resource.SERVANT, 1);
-        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input));
-
-        //63
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(2, Colour.PURPLE), 1);
-        input.clear();
-        input.put(Resource.STONE, 1);
-        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input));
-
-        //64
-        devCardReq.clear();
-        devCardReq.put(new DevCardType(2, Colour.GREEN), 1);
-        input.clear();
-        input.put(Resource.COIN, 1);
-        deck.add(new LeaderCard(4, resourceReq, devCardReq, LeaderCardType.PRODPOWER, input));
+                resourceReq.clear();
+                devCardReq.clear();
+                input.clear();
+            }
+        }
 
         Collections.shuffle(deck);
     }

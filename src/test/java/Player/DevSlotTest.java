@@ -27,17 +27,17 @@ class DevSlotTest {
                 new Resource[]  {Resource.COIN},
                 new int[]       {1},
                 new Resource[]  {Resource.FAITH},
-                new int[]       {1}));
+                new int[]       {1}),1);
         DevCard card2 = new DevCard(1, cost, new DevCardType(2, Colour.BLUE), new ProductionPower(
                 new Resource[]  {Resource.STONE},
                 new int[]       {1},
                 new Resource[]  {Resource.SHIELD},
-                new int[]       {1}));
+                new int[]       {1}),2);
         DevCard card3 = new DevCard(1, cost, new DevCardType(1, Colour.BLUE), new ProductionPower(
                 new Resource[]  {Resource.COIN},
                 new int[]       {1},
                 new Resource[]  {Resource.SHIELD},
-                new int[]       {1}));
+                new int[]       {1}),3);
 
         slot.addCard(card1);
         slot.addCard(card2);

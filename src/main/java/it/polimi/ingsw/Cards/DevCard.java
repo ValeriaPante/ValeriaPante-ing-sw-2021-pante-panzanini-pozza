@@ -5,7 +5,6 @@ import it.polimi.ingsw.Abilities.ProductionPower.ProductionPower;
 import java.util.*;
 
 public class DevCard extends CardVP implements Cloneable{
-    public static int progressiveId = 1;
 
     private final EnumMap<Resource, Integer> cost;
     private final DevCardType type;
@@ -13,11 +12,7 @@ public class DevCard extends CardVP implements Cloneable{
     private final int id;
     private boolean selected;
 
-    private static int getNextId(){
-        return progressiveId++;
-    }
-
-    public DevCard(int victoryPoints, EnumMap<Resource, Integer> cost, DevCardType type, ProductionPower prodPower) throws IllegalArgumentException{
+    public DevCard(int victoryPoints, EnumMap<Resource, Integer> cost, DevCardType type, ProductionPower prodPower, int id) throws IllegalArgumentException{
         super(victoryPoints);
 
         if (cost == null || type == null || prodPower == null){
@@ -27,7 +22,7 @@ public class DevCard extends CardVP implements Cloneable{
         this.cost = cost.clone();
         this.type = new DevCardType(type.getLevel(), type.getColor());
         this.prodPower = new ProductionPower(prodPower.getInput(), prodPower.getOutput());
-        this.id = getNextId();
+        this.id = id;
         this.selected = false;
     }
 

@@ -56,8 +56,4 @@ public class DevSlot{
         return result;
     }
 
-    public void select(){
-        this.selected = !this.selected;
-    }
-
 }

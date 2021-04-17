@@ -25,7 +25,7 @@ class DevCardTest {
                 new Resource[]  {Resource.COIN},
                 new int[]       {1},
                 new Resource[]  {Resource.FAITH},
-                new int[]       {1}));
+                new int[]       {1}),1);
     }
 
     @Test

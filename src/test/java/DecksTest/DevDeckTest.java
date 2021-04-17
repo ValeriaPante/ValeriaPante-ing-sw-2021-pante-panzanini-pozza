@@ -35,18 +35,20 @@ class DevDeckTest {
     @Test
     public void checksSelect(){
         int i = deck.getTopCard().getId();
-        deck.selectCard(i);
+        deck.selectTopCard();
         assertTrue(deck.getTopCard().isSelected());
 
-        deck.selectCard(i);
+        deck.selectTopCard();
         assertFalse(deck.getTopCard().isSelected());
     }
 
     @Test
-    public void checksSelectingRemovedCard(){
-        int i = deck.getTopCard().getId();
+    public void checksSelectingEmptyDeck(){
+        deck.draw();
+        deck.draw();
+        deck.draw();
         deck.draw();
 
-        assertThrows(IndexOutOfBoundsException.class, () -> deck.selectCard(i));
+        assertThrows(IndexOutOfBoundsException.class, () -> deck.selectTopCard());
     }
 }
