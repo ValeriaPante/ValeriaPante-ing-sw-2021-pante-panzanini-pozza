@@ -324,18 +324,18 @@ public class Controller {
         Depot stillToBeSet = new Depot();
 
         number = playerInput.nextInt(); //0 per riga, 1 per colonna
-        if (0 == number){       //Sceglie riga
-            do
-                number = playerInput.nextInt();
-            while(number > 2);
-            stillToBeSet.addEnumMap(table.getMarket().pickRow(number));
-        }
-        else{           //Sceglie colonna
-            do
-                number = playerInput.nextInt();
-            while(number > 3);
-            stillToBeSet.addEnumMap(table.getMarket().pickColumn(number));
-        }
+        //if (0 == number){       //Sceglie riga
+            //do
+            //    number = playerInput.nextInt();
+            //while(number > 2);
+            //stillToBeSet.addEnumMap(table.getMarket().pickRow(number));
+        //}
+        //else{           //Sceglie colonna
+            //do
+            //    number = playerInput.nextInt();
+            //while(number > 3);
+            //stillToBeSet.addEnumMap(table.getMarket().pickColumn(number));
+        //}
 
         if (stillToBeSet.content().containsKey(Resource.FAITH))
             faithTrackController.movePlayerOfTurn(table, stillToBeSet.content().get(Resource.FAITH));

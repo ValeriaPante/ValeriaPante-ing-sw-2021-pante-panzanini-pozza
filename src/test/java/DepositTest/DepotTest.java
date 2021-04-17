@@ -269,7 +269,7 @@ public class DepotTest {
         assertThrows(NullPointerException.class, () -> this.testingDepot.contains(null));
     }
 
-    @Test
+    /*@Test
     @DisplayName("pay test (Exceptions and happy flow)")
     public void testP(){
         EnumMap<Resource, Integer> enumMap= new EnumMap<>(Resource.class){{
@@ -291,5 +291,5 @@ public class DepotTest {
 
         assertEquals(this.testingDepot.content(), new EnumMap<Resource, Integer>(Resource.class) {{ put(Resource.SERVANT, 1); }});
         assertThrows(NullPointerException.class, () -> this.testingDepot.pay(null));
-    }
+    }*/
 }

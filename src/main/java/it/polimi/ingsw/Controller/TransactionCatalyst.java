@@ -78,8 +78,8 @@ public class TransactionCatalyst {
         if ( !this.isCommittable())
             throw new IndexOutOfBoundsException();
 
-        for (Map.Entry<Payable, Depot> elementOfMap : howToPay.entrySet())
-            elementOfMap.getKey().pay(elementOfMap.getValue().content());
+        //for (Map.Entry<Payable, Depot> elementOfMap : howToPay.entrySet())
+            //elementOfMap.getKey().pay(elementOfMap.getValue().content());
     }
 
     //this method will not return a copy of the Payable, so be careful

@@ -133,6 +133,9 @@ public class Shelf implements Payable{
     }
 
     @Override
+    public void pay(){}
+
+    /*@Override
     public void pay(EnumMap<Resource, Integer> removeMap) throws NullPointerException, IllegalArgumentException{
         if (removeMap == null)
             throw new NullPointerException();
@@ -147,7 +150,7 @@ public class Shelf implements Payable{
         usage =- removeMap.get(resType);
         if (0 == usage)
             resType = null;
-    }
+    }*/
 
     public String toString(){
         return "Shelf" + capacity;

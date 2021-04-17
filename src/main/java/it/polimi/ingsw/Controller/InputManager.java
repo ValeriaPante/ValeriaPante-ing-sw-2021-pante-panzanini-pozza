@@ -14,8 +14,8 @@ public class InputManager {
 
     private Payable legendStorage(String symbol, RealPlayer player) throws IllegalArgumentException{
         switch (symbol){
-            case("DE"):
-                return player.getDepot();
+            //case("DE"):
+                //return player.getDepot();
             case("S1"):
                 return player.getShelves()[0];
             case("S2"):
