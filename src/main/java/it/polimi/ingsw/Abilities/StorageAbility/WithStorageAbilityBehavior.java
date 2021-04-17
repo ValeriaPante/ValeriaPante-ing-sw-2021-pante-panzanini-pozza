@@ -45,6 +45,7 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
 
     public void select(Resource toSelect, int position){
         State[] elements = this.contentState.get(toSelect);
+        position -= 1;
         if (elements != null){
             if (position<=elements.length && elements[position]!=State.UNPRESENT){
                 if (elements[position] == State.NOTSELECTED){
@@ -88,7 +89,7 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
             for (int i=0; i<elements.length; i++){
                 if (elements[i]==State.UNPRESENT){
                     elements[i]=State.NOTSELECTED;
-                    break;
+                    return;
                 }
             }
         }
@@ -97,9 +98,13 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
     public void singleRemove(Resource toRemove){
         State[] elements = this.contentState.get(toRemove);
         if (elements != null){
-            if (elements[elements.length-1]!=State.UNPRESENT){
-                elements[elements.length-1] = State.UNPRESENT;
+            for (int i=0; i<elements.length-1; i++){
+                if (elements[i]!=State.UNPRESENT && elements[i+1]==State.UNPRESENT){
+                    elements[i] = State.UNPRESENT;
+                    return;
+                }
             }
+            elements[elements.length-1] = State.UNPRESENT;
         }
     }
 

@@ -42,10 +42,10 @@ public class AbilityTransmutationTest {
         assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getContent());
         assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getCapacity());
         assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.contains(new EnumMap<>(Resource.class)));
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.pay(new EnumMap<>(Resource.class)));
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.select(Resource.ANY));
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.deselect(Resource.ANY));
+        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.pay());
+        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.select(Resource.ANY, 6));
         assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getSelected());
+        //manca la toString
     }
 
     @Test
