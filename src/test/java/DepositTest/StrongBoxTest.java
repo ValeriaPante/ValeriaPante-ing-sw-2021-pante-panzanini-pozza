@@ -13,14 +13,15 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StrongBoxTest {
     private StrongBox testingSB;
 
-    @BeforeEach
-    public void initialise(){
-        this.testingSB = new StrongBox();
-    }
+    //@BeforeEach
+    //public void initialise(){
+    //    this.testingSB = new StrongBox();
+    //}
 
     @Test
     @DisplayName("singleSelection test (Exceptions and happy flow)")
     public void testSS(){
+        this.testingSB = new StrongBox();
         assertThrows(IndexOutOfBoundsException.class, () -> this.testingSB.singleSelection(Resource.COIN));
 
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class){{
@@ -56,6 +57,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("singleDeselection test (Exceptions and happy flow)")
     public void testSD(){
+        this.testingSB = new StrongBox();
         assertThrows(IndexOutOfBoundsException.class, () -> this.testingSB.singleDeselection(Resource.COIN));
 
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class){{
@@ -107,6 +109,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("mapSelection test (Exceptions and happy flow)")
     public void testMS(){
+        this.testingSB = new StrongBox();
         assertThrows(IndexOutOfBoundsException.class, () -> this.testingSB.mapSelection(new EnumMap<>(Resource.class){{
             put(Resource.SERVANT, 2);
         }}));
@@ -154,6 +157,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("mapDeselection test (Exceptions and happy flow)")
     public void testMD(){
+        this.testingSB = new StrongBox();
         assertThrows(IndexOutOfBoundsException.class, () -> this.testingSB.mapDeselection(new EnumMap<>(Resource.class){{
             put(Resource.SERVANT, 2);
         }}));
@@ -214,6 +218,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("clearSelection() test")
     public void testCSLN(){
+        this.testingSB = new StrongBox();
         assertFalse(this.testingSB.areThereSelections());
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class){{
             put(Resource.COIN, 30);
@@ -231,6 +236,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("addEnumMap test (Exceptions and happy flow)")
     public void testAE(){
+        this.testingSB = new StrongBox();
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class) {{
             put(Resource.SHIELD, 3);
             put(Resource.COIN, 2);
@@ -271,6 +277,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("content() test")
     public void testCT(){
+        this.testingSB = new StrongBox();
         assertTrue(this.testingSB.isEmpty());
         assertNull(this.testingSB.content());
 
@@ -300,6 +307,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("isEmpty() test")
     public void testIE(){
+        this.testingSB = new StrongBox();
         assertTrue(this.testingSB.isEmpty());
 
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class){{
@@ -318,6 +326,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("areThereSelections() test")
     public void testATS(){
+        this.testingSB = new StrongBox();
         assertFalse(this.testingSB.areThereSelections());
 
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class){{
@@ -349,6 +358,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("countAll() test")
     public void testCA(){
+        this.testingSB = new StrongBox();
         assertEquals(this.testingSB.countAll(), 0);
 
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class) {{
@@ -375,6 +385,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("getSelection() test")
     public void testGS(){
+        this.testingSB = new StrongBox();
         assertNull(this.testingSB.getSelection());
 
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class) {{
@@ -408,6 +419,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("contains test (Exceptions and happy flow)")
     public void testCS(){
+        this.testingSB = new StrongBox();
         assertThrows(NullPointerException.class, () -> this.testingSB.contains(null));
 
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class) {{
@@ -442,6 +454,7 @@ public class StrongBoxTest {
     @Test
     @DisplayName("pay() test (Exceptions and happy flow)")
     public void testP(){
+        this.testingSB = new StrongBox();
         assertThrows(IndexOutOfBoundsException.class, () -> this.testingSB.pay());
 
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class) {{

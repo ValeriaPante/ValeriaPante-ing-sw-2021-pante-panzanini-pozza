@@ -113,8 +113,21 @@ public class DepotTest {
         testingDepot.singleRemove(Resource.SHIELD);
 
         assertEquals(this.testingDepot.content(), enumMap);
-
         assertThrows(NullPointerException.class, () -> this.testingDepot.addEnumMap(null));
+
+        enumMap.clear();
+        testingDepot.clearDepot();
+        Integer outsideChange = 4;
+        enumMap.put(Resource.SERVANT, outsideChange);
+        testingDepot.addEnumMap(enumMap);
+
+        assertEquals(this.testingDepot.content(), enumMap);
+
+        outsideChange = 10;
+
+        assertEquals(this.testingDepot.content(), new EnumMap<>(Resource.class) {{
+            put(Resource.SERVANT, 4);
+        }});
     }
 
     @Test

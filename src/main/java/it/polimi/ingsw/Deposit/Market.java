@@ -4,12 +4,13 @@ import it.polimi.ingsw.Enums.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.concurrent.SynchronousQueue;
 
 public class Market {
     private final Resource[][] grid;   //first position row, second position column: [row][column]
     private Resource slide;
-    int posSelected;        //if ==-1 not initialized
-    int isRowSelected;      //if ==1 selected row, ==0 column, ==-1 not initialized
+    private int posSelected;        //if ==-1 not initialized
+    private int isRowSelected;      //if ==1 selected row, ==0 column, ==-1 not initialized
 
     public synchronized void selectColumn(int columnSelected) throws IndexOutOfBoundsException{
         if (columnSelected > 3)
@@ -89,7 +90,7 @@ public class Market {
         return gridCopy;
     }
 
-    public EnumMap<Resource, Integer> takeSelection() throws IllegalAccessException{
+    public synchronized EnumMap<Resource, Integer> takeSelection() throws IllegalAccessException{
         if (isRowSelected == -1)
             throw new IllegalAccessException(); //there was no previous selection!
 
@@ -119,10 +120,30 @@ public class Market {
     }
 
     //it can be used when the player decide to not take anything from the market but had a previous selection
-    public synchronized void restoreState(){
+    public synchronized void deleteSelection(){
         deselectPreviousSelection();
         isRowSelected = -1;
         posSelected = -1;
+    }
+
+    public synchronized EnumMap<Resource, Integer> getSelection(){
+        if (isRowSelected == -1)
+            return null;
+
+        EnumMap<Resource, Integer> returningMap = new EnumMap<>(Resource.class);
+        if (isRowSelected == 1){
+            for (int i=0; i<4; i++)
+                returningMap.put(grid[posSelected][i], returningMap.get(grid[posSelected][i]));
+        }
+        return null;
+    }
+
+    public synchronized boolean isRowSelected(){
+        return isRowSelected == 1;
+    }
+
+    public synchronized  boolean areThereSelections(){
+        return isRowSelected == -1;
     }
 
     public Market() {
