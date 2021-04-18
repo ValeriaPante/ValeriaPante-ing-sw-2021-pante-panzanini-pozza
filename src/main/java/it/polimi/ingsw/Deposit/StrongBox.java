@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Deposit;
 
 import it.polimi.ingsw.Enums.Resource;
-
 import java.util.EnumMap;
 
 public class StrongBox implements Payable{
@@ -13,7 +12,7 @@ public class StrongBox implements Payable{
         selection = new Depot();
     }
 
-    public void singleSelection(Resource resourceSelected) throws IndexOutOfBoundsException{
+    public synchronized void singleSelection(Resource resourceSelected) throws IndexOutOfBoundsException{
         selection.singleAdd(resourceSelected);
 
         if ( !inside.contains(selection.content())){
@@ -22,7 +21,7 @@ public class StrongBox implements Payable{
         }
     }
 
-    public void mapSelection(EnumMap<Resource, Integer> mapSelected) throws IndexOutOfBoundsException{
+    public synchronized void mapSelection(EnumMap<Resource, Integer> mapSelected) throws IndexOutOfBoundsException{
         selection.addEnumMap(mapSelected);
 
         if ( !inside.contains(selection.content())){
@@ -31,21 +30,21 @@ public class StrongBox implements Payable{
         }
     }
 
-    public void singleDeselection(Resource resourceSelected) throws IndexOutOfBoundsException{
+    public synchronized void singleDeselection(Resource resourceSelected) throws IndexOutOfBoundsException{
         if(selection.content().get(resourceSelected) < 1)
             throw new IndexOutOfBoundsException();
 
         selection.singleRemove(resourceSelected);
     }
 
-    public void mapDeselection(EnumMap<Resource, Integer> mapSelected) throws IndexOutOfBoundsException{
+    public synchronized void mapDeselection(EnumMap<Resource, Integer> mapSelected) throws IndexOutOfBoundsException{
         if (!selection.contains(mapSelected))
             throw new IndexOutOfBoundsException();
 
         selection.removeEnumMapWhatPossible(mapSelected);
     }
 
-    public void addEnumMap(EnumMap<Resource, Integer> toBeAdded){
+    public synchronized void addEnumMap(EnumMap<Resource, Integer> toBeAdded){
         inside.addEnumMap(toBeAdded);
     }
 
@@ -53,7 +52,7 @@ public class StrongBox implements Payable{
         selection.clearDepot();
     }
 
-    public EnumMap<Resource, Integer> content(){
+    public synchronized EnumMap<Resource, Integer> content(){
         return inside.content();
     }
 
@@ -61,11 +60,11 @@ public class StrongBox implements Payable{
         return "StrongBox";
     }
 
-    public boolean isEmpty(){
+    public synchronized boolean isEmpty(){
         return inside.isEmpty();
     }
 
-    public boolean areThereSelections(){
+    public synchronized boolean areThereSelections(){
         return selection.isEmpty();
     }
 
@@ -88,5 +87,6 @@ public class StrongBox implements Payable{
             throw new IndexOutOfBoundsException();
 
         inside.removeEnumMapIfPossible(selection.content());
+        selection.clearDepot();
     }
 }
