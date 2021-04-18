@@ -31,7 +31,7 @@ public class StrongBox implements Payable{
     }
 
     public synchronized void singleDeselection(Resource resourceSelected) throws IndexOutOfBoundsException{
-        if(selection.content().get(resourceSelected) < 1)
+        if( (selection.content() == null) || (selection.content().get(resourceSelected) == null) || (selection.content().get(resourceSelected) < 1))
             throw new IndexOutOfBoundsException();
 
         selection.singleRemove(resourceSelected);
@@ -65,7 +65,7 @@ public class StrongBox implements Payable{
     }
 
     public synchronized boolean areThereSelections(){
-        return selection.isEmpty();
+        return !selection.isEmpty();
     }
 
     public synchronized int countAll(){
@@ -77,7 +77,7 @@ public class StrongBox implements Payable{
     }
 
     @Override
-    public synchronized boolean contains(EnumMap<Resource, Integer> checkMap){
+    public synchronized boolean contains(EnumMap<Resource, Integer> checkMap) throws NullPointerException{
         return inside.contains(checkMap);
     }
 

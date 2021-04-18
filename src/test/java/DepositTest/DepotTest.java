@@ -8,11 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.EnumMap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DepotTest {
     private Depot testingDepot;
@@ -51,7 +47,7 @@ public class DepotTest {
 
         Depot nullDepot = new Depot();
 
-        assertEquals(nullDepot.content(), null);
+        assertNull(nullDepot.content());
     }
 
     @Test
@@ -134,7 +130,7 @@ public class DepotTest {
         }};
 
         assertEquals(this.testingDepot.removeEnumMapIfPossible(enumMap), enumMap);
-        assertEquals(this.testingDepot.content(), null);
+        assertNull(this.testingDepot.content());
 
         testingDepot.addEnumMap(enumMap);
         enumMap.put(Resource.COIN, 1);
@@ -161,20 +157,20 @@ public class DepotTest {
             addEnumMap(enumMap);
         }};
 
-        assertEquals(this.testingDepot.removeEnumMapWhatPossible(enumMap), null);
-        assertEquals(this.testingDepot.content(), null);
+        assertNull(this.testingDepot.removeEnumMapWhatPossible(enumMap));
+        assertNull(this.testingDepot.content());
 
         testingDepot.addEnumMap(enumMap);
         enumMap.remove(Resource.STONE);
 
-        assertEquals(this.testingDepot.removeEnumMapWhatPossible(enumMap), null);
+        assertNull(this.testingDepot.removeEnumMapWhatPossible(enumMap));
         assertEquals(this.testingDepot.content(), new EnumMap<Resource, Integer>(Resource.class){{ put(Resource.STONE, 2); }});
 
         testingDepot.addEnumMap(enumMap);
         enumMap.put(Resource.STONE, 5);
 
         assertEquals(this.testingDepot.removeEnumMapWhatPossible(enumMap), new EnumMap<Resource, Integer>(Resource.class){{ put(Resource.STONE, 3); }});
-        assertEquals(this.testingDepot.content(), null);
+        assertNull(this.testingDepot.content());
         assertThrows(NullPointerException.class, () -> this.testingDepot.removeEnumMapWhatPossible(null));
     }
 
@@ -183,14 +179,14 @@ public class DepotTest {
     public void testIE(){
         testingDepot = new Depot();
 
-        assertEquals(this.testingDepot.isEmpty(), true);
+        assertTrue(this.testingDepot.isEmpty());
 
         EnumMap<Resource, Integer> enumMap= new EnumMap<>(Resource.class){{
             put(Resource.COIN, 3);
         }};
         testingDepot.addEnumMap(enumMap);
 
-        assertEquals(this.testingDepot.isEmpty(), false);
+        assertFalse(this.testingDepot.isEmpty());
     }
 
     @Test
@@ -224,13 +220,13 @@ public class DepotTest {
 
         testingDepot.addEnumMap(enumMap);
 
-        assertEquals(this.testingDepot.isMissing(enumMap), null);
+        assertNull(this.testingDepot.isMissing(enumMap));
         assertEquals(this.testingDepot.content(), enumMap);
 
         EnumMap<Resource, Integer> enumMapClone = enumMap.clone();
         enumMap.remove(Resource.COIN);
 
-        assertEquals(this.testingDepot.isMissing(enumMap), null);
+        assertNull(this.testingDepot.isMissing(enumMap));
         assertEquals(this.testingDepot.content(), enumMapClone);
 
         enumMap.put(Resource.COIN, 10);
@@ -250,24 +246,24 @@ public class DepotTest {
             put(Resource.SERVANT, 1);
         }};
 
-        assertEquals(this.testingDepot.contains(enumMap), false);
-        assertEquals(this.testingDepot.content(), null);
+        assertFalse(this.testingDepot.contains(enumMap));
+        assertNull(this.testingDepot.content());
 
         testingDepot.addEnumMap(enumMap);
 
-        assertEquals(this.testingDepot.contains(enumMap), true);
+        assertTrue(this.testingDepot.contains(enumMap));
         assertEquals(this.testingDepot.content(), enumMap);
 
         EnumMap<Resource, Integer> enumMapCloned = enumMap.clone();
         enumMap.remove(Resource.SERVANT);
 
-        assertEquals(this.testingDepot.contains(enumMap), true);
+        assertTrue(this.testingDepot.contains(enumMap));
         assertEquals(this.testingDepot.content(), enumMapCloned);
 
         testingDepot.singleRemove(Resource.COIN);
         enumMapCloned.put(Resource.COIN, 4);
 
-        assertEquals(this.testingDepot.contains(enumMap), false);
+        assertFalse(this.testingDepot.contains(enumMap));
         assertEquals(this.testingDepot.content(), enumMapCloned);
         assertThrows(NullPointerException.class, () -> this.testingDepot.contains(null));
     }
@@ -289,12 +285,14 @@ public class DepotTest {
 
         assertEquals(this.testingDepot.content(), containedEnumMap);
         assertFalse(this.testingDepot.isEmpty());
+        assertEquals(this.testingDepot.countAll(), 3);
 
         testingDepot.clearDepot();
 
         assertTrue(testingDepot.isEmpty());
+        assertEquals(this.testingDepot.countAll(), 0);
         assertNotEquals(this.testingDepot.content(), containedEnumMap);
-        assertEquals(this.testingDepot.content(), null);
+        assertNull(this.testingDepot.content());
     }
 
     /*@Test
