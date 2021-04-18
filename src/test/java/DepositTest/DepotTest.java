@@ -10,6 +10,9 @@ import java.util.EnumMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 public class DepotTest {
     private Depot testingDepot;
@@ -267,6 +270,31 @@ public class DepotTest {
         assertEquals(this.testingDepot.contains(enumMap), false);
         assertEquals(this.testingDepot.content(), enumMapCloned);
         assertThrows(NullPointerException.class, () -> this.testingDepot.contains(null));
+    }
+
+    @Test
+    @DisplayName("clearDepot() test")
+    public void testCD(){
+        testingDepot = new Depot(){{
+            singleAdd(Resource.COIN);
+            singleAdd(Resource.SHIELD);
+            singleAdd(Resource.SERVANT);
+        }};
+
+        EnumMap<Resource,Integer> containedEnumMap = new EnumMap<>(Resource.class){{
+            put(Resource.COIN, 1);
+            put(Resource.SHIELD, 1);
+            put(Resource.SERVANT, 1);
+        }};
+
+        assertEquals(this.testingDepot.content(), containedEnumMap);
+        assertFalse(this.testingDepot.isEmpty());
+
+        testingDepot.clearDepot();
+
+        assertTrue(testingDepot.isEmpty());
+        assertNotEquals(this.testingDepot.content(), containedEnumMap);
+        assertEquals(this.testingDepot.content(), null);
     }
 
     /*@Test

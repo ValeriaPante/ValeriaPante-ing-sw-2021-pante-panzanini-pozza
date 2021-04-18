@@ -114,20 +114,6 @@ public class Depot{
         return true;
     }
 
-    /*
-    //this method has to be called only if the EnumMap can be removed!
-    public void pay(EnumMap<Resource, Integer> removeMap) throws NullPointerException{
-        if (removeMap == null)
-            throw new NullPointerException();
-
-        for (Resource r : Resource.values())
-            if (removeMap.containsKey(r))
-                inside.put(r, inside.get(r) - removeMap.get(r));
-
-        removeResourceIfZeroOrLess();
-    }
-    */
-
     public String toString(){
         return "Deposit";
     }
@@ -142,4 +128,18 @@ public class Depot{
     public synchronized void clearDepot(){
         inside.clear();
     }
+
+    /*
+    //this method has to be called only if the EnumMap can be removed!
+    public void pay(EnumMap<Resource, Integer> removeMap) throws NullPointerException{
+        if (removeMap == null)
+            throw new NullPointerException();
+
+        for (Resource r : Resource.values())
+            if (removeMap.containsKey(r))
+                inside.put(r, inside.get(r) - removeMap.get(r));
+
+        removeResourceIfZeroOrLess();
+    }
+    */
 }
