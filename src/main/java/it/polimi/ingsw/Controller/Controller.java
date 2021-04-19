@@ -286,7 +286,7 @@ public class Controller {
     private boolean notDepot(RealPlayer player, String inputPLayer){
         InputManager input = InputManager.getInstance();
         SelectResourceOutput output = input.selectResourcesInStorages(inputPLayer, player);
-        if (output.getStorage() == player.getDepot())
+        if (output.getStorage() == player.getStrongBox())
             return false;
 
         return true;

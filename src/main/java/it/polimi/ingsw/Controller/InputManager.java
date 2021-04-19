@@ -14,8 +14,8 @@ public class InputManager {
 
     private Payable legendStorage(String symbol, RealPlayer player) throws IllegalArgumentException{
         switch (symbol){
-            //case("DE"):
-                //return player.getDepot();
+            case("SB"):
+                return player.getStrongBox();
             case("S1"):
                 return player.getShelves()[0];
             case("S2"):
@@ -35,7 +35,7 @@ public class InputManager {
                 }
                 else throw new IllegalArgumentException("Non hai la seconda leadercards");
             default:
-                throw new IllegalArgumentException("Inserisci DE o S1 o S2 o S3 o L1 o L2");
+                throw new IllegalArgumentException("Inserisci SB o S1 o S2 o S3 o L1 o L2");
         }
     }
 
@@ -121,11 +121,11 @@ public class InputManager {
         }
     }
 
-    //^(([-](L[1-2]|DE|S[1-3]))|(L[1-2]|DE|S[1-3])((: -?[1-9]\d* (CO|SE|SH|ST))(, -?[1-9]\d* (CO|SE|SH|ST))*))$
+    //^(([-](L[1-2]|SB|S[1-3]))|(L[1-2]|SB|S[1-3])((: -?[1-9]\d* (CO|SE|SH|ST))(, -?[1-9]\d* (CO|SE|SH|ST))*))$
     public SelectResourceOutput selectResourcesInStorages(String string, RealPlayer player) throws IllegalArgumentException{
         string = string.trim();
         string = string.toUpperCase();
-        if(!string.matches("^(([-](L[1-2]|DE|S[1-3]))|(L[1-2]|DE|S[1-3])((: -?[1-9]\\d* (CO|SE|SH|ST))(, -?[1-9]\\d* (CO|SE|SH|ST))*))$")){
+        if(!string.matches("^(([-](L[1-2]|SB|S[1-3]))|(L[1-2]|SB|S[1-3])((: -?[1-9]\\d* (CO|SE|SH|ST))(, -?[1-9]\\d* (CO|SE|SH|ST))*))$")){
             throw new IllegalArgumentException();
         }
         else{
@@ -217,7 +217,7 @@ public class InputManager {
             //parte il pagamento
             //catalyst.pay ???
         }
-        else if(!string.matches("^(([-](L[1-2]|DE|S[1-3]))|(L[1-2]|DE|S[1-3])((: -?[1-9]\\d* (CO|SE|SH|ST))(, -?[1-9]\\d* (CO|SE|SH|ST))*))$")){
+        else if(!string.matches("^(([-](L[1-2]|SB|S[1-3]))|(L[1-2]|SB|S[1-3])((: -?[1-9]\\d* (CO|SE|SH|ST))(, -?[1-9]\\d* (CO|SE|SH|ST))*))$")){
             throw new IllegalArgumentException();
         }
         else{

@@ -4,8 +4,9 @@ import it.polimi.ingsw.Abilities.ProductionPower.ProductionPower;
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Cards.PopeFavorCard;
 import it.polimi.ingsw.Controller.TransactionCatalyst;
-import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.Shelf;
+import it.polimi.ingsw.Deposit.Depot;
+import it.polimi.ingsw.Deposit.StrongBox;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
@@ -22,7 +23,7 @@ public class RealPlayer extends Player{
     private boolean actionDone;
     private DevSlot[] devSlots;
     private Shelf[] shelves;
-    private Depot depot;
+    private StrongBox strongBox;
     private ArrayList<LeaderCard> leaderCards;
     private PopeFavorCard[] popeFavorCards;
     private BasicProductionPower basicProductionPower;
@@ -59,7 +60,7 @@ public class RealPlayer extends Player{
        this.actionDone = false;
        this.initialiseDevSlots();
        this.initialiseShelves();
-       this.depot = new Depot();
+       this.strongBox = new StrongBox();
        this.leaderCards = new ArrayList<>();
        this.initialisePopeFavorCards();
        this.basicProductionPower = new BasicProductionPower();
@@ -107,8 +108,8 @@ public class RealPlayer extends Player{
     public Shelf[] getShelves(){
         return Arrays.copyOf(this.shelves, this.shelves.length);
     }
-    public Depot getDepot(){
-        return this.depot;
+    public StrongBox getStrongBox(){
+        return this.strongBox;
     }
     public LeaderCard[] getLeaderCards(){
         return this.leaderCards.toArray(new LeaderCard[0]);
@@ -150,8 +151,8 @@ public class RealPlayer extends Player{
     private EnumMap<Resource, Integer> resourcesOwned() {
         Depot allResources = new Depot();
 
-        if (!this.depot.isEmpty())
-            allResources.addEnumMap(this.depot.content());
+        if (!this.strongBox.isEmpty())
+            allResources.addEnumMap(this.strongBox.content());
 
         for (Shelf shelf : this.shelves)
             if (!shelf.isEmpty())
