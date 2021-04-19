@@ -4,35 +4,28 @@ import it.polimi.ingsw.Enums.Resource;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.concurrent.SynchronousQueue;
 
 public class Market {
     private final Resource[][] grid;   //first position row, second position column: [row][column]
     private Resource slide;
-    private int posSelected;        //if ==-1 not initialized
+    private int posSelected;        //if ==-1 not initialized, interval [-1, 3];
     private int isRowSelected;      //if ==1 selected row, ==0 column, ==-1 not initialized
 
     public synchronized void selectColumn(int columnSelected) throws IndexOutOfBoundsException{
         if (columnSelected > 3)
             throw new IndexOutOfBoundsException();
 
-        if ((isRowSelected == 0) && (posSelected == columnSelected)) //it is used just to speed up --> no toggle selection here!
-            return;
-
-        if(isRowSelected != -1)
-            deselectPreviousSelection();
         isRowSelected = 0;
         posSelected = columnSelected;
-        for (int i=0; i<3; i++)
-            grid[i][posSelected].select();
     }
 
     private synchronized EnumMap<Resource, Integer> pickColumn(int chosenColumn) {
-        deselectPreviousSelection();
         EnumMap<Resource, Integer> returningMap = new EnumMap<>(Resource.class);
         for (int i=0; i<3; i++)
             returningMap.put(grid[i][chosenColumn], 1 + ( (returningMap.get(grid[i][chosenColumn]) == null) ? 0 : returningMap.get(grid[i][chosenColumn]) ));
         this.shiftColumn(chosenColumn);
+        posSelected = -1;
+        isRowSelected = -1;
         return returningMap;
     }
 
@@ -49,23 +42,17 @@ public class Market {
         if (rowSelected > 2)
             throw new IndexOutOfBoundsException();
 
-        if ((isRowSelected == 1) && (posSelected == rowSelected)) //it is used just to speed up --> no toggle selection here!
-            return;
-
-        if(isRowSelected != -1)
-            deselectPreviousSelection();
         isRowSelected = 1;
         posSelected = rowSelected;
-        for (int i=0; i<4; i++)
-            grid[posSelected][i].select();
     }
 
     private synchronized EnumMap<Resource, Integer> pickRow(int chosenRow) {
-        deselectPreviousSelection();
         EnumMap<Resource, Integer> returningMap = new EnumMap<>(Resource.class);
         for (int i=0; i<4; i++)
             returningMap.put(grid[chosenRow][i], 1 + ((returningMap.get(grid[chosenRow][i]) == null) ? 0 : returningMap.get(grid[chosenRow][i])) );
         this.shiftRow(chosenRow);
+        posSelected = -1;
+        isRowSelected = -1;
         return returningMap;
     }
 
@@ -90,9 +77,9 @@ public class Market {
         return gridCopy;
     }
 
-    public synchronized EnumMap<Resource, Integer> takeSelection() throws IllegalAccessException{
+    public synchronized EnumMap<Resource, Integer> takeSelection() throws IndexOutOfBoundsException{
         if (isRowSelected == -1)
-            throw new IllegalAccessException(); //there was no previous selection!
+            throw new IndexOutOfBoundsException(); //there was no previous selection!
 
         EnumMap<Resource, Integer> resourcesSelected;
         if (isRowSelected == 1)
@@ -108,34 +95,9 @@ public class Market {
         return slide;
     }
 
-    private synchronized void deselectPreviousSelection(){
-        if (isRowSelected == 1){
-            for (int i=0; i<4; i++)
-                grid[posSelected][i].select();
-        }
-        else{
-            for (int i=0; i<3; i++)
-                grid[i][posSelected].select();
-        }
-    }
-
-    //it can be used when the player decide to not take anything from the market but had a previous selection
     public synchronized void deleteSelection(){
-        deselectPreviousSelection();
         isRowSelected = -1;
         posSelected = -1;
-    }
-
-    public synchronized EnumMap<Resource, Integer> getSelection(){
-        if (isRowSelected == -1)
-            return null;
-
-        EnumMap<Resource, Integer> returningMap = new EnumMap<>(Resource.class);
-        if (isRowSelected == 1){
-            for (int i=0; i<4; i++)
-                returningMap.put(grid[posSelected][i], returningMap.get(grid[posSelected][i]));
-        }
-        return null;
     }
 
     public synchronized boolean isRowSelected(){
@@ -143,7 +105,14 @@ public class Market {
     }
 
     public synchronized  boolean areThereSelections(){
-        return isRowSelected == -1;
+        return isRowSelected != -1;
+    }
+
+    public synchronized int getPosSelected() throws IndexOutOfBoundsException{
+        if (posSelected == -1)
+            throw new IndexOutOfBoundsException(); //there was no selection!
+
+        return posSelected;
     }
 
     public Market() {

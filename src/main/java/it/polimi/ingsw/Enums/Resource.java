@@ -34,12 +34,4 @@ public enum Resource {
     //            throw new IllegalArgumentException();
     //    }
     //}
-
-    public void select(){
-        selected = !selected;
-    }
-
-    public boolean isSelected(){
-        return selected;
-    }
 }
