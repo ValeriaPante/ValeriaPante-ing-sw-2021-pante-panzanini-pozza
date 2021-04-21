@@ -18,20 +18,4 @@ public enum Resource {
     public /*static*/ Resource fromAlias(String alias) {
         return resourcesAlias.get(alias);
     }
-
-    //straight method
-    //public static Resource fromAlias(String aliasGiven) throws IllegalArgumentException{
-    //    switch (aliasGiven){
-    //        case ("CO"):
-    //            return Resource.COIN;
-    //        case ("ST"):
-    //            return Resource.STONE;
-    //        case ("SE"):
-    //            return Resource.SERVANT;
-    //        case ("SH"):
-    //            return Resource.SHIELD;
-    //        default:
-    //            throw new IllegalArgumentException();
-    //    }
-    //}
 }
