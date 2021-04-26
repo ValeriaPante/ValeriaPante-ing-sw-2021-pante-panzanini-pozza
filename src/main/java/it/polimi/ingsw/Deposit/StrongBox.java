@@ -52,6 +52,10 @@ public class StrongBox implements Payable{
         selection.clearDepot();
     }
 
+    public synchronized void clearContent(){
+        inside.clearDepot();
+    }
+
     public synchronized EnumMap<Resource, Integer> content(){
         return inside.content();
     }
