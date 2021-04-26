@@ -12,7 +12,7 @@ import it.polimi.ingsw.Player.RealPlayer;
 import java.util.ArrayList;
 import java.util.EnumMap;
 
-public class ResourceMoverController {
+public class MarketController extends SelectionController{
 //    2 tipi di metodi: uno per mettere le cose dentro la shelf, uno per togliere da dentro la shelf, in entrambi i casi bisogna
 //    fare l'azione opposta dalla mappa delle risorse ricevute dal mercato
 //    __ funzionamento attraverso selezione
@@ -28,7 +28,7 @@ public class ResourceMoverController {
     private final StrongBox stillToBeSetBox;
     private EnumMap<Resource, Integer> enumMap;
 
-    public ResourceMoverController(){
+    public MarketController(){
         this.player = null;
         this.stillToBeSetBox = new StrongBox();
         this.enumMap = new EnumMap<>(Resource.class);
@@ -419,4 +419,35 @@ public class ResourceMoverController {
         return specifiedLeaderCard;
     }
 
+    //Transmutation: da rifare
+    private void applyTransmutationAbility(LeaderCard leaderCardForAction, EnumMap<Resource, Integer> toBePlaced){
+        if(toBePlaced.get(Resource.WHITE) == null || toBePlaced.get(Resource.WHITE) == 0){
+            //messaggio: non hai palline bianche
+        } else {
+            for (EnumMap.Entry<Resource, Integer> entry : leaderCardForAction.getAbility().getWhiteInto().entrySet())
+                toBePlaced.put(entry.getKey(), toBePlaced.get(entry.getKey())+ entry.getValue()*toBePlaced.get(Resource.WHITE));
+            toBePlaced.remove(Resource.WHITE);
+        }
+    }
+
+    private void applyTransmutationAbility(LeaderCard leaderCardForAction, EnumMap<Resource, Integer> toBePlaced, int quantity){
+        for (EnumMap.Entry<Resource, Integer> entry : leaderCardForAction.getAbility().getWhiteInto().entrySet())
+            toBePlaced.put(entry.getKey(), toBePlaced.get(entry.getKey())+ entry.getValue()*quantity);
+    }
+
+    private void applyTransmutationAbility(LeaderCard leaderCardForAction1, LeaderCard leaderCardForAction2, EnumMap<Resource, Integer> toBePlaced, int firstQuantity, int secondQuantity) throws IndexOutOfBoundsException{
+        if(toBePlaced.get(Resource.WHITE) == null || toBePlaced.get(Resource.WHITE) == 0){
+            //messaggio: non hai palline bianche
+        } else {
+            while(firstQuantity + secondQuantity != toBePlaced.get(Resource.WHITE)){
+                System.out.println("The sum doesn't match with the number of whites you gained.");
+                throw new IndexOutOfBoundsException();
+            }
+
+            applyTransmutationAbility(leaderCardForAction1, toBePlaced, firstQuantity);
+            applyTransmutationAbility(leaderCardForAction2, toBePlaced, secondQuantity);
+            toBePlaced.remove(Resource.WHITE);
+
+        }
+    }
 }

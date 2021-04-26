@@ -1,7 +1,7 @@
 package ControllerTest;
 
 import it.polimi.ingsw.Cards.LeaderCard;
-import it.polimi.ingsw.Controller.ResourceMoverController;
+import it.polimi.ingsw.Controller.MarketController;
 import it.polimi.ingsw.Decks.LeaderDeck;
 import it.polimi.ingsw.Deposit.Shelf;
 import it.polimi.ingsw.Enums.Resource;
@@ -12,11 +12,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.EnumMap;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-public class ResourceMoverControllerTest {
+public class MarketControllerTest {
     private RealPlayer player;
-    private ResourceMoverController controller;
+    private MarketController controller;
 
     @Test
     @DisplayName("Swap testing 2L")
@@ -54,7 +52,7 @@ public class ResourceMoverControllerTest {
             }
         }
 
-        controller = new ResourceMoverController();
+        controller = new MarketController();
         controller.update(player, new EnumMap<>(Resource.class){{
             put(Resource.COIN, 2);
             put(Resource.SERVANT, 2);
@@ -80,7 +78,7 @@ public class ResourceMoverControllerTest {
 
         controller.exchange();
 
-        assertEquals();
+//        assertEquals();
     }
 
     @Test
@@ -120,7 +118,7 @@ public class ResourceMoverControllerTest {
             }
         }
 
-        controller = new ResourceMoverController();
+        controller = new MarketController();
         controller.update(player, new EnumMap<>(Resource.class){{
             put(Resource.COIN, 2);
             put(Resource.SERVANT, 2);
@@ -175,7 +173,7 @@ public class ResourceMoverControllerTest {
             }
         }
 
-        controller = new ResourceMoverController();
+        controller = new MarketController();
         controller.update(player, new EnumMap<>(Resource.class){{
             put(Resource.COIN, 2);
             put(Resource.SERVANT, 2);

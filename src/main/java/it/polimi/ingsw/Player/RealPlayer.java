@@ -3,7 +3,6 @@ package it.polimi.ingsw.Player;
 import it.polimi.ingsw.Abilities.ProductionPower.ProductionPower;
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Cards.PopeFavorCard;
-import it.polimi.ingsw.Controller.TransactionCatalyst;
 import it.polimi.ingsw.Deposit.Shelf;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.StrongBox;

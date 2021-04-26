@@ -52,7 +52,7 @@ public class StrongBox implements Payable{
         selection.clearDepot();
     }
 
-    public synchronized void clearContent(){
+    public synchronized void clear(){
         inside.clearDepot();
         selection.clearDepot();
     }

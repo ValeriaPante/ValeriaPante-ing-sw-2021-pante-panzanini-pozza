@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 
-public class ActivateProductionController {
+public class ProductionController extends CardActionController{
 
     //mi serve un modo per capire quali poteri di produzone sono già selezionati
     private ArrayList<ProductionPower> getSelectedProductionPowers(RealPlayer player){
@@ -184,7 +184,7 @@ public class ActivateProductionController {
             allInputs.addEnumMap(productionPower.getInput());
         }
 
-        ProductionPower allInputsCombined =  new ProductionPower(allInputs.content(), new EnumMap<>(Resource.class);
+        ProductionPower allInputsCombined =  new ProductionPower(allInputs.content(), new EnumMap<>(Resource.class));
         if (!this.isAffordableSomehow(allInputsCombined, player)){
             //eccezione / modifica nel model che l'ultima azione è scorretta
             //non ha abbastanza risorse per attivarli tutti
