@@ -7,12 +7,14 @@ import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.CantPutThisHere;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
+import it.polimi.ingsw.Game.Table;
+import it.polimi.ingsw.Deposit.StrongBox;
 
 import java.util.EnumMap;
 
 public class BuyDevCardController extends CardActionController{
-    //Buy Dev Card
-    //--------------------------------------------------------------------------------------------
+    private Table table;
+
     public void chooseDevCard(int chosenDeck){
         try {
             if(!table.getDevDecks()[chosenDeck - 1].isEmpty()) {
@@ -46,7 +48,9 @@ public class BuyDevCardController extends CardActionController{
         table.turnOf().setMacroTurnType(MacroTurnType.BUYNEWCARD);
         for(DevDeck deck: table.getDevDecks()){
             if(deck.getTopCard().isSelected()) {
-                table.turnOf().setToPay(deck.getTopCard().getCost());
+                StrongBox temp = table.turnOf().getSupportContainer();
+                temp.clear();
+                temp.addEnumMap(deck.getTopCard().getCost());
                 break;
             }
         }
@@ -54,24 +58,21 @@ public class BuyDevCardController extends CardActionController{
 
     public void applyDiscountAbility(LeaderCard card){
 
-        EnumMap<Resource, Integer> toBePaid = table.turnOf().getToPay();
+        EnumMap<Resource, Integer> toBePaid = table.turnOf().getSupportContainer().content();
         try {
             for (EnumMap.Entry<Resource, Integer> entry : toBePaid.entrySet())
                 toBePaid.put(entry.getKey(), entry.getValue() - ((card.getAbility().getDiscount().get(entry.getKey()) != null)? card.getAbility().getDiscount().get(entry.getKey()): 0));
-            table.turnOf().setToPay(toBePaid);
+            table.turnOf().getSupportContainer().clear();
+            table.turnOf().getSupportContainer().addEnumMap(toBePaid);
         } catch (WeDontDoSuchThingsHere e){
             //messaggio: questa leadercard non ha questo potere
         }
 
     }
 
-    public void selectHowToPay(){
-        //seleziona la risorsa scelta
-    }
-
     public void paySelected(){
         try{
-            //per tutti i depositi, pay
+            //chiama uno dei metodi comuni
         } catch(IndexOutOfBoundsException e){
             //messaggio: non hai le risorse necessare
         }
@@ -99,6 +100,4 @@ public class BuyDevCardController extends CardActionController{
             }
         }
     }
-
-    //--------------------------------------------------------------------------------------------
 }

@@ -24,9 +24,6 @@ public class LeaderController {
         this.faithTrackController = FaithTrackController.getInstance();
     }
 
-    //Leader Cards
-    //--------------------------------------------------------------------------------------------
-
     //seleziona la carta
     public void chooseLeaderCard(LeaderCard chosenCard){
         try{
