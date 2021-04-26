@@ -273,7 +273,6 @@ public class LeaderController {
     //--------------------------------------------------------------------------------------------
 
     //Transmutation: da rifare
-    /*
     private void applyTransmutationAbility(LeaderCard leaderCardForAction, EnumMap<Resource, Integer> toBePlaced){
         if(toBePlaced.get(Resource.WHITE) == null || toBePlaced.get(Resource.WHITE) == 0){
             //messaggio: non hai palline bianche
@@ -289,28 +288,19 @@ public class LeaderController {
             toBePlaced.put(entry.getKey(), toBePlaced.get(entry.getKey())+ entry.getValue()*quantity);
     }
 
-    private void applyTransmutationAbility(LeaderCard leaderCardForAction1, LeaderCard leaderCardForAction2, EnumMap<Resource, Integer> toBePlaced){
+    private void applyTransmutationAbility(LeaderCard leaderCardForAction1, LeaderCard leaderCardForAction2, EnumMap<Resource, Integer> toBePlaced, int firstQuantity, int secondQuantity) throws IndexOutOfBoundsException{
         if(toBePlaced.get(Resource.WHITE) == null || toBePlaced.get(Resource.WHITE) == 0){
             //messaggio: non hai palline bianche
         } else {
-            Scanner input = new Scanner(System.in);
-            System.out.println("How many whites do you want to transmute with the first Leader Card?");
-            int firstQuantity = input.nextInt();
-            System.out.println("How many whites do you want to transmute with the second Leader Card?");
-            int secondQuantity = input.nextInt();
             while(firstQuantity + secondQuantity != toBePlaced.get(Resource.WHITE)){
                 System.out.println("The sum doesn't match with the number of whites you gained.");
-                System.out.println("How many whites do you want to transmute with the first Leader Card?");
-                firstQuantity = input.nextInt();
-                System.out.println("How many whites do you want to transmute with the second Leader Card?");
-                secondQuantity = input.nextInt();
+                throw new IndexOutOfBoundsException();
             }
-            input.close();
 
             applyTransmutationAbility(leaderCardForAction1, toBePlaced, firstQuantity);
             applyTransmutationAbility(leaderCardForAction2, toBePlaced, secondQuantity);
             toBePlaced.remove(Resource.WHITE);
 
         }
-    }*/
+    }
 }
