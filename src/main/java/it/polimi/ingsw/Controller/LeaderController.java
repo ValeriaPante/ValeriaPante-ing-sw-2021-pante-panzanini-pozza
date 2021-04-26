@@ -7,6 +7,7 @@ import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Decks.DevDeck;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.Payable;
+import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.CantPutThisHere;
 import it.polimi.ingsw.Exceptions.UnsatisfiedRequirements;
@@ -145,33 +146,26 @@ public class LeaderController {
     }
 
     public void buyDevCard(){
-        //setta il tipo di turno a BUYDEVCARD
+        table.turnOf().setMacroTurnType(MacroTurnType.BUYNEWCARD);
         for(DevDeck deck: table.getDevDecks()){
             if(deck.getTopCard().isSelected()) {
-                table.turnOf().setCatalyst(new TransactionCatalyst(deck.getTopCard().getCost()));
+                table.turnOf().setToPay(deck.getTopCard().getCost());
                 break;
             }
         }
     }
 
     public void applyDiscountAbility(LeaderCard card){
-        DevCard chosenCard = null;
-        for(DevDeck deck: table.getDevDecks()){
-            if(deck.getTopCard().isSelected()) {
-                chosenCard = deck.getTopCard();
-                break;
-            }
+
+        EnumMap<Resource, Integer> toBePaid = table.turnOf().getToPay();
+        try {
+            for (EnumMap.Entry<Resource, Integer> entry : toBePaid.entrySet())
+                toBePaid.put(entry.getKey(), entry.getValue() - ((card.getAbility().getDiscount().get(entry.getKey()) != null)? card.getAbility().getDiscount().get(entry.getKey()): 0));
+            table.turnOf().setToPay(toBePaid);
+        } catch (WeDontDoSuchThingsHere e){
+            //messaggio: questa leadercard non ha questo potere
         }
-        if (chosenCard != null){
-            EnumMap<Resource, Integer> toBePaid = chosenCard.getCost();
-            try {
-                for (EnumMap.Entry<Resource, Integer> entry : toBePaid.entrySet())
-                    toBePaid.put(entry.getKey(), entry.getValue() - ((card.getAbility().getDiscount().get(entry.getKey()) != null)? card.getAbility().getDiscount().get(entry.getKey()): 0));
-                table.turnOf().setCatalyst(new TransactionCatalyst(toBePaid));
-            } catch (WeDontDoSuchThingsHere e){
-                //messaggio: questa leadercard non ha questo potere
-            }
-        }
+
     }
 
     public void selectHowToPay(){
@@ -180,7 +174,7 @@ public class LeaderController {
 
     public void paySelected(){
         try{
-            table.turnOf().getCatalyst().commit();
+            //per tutti i depositi, pay
         } catch(IndexOutOfBoundsException e){
             //messaggio: non hai le risorse necessare
         }
@@ -279,7 +273,8 @@ public class LeaderController {
     //--------------------------------------------------------------------------------------------
 
     //Transmutation: da rifare
-    /*private void applyTransmutationAbility(LeaderCard leaderCardForAction, EnumMap<Resource, Integer> toBePlaced){
+    /*
+    private void applyTransmutationAbility(LeaderCard leaderCardForAction, EnumMap<Resource, Integer> toBePlaced){
         if(toBePlaced.get(Resource.WHITE) == null || toBePlaced.get(Resource.WHITE) == 0){
             //messaggio: non hai palline bianche
         } else {

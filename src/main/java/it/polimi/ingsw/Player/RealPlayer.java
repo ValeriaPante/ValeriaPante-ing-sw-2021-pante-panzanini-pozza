@@ -28,7 +28,7 @@ public class RealPlayer extends Player{
     private PopeFavorCard[] popeFavorCards;
     private BasicProductionPower basicProductionPower;
     private TurnType turnType;
-    private TransactionCatalyst catalyst;
+    private EnumMap<Resource, Integer> toPay;
 
     private void initialiseShelves(){
         this.shelves = new Shelf[]{
@@ -207,11 +207,11 @@ public class RealPlayer extends Player{
         return allProductionPowers;
     }
 
-    public TransactionCatalyst getCatalyst() {
-        return catalyst;
+    public EnumMap<Resource, Integer> getToPay() {
+        return this.toPay.clone();
     }
 
-    public void setCatalyst(TransactionCatalyst catalyst) {
-        this.catalyst = catalyst;
+    public void setToPay(EnumMap<Resource, Integer> map) {
+        this.toPay = map.clone();
     }
 }
