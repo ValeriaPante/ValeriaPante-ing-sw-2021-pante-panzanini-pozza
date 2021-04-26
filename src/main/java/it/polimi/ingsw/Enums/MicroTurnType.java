@@ -1,5 +1,5 @@
 package it.polimi.ingsw.Enums;
 
 public enum MicroTurnType {
-    NONE, SELECTIONCARDS
+    NONE, SETTINGUP, ANYDECISION
 }

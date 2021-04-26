@@ -13,11 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StrongBoxTest {
     private StrongBox testingSB;
 
-    //@BeforeEach
-    //public void initialise(){
-    //    this.testingSB = new StrongBox();
-    //}
-
     @Test
     @DisplayName("singleSelection test (Exceptions and happy flow)")
     public void testSS(){
