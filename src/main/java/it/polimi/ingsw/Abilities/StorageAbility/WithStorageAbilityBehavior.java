@@ -5,6 +5,7 @@ import it.polimi.ingsw.Deposit.Depot;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Map;
 
 public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
 
@@ -142,6 +143,16 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
                 state.add(State.UNPRESENT);
             }
             this.contentState.put(resource, state.toArray(new State[0]));
+        }
+    }
+
+    public void deselectAll(){
+        for (State[] states : this.contentState.values()){
+            for (int i=0; i<states.length; i++){
+                if (states[i] == State.SELECTED){
+                    states[i] = State.NOTSELECTED;
+                }
+            }
         }
     }
 

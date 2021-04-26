@@ -58,6 +58,11 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
     }
 
     @Override
+    public void deselectAll() {
+        throw new WeDontDoSuchThingsHere();
+    }
+
+    @Override
     public String toString(){
         throw new WeDontDoSuchThingsHere();
     }

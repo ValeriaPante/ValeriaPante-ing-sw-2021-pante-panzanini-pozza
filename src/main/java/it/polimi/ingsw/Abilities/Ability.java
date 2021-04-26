@@ -21,6 +21,7 @@ public class Ability implements Payable{
         return this.productionPowerBehavior.getProductionPower();
     }
 
+    //---Storage ability methods-------------------------------------------------------------------------------
     public void add(Resource resource){
         this.storageAbilityBehavior.singleAdd(resource);
     }
@@ -43,6 +44,13 @@ public class Ability implements Payable{
     public void pay() {
         this.storageAbilityBehavior.removeSelected();
     }
+    public void select(Resource resource, int position){
+        this.storageAbilityBehavior.select(resource, position);
+    }
+    public void deselectAll(){
+        this.storageAbilityBehavior.deselectAll();
+    }
+    //----------------------------------------------------------------------------------------------------------
 
     public EnumMap<Resource, Integer> getWhiteInto(){
         return this.transmutationAbilityBehavior.getWhiteInto();
@@ -54,10 +62,6 @@ public class Ability implements Payable{
 
     public EnumMap<Resource, Integer> getSelected(){
         return this.storageAbilityBehavior.getSelected();
-    }
-
-    public void select(Resource resource, int position){
-        this.storageAbilityBehavior.select(resource, position);
     }
 
     //type == LeaderCardType.DISCOUNT, map represent the amount discount

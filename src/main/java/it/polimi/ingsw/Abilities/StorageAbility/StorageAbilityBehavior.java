@@ -14,6 +14,7 @@ public interface StorageAbilityBehavior{
     void removeSelected();
     void select(Resource toSelect, int position);
     EnumMap<Resource, Integer> getSelected();
+    void deselectAll();
     String toString();
     //per sapere se è il primo o il secondo
     String toString(int number);
