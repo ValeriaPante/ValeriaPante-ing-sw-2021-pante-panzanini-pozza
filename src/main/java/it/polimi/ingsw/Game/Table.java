@@ -30,6 +30,8 @@ public class Table {
     private RealPlayer winner;
     private boolean isLorenzoTurn;
 
+    private String broadcastMessage;
+
     //molto d'accordo
     private final LeaderDeck leaderDeck;//forse non è necessario tenerlo, nel controller a inizio partita si distribuiscono le carte e poi non ci serve più
     private DevDeck[] devDecks;
@@ -56,6 +58,7 @@ public class Table {
         this.leaderDeck = new LeaderDeck();
         this.faithTrack = new FaithTrack();
         initialiseDevDecks();
+        this.broadcastMessage = null;
     }
 
     public void setLastLap(){
@@ -136,5 +139,14 @@ public class Table {
 
     public DevCard drawDevDeck(int numberOfDeck){
         return this.devDecks[numberOfDeck].draw();
+    }
+
+    public void setBroadcastMessage(String newErrorMessage) {
+        this.broadcastMessage = newErrorMessage;
+        //notify to client
+    }
+
+    public void clearBroadcastMessage(){
+        this.broadcastMessage = null;
     }
 }

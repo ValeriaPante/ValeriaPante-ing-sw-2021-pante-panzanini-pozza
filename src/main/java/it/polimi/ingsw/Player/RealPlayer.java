@@ -28,7 +28,8 @@ public class RealPlayer extends Player{
     private PopeFavorCard[] popeFavorCards;
     private BasicProductionPower basicProductionPower;
     private TurnType turnType;
-    private EnumMap<Resource, Integer> toPay;
+    private StrongBox supportContainer;
+    private String errorMessage;
 
     private void initialiseShelves(){
         this.shelves = new Shelf[]{
@@ -65,6 +66,8 @@ public class RealPlayer extends Player{
        this.initialisePopeFavorCards();
        this.basicProductionPower = new BasicProductionPower();
        this.turnType = new TurnType();
+       this.supportContainer = new StrongBox();
+       this.errorMessage = null;
     }
     //--------
 
@@ -207,11 +210,16 @@ public class RealPlayer extends Player{
         return allProductionPowers;
     }
 
-    public EnumMap<Resource, Integer> getToPay() {
-        return this.toPay.clone();
+    public StrongBox getSupportContainer() {
+        return this.supportContainer;
     }
 
-    public void setToPay(EnumMap<Resource, Integer> map) {
-        this.toPay = map.clone();
+    public void setErrorMessage(String newErrorMessage) {
+        this.errorMessage = newErrorMessage;
+        //notify to client
+    }
+
+    public void clearErrorMessage(){
+        this.errorMessage = null;
     }
 }
