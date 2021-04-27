@@ -3,6 +3,8 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Cards.DevCard;
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Decks.DevDeck;
+import it.polimi.ingsw.Deposit.Depot;
+import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.CantPutThisHere;
@@ -13,7 +15,8 @@ import it.polimi.ingsw.Deposit.StrongBox;
 import java.util.EnumMap;
 
 public class BuyDevCardController extends CardActionController{
-    private Table table;
+
+    public BuyDevCardController(Table table){ super(table);}
 
     public void chooseDevCard(int chosenDeck){
         try {
@@ -72,10 +75,39 @@ public class BuyDevCardController extends CardActionController{
 
     public void paySelected(){
         try{
-            //chiama uno dei metodi comuni
-        } catch(IndexOutOfBoundsException e){
-            //messaggio: non hai le risorse necessare
+            if(!this.isEnough()) table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too many resources.");
+        } catch (IndexOutOfBoundsException e){
+            table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too few resources. ");
         }
+
+        for(Payable payable: this.getPayableWithSelection())
+            payable.pay();
+    }
+
+
+    //controlla che le risorse selezionate siano uguali al costo della carta
+    private boolean isEnough(){
+        Depot temp = new Depot();
+        EnumMap<Resource, Integer> tempMap = new EnumMap<>(Resource.class);
+        temp.addEnumMap(table.turnOf().getStrongBox().getSelection());
+        for(int i = 0; i < table.turnOf().getShelves().length; i++){
+            tempMap.put(table.turnOf().getShelves()[i].getResourceType(), 1);
+            temp.addEnumMap(tempMap);
+            tempMap.clear();
+        }
+        for(int i = 0; i < table.turnOf().getLeaderCards().length; i++){
+            try {
+                temp.addEnumMap(table.turnOf().getLeaderCards()[i].getAbility().getSelected());
+            } catch (WeDontDoSuchThingsHere e) {
+
+            }
+        }
+
+        tempMap = temp.removeEnumMapIfPossible(table.turnOf().getSupportContainer().content());
+        if(tempMap.isEmpty())
+            return true;
+        else
+            return false;
 
     }
 
