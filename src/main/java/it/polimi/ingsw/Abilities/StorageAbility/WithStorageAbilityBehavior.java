@@ -40,7 +40,8 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
     }
 
     public boolean contains(EnumMap<Resource, Integer> checkMap){
-        Depot content = new Depot(){{addEnumMap(this.content());}};
+        Depot content = new Depot();
+        content.addEnumMap(this.content());
         return content.contains(checkMap);
     }
 

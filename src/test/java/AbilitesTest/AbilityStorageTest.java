@@ -98,6 +98,38 @@ public class AbilityStorageTest {
     }
 
     @Test
+    @DisplayName("Storage contains() method")
+    public void contains(){
+        this.ability.add(Resource.COIN);
+        this.ability.add(Resource.COIN);
+        this.ability.add(Resource.STONE);
+
+        assertTrue(this.ability.contains(new EnumMap<>(Resource.class){{
+            put(Resource.COIN, 1);
+        }}));
+        assertTrue(this.ability.contains(new EnumMap<>(Resource.class){{
+            put(Resource.COIN, 1);
+            put(Resource.STONE, 1);
+        }}));
+        assertTrue(this.ability.contains(this.ability.getContent()));
+    }
+
+    @Test
+    @DisplayName("Storage removeSelected() method")
+    public void removeSelected(){
+        this.ability.add(Resource.COIN);
+        this.ability.add(Resource.COIN);
+        this.ability.add(Resource.STONE);
+
+        this.ability.select(Resource.COIN,2);
+        this.ability.select(Resource.STONE, 1);
+
+        this.ability.pay();
+        assertTrue(this.ability.getSelected().isEmpty());
+        assertEquals(new EnumMap<>(Resource.class){{put(Resource.COIN,1);}}, this.ability.getContent());
+    }
+
+    @Test
     @DisplayName("Storage select(Resource toSelect, int position) method")
     public void select(){
         //una risorsa che non c'è, non può essere selezionata
@@ -127,6 +159,24 @@ public class AbilityStorageTest {
     }
 
     //manca la toString
+
+    @Test
+    @DisplayName("Storage deselectAll() method")
+    public void deselectAll(){
+        this.ability.add(Resource.STONE);
+        this.ability.add(Resource.COIN);
+        this.ability.add(Resource.COIN);
+        this.ability.add(Resource.COIN);
+
+        this.ability.select(Resource.COIN, 2);
+        this.ability.select(Resource.COIN, 3);
+        this.ability.select(Resource.STONE, 1);
+
+        EnumMap<Resource, Integer> content = this.ability.getContent();
+        this.ability.deselectAll();
+        assertEquals(content, this.ability.getContent());
+        assertTrue(this.ability.getSelected().isEmpty());
+    }
 
     @Test
     public void transmutationMethods(){

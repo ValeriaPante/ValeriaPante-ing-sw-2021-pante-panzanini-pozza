@@ -37,7 +37,9 @@ public class Ability implements Payable{
     public boolean isEmpty(){
         return this.storageAbilityBehavior.isEmpty();
     }
-    public boolean isFull(Resource resource){ return getCapacity().get(resource).equals(getContent().get(resource));}
+    public boolean isFull(Resource resource){
+        return getCapacity().get(resource).equals(getContent().get(resource));
+    }
     public boolean contains(EnumMap<Resource, Integer> checkMap){
         return this.storageAbilityBehavior.contains(checkMap);
     }
