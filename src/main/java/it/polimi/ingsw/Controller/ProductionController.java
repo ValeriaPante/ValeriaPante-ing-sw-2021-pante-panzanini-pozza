@@ -8,15 +8,22 @@ import it.polimi.ingsw.Deposit.Shelf;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
+import it.polimi.ingsw.Game.Table;
 import it.polimi.ingsw.Player.DevSlot;
 import it.polimi.ingsw.Player.RealPlayer;
 import it.polimi.ingsw.Enums.Resource;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.Map;
+import java.util.List;
 
 public class ProductionController extends CardActionController{
+
+    RealPlayer player;
+
+    public ProductionController(Table table) {
+        super(table);
+    }
 
     //mi serve un modo per capire quali poteri di produzone sono già selezionati
     private ArrayList<ProductionPower> getSelectedProductionPowers(RealPlayer player){
@@ -52,25 +59,7 @@ public class ProductionController extends CardActionController{
         for (ProductionPower alreadySelectedProdPower : this.getSelectedProductionPowers(player)){
             resourceRequired.addEnumMap(alreadySelectedProdPower.getInput());
         }
-
-        Depot allResources = new Depot(){{addEnumMap(player.getResourcesOwned());}};
-        resourceRequired.addEnumMap(productionPower.getInput());
-
-        if (resourceRequired.content().containsKey(Resource.ANY)){
-            int anyAmount = resourceRequired.content().get(Resource.ANY);
-            for (int i=0; i<anyAmount; i++){
-                resourceRequired.singleRemove(Resource.ANY);
-            }
-            if (!allResources.contains(resourceRequired.content())){
-                return false;
-            }
-            else {
-                return allResources.countAll() >= resourceRequired.countAll() + anyAmount;
-            }
-        }
-        else{
-            return allResources.contains(resourceRequired.content());
-        }
+        return super.isAffordableSomehow(resourceRequired.content());
     }
 
     private void select(int idCard, RealPlayer player){
@@ -149,7 +138,8 @@ public class ProductionController extends CardActionController{
         }
     }
 
-    public void selectCardProduction(RealPlayer player, int idCard){
+    public void selectCardProduction(int idCard){
+        this.player = super.table.turnOf();
         if (player.getMacroTurnType() == MacroTurnType.NONE){
             player.setMacroTurnType(MacroTurnType.PRODUCTION);
             player.setMicroTurnType(MicroTurnType.SETTINGUP);
@@ -177,30 +167,31 @@ public class ProductionController extends CardActionController{
 
     }
 
-    public void selectAllProductionPowers(RealPlayer player){
+    public void selectAllProductionPowers(){
+        this.player = super.table.turnOf();
         Depot allInputs = new Depot();
 
-        for (ProductionPower productionPower : player.getAllProductionPowers()){
+        for (ProductionPower productionPower : this.player.getAllProductionPowers()){
             allInputs.addEnumMap(productionPower.getInput());
         }
 
         ProductionPower allInputsCombined =  new ProductionPower(allInputs.content(), new EnumMap<>(Resource.class));
-        if (!this.isAffordableSomehow(allInputsCombined, player)){
+        if (!this.isAffordableSomehow(allInputsCombined, this.player)){
             //eccezione / modifica nel model che l'ultima azione è scorretta
             //non ha abbastanza risorse per attivarli tutti
             return; //da eliminare
         }
 
-        if (!player.getBasicProductionPower().isSelected()) {
-            player.getBasicProductionPower().select();
+        if (!this.player.getBasicProductionPower().isSelected()) {
+            this.player.getBasicProductionPower().select();
         }
-        for (DevSlot devSlot : player.getDevSlots()){
+        for (DevSlot devSlot : this.player.getDevSlots()){
             if (!devSlot.isEmpty() && !devSlot.topCard().isSelected()){
                 devSlot.topCard().select();
             }
         }
 
-        for (LeaderCard leaderCard : player.getLeaderCards()){
+        for (LeaderCard leaderCard : this.player.getLeaderCards()){
             if (leaderCard.hasBeenPlayed()){
                 if (!leaderCard.isSelected()) {
                     try {
@@ -215,47 +206,18 @@ public class ProductionController extends CardActionController{
         //a questo punto sono tutti selezionati
     }
 
-    //Questo lo copio da albi
     public void SelectResource(Payable storage, Resource resource, int amount, int pos){
-
+        //chiamo super con i metodi che abbiamo deciso
     }
 
-    private ArrayList<Payable> getPayableWithSelection(RealPlayer player){
-        ArrayList<Payable> payableWithSelection = new ArrayList<>();
-
-        for (Shelf shelf : player.getShelves()){
-            if (!shelf.isEmpty()){
-                payableWithSelection.add(shelf);
-            }
-        }
-
-        if (player.getStrongBox().areThereSelections()){
-            payableWithSelection.add(player.getStrongBox());
-        }
-
-        for (LeaderCard leaderCard : player.getLeaderCards()){
-            if (leaderCard.hasBeenPlayed()){
-                try{
-                    if (!leaderCard.getAbility().getSelected().isEmpty()){
-                        payableWithSelection.add(leaderCard.getAbility());
-                    }
-                }
-                catch (WeDontDoSuchThingsHere e){
-                    //non è una carta con poteri di produzione
-                }
-            }
-        }
-
-        return payableWithSelection;
-    }
-
-    public void activateProduction(RealPlayer player){
-        ArrayList<ProductionPower> selectedProdPowers = this.getSelectedProductionPowers(player);
+    public void activateProduction(){
+        this.player = super.table.turnOf();
+        ArrayList<ProductionPower> selectedProdPowers = this.getSelectedProductionPowers(this.player);
 
         //----Vado a prendermi tutte le risorse selezionate
         Depot resourceSelected = new Depot();
 
-        for (Shelf shelf : player.getShelves()){
+        for (Shelf shelf : this.player.getShelves()){
             if (!shelf.isEmpty()) {
                 resourceSelected.addEnumMap(new EnumMap<>(Resource.class) {{
                     put(shelf.getResourceType(), shelf.getQuantitySelected());
@@ -263,11 +225,11 @@ public class ProductionController extends CardActionController{
             }
         }
 
-        if (player.getStrongBox().areThereSelections()) {
-            resourceSelected.addEnumMap(player.getStrongBox().getSelection());
+        if (this.player.getStrongBox().areThereSelections()) {
+            resourceSelected.addEnumMap(this.player.getStrongBox().getSelection());
         }
 
-        for (LeaderCard leaderCard : player.getLeaderCards()){
+        for (LeaderCard leaderCard : this.player.getLeaderCards()){
             if (leaderCard.hasBeenPlayed()){
                 try{
                     if (!leaderCard.getAbility().getSelected().isEmpty()){
@@ -297,7 +259,7 @@ public class ProductionController extends CardActionController{
             if (resourceSelected.contains(inputsWithoutAny) && resourceSelected.countAll() == temp.countAll() + anyAmount){
                 //il pagamento passa
                 //bisogna capire se negli output ci sono delle any
-                this.setANYDECISIONIfNeeded(player, this.getPayableWithSelection(player), allOutputs.content());
+                this.setANYDECISIONIfNeeded(this.player, super.getPayableWithSelection(), allOutputs.content());
             }
             else{
                 //errore:
@@ -308,7 +270,7 @@ public class ProductionController extends CardActionController{
             if (resourceSelected.content().equals(allInputs.content())){
                 //il pagamento passa
                 //bisogna capire se negli output ci sono delle any
-                this.setANYDECISIONIfNeeded(player, this.getPayableWithSelection(player), allOutputs.content());
+                this.setANYDECISIONIfNeeded(this.player, super.getPayableWithSelection(), allOutputs.content());
             }
             else{
                 //errore:
@@ -317,10 +279,10 @@ public class ProductionController extends CardActionController{
         }
     }
 
-    private void setANYDECISIONIfNeeded(RealPlayer player, ArrayList<Payable> payableWithSelection, EnumMap<Resource, Integer> toPutInStrongBox){
+    private void setANYDECISIONIfNeeded(RealPlayer player, List<Payable> payableWithSelection, EnumMap<Resource, Integer> toPutInStrongBox){
         if (toPutInStrongBox.containsKey(Resource.ANY)){
-            player.getWhiteOrAny().clear();
-            player.getWhiteOrAny().put(Resource.ANY, toPutInStrongBox.get(Resource.ANY));
+            player.getSupportContainer().clear();
+            player.getSupportContainer().addEnumMap(new EnumMap<>(Resource.class){{put(Resource.ANY, toPutInStrongBox.get(Resource.ANY));}});
             player.setMicroTurnType(MicroTurnType.ANYDECISION);
         }
         else{
@@ -347,7 +309,7 @@ public class ProductionController extends CardActionController{
         }
     }
 
-    private void effectiveTransaction(RealPlayer player, ArrayList<Payable> payableWithSelection, EnumMap<Resource, Integer> toPutInStrongBox){
+    private void effectiveTransaction(RealPlayer player, List<Payable> payableWithSelection, EnumMap<Resource, Integer> toPutInStrongBox){
         for (Payable payable : payableWithSelection){
             payable.pay();
         }
@@ -360,44 +322,38 @@ public class ProductionController extends CardActionController{
         //le risorse selezionate non dovrebebro più esserci
     }
 
-    public void anySelection(RealPlayer player, Resource resource){
-        if(resource != Resource.ANY && resource != Resource.WHITE) {
-
-            if (player.getMicroTurnType() != MicroTurnType.ANYDECISION) {
-                //exception:
-                //non rispetta il flow del turno
-            }
-
-            player.getWhiteOrAny().put(resource, (player.getWhiteOrAny().get(resource) == null) ? 1 : player.getWhiteOrAny().get(resource)+1);
-            //devo contare qunte risorse diverse da any ci sono
-            int amount = 0;
-            for (Map.Entry<Resource, Integer> entry : player.getWhiteOrAny()){
-                if (entry.getKey() != Resource.ANY){
-                    amount += entry.getValue();
-                }
-            }
-            if (player.getWhiteOrAny().get(Resource.ANY) == amount){
-
-                //devo ottenere tutto l'output dei poteri di produzione
-                Depot allOutputs = new Depot();
-                for (ProductionPower productionPower : this.getSelectedProductionPowers(player)){
-                    allOutputs.addEnumMap(productionPower.getOutput());
-                }
-
-                this.effectiveTransaction(player, this.getPayableWithSelection(player), allOutputs.content());
-                player.getWhiteOrAny().remove(Resource.ANY);
-                player.getStrongBox().addEnumMap(player.getWhiteOrAny());
-            }
-        }
-        else{
+    public void anySelection(Resource resource){
+        RealPlayer player = super.table.turnOf();
+        if (resource == Resource.ANY || resource == Resource.WHITE){
             //exception:
             //risorsa inserita non conforme
+            return; //da cancellare
+        }
+        if (player.getMicroTurnType() != MicroTurnType.ANYDECISION) {
+            //exception:
+            //non rispetta il flow del turno
+            return; //da cancellare
+        }
+
+        //a questo punto sono in tra
+        player.getSupportContainer().addEnumMap(new EnumMap<>(Resource.class){{put(resource, 1);}});
+        int anyAmount = player.getSupportContainer().content().get(Resource.ANY);
+
+        if (player.getSupportContainer().countAll() == 2*anyAmount){
+            //devo ottenere tutto l'output dei poteri di produzione
+            Depot allOutputs = new Depot();
+            for (ProductionPower productionPower : this.getSelectedProductionPowers(player)){
+                allOutputs.addEnumMap(productionPower.getOutput());
+            }
+            //se sono finito qui significa che in questo output ci sono sicuramente delle any che devo togliere
+            allOutputs.addEnumMap(player.getSupportContainer().content());
+            this.effectiveTransaction(player, super.getPayableWithSelection(), new EnumMap<>(allOutputs.content()){{remove(Resource.ANY);}});
         }
     }
 
-    public void backFromAnySelection(RealPlayer player){
-        player.getWhiteOrAny().clear;
-        player.setMicroTurnType(MicroTurnType.SETTINGUP);
+    public void backFromAnySelection(){
+        super.table.turnOf().getSupportContainer().clear();
+        super.table.turnOf().setMicroTurnType(MicroTurnType.SETTINGUP);
     }
 
 }
