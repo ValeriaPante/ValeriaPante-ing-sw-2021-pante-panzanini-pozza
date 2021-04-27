@@ -22,7 +22,7 @@ public class LeaderController {
 
     public LeaderController(Table table){
         this.table = table;
-        this.faithTrackController = FaithTrackController.getInstance();
+        this.faithTrackController = new FaithTrackController(table);
     }
 
     //seleziona la carta
@@ -46,7 +46,7 @@ public class LeaderController {
         if(pickedCard != null){
             if (discard){
                 table.turnOf().discardLeaderCard(pickedCard);
-                FaithTrackController.getInstance().movePlayerOfTurn(table, 1);
+                faithTrackController.movePlayerOfTurn(1);
             } else if (!pickedCard.hasBeenPlayed()){
                 if (!checkRequirements(pickedCard))
                     throw new UnsatisfiedRequirements();

@@ -1,6 +1,5 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Cards.PopeFavorCard;
 import it.polimi.ingsw.FaithTrack.FaithTrack;
 import it.polimi.ingsw.FaithTrack.VaticanRelation;
 import it.polimi.ingsw.Game.Table;
@@ -10,7 +9,8 @@ import it.polimi.ingsw.Player.RealPlayer;
 import java.util.ArrayList;
 
 public class FaithTrackController {
-    private static FaithTrackController instance;
+    private Table table;
+    private FaithTrack faithTrack;
 
     //in base all posizione del giocatore ritorno una array di VaticanRelation che devono essere attivati
     //un giocatore si potrebbe spostare talmente avanti che ne attiva 2+ in una volta sola
@@ -26,12 +26,12 @@ public class FaithTrackController {
 
     //modifico la faithTrack associata a quella partita
     //e modifico le cate favore papale ai giocatori
-    private void updateCardV2(VaticanRelation[] vaticanRelations, FaithTrack faithTrack, RealPlayer[] players){
+    private void updateCardV2(VaticanRelation[] vaticanRelations, RealPlayer[] players){
         if (vaticanRelations.length == 0){
             return;
         }
         for (VaticanRelation vaticanRelation: vaticanRelations){
-            faithTrack.doneVaticanRelation(vaticanRelation.getId());
+            this.table.getFaithTrack().doneVaticanRelation(vaticanRelation.getId());
             for (RealPlayer player : players){
                 if (vaticanRelation.isInOrOver(player.getPosition())){
                     player.getPopeFavorCards()[vaticanRelation.getId()].toFaceUp();
@@ -43,59 +43,54 @@ public class FaithTrackController {
         }
     }
 
-    private boolean moveForward(Player player, int faithPoints, FaithTrack faithTrack){
+    private boolean moveForward(Player player, int faithPoints){
         //need to check if player exceed the faith track length
-        if (faithTrack.finished(player.getPosition() + faithPoints)) {
-            player.moveForward(faithTrack.getLength() - player.getPosition());
+        if (this.faithTrack.finished(player.getPosition() + faithPoints)) {
+            player.moveForward(this.table.getFaithTrack().getLength() - player.getPosition());
             return true;
         }
         player.moveForward(faithPoints);
         return false;
     }
 
-    private FaithTrackController(){
+    public FaithTrackController(Table table){
+        this.table = table;
+        this.faithTrack = this.table.getFaithTrack();
     }
 
-    public static FaithTrackController getInstance(){
-        if (instance == null){
-            instance = new FaithTrackController();
-        }
-        return instance;
-    }
-
-    public void movePlayerOfTurn(Table table, int faithPoints){
+    public void movePlayerOfTurn(int faithPoints){
         VaticanRelation[] toActivate;
-        if (table.isSinglePlayer() && table.isLorenzoTurn()){
-            if (this.moveForward(table.getLorenzo(), faithPoints, table.getFaithTrack())){
-                table.setLastLap();
+        if (this.table.isSinglePlayer() && this.table.isLorenzoTurn()){
+            if (this.moveForward(this.table.getLorenzo(), faithPoints)){
+                this.table.setLastLap();
             }
-            toActivate = this.toActivate(table.getFaithTrack().getVaticanRelations(), table.getLorenzo().getPosition());
+            toActivate = this.toActivate(this.table.getFaithTrack().getVaticanRelations(), this.table.getLorenzo().getPosition());
         }
         else {
             //partita multi or singleplayer (Non turno di lorenzo)
-            if (this.moveForward(table.turnOf(), faithPoints, table.getFaithTrack())) {
-                table.setLastLap();
+            if (this.moveForward(this.table.turnOf(), faithPoints)) {
+                this.table.setLastLap();
             }
-            toActivate = this.toActivate(table.getFaithTrack().getVaticanRelations(), table.turnOf().getPosition());
+            toActivate = this.toActivate(this.table.getFaithTrack().getVaticanRelations(), this.table.turnOf().getPosition());
         }
 
         if (toActivate.length != 0){
-            this.updateCardV2(toActivate, table.getFaithTrack(), table.getPlayers());
+            this.updateCardV2(toActivate, table.getPlayers());
         }
     }
 
     //move all players except the one in turn
-    public void moveAllTheOthers(Table table, int faithPoints){
+    public void moveAllTheOthers(int faithPoints){
         VaticanRelation[] toActivate;
-        if (table.isSinglePlayer()){
-            if (!table.isLorenzoTurn()){
-                if (this.moveForward(table.getLorenzo(), faithPoints, table.getFaithTrack())){
-                    table.setLastLap();
+        if (this.table.isSinglePlayer()){
+            if (!this.table.isLorenzoTurn()){
+                if (this.moveForward(this.table.getLorenzo(), faithPoints)){
+                    this.table.setLastLap();
                 }
                 //a questo punto lorenzo potrebbe far partire un rapporto in vaticano
-                toActivate = this.toActivate(table.getFaithTrack().getVaticanRelations(), table.getLorenzo().getPosition());
+                toActivate = this.toActivate(this.table.getFaithTrack().getVaticanRelations(), this.table.getLorenzo().getPosition());
                 if (toActivate.length != 0){
-                    this.updateCardV2(toActivate, table.getFaithTrack(), table.getPlayers());
+                    this.updateCardV2(toActivate, table.getPlayers());
                 }
             }
             else{
@@ -105,9 +100,9 @@ public class FaithTrackController {
         }
         else{
             //partita multi
-            for (Player player : table.getPlayers()){
+            for (Player player : this.table.getPlayers()){
                 if (player != table.turnOf()){
-                    if (this.moveForward(player, faithPoints, table.getFaithTrack())){
+                    if (this.moveForward(player, faithPoints)){
                         table.setLastLap();
                     }
                 }
@@ -117,7 +112,7 @@ public class FaithTrackController {
             for (Player player : table.getPlayers()){
                 toActivate = this.toActivate(table.getFaithTrack().getVaticanRelations(), player.getPosition());
                 if (toActivate.length != 0){
-                    this.updateCardV2(toActivate, table.getFaithTrack(), table.getPlayers());
+                    this.updateCardV2(toActivate, table.getPlayers());
                 }
             }
         }

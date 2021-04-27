@@ -71,7 +71,7 @@ public class GameController {
 
     public void startGame() {
         this.table = new Table(players.size());
-        this.faithTrackController = FaithTrackController.getInstance();
+        this.faithTrackController = new FaithTrackController(this.table);
 
         Collections.shuffle(players);  //Players' playing order is random
             for (String nickName : players)
@@ -160,7 +160,7 @@ public class GameController {
         //}
 
         if (stillToBeSet.content().containsKey(Resource.FAITH))
-            faithTrackController.movePlayerOfTurn(table, stillToBeSet.content().get(Resource.FAITH));
+            this.faithTrackController.movePlayerOfTurn(stillToBeSet.content().get(Resource.FAITH));
 
         if (stillToBeSet.content().containsKey(Resource.WHITE)){
             int numberOPTAs = numberOfPlayerTAs(playerOfTurn);
@@ -204,7 +204,7 @@ public class GameController {
         number = moveToShelves(stillToBeSet.content(), playerOfTurn);
 
         if (number != 0)
-            faithTrackController.moveAllTheOthers(table, number);
+            faithTrackController.moveAllTheOthers(number);
     }
 
 
@@ -236,10 +236,10 @@ public class GameController {
     private void playActionToken(ActionToken token){
         switch (token.getType()){
             case TWOFP:
-                faithTrackController.movePlayerOfTurn(this.table, 2);
+                faithTrackController.movePlayerOfTurn(2);
                 break;
             case RESETDECKONEFP:
-                faithTrackController.movePlayerOfTurn(this.table, 1);
+                faithTrackController.movePlayerOfTurn(1);
                 table.getLorenzo().getActionTokenDeck().reset();
                 break;
             case DISCARDGREEN:
