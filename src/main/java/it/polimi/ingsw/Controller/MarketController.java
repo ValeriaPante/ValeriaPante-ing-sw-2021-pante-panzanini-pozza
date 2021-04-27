@@ -7,7 +7,7 @@ import it.polimi.ingsw.Deposit.Shelf;
 import it.polimi.ingsw.Deposit.StrongBox;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
-import it.polimi.ingsw.Player.RealPlayer;
+import it.polimi.ingsw.Game.Table;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -24,153 +24,54 @@ public class MarketController extends SelectionController{
 //
 //
 //
-    private RealPlayer player;
-    private final StrongBox stillToBeSetBox;
-    private EnumMap<Resource, Integer> enumMap;
 
-    public MarketController(){
-        this.player = null;
-        this.stillToBeSetBox = new StrongBox();
-        this.enumMap = new EnumMap<>(Resource.class);
+
+    public MarketController(Table table){
+        super(table);
     }
 
-    public void update(RealPlayer player, EnumMap<Resource, Integer> toBePositioned ){
-        this.player = player;
-        this.stillToBeSetBox.mapSelection(stillToBeSetBox.content());
-        this.stillToBeSetBox.pay();
-        this.stillToBeSetBox.addEnumMap(toBePositioned);
-    }
+//    public int done(){
+//        int resourcesNotPlaced = stillToBeSetBox.countAll();
+//        this.clear();
+//        return resourcesNotPlaced;
+//    }
 
-    public void clear(){
-        this.player = null ;
-        this.enumMap.clear();
-    }
 
-    public RealPlayer getPlayer(){
-        return this.player;
-    }
 
-    public int done(){
-        int resourcesNotPlaced = stillToBeSetBox.countAll();
-        this.clear();
-        return resourcesNotPlaced;
-    }
 
-    //prendo la shelf con capienza numberOfShelf, faccio quella selezione (singola), eventualmente mi ritorna un'eccezione
-    public synchronized void selectFromShelf(Resource resType, int numberOfShelf){
-        if ((numberOfShelf > 3) || (numberOfShelf < 1))
-            //Error message: "Wrong number of Shelf"
-            return;
 
-        Shelf currentShelf = player.getShelves()[numberOfShelf-1];
-        if (currentShelf.getResourceType() != resType)
-            //Error message: "Wrong type of resource selected"
-            return;
 
-        try{
-            currentShelf.singleSelection();
-        } catch (IndexOutOfBoundsException e){
-            //Error message: "Maximum already selected"
-        }
-    }
 
-    //prendo la leader card con quel seriale, faccio quella selezione (singola), eventualmente mi ritorna un'eccezione
-    public synchronized void selectFromLeaderStorage(Resource resType, int serial, int resPosition){
-        LeaderCard specifiedLeaderCard = cardSpecified(serial);
-        if(specifiedLeaderCard == null)
-            return;
 
-        try{
-            if (specifiedLeaderCard.getAbility().getCapacity().containsKey(resType)){
-                //Error message: "Resource type note allowed"
-                return;
-            }
-            if (specifiedLeaderCard.getAbility().getContent().containsKey(resType)){
-                //Error message: "Resource not contained"
-                return;
-            }
-            enumMap = specifiedLeaderCard.getAbility().getSelected();
-            specifiedLeaderCard.getAbility().select(resType, resPosition);
-            if (enumMap.equals(specifiedLeaderCard.getAbility().getSelected())){
-                //Error message: "Not selectable"
-                return;
-            }
-        } catch (WeDontDoSuchThingsHere e){
-            //Error message: "Wrong leader card"
-            return;
-        }
-    }
 
-    //seleziono quel numero di risorse tra quelle nel contenitore delle risorse, in corrispondenza di quel tipo di risorsa
-    public synchronized void selectFromMarketResources(Resource resType, int quantity){
-        if (quantity == 0)
-            //Error message: "No quantity specified"
-            return;
 
-        enumMap.clear();
-        enumMap.put(resType, quantity);
 
-        try{
-            stillToBeSetBox.mapSelection(enumMap);
-        } catch (IndexOutOfBoundsException e){
-            //Error message: "Selection exceeding limits"
-        }
-    }
 
-    //altri tre metodi per fare deselection
-    public synchronized void deselectFromShelf(Resource resType, int numberOfShelf){
-        if ((numberOfShelf > 3) || (numberOfShelf < 1))
-            return;
 
-        Shelf currentShelf = player.getShelves()[numberOfShelf-1];
-        if (currentShelf.getResourceType() != resType)
-            return;
+    //moves all the resources selected from leader deposit and shelves to supportContainer (in player of turn)
+    public void moveSelectedToSupportContainer(){
+        StrongBox supportContainer = table.turnOf().getSupportContainer();
 
-        try{
-            currentShelf.singleDeselection();
-        } catch (IndexOutOfBoundsException e){
-            //Error message: "Noting to deselect"
-        }
-    }
-
-    public synchronized void deselectFromMarketResources(Resource resType, int quantity){
-        if (quantity == 0)
-            return;
-
-        enumMap.clear();
-        enumMap.put(resType, quantity);
-
-        try{
-            stillToBeSetBox.mapDeselection(enumMap);
-        } catch (IndexOutOfBoundsException e){
-            //Error message: "Deselection exceeding limits"
-        }
-    }
-
-    //un metodo per spostare dai contenitori shelf e leader deposit a contenitore di mercato
-    public void moveToStillToBeSetBox(){
-        for (Shelf s : player.getShelves()){
+        for (Shelf s : table.turnOf().getShelves()){
             try{
-                stillToBeSetBox.addEnumMap(s.takeSelected());
+                supportContainer.addEnumMap(s.takeSelected());
             } catch (IndexOutOfBoundsException ignored){}
         }
 
-        //itero sulle leader card e prendo le risorse selezionate mettendole nello stillToBeSetBox
-        for(LeaderCard lc: player.getLeaderCards()){
+        for(LeaderCard lc: table.turnOf().getLeaderCards()){
             try{
-                stillToBeSetBox.addEnumMap(lc.getAbility().getSelected());
+                supportContainer.addEnumMap(lc.getAbility().getSelected());
                 lc.getAbility().pay();
             }
-            catch (WeDontDoSuchThingsHere ignored){}
-            catch (NullPointerException ignored){}
+            catch (WeDontDoSuchThingsHere | NullPointerException ignored){}
         }
     }
 
-    //Due metodi per spostare selezionate da contenitore di mercato a shelf/leader --> controllando rispetto regole per ripetizione delle risorse nelle shelf
-    //quel metodo deve anche fare deselezione nel caso in cui riesce a spostare le risorse
+    //moves the resources selected in supportContainer, in player of turn, into the Shelf with the capacity equals to numberOfShelf
     public void moveToShelf(int numberOfShelf){
-        enumMap = stillToBeSetBox.getSelection();
+        enumMap = table.turnOf().getSupportContainer().getSelection();
         if ((enumMap == null) || (enumMap.size() != 1))
+            //Error message: "Wrong selection"
             return;
 
         Resource resToBeAdded = null;
@@ -178,14 +79,19 @@ public class MarketController extends SelectionController{
             if(enumMap.containsKey(r))
                 resToBeAdded = r;
 
-        Shelf currentShelf = player.getShelves()[numberOfShelf-1];
+        Shelf currentShelf = shelfFromCapacity(numberOfShelf);
+        if (currentShelf == null)
+            return;
+
         if (currentShelf.isEmpty())
-            for (int i=0; i<3; i++)
-                if(((i+1) != numberOfShelf) && ((player.getShelves()[i]).getResourceType() == resToBeAdded))
-                        return;
+            for (Shelf s: table.turnOf().getShelves())
+                if ((currentShelf != s) && (resToBeAdded == s.getResourceType()))
+                    //Error message: "Resource already contained in another Shelf"
+                    return;
 
         try{
             currentShelf.addAllIfPossible(resToBeAdded, enumMap.get(resToBeAdded));
+            table.turnOf().getSupportContainer().pay();
         } catch (IllegalArgumentException e){
             //Error message: "Wrong type of resource"
             return;
@@ -193,16 +99,15 @@ public class MarketController extends SelectionController{
             //Error message: "Insertion exceeding limits"
             return;
         }
-
-        stillToBeSetBox.pay();
     }
 
+    //moves the resources selected in supportContainer, in player of turn, into the leader card with the id equals to the serial number specified
     public void moveToLeaderStorage(int serial){
-        LeaderCard specifiedLeaderCard = cardSpecified(serial);
+        LeaderCard specifiedLeaderCard = getUsableLeaderCard(serial);
         if(specifiedLeaderCard == null)
             return;
 
-        enumMap = stillToBeSetBox.getSelection();
+        enumMap = table.turnOf().getSupportContainer().getSelection();
         if (enumMap == null)
             //Error message: "No resources selected to be moved"
             return;
@@ -222,7 +127,8 @@ public class MarketController extends SelectionController{
                 //Error message: "Can't move resources there"
                 return;
             }
-            specifiedLeaderCard.getAbility().pay();
+            addEnumMapToLC(specifiedLeaderCard.getAbility(), table.turnOf().getSupportContainer().getSelection());
+            table.turnOf().getSupportContainer().pay();
         } catch (WeDontDoSuchThingsHere e){
             //Error message: "Wrong leader card"
             return;
@@ -238,7 +144,7 @@ public class MarketController extends SelectionController{
         ArrayList<Shelf> shelvesSelected = new ArrayList<>();
         ArrayList<LeaderCard> leaderCardsSelected = new ArrayList<>();
 
-        for (Shelf s: player.getShelves()) {
+        for (Shelf s: table.turnOf().getShelves()) {
             if (s.getQuantitySelected() != 0) {
                 numOfContainersSelected++;
                 shelvesSelected.add(s);
@@ -248,7 +154,7 @@ public class MarketController extends SelectionController{
 //            //Error message: "More than two selections"
 //            return;
 
-        for (LeaderCard lc: player.getLeaderCards()){
+        for (LeaderCard lc: table.turnOf().getLeaderCards()){
             try{
                 if ((lc.hasBeenPlayed()) && (lc.getAbility().getSelected() != null)) {
                     numOfContainersSelected++;
@@ -260,7 +166,7 @@ public class MarketController extends SelectionController{
 //            //Error message: "Less than two selections"
 //            return;
 
-        if (stillToBeSetBox.areThereSelections())
+        if (table.turnOf().getSupportContainer().areThereSelections())
             numOfContainersSelected++;
 
         if (numOfContainersSelected > 2)
@@ -273,8 +179,8 @@ public class MarketController extends SelectionController{
         //prendo le risorse selezionate da entrambi e le salvo, provo a metterle nell'altro, togliendo quelle selezionate, nel caso ci siano eccezioni allora annullo
         //altrimenti mantengo la modifica
 
-        if (stillToBeSetBox.areThereSelections()){
-            enumMap = stillToBeSetBox.getSelection();
+        if (table.turnOf().getSupportContainer().areThereSelections()){
+            enumMap = table.turnOf().getSupportContainer().getSelection();
             if(shelvesSelected.size() == 1){ //Selections in stillToBeSetBox and one Shelf
                 Shelf selectedShelf = shelvesSelected.get(0);
 
@@ -282,7 +188,7 @@ public class MarketController extends SelectionController{
                 if (resContainedInSTBSB == null)
                     return;
 
-                stillToBeSetBox.addEnumMap(selectedShelf.takeSelected());
+                table.turnOf().getSupportContainer().addEnumMap(selectedShelf.takeSelected());
                 selectedShelf.addAllIfPossible(resContainedInSTBSB, enumMap.get(resContainedInSTBSB));
             } else { //Selections in stillToBeSetBox and one leaderCard
                 Ability selectedLeaderCardAbility = leaderCardsSelected.get(0).getAbility();
@@ -290,7 +196,7 @@ public class MarketController extends SelectionController{
                 if (!canLeaderContain(selectedLeaderCardAbility, enumMap))
                     return;
 
-                stillToBeSetBox.addEnumMap(selectedLeaderCardAbility.getSelected());
+                table.turnOf().getSupportContainer().addEnumMap(selectedLeaderCardAbility.getSelected());
                 selectedLeaderCardAbility.pay();
                 addEnumMapToLC(selectedLeaderCardAbility, enumMap);
             }
@@ -326,7 +232,7 @@ public class MarketController extends SelectionController{
                     if (!canLeaderContain(selectedLeaderCardAbility, enumMap))
                         return;
 
-                    stillToBeSetBox.addEnumMap(selectedShelf.takeSelected());
+                    table.turnOf().getSupportContainer().addEnumMap(selectedShelf.takeSelected());
                     selectedShelf.addAllIfPossible(resContainedInLSC, enumMap.get(resContainedInLSC));
                 } else {//Selections only in LeaderCards
                     Ability leaderAbility1 = leaderCardsSelected.get(0).getAbility();
@@ -363,7 +269,7 @@ public class MarketController extends SelectionController{
                 //Error message: "Shelf cannot contain that quantity"
                 return null;
 
-            for (Shelf s: player.getShelves())
+            for (Shelf s: table.turnOf().getShelves())
                 if ((shelf != s) && (resourceContained == s.getResourceType()))
                     //Error message: "Resource already contained in another Shelf"
                     return null;
@@ -380,17 +286,22 @@ public class MarketController extends SelectionController{
     }
 
     private synchronized boolean canLeaderContain(Ability ability, EnumMap<Resource, Integer> enumMap){
-        Depot depot = new Depot();
-        depot.addEnumMap(ability.getCapacity());
-        depot.removeEnumMapIfPossible(ability.getContent());
-        depot.addEnumMap(ability.getSelected());
         try{
-            depot.removeEnumMapIfPossible(enumMap);
-        } catch (IndexOutOfBoundsException e){
-            //Error message: "LeaderCard cannot contain that quantity"
+            Depot depot = new Depot();
+            depot.addEnumMap(ability.getCapacity());
+            depot.removeEnumMapIfPossible(ability.getContent());
+            depot.addEnumMap(ability.getSelected());
+            try{
+                depot.removeEnumMapIfPossible(enumMap);
+                return true;
+            } catch (IndexOutOfBoundsException e){
+                //Error message: "LeaderCard cannot contain that quantity"
+                return false;
+            }
+        } catch (WeDontDoSuchThingsHere e){
+            //Error message: "Wrong leader card"
             return false;
         }
-        return true;
     }
 
     private synchronized void addEnumMapToLC (Ability ability, EnumMap<Resource, Integer> enumMap){
@@ -400,24 +311,23 @@ public class MarketController extends SelectionController{
                     ability.add(r);
     }
 
-    private synchronized LeaderCard cardSpecified(int serial){
-        boolean ownCard = false;
-        LeaderCard specifiedLeaderCard = null;
-        for (LeaderCard lc : player.getLeaderCards()) {
-            if (lc.getId() == serial){
-                ownCard = true;
-                specifiedLeaderCard = lc;
-            }
-        }
-        if (!ownCard)
-            //Error message: "Not own leader card"
-            return null;
-        if (!specifiedLeaderCard.hasBeenPlayed())
-            //Error message: "Card not played"
-            return null;
 
-        return specifiedLeaderCard;
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //Transmutation: da rifare
     private void applyTransmutationAbility(LeaderCard leaderCardForAction, EnumMap<Resource, Integer> toBePlaced){
