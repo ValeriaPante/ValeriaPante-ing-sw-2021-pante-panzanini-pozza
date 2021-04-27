@@ -13,16 +13,20 @@ import static org.junit.jupiter.api.Assertions.*;
 public class ShelfTest {
     private Shelf shelf1, shelf2, shelf3;
 
-    @BeforeEach
-    public void initialize(){
-        this.shelf1 = new Shelf(1);
-        this.shelf2 = new Shelf(2);
-        this.shelf3 = new Shelf(3);
-    }
+//    @BeforeEach
+//    public void initialize(){
+//        this.shelf1 = new Shelf(1);
+//        this.shelf2 = new Shelf(2);
+//        this.shelf3 = new Shelf(3);
+//    }
 
     @Test
     @DisplayName("Creation and getter")
     public void testCG(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         assertThrows(IndexOutOfBoundsException.class, () -> new Shelf(4));
         assertThrows(IndexOutOfBoundsException.class, () -> new Shelf(0));
         assertThrows(IndexOutOfBoundsException.class, () -> new Shelf(-1));
@@ -89,6 +93,10 @@ public class ShelfTest {
     @Test
     @DisplayName("singleAdd testing (Exceptions and happy flow)")
     public void testSA(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         assertNull(this.shelf1.getResourceType());
 
         shelf1.singleAdd(Resource.STONE);
@@ -123,6 +131,10 @@ public class ShelfTest {
     @Test
     @DisplayName("addAllIfPossible testing (Exceptions and happy flow)")
     public void testAAIP(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         shelf3.addAllIfPossible(Resource.COIN, 2);
 
         assertEquals(this.shelf3.getResourceType(), Resource.COIN);
@@ -146,6 +158,10 @@ public class ShelfTest {
     @Test
     @DisplayName("addWhatPossible testing (Exceptions and happy flow)")
     public void testAWP(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         shelf3.addWhatPossible(Resource.COIN, 2);
 
         assertEquals(this.shelf3.getResourceType(), Resource.COIN);
@@ -191,6 +207,10 @@ public class ShelfTest {
     @Test
     @DisplayName("creating and editing selections testing (Exceptions and happy flow)")
     public void testS(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         assertEquals(this.shelf3.getQuantitySelected(), 0);
 
         this.shelf3.addAllIfPossible(Resource.STONE, 3);
@@ -249,6 +269,10 @@ public class ShelfTest {
     @Test
     @DisplayName("takeSelected() testing (Exceptions and happy flow)")
     public void testTS(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         shelf3.addAllIfPossible(Resource.STONE, 3);
 
         assertThrows(IndexOutOfBoundsException.class, () -> this.shelf3.takeSelected());
@@ -280,6 +304,10 @@ public class ShelfTest {
     @Test
     @DisplayName("rifle() testing")
     public void testR(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         shelf2.addAllIfPossible(Resource.SHIELD, 2);
         shelf2.multiSelection(2);
 
@@ -304,6 +332,10 @@ public class ShelfTest {
     @Test
     @DisplayName("content() testing")
     public void testCT(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         assertNull(this.shelf3.content());
 
         shelf3.addAllIfPossible(Resource.COIN, 3);
@@ -328,6 +360,10 @@ public class ShelfTest {
     @Test
     @DisplayName("contains testing (Exceptions and happy flow)")
     public void testCS(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class);
         enumMap.put(Resource.STONE, 2);
         shelf2.addWhatPossible(Resource.STONE, 2);
@@ -358,6 +394,10 @@ public class ShelfTest {
     @Test
     @DisplayName("pay() testing")
     public void testP(){
+        this.shelf1 = new Shelf(1);
+        this.shelf2 = new Shelf(2);
+        this.shelf3 = new Shelf(3);
+
         shelf2.pay();
         shelf3.addWhatPossible(Resource.STONE, 3);
         shelf3.pay();
