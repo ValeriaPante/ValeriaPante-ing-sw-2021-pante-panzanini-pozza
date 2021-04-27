@@ -1,17 +1,8 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Cards.ActionToken;
-import it.polimi.ingsw.Cards.DevCard;
 import it.polimi.ingsw.Cards.DevCardType;
 import it.polimi.ingsw.Cards.LeaderCard;
-import it.polimi.ingsw.Decks.DevDeck;
 import it.polimi.ingsw.Deposit.Depot;
-import it.polimi.ingsw.Deposit.Payable;
-import it.polimi.ingsw.Enums.MacroTurnType;
-import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.CantPutThisHere;
-import it.polimi.ingsw.Exceptions.UnsatisfiedRequirements;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import it.polimi.ingsw.Game.Table;
 
 import java.util.*;
@@ -30,12 +21,12 @@ public class LeaderController {
         try{
             chosenCard.select();
         } catch (IndexOutOfBoundsException e){
-            //messaggio: non esiste questa carta
+            table.turnOf().setErrorMessage("Wrong selection: there is not such card. ");
         }
     }
 
     //attiva/scarta la carta
-    public void actionOnLeaderCard(Boolean discard) throws UnsatisfiedRequirements {
+    public void actionOnLeaderCard(Boolean discard) {
         LeaderCard pickedCard = null;
         for(LeaderCard card: table.turnOf().getLeaderCards())
             if(card.isSelected()){
@@ -49,7 +40,7 @@ public class LeaderController {
                 FaithTrackController.getInstance().movePlayerOfTurn(table, 1);
             } else if (!pickedCard.hasBeenPlayed()){
                 if (!checkRequirements(pickedCard))
-                    throw new UnsatisfiedRequirements();
+                    table.turnOf().setErrorMessage("You don't have the requirements needed. ");
                 pickedCard.play();
             }
         }

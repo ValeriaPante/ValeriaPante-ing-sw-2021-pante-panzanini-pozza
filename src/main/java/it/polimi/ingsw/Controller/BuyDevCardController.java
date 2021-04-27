@@ -22,7 +22,7 @@ public class BuyDevCardController extends CardActionController{
         try {
             if(!table.getDevDecks()[chosenDeck - 1].isEmpty()) {
                 if (atLeastOneDevSlotIsAvailable(table.getDevDecks()[chosenDeck - 1].getTopCard())){
-                    //messaggio: non hai dove mettere questa carta
+                    table.turnOf().setErrorMessage("You can't buy this card, there is no slot to contain it. ");
                 } else {
                     //deseleziona un eventuale deck che era stato selezionato prima
                     for(DevDeck deck: table.getDevDecks()){
@@ -33,10 +33,10 @@ public class BuyDevCardController extends CardActionController{
                     table.getDevDecks()[chosenDeck - 1].selectTopCard();
                 }
             } else {
-                //messaggio: questo mazzetto è vuoto
+                table.turnOf().setErrorMessage("Wrong selection: this deck is empty. ");
             }
         } catch (IndexOutOfBoundsException e){
-            //messaggio: non esiste questo mazzetto
+            table.turnOf().setErrorMessage("Wrong selection: There is no such deck. ");
         }
     }
 
@@ -68,7 +68,7 @@ public class BuyDevCardController extends CardActionController{
             table.turnOf().getSupportContainer().clear();
             table.turnOf().getSupportContainer().addEnumMap(toBePaid);
         } catch (WeDontDoSuchThingsHere e){
-            //messaggio: questa leadercard non ha questo potere
+            table.turnOf().setErrorMessage("This Leader Card has not a discount ability. ");
         }
 
     }
@@ -126,9 +126,9 @@ public class BuyDevCardController extends CardActionController{
                 chosenDeck.draw();
                 if(table.turnOf().getNumberOfDevCardOwned() == 7) table.setLastLap();
             } catch (CantPutThisHere e) {
-                //messaggio: non puoi mettere questa carta qui
+                table.turnOf().setErrorMessage("This Slot can't contain your card. ");
             } catch (IndexOutOfBoundsException e) {
-                //messaggio: non esiste questo numero di slot
+                table.turnOf().setErrorMessage("Wrong selection: there is not such slot. ");
             }
         }
     }
