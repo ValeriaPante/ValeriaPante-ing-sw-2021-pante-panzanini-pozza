@@ -8,7 +8,7 @@ public abstract class Player {
     private final String nickname;
 
     Player(String nickname){
-        this.position = 0;
+        this.position = 1;
         this.nickname = nickname;
     }
 

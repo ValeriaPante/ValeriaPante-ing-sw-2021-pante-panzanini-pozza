@@ -57,7 +57,7 @@ public class Table {
         this.players = new LinkedList<>();
         this.leaderDeck = new LeaderDeck();
         this.faithTrack = new FaithTrack();
-        initialiseDevDecks();
+        this.initialiseDevDecks();
         this.broadcastMessage = null;
     }
 
