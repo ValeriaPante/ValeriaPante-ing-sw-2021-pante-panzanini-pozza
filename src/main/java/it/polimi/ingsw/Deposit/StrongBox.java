@@ -87,9 +87,9 @@ public class StrongBox implements Payable{
     }
 
     @Override
-    public synchronized void pay() throws IndexOutOfBoundsException{
+    public synchronized void pay(){
         if (selection.isEmpty())
-            throw new IndexOutOfBoundsException();
+            return;
 
         inside.removeEnumMapIfPossible(selection.content());
         selection.clearDepot();

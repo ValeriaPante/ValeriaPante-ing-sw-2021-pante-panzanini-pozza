@@ -450,18 +450,15 @@ public class StrongBoxTest {
     @DisplayName("pay() test (Exceptions and happy flow)")
     public void testP(){
         this.testingSB = new StrongBox();
-        assertThrows(IndexOutOfBoundsException.class, () -> this.testingSB.pay());
 
         EnumMap<Resource, Integer> enumMap = new EnumMap<>(Resource.class) {{
             put(Resource.SHIELD, 3);
             put(Resource.COIN, 2);
             put(Resource.SERVANT, 1);
         }};
-
+        testingSB.pay();
         testingSB.addEnumMap(enumMap);
-
-        assertThrows(IndexOutOfBoundsException.class, () -> this.testingSB.pay());
-
+        testingSB.pay();
         testingSB.singleSelection(Resource.SHIELD);
         testingSB.pay();
         enumMap.put(Resource.SHIELD, 3-1);
@@ -470,7 +467,5 @@ public class StrongBoxTest {
 
         testingSB.singleSelection(Resource.SERVANT);
         testingSB.clearSelection();
-
-        assertThrows(IndexOutOfBoundsException.class, () -> this.testingSB.pay());
     }
 }
