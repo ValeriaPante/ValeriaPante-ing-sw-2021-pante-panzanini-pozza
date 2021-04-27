@@ -20,7 +20,8 @@ public class LeaderController {
     private Table table;
     private FaithTrackController faithTrackController;
 
-    public LeaderController(){
+    public LeaderController(Table table){
+        this.table = table;
         this.faithTrackController = FaithTrackController.getInstance();
     }
 
@@ -86,5 +87,4 @@ public class LeaderController {
         }
         return devCardReq;
     }
-    //--------------------------------------------------------------------------------------------
 }
