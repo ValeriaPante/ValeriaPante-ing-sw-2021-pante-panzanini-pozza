@@ -3,26 +3,23 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Cards.DevCardType;
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Deposit.Depot;
+import it.polimi.ingsw.Exceptions.BrokenPlayerException;
 import it.polimi.ingsw.Game.Table;
 
 import java.util.*;
 
-public class LeaderController {
-    private Table table;
+public class LeaderController extends SelectionController{
     private FaithTrackController faithTrackController;
 
-    public LeaderController(Table table){
-        this.table = table;
+    public LeaderController(Table table) {
+        super(table);
         this.faithTrackController = new FaithTrackController(table);
     }
 
     //seleziona la carta
-    public void chooseLeaderCard(LeaderCard chosenCard){
-        try{
-            chosenCard.select();
-        } catch (IndexOutOfBoundsException e){
-            table.turnOf().setErrorMessage("Wrong selection: there is not such card. ");
-        }
+    public void chooseLeaderCard(int id){
+        LeaderCard chosenCard = this.leaderCardFromID(id);
+        if(chosenCard != null) chosenCard.select();
     }
 
     //attiva/scarta la carta
@@ -41,7 +38,7 @@ public class LeaderController {
             } else if (!pickedCard.hasBeenPlayed()){
                 if (!checkRequirements(pickedCard))
                     table.turnOf().setErrorMessage("You don't have the requirements needed. ");
-                pickedCard.play();
+                else pickedCard.play();
             }
         }
     }
@@ -53,7 +50,12 @@ public class LeaderController {
     private boolean checkResourceReq(LeaderCard leaderCardForAction){
         // prende il contenuto che hai da tutti
         Depot allResourceOwned = new Depot();
-        allResourceOwned.addEnumMap(table.turnOf().getResourcesOwned());
+        try {
+            allResourceOwned.addEnumMap(table.turnOf().getResourcesOwned());
+        } catch (BrokenPlayerException e){
+            if (leaderCardForAction.getResourceReq().isEmpty()) return true;
+            else return false;
+        }
         return allResourceOwned.contains(leaderCardForAction.getResourceReq());
     }
 
