@@ -16,12 +16,21 @@ import java.util.EnumMap;
 
 public class BuyDevCardController extends CardActionController{
 
-    public BuyDevCardController(Table table){ super(table);}
+    private boolean playerPayed;
+
+    public BuyDevCardController(Table table){
+        super(table);
+        this.playerPayed = false;
+    }
 
     public void chooseDevCard(int chosenDeck){
+        this.playerPayed = false;
+        table.turnOf().clearErrorMessage();
+        table.clearBroadcastMessage();
+
         try {
             if(!table.getDevDecks()[chosenDeck - 1].isEmpty()) {
-                if (atLeastOneDevSlotIsAvailable(table.getDevDecks()[chosenDeck - 1].getTopCard())){
+                if (!atLeastOneDevSlotIsAvailable(table.getDevDecks()[chosenDeck - 1].getTopCard())){
                     table.turnOf().setErrorMessage("You can't buy this card, there is no slot to contain it. ");
                 } else {
                     //deseleziona un eventuale deck che era stato selezionato prima
@@ -47,41 +56,70 @@ public class BuyDevCardController extends CardActionController{
         return result;
     }
 
-    public void buyDevCard(){
-        table.turnOf().setMacroTurnType(MacroTurnType.BUYNEWCARD);
+    private boolean thereIsASelection(){
         for(DevDeck deck: table.getDevDecks()){
-            if(deck.getTopCard().isSelected()) {
-                StrongBox temp = table.turnOf().getSupportContainer();
-                temp.clear();
-                temp.addEnumMap(deck.getTopCard().getCost());
-                break;
+            if(deck.getTopCard().isSelected())
+                return true;
+        }
+        return false;
+    }
+
+    public void buyDevCard(){
+        table.turnOf().clearErrorMessage();
+        table.clearBroadcastMessage();
+
+        if (this.thereIsASelection()){
+            table.turnOf().setMacroTurnType(MacroTurnType.BUYNEWCARD);
+            for(DevDeck deck: table.getDevDecks()){
+                if(deck.getTopCard().isSelected()) {
+                    StrongBox temp = table.turnOf().getSupportContainer();
+                    temp.clear();
+                    temp.addEnumMap(deck.getTopCard().getCost());
+                    break;
+                }
             }
         }
     }
 
-    public void applyDiscountAbility(LeaderCard card){
+    public void applyDiscountAbility(int id){
+        table.turnOf().clearErrorMessage();
+        table.clearBroadcastMessage();
 
-        EnumMap<Resource, Integer> toBePaid = table.turnOf().getSupportContainer().content();
-        try {
-            for (EnumMap.Entry<Resource, Integer> entry : toBePaid.entrySet())
-                toBePaid.put(entry.getKey(), entry.getValue() - ((card.getAbility().getDiscount().get(entry.getKey()) != null)? card.getAbility().getDiscount().get(entry.getKey()): 0));
-            table.turnOf().getSupportContainer().clear();
-            table.turnOf().getSupportContainer().addEnumMap(toBePaid);
-        } catch (WeDontDoSuchThingsHere e){
-            table.turnOf().setErrorMessage("This Leader Card has not a discount ability. ");
+        if (this.thereIsASelection()){
+            LeaderCard card = getUsableLeaderCard(id);
+            if (card == null) table.turnOf().setErrorMessage("This Leader Card doesn't exist or hasn't been played. ");
+            else{
+                EnumMap<Resource, Integer> toBePaid = table.turnOf().getSupportContainer().content();
+                try {
+                    toBePaid.replaceAll((k, v) -> v - ((card.getAbility().getDiscount().get(k) != null) ? card.getAbility().getDiscount().get(k) : 0));
+                    table.turnOf().getSupportContainer().clear();
+                    table.turnOf().getSupportContainer().addEnumMap(toBePaid);
+                } catch (WeDontDoSuchThingsHere e){
+                    table.turnOf().setErrorMessage("This Leader Card has not a discount ability. ");
+                }
+            }
         }
-
     }
 
     public void paySelected(){
-        try{
-            if(!this.isEnough()) table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too many resources.");
-        } catch (IndexOutOfBoundsException e){
-            table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too few resources. ");
-        }
+        table.turnOf().clearErrorMessage();
+        table.clearBroadcastMessage();
 
-        for(Payable payable: this.getPayableWithSelection())
-            payable.pay();
+        if(this.thereIsASelection()){
+            try{
+                if(!this.isEnough()){
+                    table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too many resources.");
+                    return;
+                }
+            } catch (IndexOutOfBoundsException e){
+                table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too few resources. ");
+                return;
+            }
+
+            for(Payable payable: this.getPayableWithSelection())
+                payable.pay();
+            this.playerPayed = true;
+        }
     }
 
 
@@ -89,46 +127,54 @@ public class BuyDevCardController extends CardActionController{
     private boolean isEnough(){
         Depot temp = new Depot();
         EnumMap<Resource, Integer> tempMap = new EnumMap<>(Resource.class);
-        temp.addEnumMap(table.turnOf().getStrongBox().getSelection());
+        if(table.turnOf().getStrongBox().getSelection() != null){
+            temp.addEnumMap(table.turnOf().getStrongBox().getSelection());
+        }
         for(int i = 0; i < table.turnOf().getShelves().length; i++){
-            tempMap.put(table.turnOf().getShelves()[i].getResourceType(), 1);
-            temp.addEnumMap(tempMap);
-            tempMap.clear();
+            if(!table.turnOf().getShelves()[i].isEmpty()){
+                tempMap.put(table.turnOf().getShelves()[i].getResourceType(), table.turnOf().getShelves()[i].getQuantitySelected());
+                temp.addEnumMap(tempMap);
+                tempMap.clear();
+            }
         }
         for(int i = 0; i < table.turnOf().getLeaderCards().length; i++){
-            try {
-                temp.addEnumMap(table.turnOf().getLeaderCards()[i].getAbility().getSelected());
-            } catch (WeDontDoSuchThingsHere e) {
+            if(table.turnOf().getLeaderCards()[i].hasBeenPlayed()){
+                try {
+                    temp.addEnumMap(table.turnOf().getLeaderCards()[i].getAbility().getSelected());
+                } catch (WeDontDoSuchThingsHere e) {
 
+                }
             }
         }
 
-        tempMap = temp.removeEnumMapIfPossible(table.turnOf().getSupportContainer().content());
-        if(tempMap.isEmpty())
-            return true;
-        else
-            return false;
+        tempMap = temp.removeEnumMapWhatPossible(table.turnOf().getSupportContainer().content());
+        return tempMap == null;
 
     }
 
     public void chooseDevSlot(int numberOfSlot){
-        DevDeck chosenDeck = null;
-        for(DevDeck deck: table.getDevDecks()){
-            if(deck.getTopCard().isSelected()) {
-                chosenDeck = deck;
-                break;
+        table.turnOf().clearErrorMessage();
+        table.clearBroadcastMessage();
+
+        if(this.thereIsASelection() && this.playerPayed){
+            DevDeck chosenDeck = null;
+            for(DevDeck deck: table.getDevDecks()){
+                if(deck.getTopCard().isSelected()) {
+                    chosenDeck = deck;
+                    break;
+                }
             }
-        }
-        if(chosenDeck != null){
-            try {
-                table.turnOf().getDevSlots()[numberOfSlot - 1].addCard(chosenDeck.getTopCard());
-                chosenDeck.selectTopCard();
-                chosenDeck.draw();
-                if(table.turnOf().getNumberOfDevCardOwned() == 7) table.setLastLap();
-            } catch (CantPutThisHere e) {
-                table.turnOf().setErrorMessage("This Slot can't contain your card. ");
-            } catch (IndexOutOfBoundsException e) {
-                table.turnOf().setErrorMessage("Wrong selection: there is not such slot. ");
+            if(chosenDeck != null){
+                try {
+                    table.turnOf().getDevSlots()[numberOfSlot - 1].addCard(chosenDeck.getTopCard());
+                    chosenDeck.selectTopCard();
+                    chosenDeck.draw();
+                    if(table.turnOf().getNumberOfDevCardOwned() == 7) table.setLastLap();
+                } catch (CantPutThisHere e) {
+                    table.turnOf().setErrorMessage("This Slot can't contain your card. ");
+                } catch (IndexOutOfBoundsException e) {
+                    table.turnOf().setErrorMessage("Wrong selection: there is not such slot. ");
+                }
             }
         }
     }

@@ -9,7 +9,7 @@ import it.polimi.ingsw.Game.Table;
 import java.util.*;
 
 public class LeaderController extends SelectionController{
-    private FaithTrackController faithTrackController;
+    private final FaithTrackController faithTrackController;
 
     public LeaderController(Table table) {
         super(table);
@@ -18,12 +18,18 @@ public class LeaderController extends SelectionController{
 
     //seleziona la carta
     public void chooseLeaderCard(int id){
+        table.turnOf().clearErrorMessage();
+        table.clearBroadcastMessage();
+
         LeaderCard chosenCard = this.leaderCardFromID(id);
         if(chosenCard != null) chosenCard.select();
     }
 
     //attiva/scarta la carta
     public void actionOnLeaderCard(Boolean discard) {
+        table.turnOf().clearErrorMessage();
+        table.clearBroadcastMessage();
+
         LeaderCard pickedCard = null;
         for(LeaderCard card: table.turnOf().getLeaderCards())
             if(card.isSelected()){
@@ -53,8 +59,7 @@ public class LeaderController extends SelectionController{
         try {
             allResourceOwned.addEnumMap(table.turnOf().getResourcesOwned());
         } catch (BrokenPlayerException e){
-            if (leaderCardForAction.getResourceReq().isEmpty()) return true;
-            else return false;
+            return leaderCardForAction.getResourceReq().isEmpty();
         }
         return allResourceOwned.contains(leaderCardForAction.getResourceReq());
     }
