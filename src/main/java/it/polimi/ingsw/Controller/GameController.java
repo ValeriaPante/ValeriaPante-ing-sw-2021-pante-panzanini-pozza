@@ -96,10 +96,10 @@ public class GameController {
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
         table.turnOf().setMicroTurnType(MicroTurnType.NONE);
         if(table.isSinglePlayer()){
+            table.nextTurn();
             if(anEntireLineIsEmpty()){
                 table.setLastLap();
             } else {
-                table.nextTurn();
                 playActionToken(table.getLorenzo().getActionTokenDeck().draw());
                 if(anEntireLineIsEmpty()){
                     table.setLastLap();
