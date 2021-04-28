@@ -52,6 +52,9 @@ public class Ability implements Payable{
     public void deselectAll(){
         this.storageAbilityBehavior.deselectAll();
     }
+    public int countAll(){
+        return this.storageAbilityBehavior.countAll();
+    }
     //----------------------------------------------------------------------------------------------------------
 
     public EnumMap<Resource, Integer> getWhiteInto(){

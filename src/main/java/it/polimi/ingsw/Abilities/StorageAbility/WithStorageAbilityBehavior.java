@@ -127,6 +127,28 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         return result;
     }
 
+    public void deselectAll(){
+        for (State[] states : this.contentState.values()){
+            for (int i=0; i<states.length; i++){
+                if (states[i] == State.SELECTED){
+                    states[i] = State.NOTSELECTED;
+                }
+            }
+        }
+    }
+
+    public int countAll(){
+        int amount = 0;
+        for (State[] state : this.contentState.values()){
+            for (int i=0; i< state.length; i++){
+                if (state[i] != State.UNPRESENT){
+                    amount += 1;
+                }
+            }
+        }
+        return amount;
+    }
+
     public String toString(){
         return "Storage Ability";
     }
@@ -144,16 +166,6 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
                 state.add(State.UNPRESENT);
             }
             this.contentState.put(resource, state.toArray(new State[0]));
-        }
-    }
-
-    public void deselectAll(){
-        for (State[] states : this.contentState.values()){
-            for (int i=0; i<states.length; i++){
-                if (states[i] == State.SELECTED){
-                    states[i] = State.NOTSELECTED;
-                }
-            }
         }
     }
 

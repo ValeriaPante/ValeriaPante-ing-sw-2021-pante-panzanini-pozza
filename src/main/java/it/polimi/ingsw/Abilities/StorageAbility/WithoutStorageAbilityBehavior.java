@@ -63,6 +63,11 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
     }
 
     @Override
+    public int countAll(){
+        throw new WeDontDoSuchThingsHere();
+    }
+
+    @Override
     public String toString(){
         throw new WeDontDoSuchThingsHere();
     }

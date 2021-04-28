@@ -179,6 +179,18 @@ public class AbilityStorageTest {
     }
 
     @Test
+    @DisplayName("Storage countAll() method")
+    public void countAll(){
+        assertEquals(0, this.ability.countAll());
+        this.ability.add(Resource.COIN);
+        this.ability.add(Resource.COIN);
+        this.ability.add(Resource.STONE);
+        assertEquals(3, this.ability.countAll());
+        this.ability.select(Resource.COIN, 1);
+        assertEquals(3, this.ability.countAll());
+    }
+
+    @Test
     public void transmutationMethods(){
         assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getWhiteInto());
     }
