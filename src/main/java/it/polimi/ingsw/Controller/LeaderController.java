@@ -9,11 +9,9 @@ import it.polimi.ingsw.Game.Table;
 import java.util.*;
 
 public class LeaderController extends SelectionController{
-    private final FaithTrackController faithTrackController;
 
     public LeaderController(Table table) {
         super(table);
-        this.faithTrackController = new FaithTrackController(table);
     }
 
     //seleziona la carta
@@ -40,7 +38,7 @@ public class LeaderController extends SelectionController{
         if(pickedCard != null){
             if (discard){
                 table.turnOf().discardLeaderCard(pickedCard);
-                faithTrackController.movePlayerOfTurn(1);
+                this.faithTrackController.movePlayerOfTurn(1);
             } else if (!pickedCard.hasBeenPlayed()){
                 if (!checkRequirements(pickedCard))
                     table.turnOf().setErrorMessage("You don't have the requirements needed. ");
