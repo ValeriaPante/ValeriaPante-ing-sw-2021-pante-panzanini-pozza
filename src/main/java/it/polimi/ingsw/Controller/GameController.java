@@ -121,20 +121,22 @@ public class GameController {
             }
         } else {
             int maxPoints = 0;
+            int maxNumOfResources = 0;
             for(RealPlayer player: table.getPlayers()){
-                int points = calculatePoints(player);
-                if(points > maxPoints){
-                    maxPoints = points;
+                int[] points = calculatePoints(player);
+                if(points[0] > maxPoints || (points[0] == maxPoints && points[1] > maxNumOfResources)){
+                    maxPoints = points[0];
+                    maxNumOfResources = points[1];
                     table.clearWinners();
                     table.addWinner(player);
-                } else if (points == maxPoints){
+                } else if (points[0] == maxPoints && points[1] > maxNumOfResources){
                     table.addWinner(player);
                 }
             }
         }
     }
 
-    private int calculatePoints(RealPlayer player){
+    private int[] calculatePoints(RealPlayer player){
         int sum = 0;
 
         //victory points from dev card
@@ -165,7 +167,7 @@ public class GameController {
                 }
             }
         sum += totalResources/5;
-        return sum;
+        return new int[]{sum, totalResources};
     }
 
     private void playActionToken(ActionToken token){
