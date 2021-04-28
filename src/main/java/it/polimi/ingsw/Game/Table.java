@@ -10,8 +10,10 @@ import it.polimi.ingsw.Enums.Colour;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import it.polimi.ingsw.FaithTrack.FaithTrack;
 import it.polimi.ingsw.Player.LorenzoIlMagnifico;
+import it.polimi.ingsw.Player.Player;
 import it.polimi.ingsw.Player.RealPlayer;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
@@ -27,7 +29,7 @@ public class Table {
     private final LinkedList<RealPlayer> players;
     private LorenzoIlMagnifico lorenzoIlMagnifico;
     private int turnOf;
-    private RealPlayer winner;
+    private ArrayList<Player> winner;
     private boolean isLorenzoTurn;
 
     private String broadcastMessage;
@@ -121,9 +123,11 @@ public class Table {
     }
 
     //idee sul set winner??? questo non mi piace molto
-    public void setWinner(RealPlayer winner){
-        this.winner = winner;
+    public void addWinner(Player winner){
+        this.winner.add(winner);
     }
+
+    public void clearWinners(){ this.winner.clear(); }
 
     public LeaderDeck getLeaderDeck() {
         return this.leaderDeck;
