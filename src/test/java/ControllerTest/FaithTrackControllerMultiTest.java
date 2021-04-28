@@ -229,6 +229,32 @@ public class FaithTrackControllerMultiTest {
     }
 
     @Test
+    @DisplayName("Player of turn reaches the end")
+    public void movePlayerOfTurnCase7(){
+        this.faithTrackController.movePlayerOfTurn(30);
+
+        for (RealPlayer player : this.table.getPlayers()){
+            switch (player.getNickname()){
+                case("A"):
+                    assertEquals(PopeFavorCardState.FACEUP, player.getPopeFavorCards()[0].getState());
+                    assertEquals(PopeFavorCardState.FACEUP, player.getPopeFavorCards()[1].getState());
+                    assertEquals(PopeFavorCardState.FACEUP, player.getPopeFavorCards()[2].getState());
+                    break;
+                case("B"):
+                case("C"):
+                case("D"):
+                    assertEquals(PopeFavorCardState.DISABLED, player.getPopeFavorCards()[0].getState());
+                    assertEquals(PopeFavorCardState.DISABLED, player.getPopeFavorCards()[1].getState());
+                    assertEquals(PopeFavorCardState.DISABLED, player.getPopeFavorCards()[2].getState());
+                    break;
+            }
+        }
+
+        assertEquals(24, this.table.turnOf().getPosition());
+        assertTrue(this.table.isLastLap());
+    }
+
+    @Test
     @DisplayName("Everyone except playerOfTurn move forward without vatican relation being activated")
     public void moveAllTheOthersCase1(){
         this.faithTrackController.moveAllTheOthers(4);
@@ -402,5 +428,20 @@ public class FaithTrackControllerMultiTest {
                 assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
                 break;
         }
+    }
+
+    @Test
+    @DisplayName("One of the others reaches the end")
+    public void moveAllTheOthersCase6(){
+        //A -> 21
+        this.table.getPlayers()[0].moveForward(20);
+
+        //B turn
+        this.table.nextTurn();
+        this.faithTrackController.moveAllTheOthers(5);
+
+        //A
+        assertEquals(24, this.table.getPlayers()[0].getPosition());
+        assertTrue(this.table.isLastLap());
     }
 }

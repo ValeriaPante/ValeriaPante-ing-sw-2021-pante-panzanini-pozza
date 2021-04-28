@@ -16,7 +16,7 @@ public class FaithTrackController {
     //un giocatore si potrebbe spostare talmente avanti che ne attiva 2+ in una volta sola
     private VaticanRelation[] toActivate(VaticanRelation[] vaticanRelations, int playerPos){
         ArrayList<VaticanRelation> toActivate = new ArrayList<>();
-        for (int i = 0; vaticanRelations[i].isOnPopePositionOrOver(playerPos); i++){
+        for (int i = 0; i<vaticanRelations.length && vaticanRelations[i].isOnPopePositionOrOver(playerPos); i++){
             if (!vaticanRelations[i].isAlreadyDone()){
                 toActivate.add(vaticanRelations[i]);
             }
