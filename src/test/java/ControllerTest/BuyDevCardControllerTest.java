@@ -182,7 +182,8 @@ class BuyDevCardControllerTest {
         controller.applyDiscountAbility(21);
         assertNotEquals(cost, table.turnOf().getSupportContainer().content());
 
-        table.turnOf().getStrongBox().mapSelection(table.turnOf().getSupportContainer().content());
+        if(table.turnOf().getSupportContainer().content() != null)
+            table.turnOf().getStrongBox().mapSelection(table.turnOf().getSupportContainer().content());
         controller.paySelected();
         controller.chooseDevSlot(2);
         assertTrue(table.turnOf().getDevSlots()[0].isEmpty());

@@ -6,6 +6,7 @@ import it.polimi.ingsw.Decks.DevDeck;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.MacroTurnType;
+import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.CantPutThisHere;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
@@ -13,18 +14,16 @@ import it.polimi.ingsw.Game.Table;
 import it.polimi.ingsw.Deposit.StrongBox;
 
 import java.util.EnumMap;
+import java.util.Map;
 
 public class BuyDevCardController extends CardActionController{
 
-    private boolean playerPayed;
 
     public BuyDevCardController(Table table){
         super(table);
-        this.playerPayed = false;
     }
 
     public void chooseDevCard(int chosenDeck){
-        this.playerPayed = false;
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -70,6 +69,7 @@ public class BuyDevCardController extends CardActionController{
 
         if (this.thereIsASelection()){
             table.turnOf().setMacroTurnType(MacroTurnType.BUYNEWCARD);
+            table.turnOf().setMicroTurnType(MicroTurnType.SETTINGUP);
             for(DevDeck deck: table.getDevDecks()){
                 if(deck.getTopCard().isSelected()) {
                     StrongBox temp = table.turnOf().getSupportContainer();
@@ -85,15 +85,24 @@ public class BuyDevCardController extends CardActionController{
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
-        if (this.thereIsASelection()){
+        if (this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTINGUP){
             LeaderCard card = getUsableLeaderCard(id);
             if (card == null) table.turnOf().setErrorMessage("This Leader Card doesn't exist or hasn't been played. ");
             else{
                 EnumMap<Resource, Integer> toBePaid = table.turnOf().getSupportContainer().content();
                 try {
                     toBePaid.replaceAll((k, v) -> v - ((card.getAbility().getDiscount().get(k) != null) ? card.getAbility().getDiscount().get(k) : 0));
+                    for(Map.Entry<Resource, Integer> entry: toBePaid.entrySet())
+                        if(entry.getValue() == 0)
+                            toBePaid.remove(entry.getKey());
+
                     table.turnOf().getSupportContainer().clear();
-                    table.turnOf().getSupportContainer().addEnumMap(toBePaid);
+                    if(toBePaid.isEmpty()){
+                        table.turnOf().setMicroTurnType(MicroTurnType.ANYDECISION);
+                    } else {
+                        table.turnOf().getSupportContainer().addEnumMap(toBePaid);
+                    }
+
                 } catch (WeDontDoSuchThingsHere e){
                     table.turnOf().setErrorMessage("This Leader Card has not a discount ability. ");
                 }
@@ -105,7 +114,7 @@ public class BuyDevCardController extends CardActionController{
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
-        if(this.thereIsASelection()){
+        if(this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTINGUP){
             try{
                 if(!this.isEnough()){
                     table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too many resources.");
@@ -118,7 +127,7 @@ public class BuyDevCardController extends CardActionController{
 
             for(Payable payable: this.getPayableWithSelection())
                 payable.pay();
-            this.playerPayed = true;
+            table.turnOf().setMicroTurnType(MicroTurnType.ANYDECISION);
         }
     }
 
@@ -156,7 +165,7 @@ public class BuyDevCardController extends CardActionController{
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
-        if(this.thereIsASelection() && this.playerPayed){
+        if(this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.ANYDECISION){
             DevDeck chosenDeck = null;
             for(DevDeck deck: table.getDevDecks()){
                 if(deck.getTopCard().isSelected()) {
@@ -169,6 +178,8 @@ public class BuyDevCardController extends CardActionController{
                     table.turnOf().getDevSlots()[numberOfSlot - 1].addCard(chosenDeck.getTopCard());
                     chosenDeck.selectTopCard();
                     chosenDeck.draw();
+                    table.turnOf().setMicroTurnType(MicroTurnType.NONE);
+                    table.turnOf().setMacroTurnType(MacroTurnType.NONE);
                     if(table.turnOf().getNumberOfDevCardOwned() == 7) table.setLastLap();
                 } catch (CantPutThisHere e) {
                     table.turnOf().setErrorMessage("This Slot can't contain your card. ");
