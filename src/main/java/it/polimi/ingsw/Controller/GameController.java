@@ -2,6 +2,7 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Decks.DevDeck;
 import it.polimi.ingsw.Decks.LeaderDeck;
+import it.polimi.ingsw.Deposit.Shelf;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Enums.*;
@@ -92,13 +93,17 @@ public class GameController {
     //End turn
     //--------------------------------------------------------------------------------------------
     public void endTurn(){
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+        table.turnOf().setMicroTurnType(MicroTurnType.NONE);
         if(table.isSinglePlayer()){
-            table.nextTurn();
             if(anEntireLineIsEmpty()){
                 table.setLastLap();
             } else {
+                table.nextTurn();
                 playActionToken(table.getLorenzo().getActionTokenDeck().draw());
-                if(anEntireLineIsEmpty()) table.setLastLap();
+                if(anEntireLineIsEmpty()){
+                    table.setLastLap();
+                }
             }
         }
         table.nextTurn();
@@ -106,8 +111,61 @@ public class GameController {
             endGame();
     }
 
-    public void endGame(){
-        //calcola il vincitore e mostra il messaggio
+    private void endGame(){
+        if(table.isSinglePlayer()){
+            if(anEntireLineIsEmpty() || table.getFaithTrack().finished(table.getLorenzo().getPosition()))
+                table.addWinner(table.getLorenzo());
+            else{
+                table.addWinner(table.getPlayers()[0]);
+                calculatePoints(table.getPlayers()[0]); //dove li memorizziamo i punti fatti?
+            }
+        } else {
+            int maxPoints = 0;
+            for(RealPlayer player: table.getPlayers()){
+                int points = calculatePoints(player);
+                if(points > maxPoints){
+                    maxPoints = points;
+                    table.clearWinners();
+                    table.addWinner(player);
+                } else if (points == maxPoints){
+                    table.addWinner(player);
+                }
+            }
+        }
+    }
+
+    private int calculatePoints(RealPlayer player){
+        int sum = 0;
+
+        //victory points from dev card
+        for(DevSlot slot: player.getDevSlots())
+            sum += slot.totalPoints();
+
+        //victory points from faith track
+        sum += table.getFaithTrack().victoryPoints(player.getPosition());
+
+        //vp from pope favor cards
+        for(PopeFavorCard card: player.getPopeFavorCards())
+            if(card.getState() == PopeFavorCardState.FACEUP)
+                sum += card.getVictoryPoints();
+
+        //vp from resources
+        int totalResources = player.getStrongBox().countAll();
+        for(Shelf shelf: player.getShelves())
+            totalResources += shelf.getUsage();
+
+        //vp from leader cards
+        for(LeaderCard card: player.getLeaderCards())
+            if(card.hasBeenPlayed()){
+                sum += card.getVictoryPoints();
+                try{
+                    totalResources += card.getAbility().countAll();
+                } catch (WeDontDoSuchThingsHere e){
+
+                }
+            }
+        sum += totalResources/5;
+        return sum;
     }
 
     private void playActionToken(ActionToken token){
