@@ -164,7 +164,7 @@ public class SelectionController {
         for (LeaderCard lc : table.turnOf().getLeaderCards()){
             try{
                 lc.getAbility().deselectAll();
-            } catch (WeDontDoSuchThingsHere ignored) {}
+            } catch (WeDontDoSuchThingsHere | NullPointerException ignored) {}
         }
     }
 
