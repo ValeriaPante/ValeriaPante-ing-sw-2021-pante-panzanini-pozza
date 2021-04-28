@@ -56,4 +56,11 @@ public class DevSlot{
         return result;
     }
 
+    public int totalPoints(){
+        int result = 0;
+        for(DevCard card: this.cards)
+            result += card.getVictoryPoints();
+        return result;
+    }
+
 }
