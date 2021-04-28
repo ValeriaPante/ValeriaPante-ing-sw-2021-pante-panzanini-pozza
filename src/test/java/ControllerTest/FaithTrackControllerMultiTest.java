@@ -78,13 +78,13 @@ public class FaithTrackControllerMultiTest {
     @Test
     @DisplayName("player of turn activates vatican relation and someone is inside that")
     public void movePlayerOfTurnCase3(){
-        //A -> 2
+        //A -> 3
         this.table.getPlayers()[0].moveForward(2);
-        //B -> 6
+        //B -> 7
         this.table.getPlayers()[1].moveForward(6);
-        //C -> 5
+        //C -> 6
         this.table.getPlayers()[2].moveForward(5);
-        //D -> 6
+        //D -> 7
         this.table.getPlayers()[3].moveForward(6);
 
         //D turn
@@ -113,15 +113,15 @@ public class FaithTrackControllerMultiTest {
     }
 
     @Test
-    @DisplayName("player of turn activates more that only one vatican relation and someone is inside the first")
+    @DisplayName("player of turn activates more than only one vatican relation and someone is inside the first")
     public void movePlayerOfTurnCase4(){
-        //A -> 5
+        //A -> 6
         this.table.getPlayers()[0].moveForward(5);
-        //B -> 6
+        //B -> 7
         this.table.getPlayers()[1].moveForward(6);
-        //C -> 2
+        //C -> 3
         this.table.getPlayers()[2].moveForward(2);
-        //D -> 6
+        //D -> 7
         this.table.getPlayers()[3].moveForward(6);
 
         //B turn
@@ -186,13 +186,13 @@ public class FaithTrackControllerMultiTest {
     @Test
     @DisplayName("activation of 2 vatican relations by 2 different players")
     public void movePlayerOfTurnCase6(){
-        //A -> 5
+        //A -> 6
         this.table.getPlayers()[0].moveForward(5);
-        //B -> 6
+        //B -> 7
         this.table.getPlayers()[1].moveForward(6);
-        //C -> 2
+        //C -> 3
         this.table.getPlayers()[2].moveForward(2);
-        //D -> 6
+        //D -> 7
         this.table.getPlayers()[3].moveForward(6);
 
         //A turn -> A starts the first
@@ -247,5 +247,160 @@ public class FaithTrackControllerMultiTest {
         }
     }
 
-    //DA FINIRE
+    @Test
+    @DisplayName("One of the other Players activates vatican relation and nobody is inside that")
+    public void moveAllTheOthersCase2(){
+        //A -> 2
+        this.table.getPlayers()[0].moveForward(1);
+        //B -> 7
+        this.table.getPlayers()[1].moveForward(6);
+        //C -> 3
+        this.table.getPlayers()[2].moveForward(2);
+        //D -> 3
+        this.table.getPlayers()[3].moveForward(2);
+
+        //C -> turn
+        this.table.nextTurn();
+        this.table.nextTurn();
+
+        this.faithTrackController.moveAllTheOthers(1);
+
+        for (RealPlayer player : this.table.getPlayers()){
+            switch (player.getNickname()){
+                case("A"):
+                case("C"):
+                case("D"):
+                    assertEquals(PopeFavorCardState.DISABLED, player.getPopeFavorCards()[0].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[1].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
+                    break;
+                case("B"):
+                    assertEquals(PopeFavorCardState.FACEUP, player.getPopeFavorCards()[0].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[1].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
+                    break;
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("One of the other Players activates vatican relation and someone is inside that")
+    public void moveAllTheOthersCase3(){
+        //A -> 2
+        this.table.getPlayers()[0].moveForward(1);
+        //B -> 6
+        this.table.getPlayers()[1].moveForward(5);
+        //C -> 4
+        this.table.getPlayers()[2].moveForward(3);
+        //D -> 4
+        this.table.getPlayers()[3].moveForward(3);
+
+        //D turn
+        this.table.nextTurn();
+        this.table.nextTurn();
+        this.table.nextTurn();
+        this.faithTrackController.moveAllTheOthers(2);
+
+        for (RealPlayer player : this.table.getPlayers()){
+            switch (player.getNickname()){
+                case("A"):
+                case("D"):
+                    assertEquals(PopeFavorCardState.DISABLED, player.getPopeFavorCards()[0].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[1].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
+                    break;
+                case("B"):
+                case("C"):
+                    assertEquals(PopeFavorCardState.FACEUP, player.getPopeFavorCards()[0].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[1].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
+                    break;
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("One of the other Players activates more than only one vatican relation and someone is inside the first")
+    public void moveAllTheOthersCase4(){
+        //A -> 1
+        //B -> 2
+        this.table.getPlayers()[1].moveForward(1);
+        //C -> 7
+        this.table.getPlayers()[2].moveForward(6);
+        //D -> 3
+        this.table.getPlayers()[3].moveForward(2);
+
+        //B turn
+        this.table.nextTurn();
+        this.faithTrackController.moveAllTheOthers(9);
+
+        for (RealPlayer player : this.table.getPlayers()){
+            switch (player.getNickname()){
+                case("A"):
+                    assertEquals(PopeFavorCardState.FACEUP, player.getPopeFavorCards()[0].getState());
+                    assertEquals(PopeFavorCardState.DISABLED, player.getPopeFavorCards()[1].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
+                    break;
+                case("B"):
+                    assertEquals(PopeFavorCardState.DISABLED, player.getPopeFavorCards()[0].getState());
+                    assertEquals(PopeFavorCardState.DISABLED, player.getPopeFavorCards()[1].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
+                    break;
+                case("C"):
+                case("D"):
+                    assertEquals(PopeFavorCardState.FACEUP, player.getPopeFavorCards()[0].getState());
+                    assertEquals(PopeFavorCardState.FACEUP, player.getPopeFavorCards()[1].getState());
+                    assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
+                    break;
+            }
+        }
+    }
+
+    @Test
+    @DisplayName("check that nothing happens if a specific vatican relation already occurred")
+    public void moveAllTheOthersCase5(){
+        //A -> 6
+        this.table.getPlayers()[0].moveForward(5);
+        //B -> 2
+        this.table.getPlayers()[1].moveForward(1);
+        //C -> 3
+        this.table.getPlayers()[2].moveForward(2);
+        //D -> 3
+        this.table.getPlayers()[3].moveForward(2);
+
+        //C turn
+        this.table.nextTurn();
+        this.table.nextTurn();
+
+        //A -> activates
+        this.faithTrackController.moveAllTheOthers(2);
+
+        for (RealPlayer player : this.table.getPlayers()){
+            this.doubleCheck(player);
+        }
+
+        //C -> goes on the same pope space of A
+        this.faithTrackController.movePlayerOfTurn(5);
+
+        for (RealPlayer player : this.table.getPlayers()){
+            this.doubleCheck(player);
+        }
+    }
+
+    private void doubleCheck(RealPlayer player){
+        switch (player.getNickname()){
+            case("A"):
+            case("D"):
+                assertEquals(PopeFavorCardState.FACEUP, player.getPopeFavorCards()[0].getState());
+                assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[1].getState());
+                assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
+                break;
+            case("B"):
+            case("C"):
+                assertEquals(PopeFavorCardState.DISABLED, player.getPopeFavorCards()[0].getState());
+                assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[1].getState());
+                assertEquals(PopeFavorCardState.FACEDOWN, player.getPopeFavorCards()[2].getState());
+                break;
+        }
+    }
 }
