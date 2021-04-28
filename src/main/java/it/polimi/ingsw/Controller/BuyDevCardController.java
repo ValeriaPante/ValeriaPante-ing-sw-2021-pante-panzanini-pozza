@@ -29,9 +29,11 @@ public class BuyDevCardController extends CardActionController{
 
         try {
             if(!table.getDevDecks()[chosenDeck - 1].isEmpty()) {
-                if (!atLeastOneDevSlotIsAvailable(table.getDevDecks()[chosenDeck - 1].getTopCard())){
+                if (!atLeastOneDevSlotIsAvailable(table.getDevDecks()[chosenDeck - 1].getTopCard())) {
                     table.turnOf().setErrorMessage("You can't buy this card, there is no slot to contain it. ");
-                } else {
+                } else if(!playerCanPayIt(table.getDevDecks()[chosenDeck - 1].getTopCard().getCost())){
+                    table.turnOf().setErrorMessage("You can't buy this card, you don't have enough resources. ");
+                }else {
                     //deseleziona un eventuale deck che era stato selezionato prima
                     for(DevDeck deck: table.getDevDecks()){
                         if(deck.getTopCard().isSelected())
@@ -53,6 +55,12 @@ public class BuyDevCardController extends CardActionController{
         for(int i = 0; i < table.turnOf().getDevSlots().length; i++)
             result = result || table.turnOf().getDevSlots()[i].isInsertable(card);
         return result;
+    }
+
+    private boolean playerCanPayIt(EnumMap<Resource, Integer> cost){
+        Depot temp = new Depot();
+        temp.addEnumMap(table.turnOf().getResourcesOwned());
+        return temp.contains(cost);
     }
 
     private boolean thereIsASelection(){
@@ -179,7 +187,7 @@ public class BuyDevCardController extends CardActionController{
                     chosenDeck.selectTopCard();
                     chosenDeck.draw();
                     table.turnOf().setMicroTurnType(MicroTurnType.NONE);
-                    table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+                    table.turnOf().setMacroTurnType(MacroTurnType.DONE);
                     if(table.turnOf().getNumberOfDevCardOwned() == 7) table.setLastLap();
                 } catch (CantPutThisHere e) {
                     table.turnOf().setErrorMessage("This Slot can't contain your card. ");
