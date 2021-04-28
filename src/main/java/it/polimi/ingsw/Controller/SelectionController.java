@@ -12,10 +12,12 @@ import java.util.EnumMap;
 public class SelectionController {
     protected final Table table;
     protected EnumMap<Resource, Integer> enumMap;
+    protected FaithTrackController faithTrackController;
 
     public SelectionController(Table newTable){
         this.table = newTable;
         this.enumMap = new EnumMap<>(Resource.class);
+        this.faithTrackController = new FaithTrackController(newTable);
     }
 
     public LeaderCard getUsableLeaderCard(int serial){
