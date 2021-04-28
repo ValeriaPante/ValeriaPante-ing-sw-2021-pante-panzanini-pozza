@@ -19,7 +19,6 @@ import java.util.LinkedList;
 
 public class RealPlayer extends Player{
 
-    private boolean actionDone;
     private DevSlot[] devSlots;
     private Shelf[] shelves;
     private StrongBox strongBox;
@@ -57,7 +56,6 @@ public class RealPlayer extends Player{
     //---Constructor---
     public RealPlayer(String nickname){
        super(nickname);
-       this.actionDone = false;
        this.initialiseDevSlots();
        this.initialiseShelves();
        this.strongBox = new StrongBox();
@@ -79,10 +77,6 @@ public class RealPlayer extends Player{
     }
     //-----
 
-    public void setActionDone(boolean actionDone){
-        this.actionDone = actionDone;
-    }
-
     //--- Selection Section ---
     //public void paySelected(){
     //    for (Payable toPay : this.selected.keySet()){
@@ -100,9 +94,6 @@ public class RealPlayer extends Player{
     //---Getters---
     public BasicProductionPower getBasicProductionPower(){
         return this.basicProductionPower;
-    }
-    public boolean isActionDone(){
-        return this.actionDone;
     }
     public DevSlot[] getDevSlots(){
         return Arrays.copyOf(this.devSlots, this.devSlots.length);
