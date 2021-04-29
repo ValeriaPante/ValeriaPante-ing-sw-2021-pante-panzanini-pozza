@@ -8,6 +8,7 @@ import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Game.Table;
 import it.polimi.ingsw.Player.RealPlayer;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -59,6 +60,13 @@ public class CardActionControllerTest {
         this.table.addPlayer(player1);
         this.faithTrackController = new FaithTrackController(this.table);
         this.cardActionController = new CardActionController(this.faithTrackController);
+
+        //Situazione interna a player1:
+        //Shelf1: 1SH
+        //Shelf2: 1CO
+        //Shelf3: 2SE
+        //StrongBox: 3SE, 6CO
+        //L1: 1ST, 1SE
     }
 
     @Test
@@ -67,20 +75,84 @@ public class CardActionControllerTest {
         Method getPayableWithSelections;
         ArrayList<Payable> result;
 
-        this.table.turnOf().getShelves()[0].singleSelection();
-
         try {
             getPayableWithSelections = CardActionController.class.getDeclaredMethod("getPayableWithSelection", null);
             getPayableWithSelections.setAccessible(true);
-            result = (ArrayList<Payable>) getPayableWithSelections.invoke(this.cardActionController, null);
-        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+        } catch (NoSuchMethodException e) {
             fail();
             return;
         }
 
-        assertFalse(result.isEmpty());
+        try {
+            assertEquals(0, ((ArrayList<Payable>) getPayableWithSelections.invoke(this.cardActionController, null)).size());
+            this.table.turnOf().getShelves()[0].singleSelection();
+            assertEquals(1, ((ArrayList<Payable>) getPayableWithSelections.invoke(this.cardActionController, null)).size());
 
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            Assertions.fail();
+            return;
+        }
+    }
 
+    @Test
+    @DisplayName("Method isAffordableSomehow() test")
+    public void isAffordableSomehow(){
+        Method isAffordableSomehow;
+
+        try{
+            isAffordableSomehow = CardActionController.class.getDeclaredMethod("isAffordableSomehow", EnumMap.class);
+            isAffordableSomehow.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            Assertions.fail();
+            return;
+        }
+
+        try{
+            //Tests with some not ANY Resources
+            assertTrue((boolean) isAffordableSomehow.invoke(this.cardActionController, new EnumMap<>(Resource.class){{
+                put(Resource.STONE, 1);
+            }}));
+            assertTrue((boolean) isAffordableSomehow.invoke(this.cardActionController, new EnumMap<>(Resource.class){{
+                put(Resource.SERVANT, 3);
+            }}));
+            assertFalse((boolean) isAffordableSomehow.invoke(this.cardActionController, new EnumMap<>(Resource.class){{
+                put(Resource.STONE, 2);
+            }}));
+            assertTrue((boolean) isAffordableSomehow.invoke(this.cardActionController, new EnumMap<>(Resource.class){{
+                put(Resource.SHIELD, 1);
+                put(Resource.COIN, 2);
+            }}));
+            assertFalse((boolean) isAffordableSomehow.invoke(this.cardActionController, new EnumMap<>(Resource.class){{
+                put(Resource.COIN, 4);
+                put(Resource.STONE, 3);
+            }}));
+
+            //Tests with ANY
+            assertTrue((boolean) isAffordableSomehow.invoke(this.cardActionController, new EnumMap<>(Resource.class){{
+                put(Resource.STONE, 1);
+                put(Resource.ANY, 1);
+            }}));
+
+            assertTrue((boolean) isAffordableSomehow.invoke(this.cardActionController, new EnumMap<>(Resource.class){{
+                put(Resource.COIN, 4);
+                put(Resource.ANY, 6);
+            }}));
+
+            assertTrue((boolean) isAffordableSomehow.invoke(this.cardActionController, new EnumMap<>(Resource.class){{
+                put(Resource.COIN, 6);
+                put(Resource.SERVANT, 5);
+                put(Resource.ANY, 4);
+            }}));
+
+            assertFalse((boolean) isAffordableSomehow.invoke(this.cardActionController, new EnumMap<>(Resource.class){{
+                put(Resource.COIN, 6);
+                put(Resource.SERVANT, 5);
+                put(Resource.ANY, 5);
+            }}));
+
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            Assertions.fail();
+        }
     }
 
 }
