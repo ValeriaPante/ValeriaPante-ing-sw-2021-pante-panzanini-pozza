@@ -21,35 +21,35 @@ public class MarketController extends SelectionController{
     }
 
     public void selectInShelf(Resource resType, int numberOfShelf){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACERESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         selectFromShelf(resType, numberOfShelf);
     }
 
     public void selectIntLeaderStorage(Resource resType, int serial, int resPosition){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACERESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         selectFromLeaderStorage(resType, serial, resPosition);
     }
 
     public void selectInSupportContainer(Resource resType, int quantity){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACERESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         selectFromSupportContainer(resType, quantity);
     }
 
     public void deselectInShelf(Resource resType, int numberOfShelf){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACERESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         deselectFromShelf(resType, numberOfShelf);
     }
 
     public void deselectInSupportContainer(Resource resType, int quantity){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACERESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         deselectFromSupportContainer(resType, quantity);
@@ -57,7 +57,7 @@ public class MarketController extends SelectionController{
 
     //moves all the resources selected from leader deposit and shelves to supportContainer (in player of turn)
     public void moveSelectedToSupportContainer(){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACERESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         StrongBox supportContainer = table.turnOf().getSupportContainer();
@@ -79,7 +79,7 @@ public class MarketController extends SelectionController{
 
     //moves the resources selected in supportContainer, in player of turn, into the Shelf with the capacity equals to numberOfShelf
     public void moveToShelf(int numberOfShelf){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACERESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         enumMap = table.turnOf().getSupportContainer().getSelection();
@@ -117,7 +117,7 @@ public class MarketController extends SelectionController{
 
     //moves the resources selected in supportContainer, in player of turn, into the leader card with the id equals to the serial number specified
     public void moveToLeaderStorage(int serial){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACERESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         LeaderCard specifiedLeaderCard = getUsableLeaderCard(serial);
@@ -137,7 +137,7 @@ public class MarketController extends SelectionController{
 
     //if there are only two containes with and if it is possible to swap the selection, this does it
     public void exchange(){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACERESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         //PART 1: counts the container with resources selected
@@ -335,7 +335,7 @@ public class MarketController extends SelectionController{
     //selects rows or columns in market
     public void selectFromMarket(int number, boolean isRowChosen){
         if (table.turnOf().getMicroTurnType() == MicroTurnType.NONE)
-            table.turnOf().setMicroTurnType(MicroTurnType.SELECTIONINMARKET);
+            table.turnOf().setMicroTurnType(MicroTurnType.SELECTION_IN_MARKET);
 
         if(number < 1)
             //Error message: "Wrong position specified"
@@ -360,7 +360,7 @@ public class MarketController extends SelectionController{
 
     //move the resources selected in the market into player's strongbox
     public void takeFromMarket(){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.SELECTIONINMARKET)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.SELECTION_IN_MARKET)
             return;
 
 //        if (!table.getMarket().areThereSelections())
@@ -368,7 +368,7 @@ public class MarketController extends SelectionController{
 //            return;
 
         enumMap = table.getMarket().takeSelection();
-        table.turnOf().setMicroTurnType(MicroTurnType.PLACERESOURCES);
+        table.turnOf().setMicroTurnType(MicroTurnType.PLACE_RESOURCES);
 
         if (enumMap.containsKey(Resource.WHITE)){
             int numOfTransmutationAbilities = 0;
@@ -391,7 +391,7 @@ public class MarketController extends SelectionController{
                 for (EnumMap.Entry<Resource, Integer> entry : transmutationAbility.getWhiteInto().entrySet())
                     enumMap.put(entry.getKey(), (entry.getValue() * numOfWhite) + (enumMap.getOrDefault(entry.getKey(), 0)));
             } else {
-                table.turnOf().setMicroTurnType(MicroTurnType.SELECTLEADERCARD);
+                table.turnOf().setMicroTurnType(MicroTurnType.SELECT_LEADER_CARD);
             }
         }
 
@@ -401,17 +401,17 @@ public class MarketController extends SelectionController{
 
         table.turnOf().getSupportContainer().clear();
         table.turnOf().getSupportContainer().addEnumMap(enumMap);
-        table.turnOf().setMacroTurnType(MacroTurnType.GETFROMMARKET);
+        table.turnOf().setMacroTurnType(MacroTurnType.GET_FROM_MARKET);
     }
 
     //si potrebbe usare con if dentro e in base al momento o annulla la selezione oppure trasforma le risorse non piazzate in punti fede
     public void quit(){
-        if (table.turnOf().getMicroTurnType() == MicroTurnType.SELECTIONINMARKET){
+        if (table.turnOf().getMicroTurnType() == MicroTurnType.SELECTION_IN_MARKET){
             table.getMarket().deleteSelection();
             table.turnOf().setMicroTurnType(MicroTurnType.NONE);
         }
 
-        if (table.turnOf().getMicroTurnType() == MicroTurnType.PLACERESOURCES){
+        if (table.turnOf().getMicroTurnType() == MicroTurnType.PLACE_RESOURCES){
             int faithPoints = table.turnOf().getSupportContainer().countAll();
             table.turnOf().getSupportContainer().clear();
             faithTrackController.moveAllTheOthers(faithPoints);
@@ -423,7 +423,7 @@ public class MarketController extends SelectionController{
 
     //it is compulsory to use this when the player owns two leader cards with transmutation ability played
     public void selectTransmutation (int serial1, int quantity1, int serial2, int quantity2){
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.SELECTLEADERCARD)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.SELECT_LEADER_CARD)
             return;
 
         int numOfWhite = table.turnOf().getSupportContainer().content().get(Resource.WHITE);
@@ -456,7 +456,7 @@ public class MarketController extends SelectionController{
         sb.mapSelection(whiteSelection);
         sb.pay();
         sb.addEnumMap(enumMap);
-        table.turnOf().setMicroTurnType(MicroTurnType.PLACERESOURCES);
+        table.turnOf().setMicroTurnType(MicroTurnType.PLACE_RESOURCES);
     }
 
     private EnumMap<Resource, Integer> getTransmutation(int serial){

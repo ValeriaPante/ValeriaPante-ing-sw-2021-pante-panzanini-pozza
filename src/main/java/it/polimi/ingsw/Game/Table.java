@@ -2,9 +2,7 @@ package it.polimi.ingsw.Game;
 
 import it.polimi.ingsw.Cards.DevCard;
 import it.polimi.ingsw.Cards.DevCardType;
-import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Decks.DevDeck;
-import it.polimi.ingsw.Decks.LeaderDeck;
 import it.polimi.ingsw.Deposit.Market;
 import it.polimi.ingsw.Enums.Colour;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
@@ -19,13 +17,10 @@ import java.util.LinkedList;
 
 public class Table {
     public static final int maxPlayers = 4;
-
     private boolean isLastLap;
     private boolean singlePlayer;
-
     private final Market market;
     private final FaithTrack faithTrack;
-
     private final LinkedList<RealPlayer> players;
     private LorenzoIlMagnifico lorenzoIlMagnifico;
     private int turnOf;
@@ -34,8 +29,6 @@ public class Table {
 
     private String broadcastMessage;
 
-    //molto d'accordo
-    private final LeaderDeck leaderDeck;//forse non è necessario tenerlo, nel controller a inizio partita si distribuiscono le carte e poi non ci serve più
     private DevDeck[] devDecks;
 
     private void initialiseDevDecks(){
@@ -57,7 +50,6 @@ public class Table {
         this.isLastLap = false;
         this.turnOf = 0;
         this.players = new LinkedList<>();
-        this.leaderDeck = new LeaderDeck();
         this.faithTrack = new FaithTrack();
         this.initialiseDevDecks();
         this.broadcastMessage = null;
@@ -66,6 +58,7 @@ public class Table {
     public void setLastLap(){
         this.isLastLap = true;
     }
+
     public boolean isLastLap(){
         return this.isLastLap;
     }
@@ -73,10 +66,12 @@ public class Table {
     private void setMultiPlayer(){
         this.singlePlayer = false;
     }
+
     private void setSinglePlayer() {
         this.singlePlayer = true;
         this.lorenzoIlMagnifico = new LorenzoIlMagnifico();
     }
+
     public boolean isSinglePlayer(){
         return this.singlePlayer;
     }
@@ -95,6 +90,7 @@ public class Table {
         }
         this.players.add(player);
     }
+
     public RealPlayer[] getPlayers(){
         return this.players.toArray(new RealPlayer[0]);
     }
@@ -129,16 +125,8 @@ public class Table {
 
     public void clearWinners(){ this.winner.clear(); }
 
-    public LeaderDeck getLeaderDeck() {
-        return this.leaderDeck;
-    }
-
     public DevDeck[] getDevDecks() {
         return Arrays.copyOf(this.devDecks, this.devDecks.length);
-    }
-
-    public LeaderCard drawLeaderDeck(){
-        return this.leaderDeck.draw();
     }
 
     public DevCard drawDevDeck(int numberOfDeck){

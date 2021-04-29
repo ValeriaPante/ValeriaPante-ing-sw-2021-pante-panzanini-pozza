@@ -19,6 +19,10 @@ public class GameController {
     private FaithTrackController faithTrackController;
     private final List<String> players;
 
+    public GameController(){
+        this.players = new ArrayList<>();
+    }
+
     public void addNewPlayer(String playerName){
         players.add(playerName);
     }
@@ -27,14 +31,69 @@ public class GameController {
         players.remove(playerName);
     }
 
-    private void initializePlayersLeaderCard(){
+    //allInOne is about card handling to players
+    public void StartGame(boolean allInOne){
+        this.table = new Table(players.size());
+
+        //Players' playing order is random
+        Collections.shuffle(players);
+        for (String nickName : players)
+            table.addPlayer(new RealPlayer(nickName));
+
         LeaderDeck leaderDeck = new LeaderDeck();
         leaderDeck.shuffle();
-        RealPlayer[] lisOfPlayers = table.getPlayers();
 
-        for (RealPlayer player : lisOfPlayers)
-                for (int i=0; i<4; i++)
+        if (allInOne){
+            for (RealPlayer player : table.getPlayers())
+                for (int i = 0; i < 4; i++)
                     player.addLeaderCard(leaderDeck.draw());
+        } else {
+            for (int i = 0; i < 4; i++)
+                for (RealPlayer player : table.getPlayers())
+                    player.addLeaderCard(leaderDeck.draw());
+        }
+    }
+
+
+    public Table getTable(){
+        return this.table;
+    }
+
+    public void discardLeaderCard (int serial){
+        if (table.turnOf().getLeaderCards().length == 2)
+            return;
+
+        boolean ownCard = false;
+        LeaderCard card = null;
+        RealPlayer player = table.turnOf();
+
+        for (LeaderCard lc : player.getLeaderCards())
+            if (lc.getId() == serial){
+                ownCard = true;
+                card = lc;
+            }
+
+        if (!ownCard)
+            //Error message: "Wrong selection"
+            return;
+
+        player.discardLeaderCard(card);
+        if (player.getLeaderCards().length == 2) {
+            player.setMicroTurnType(MicroTurnType.CHOOSE_RESOURCES);
+            table.nextTurn();
+        }
+    }
+
+
+
+
+
+
+
+    private void initializePlayersLeaderCard(){
+
+
+
 
         waitForDiscarding();
     }
@@ -71,12 +130,7 @@ public class GameController {
     }
 
     public void startGame() {
-        this.table = new Table(players.size());
-        this.faithTrackController = new FaithTrackController(this.table);
 
-        Collections.shuffle(players);  //Players' playing order is random
-            for (String nickName : players)
-                table.addPlayer(new RealPlayer(nickName));
 
         initializePlayersLeaderCard();
 
@@ -86,17 +140,41 @@ public class GameController {
 
     }
 
-    public GameController(){
-        this.players = new ArrayList<>();
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     //End turn
     //--------------------------------------------------------------------------------------------
     public void endTurn(){
+        if (table.turnOf().getMacroTurnType() != MacroTurnType.DONE)
+            //Error message "Cannot skip turn"
+            return;
+
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
         table.turnOf().setMicroTurnType(MicroTurnType.NONE);
-        if(table.isSinglePlayer()){
-            table.nextTurn();
+        table.nextTurn();
+        if(table.isSinglePlayer() && !table.isLastLap()){
             if(anEntireLineIsEmpty()){
                 table.setLastLap();
             } else {
@@ -129,7 +207,7 @@ public class GameController {
                     maxNumOfResources = points[1];
                     table.clearWinners();
                     table.addWinner(player);
-                } else if (points[0] == maxPoints && points[1] > maxNumOfResources){
+                } else if (points[0] == maxPoints && points[1] == maxNumOfResources){
                     table.addWinner(player);
                 }
             }
