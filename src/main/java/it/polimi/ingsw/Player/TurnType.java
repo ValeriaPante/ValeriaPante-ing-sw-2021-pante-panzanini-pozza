@@ -8,8 +8,8 @@ public class TurnType implements Cloneable{
     private MicroTurnType microTurnType;
 
     public TurnType(){
-        this.macroTurnType = MacroTurnType.NONE;
-        this.microTurnType = MicroTurnType.NONE;
+        this.macroTurnType = MacroTurnType.STARTING;
+        this.microTurnType = MicroTurnType.DISCARD_LEADER_CARD;
     }
 
     public void setMacroTurnType(MacroTurnType macroTurnType) {

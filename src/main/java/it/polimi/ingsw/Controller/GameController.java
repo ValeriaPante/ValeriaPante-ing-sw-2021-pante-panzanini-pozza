@@ -31,16 +31,46 @@ public class GameController {
         players.remove(playerName);
     }
 
+    //allInOne is about card handling to players
+    public void StartGame(boolean allInOne){
+        this.table = new Table(players.size());
+
+        //Players' playing order is random
+        Collections.shuffle(players);
+        for (String nickName : players)
+            table.addPlayer(new RealPlayer(nickName));
+
+        LeaderDeck leaderDeck = new LeaderDeck();
+        leaderDeck.shuffle();
+
+        if (allInOne){
+            for (RealPlayer player : table.getPlayers())
+                for (int i = 0; i < 4; i++)
+                    player.addLeaderCard(leaderDeck.draw());
+        } else {
+            for (int i = 0; i < 4; i++)
+                for (RealPlayer player : table.getPlayers())
+                    player.addLeaderCard(leaderDeck.draw());
+        }
+    }
+
+
+    public Table getTable(){
+        return this.table;
+    }
+
+
+
+
+
+
+
 
 
     private void initializePlayersLeaderCard(){
-        LeaderDeck leaderDeck = new LeaderDeck();
-        leaderDeck.shuffle();
-        RealPlayer[] lisOfPlayers = table.getPlayers();
 
-        for (RealPlayer player : lisOfPlayers)
-                for (int i=0; i<4; i++)
-                    player.addLeaderCard(leaderDeck.draw());
+
+
 
         waitForDiscarding();
     }
@@ -77,12 +107,7 @@ public class GameController {
     }
 
     public void startGame() {
-        this.table = new Table(players.size());
-        this.faithTrackController = new FaithTrackController(this.table);
 
-        Collections.shuffle(players);  //Players' playing order is random
-            for (String nickName : players)
-                table.addPlayer(new RealPlayer(nickName));
 
         initializePlayersLeaderCard();
 
@@ -91,6 +116,28 @@ public class GameController {
             initializePlayersResources();
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
