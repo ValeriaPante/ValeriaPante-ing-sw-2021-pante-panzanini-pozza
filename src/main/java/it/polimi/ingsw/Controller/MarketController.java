@@ -404,7 +404,6 @@ public class MarketController extends SelectionController{
         table.turnOf().setMacroTurnType(MacroTurnType.GET_FROM_MARKET);
     }
 
-    //si potrebbe usare con if dentro e in base al momento o annulla la selezione oppure trasforma le risorse non piazzate in punti fede
     public void quit(){
         if (table.turnOf().getMicroTurnType() == MicroTurnType.SELECTION_IN_MARKET){
             table.getMarket().deleteSelection();
@@ -416,7 +415,7 @@ public class MarketController extends SelectionController{
             table.turnOf().getSupportContainer().clear();
             faithTrackController.moveAllTheOthers(faithPoints);
             table.turnOf().setMicroTurnType(MicroTurnType.NONE);
-            table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+            table.turnOf().setMacroTurnType(MacroTurnType.DONE);
             deselectAllResources();
         }
     }

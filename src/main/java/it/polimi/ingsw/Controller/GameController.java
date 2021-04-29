@@ -23,8 +23,12 @@ public class GameController {
         this.players = new ArrayList<>();
     }
 
-    public void addNewPlayer(String playerName){
+    public void addNewPlayer(String playerName) throws IndexOutOfBoundsException{
+        if (players.size() == 4)
+            //Error message: "Cannot join this game"
         players.add(playerName);
+        if (players.size() == 4)
+            startGame(true);
     }
 
     public void removePlayer(String playerName){
@@ -32,7 +36,7 @@ public class GameController {
     }
 
     //allInOne is about card handling to players
-    public void StartGame(boolean allInOne){
+    public void startGame(boolean allInOne){
         this.table = new Table(players.size());
         this.faithTrackController = new FaithTrackController(table);
 
@@ -83,92 +87,81 @@ public class GameController {
             return;
 
         player.discardLeaderCard(card);
+
         if (player.getLeaderCards().length == 2) {
             player.setMicroTurnType(MicroTurnType.CHOOSE_RESOURCES);
+
             table.nextTurn();
+
+            if (table.turnOf() == table.getPlayers()[0]){
+                table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+                table.turnOf().setMicroTurnType(MicroTurnType.NONE);
+
+                table.nextTurn();
+            }
         }
     }
 
+    public void selectResource(int capacityShelf1, Resource resType1){
+        if ((capacityShelf1 > 3) || (capacityShelf1 < 1))
+            //Error message: "Bad shelf selection"
+            return;
 
+        if ((resType1 != Resource.COIN) && (resType1 != Resource.SHIELD) && (resType1 != Resource.SERVANT) && (resType1 != Resource.STONE))
+            //Error message: "Bad resource selection"
+            return;
 
+        if ((table.getPlayers().length == 4) && (table.turnOf() == table.getPlayers()[3])){
+            int placedResources = 0;
+            for (Shelf s : table.turnOf().getShelves())
+                placedResources += s.getUsage();
 
+            if (placedResources == 0){
+                for (Shelf s : table.turnOf().getShelves())
+                    if (s.getCapacity() == capacityShelf1)
+                        s.singleAdd(resType1);
+            } else {
+                for (Shelf s : table.turnOf().getShelves())
+                    if (s.getCapacity() == capacityShelf1){
+                        if (s.isEmpty()) {
+                            for (Shelf s1 : table.turnOf().getShelves())
+                                if ((s1 != s) && (!s1.isEmpty())) {
+                                    if (s1.getResourceType() == resType1)
+                                        //Error message: "Resource already contained in another shelf"
+                                        return;
+                                }
+                        } else {
+                            if (s.getResourceType() != resType1)
+                                //Error message: "Cannot place the resource here"
+                                return;
 
+                            if (s.getCapacity() == 1)
+                                //Error message: "Selected shelf cannot contain that resource"
+                                return;
+                        }
+                        s.singleAdd(resType1);
+                    }
 
+                faithTrackController.movePlayerOfTurn(1);
+                table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+                table.turnOf().setMicroTurnType(MicroTurnType.NONE);
 
-    private void initializePlayersLeaderCard(){
+                table.nextTurn();
+            }
+        } else {
+            for (Shelf s : table.turnOf().getShelves())
+                if (s.getCapacity() == capacityShelf1)
+                    s.singleAdd(resType1);
 
+            if ((table.getPlayers().length > 2) && (table.turnOf() == table.getPlayers()[2]))
+                faithTrackController.movePlayerOfTurn(1);
+            table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+            table.turnOf().setMicroTurnType(MicroTurnType.NONE);
 
-
-
-        waitForDiscarding();
+            table.nextTurn();
+        }
     }
-
-    //I need a way to receive in input the card that the player want to discard
-    private void waitForDiscarding(){
-        int totalNumberOfLCs;
-        RealPlayer[] listOfPlayers = table.getPlayers();
-        do{
-            totalNumberOfLCs = 0;
-            for (RealPlayer player : listOfPlayers)
-                totalNumberOfLCs += player.getLeaderCards().length;
-        } while(totalNumberOfLCs > ((listOfPlayers.length) * 2) );
-    }
-
-    private void initializePlayersResources(){
-        RealPlayer[] listOfPlayers = table.getPlayers();
-
-        if(listOfPlayers.length > 2)
-            for(int i=2; i < listOfPlayers.length; i++)
-                listOfPlayers[i].moveForward(1);
-
-        for(int i=1; i < listOfPlayers.length; i++)
-            setInitialResources(listOfPlayers[i], (i == 3) ? 2 : 1);
-    }
-
-    private void setInitialResources(RealPlayer player, int numberOfResources){
-        Scanner input = new Scanner(System.in);
-
-        //scelta delle risorse
-
-        //posizionamento delle risorse nelle shelf
-
-    }
-
-    public void startGame() {
-
-
-        initializePlayersLeaderCard();
-
-        //assegnamento delle risorse ai giocatori
-        if (!table.isSinglePlayer())
-            initializePlayersResources();
-
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     //End turn
     //--------------------------------------------------------------------------------------------
     public void endTurn(){
