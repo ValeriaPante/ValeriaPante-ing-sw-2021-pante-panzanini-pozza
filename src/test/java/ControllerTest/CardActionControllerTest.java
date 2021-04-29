@@ -2,6 +2,7 @@ package ControllerTest;
 
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Controller.CardActionController;
+import it.polimi.ingsw.Controller.FaithTrackController;
 import it.polimi.ingsw.Deposit.Payable;
 import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
@@ -22,6 +23,7 @@ import java.util.HashMap;
 public class CardActionControllerTest {
 
     private CardActionController cardActionController;
+    private FaithTrackController faithTrackController;
     private Table table;
 
     @BeforeEach
@@ -55,7 +57,8 @@ public class CardActionControllerTest {
         player1.addLeaderCard(new LeaderCard(3, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.PRODPOWER, capacity, 13));
 
         this.table.addPlayer(player1);
-        this.cardActionController = new CardActionController(this.table);
+        this.faithTrackController = new FaithTrackController(this.table);
+        this.cardActionController = new CardActionController(this.faithTrackController);
     }
 
     @Test
