@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ProductionController extends CardActionController{
 
-    RealPlayer player;
+    private RealPlayer player;
 
     public ProductionController(Table table) {
         super(table);
@@ -62,7 +62,7 @@ public class ProductionController extends CardActionController{
         return super.isAffordableSomehow(resourceRequired.content());
     }
 
-    private void select(int idCard, RealPlayer player){
+    private void selectCard(int idCard, RealPlayer player){
 
         if (idCard == 0){
             if (player.getBasicProductionPower().isSelected()){
@@ -72,114 +72,108 @@ public class ProductionController extends CardActionController{
                 if (this.isAffordableSomehow(player.getBasicProductionPower().getProductionPower(), player)){
                     player.getBasicProductionPower().select();
                 }
+                else{
+                    //non si può permettere questa carta
+                    player.setErrorMessage("You can't activate this production because you don't have enough resources");
+                    return;
+                }
+            }
+            return;
+        }
+
+        //devCards
+        for (DevSlot devSlot : player.getDevSlots()) {
+            if (devSlot.topCard().getId() == idCard) {
+                if (devSlot.topCard().isSelected()) {
+                    devSlot.topCard().select();
+                } else {
+                    if (this.isAffordableSomehow(devSlot.topCard().getProdPower(), player)) {
+                        devSlot.topCard().select();
+                    } else {
+                        //non si può permettere questa carta
+                        player.setErrorMessage("You can't activate this production because you don't have enough resources");
+                    }
+                }
+                return;
             }
         }
+
+        for (LeaderCard leaderCard : player.getLeaderCards()) {
+            if (leaderCard.getId() == idCard) {
+                if (leaderCard.isSelected()) {
+                    leaderCard.select();
+                } else {
+                    ProductionPower leaderProductionPower;
+                    try {
+                        leaderProductionPower = leaderCard.getAbility().getProductionPower();
+                    } catch (WeDontDoSuchThingsHere e) {
+                        //ha selezionato una carta che non è di tipo produzione
+                        player.setErrorMessage("This is not a production LeaderCard");
+                        return; //da eliminare
+                    }
+
+                    if (this.isAffordableSomehow(leaderProductionPower, player)) {
+                        leaderCard.select();
+                    } else {
+                        //non si può permettere questa carta
+                        player.setErrorMessage("You can't activate this production because you don't have enough resources");
+                    }
+                }
+                return;
+            }
+        }
+
+        //il giocatore ha specificato una carta che non possiede
+        player.setErrorMessage("Card not owned");
+    }
+
+    private boolean isTurnTypeValid(){
+        this.player = super.table.turnOf();
+        //il giocatore puù selezionare una risorsa quando Macro e micro sono None
+        //il giocatore puù selezionare una risorsa quando Macro e micro sono PRODPOWERS e SETTINGUP
+
+        if (this.player.getMacroTurnType() == MacroTurnType.NONE && this.player.getMicroTurnType() == MicroTurnType.NONE){
+            this.player.setMacroTurnType(MacroTurnType.PRODUCTION);
+            this.player.setMicroTurnType(MicroTurnType.SETTINGUP);
+            return true;
+        }
+        else if (this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTINGUP){
+            return true;
+        }
         else{
-            //cerco questo specifico id in tutte le carte che il giocatore possiede
-            boolean found = false;
-
-            //devCards
-            DevSlot[] devSlots = player.getDevSlots();
-            for (int i=0; i<devSlots.length && !found; i++){
-                if (devSlots[i].topCard().getId() == idCard){
-                    found = true;
-                    if (devSlots[i].topCard().isSelected()){
-                        devSlots[i].topCard().select();
-                    }
-                    else{
-                        if (this.isAffordableSomehow(devSlots[i].topCard().getProdPower(), player)){
-                            devSlots[i].topCard().select();
-                        }
-                        else{
-                            //eccezione / modifica nel model che l'ultima azione è scorretta
-                            //non si può permettere questa carta
-                            return; //da eliminare
-                        }
-                    }
-                }
-            }
-
-            if (!found){
-                LeaderCard[] leaderCards = player.getLeaderCards();
-                for (int i=0; i<leaderCards.length && !found; i++){
-                    if (leaderCards[i].getId()==idCard){
-                        found = true;
-                        if (leaderCards[i].isSelected()){
-                            leaderCards[i].select();
-                        }
-                        else{
-                            ProductionPower leaderProductionPower;
-                            try {
-                                leaderProductionPower = leaderCards[i].getAbility().getProductionPower();
-                            }
-                            catch(WeDontDoSuchThingsHere e){
-                                //eccezione / modifica nel model che l'ultima azione è scorretta
-                                //ha selezionato una carta che non è di tipo produzione
-                                return; //da eliminare
-                            }
-
-                            if (this.isAffordableSomehow(leaderProductionPower, player)){
-                                leaderCards[i].select();
-                            }
-                            else{
-                                //eccezione / modifica nel model che l'ultima azione è scorretta
-                                //non si può permettere questa carta
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (!found){
-                //eccezione / modifica nel model che l'ultima azione è scorretta
-                //il giocatore ha specificato una carta che non possiede
-                return; //da eliminare
-            }
+            //flow non rispettato
+            this.player.setErrorMessage("Not allowed");
+            return false;
         }
     }
 
     public void selectCardProduction(int idCard){
         this.player = super.table.turnOf();
-        if (player.getMacroTurnType() == MacroTurnType.NONE){
-            player.setMacroTurnType(MacroTurnType.PRODUCTION);
-            player.setMicroTurnType(MicroTurnType.SETTINGUP);
-            this.select(idCard, player);
+        if (!this.isTurnTypeValid()){
+            return;
         }
-        else if (player.getMacroTurnType() == MacroTurnType.PRODUCTION){
-            if (player.getMicroTurnType() == MicroTurnType.NONE){
-                player.setMicroTurnType(MicroTurnType.SETTINGUP);
-            }
-            this.select(idCard, player);
-        }
-        else{
-            //eccezione / modifica nel model che l'ultima azione è scorretta
-            //non può fare questa cosa in questo momento, non rispetta il flow
-            return; //da eliminare
-        }
+        this.selectCard(idCard, this.player);
 
-
-        //DEVO CAPIRE QUANTE CARTE SONO SELEZIONATE PER SETTARE IL TURNO A NONE NEL CASO VOLESSE FARE ALTRO
-        if (this.getSelectedProductionPowers(player).isEmpty()){
-            // -> significa che non ci sono carte selezionate
-
-            //chiedere ai ragazzi se per loro ha senso che anche le risorse vadano deselezionate
-        }
-
+        this.checkResetCondition();
     }
 
     public void selectAllProductionPowers(){
         this.player = super.table.turnOf();
+
+        if (!this.isTurnTypeValid()){
+            return;
+        }
+
         Depot allInputs = new Depot();
 
         for (ProductionPower productionPower : this.player.getAllProductionPowers()){
             allInputs.addEnumMap(productionPower.getInput());
         }
 
-        ProductionPower allInputsCombined =  new ProductionPower(allInputs.content(), new EnumMap<>(Resource.class));
-        if (!this.isAffordableSomehow(allInputsCombined, this.player)){
-            //eccezione / modifica nel model che l'ultima azione è scorretta
+        if (!super.isAffordableSomehow(allInputs.content())){
             //non ha abbastanza risorse per attivarli tutti
-            return; //da eliminare
+            this.player.setErrorMessage("you can't activate all production Powers together because you don' have enough resources");
+            return;
         }
 
         if (!this.player.getBasicProductionPower().isSelected()) {
@@ -204,15 +198,83 @@ public class ProductionController extends CardActionController{
             }
         }
         //a questo punto sono tutti selezionati
+        this.player.setMacroTurnType(MacroTurnType.PRODUCTION);
+        this.player.setMicroTurnType(MicroTurnType.SETTINGUP);
     }
 
-    public void SelectResource(Payable storage, Resource resource, int amount, int pos){
-        //chiamo super con i metodi che abbiamo deciso
+    @Override
+    public void selectFromShelf(Resource resource, int numberOfShelf){
+        if (!this.isTurnTypeValid()){
+            return;
+        }
+        super.selectFromShelf(resource, numberOfShelf);
+        this.checkResetCondition();
+    }
+
+    @Override
+    public void deselectFromShelf(Resource resource, int numberOfShelf){
+        if (!this.isTurnTypeValid()){
+            return;
+        }
+        super.deselectFromShelf(resource, numberOfShelf);
+        this.checkResetCondition();
+    }
+
+    @Override
+    public void selectFromStrongBox(Resource resource, int quantity){
+        if (!this.isTurnTypeValid()){
+            return;
+        }
+        super.selectFromStrongBox(resource, quantity);
+        this.checkResetCondition();
+    }
+
+    @Override
+    public void deselectFromStrongBox(Resource resource, int quantity){
+        if (!this.isTurnTypeValid()){
+            return;
+        }
+        super.deselectFromStrongBox(resource, quantity);
+        this.checkResetCondition();
+    }
+
+    @Override
+    public void selectFromLeaderStorage(Resource resource, int idCard, int resPosition){
+        if (!this.isTurnTypeValid()){
+            return;
+        }
+        super.selectFromLeaderStorage(resource, idCard, resPosition);
+        this.checkResetCondition();
+    }
+
+    private void checkResetCondition(){
+        this.player = super.table.turnOf();
+        //DEVO CAPIRE QUANTE CARTE SONO SELEZIONATE PER SETTARE IL TURNO A NONE NEL CASO VOLESSE FARE ALTRO
+        if (this.getSelectedProductionPowers(this.player).isEmpty()){
+            // -> significa che non ci sono carte selezionate
+
+            //chiedere ai ragazzi se per loro ha senso che anche le risorse vadano deselezionate
+            //per ora controllo che se anche tutte le risorse sono deselezionate allora il turno diventa NONE
+            if (super.getPayableWithSelection().isEmpty()){
+                this.player.setMacroTurnType(MacroTurnType.NONE);
+                this.player.setMacroTurnType(MacroTurnType.NONE);
+            }
+        }
     }
 
     public void activateProduction(){
         this.player = super.table.turnOf();
+
+        if (!(this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTINGUP)){
+            this.player.setErrorMessage("You can't");
+            return;
+        }
+
         ArrayList<ProductionPower> selectedProdPowers = this.getSelectedProductionPowers(this.player);
+        if (selectedProdPowers.isEmpty()){
+            this.player.setErrorMessage("Seleziona qualche potere di produzione pls");
+            return;
+        }
 
         //----Vado a prendermi tutte le risorse selezionate
         Depot resourceSelected = new Depot();
@@ -242,6 +304,10 @@ public class ProductionController extends CardActionController{
             }
         }
         //----
+        if (resourceSelected.isEmpty()){
+            this.player.setErrorMessage("Non vai avanti fin quando non selezioni qualche risorsa");
+            return;
+        }
 
         Depot allInputs = new Depot();
         Depot allOutputs = new Depot();
@@ -263,7 +329,8 @@ public class ProductionController extends CardActionController{
             }
             else{
                 //errore:
-                //le risorse selezionate non sono abbastanza da coprire il costo delle cate selezionate
+                //le risorse selezionate non sono abbastanza da coprire il costo delle carte selezionate
+                this.player.setErrorMessage("Selected are not enough");
             }
         }
         else{
@@ -275,6 +342,7 @@ public class ProductionController extends CardActionController{
             else{
                 //errore:
                 //le risorse selezionate non sono abbastanza da coprire il costo delle carte selezionate
+                this.player.setErrorMessage("Selected are not enough");
             }
         }
     }
@@ -313,8 +381,13 @@ public class ProductionController extends CardActionController{
         for (Payable payable : payableWithSelection){
             payable.pay();
         }
+        Integer faithPoints = toPutInStrongBox.remove(Resource.FAITH);
         player.getStrongBox().addEnumMap(toPutInStrongBox);
-        player.setActionDone(true);
+
+        if (faithPoints != null){
+            super.faithTrackController.movePlayerOfTurn(faithPoints);
+        }
+        player.setMacroTurnType(MacroTurnType.DONE);
         player.setMacroTurnType(MacroTurnType.NONE);
         player.setMicroTurnType(MicroTurnType.NONE);
 
@@ -324,15 +397,15 @@ public class ProductionController extends CardActionController{
 
     public void anySelection(Resource resource){
         RealPlayer player = super.table.turnOf();
-        if (resource == Resource.ANY || resource == Resource.WHITE){
-            //exception:
-            //risorsa inserita non conforme
-            return; //da cancellare
-        }
         if (player.getMicroTurnType() != MicroTurnType.ANYDECISION) {
             //exception:
-            //non rispetta il flow del turno
-            return; //da cancellare
+            player.setErrorMessage("You can't do this now");
+            return;
+        }
+        if (resource == Resource.ANY || resource == Resource.WHITE){
+            //exception:
+            player.setErrorMessage("Resource specified not allowed");
+            return;
         }
 
         //a questo punto sono in tra
@@ -352,6 +425,11 @@ public class ProductionController extends CardActionController{
     }
 
     public void backFromAnySelection(){
+        this.player = super.table.turnOf();
+        if (this.player.getMicroTurnType() != MicroTurnType.ANYDECISION){
+            this.player.setErrorMessage("Ma dove vorresti tornare indietro scusa?");
+            return;
+        }
         super.table.turnOf().getSupportContainer().clear();
         super.table.turnOf().setMicroTurnType(MicroTurnType.SETTINGUP);
     }
