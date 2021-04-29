@@ -15,8 +15,8 @@ import java.util.List;
 
 public class CardActionController extends SelectionController{
 
-    public CardActionController(Table table){
-        super(table);
+    public CardActionController(Table table, FaithTrackController ftc){
+        super(table, ftc);
     }
 
     //ritorna true se esite una possibile conbinazione per la quale il giocatore può permettersi la checkMap

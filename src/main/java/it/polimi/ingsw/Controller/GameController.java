@@ -34,6 +34,7 @@ public class GameController {
     //allInOne is about card handling to players
     public void StartGame(boolean allInOne){
         this.table = new Table(players.size());
+        this.faithTrackController = new FaithTrackController(table);
 
         //Players' playing order is random
         Collections.shuffle(players);
@@ -57,6 +58,10 @@ public class GameController {
 
     public Table getTable(){
         return this.table;
+    }
+
+    public FaithTrackController getFaithTrackController(){
+        return this.faithTrackController;
     }
 
     public void discardLeaderCard (int serial){

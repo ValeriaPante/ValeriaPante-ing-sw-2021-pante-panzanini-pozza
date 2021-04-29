@@ -21,8 +21,8 @@ public class ProductionController extends CardActionController{
 
     private RealPlayer player;
 
-    public ProductionController(Table table) {
-        super(table);
+    public ProductionController(Table table, FaithTrackController ftc) {
+        super(table, ftc);
     }
 
     //mi serve un modo per capire quali poteri di produzone sono già selezionati

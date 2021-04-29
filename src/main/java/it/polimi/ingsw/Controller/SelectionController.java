@@ -14,10 +14,10 @@ public class SelectionController {
     protected EnumMap<Resource, Integer> enumMap;
     protected FaithTrackController faithTrackController;
 
-    public SelectionController(Table newTable){
+    public SelectionController(Table newTable, FaithTrackController ftc){
         this.table = newTable;
         this.enumMap = new EnumMap<>(Resource.class);
-        this.faithTrackController = new FaithTrackController(newTable);
+        this.faithTrackController = ftc;
     }
 
     public LeaderCard getUsableLeaderCard(int serial){
