@@ -59,7 +59,30 @@ public class GameController {
         return this.table;
     }
 
+    public void discardLeaderCard (int serial){
+        if (table.turnOf().getLeaderCards().length == 2)
+            return;
 
+        boolean ownCard = false;
+        LeaderCard card = null;
+        RealPlayer player = table.turnOf();
+
+        for (LeaderCard lc : player.getLeaderCards())
+            if (lc.getId() == serial){
+                ownCard = true;
+                card = lc;
+            }
+
+        if (!ownCard)
+            //Error message: "Wrong selection"
+            return;
+
+        player.discardLeaderCard(card);
+        if (player.getLeaderCards().length == 2) {
+            player.setMicroTurnType(MicroTurnType.CHOOSE_RESOURCES);
+            table.nextTurn();
+        }
+    }
 
 
 
