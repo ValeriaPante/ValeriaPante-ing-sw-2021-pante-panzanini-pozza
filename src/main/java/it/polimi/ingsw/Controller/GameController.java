@@ -167,10 +167,14 @@ public class GameController {
     //End turn
     //--------------------------------------------------------------------------------------------
     public void endTurn(){
+        if (table.turnOf().getMacroTurnType() != MacroTurnType.DONE)
+            //Error message "Cannot skip turn"
+            return;
+
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
         table.turnOf().setMicroTurnType(MicroTurnType.NONE);
-        if(table.isSinglePlayer()){
-            table.nextTurn();
+        table.nextTurn();
+        if(table.isSinglePlayer() && !table.isLastLap()){
             if(anEntireLineIsEmpty()){
                 table.setLastLap();
             } else {
