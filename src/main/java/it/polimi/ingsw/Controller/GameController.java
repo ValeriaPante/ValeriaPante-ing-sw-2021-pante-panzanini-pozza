@@ -189,7 +189,7 @@ public class GameController {
                 }
             }
         }
-        table.nextTurn();
+        if(table.isSinglePlayer()) table.nextTurn();
         if((table.isLastLap()) && (table.getPlayers()[0] == table.turnOf()))
             endGame();
     }

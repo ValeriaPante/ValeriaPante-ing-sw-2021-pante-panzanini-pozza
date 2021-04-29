@@ -1,6 +1,7 @@
 package ControllerTest;
 
 import it.polimi.ingsw.Cards.LeaderCard;
+import it.polimi.ingsw.Controller.FaithTrackController;
 import it.polimi.ingsw.Controller.SelectionController;
 import it.polimi.ingsw.Decks.LeaderDeck;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
@@ -20,7 +21,7 @@ public class SelectionControllerTest {
         RealPlayer player = new RealPlayer("testingPlayer");
         Table table = new Table(1);
         table.addPlayer(player);
-        selectionController = new SelectionController(table);
+        selectionController = new SelectionController(new FaithTrackController(table));
 
         LeaderDeck deck = new LeaderDeck();
         deck.shuffle();

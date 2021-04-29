@@ -58,6 +58,10 @@ public class FaithTrackController {
         this.faithTrack = this.table.getFaithTrack();
     }
 
+    public Table getTable(){
+        return this.table;
+    }
+
     public void movePlayerOfTurn(int faithPoints){
         VaticanRelation[] toActivate;
         if (this.table.isSinglePlayer() && this.table.isLorenzoTurn()){

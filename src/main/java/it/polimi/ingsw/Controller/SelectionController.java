@@ -14,8 +14,8 @@ public class SelectionController {
     protected EnumMap<Resource, Integer> enumMap;
     protected FaithTrackController faithTrackController;
 
-    public SelectionController(Table newTable, FaithTrackController ftc){
-        this.table = newTable;
+    public SelectionController(FaithTrackController ftc){
+        this.table = ftc.getTable();
         this.enumMap = new EnumMap<>(Resource.class);
         this.faithTrackController = ftc;
     }

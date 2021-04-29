@@ -19,8 +19,8 @@ import java.util.Map;
 public class BuyDevCardController extends CardActionController{
 
 
-    public BuyDevCardController(Table table, FaithTrackController ftc){
-        super(table, ftc);
+    public BuyDevCardController(FaithTrackController ftc){
+        super(ftc);
     }
 
     public void chooseDevCard(int chosenDeck){

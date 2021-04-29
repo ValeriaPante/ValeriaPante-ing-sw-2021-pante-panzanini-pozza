@@ -10,8 +10,8 @@ import java.util.*;
 
 public class LeaderController extends SelectionController{
 
-    public LeaderController(Table table) {
-        super(table);
+    public LeaderController(FaithTrackController ftc) {
+        super(ftc);
     }
 
     //seleziona la carta

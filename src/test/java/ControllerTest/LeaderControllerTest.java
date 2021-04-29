@@ -2,6 +2,7 @@ package ControllerTest;
 
 import it.polimi.ingsw.Cards.DevCardType;
 import it.polimi.ingsw.Cards.LeaderCard;
+import it.polimi.ingsw.Controller.FaithTrackController;
 import it.polimi.ingsw.Controller.LeaderController;
 import it.polimi.ingsw.Enums.Colour;
 import it.polimi.ingsw.Enums.LeaderCardType;
@@ -35,7 +36,7 @@ class LeaderControllerTest {
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
 
-        LeaderController controller = new LeaderController(table);
+        LeaderController controller = new LeaderController(new FaithTrackController(table));
         controller.chooseLeaderCard(21);
         controller.actionOnLeaderCard(true);
         assertEquals(1, table.turnOf().getLeaderCards().length);
@@ -61,7 +62,7 @@ class LeaderControllerTest {
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
 
-        LeaderController controller = new LeaderController(table);
+        LeaderController controller = new LeaderController(new FaithTrackController(table));
         controller.chooseLeaderCard(21);
         controller.actionOnLeaderCard(false);
         assertFalse(table.turnOf().getLeaderCards()[0].hasBeenPlayed());
@@ -84,7 +85,7 @@ class LeaderControllerTest {
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
 
-        LeaderController controller = new LeaderController(table);
+        LeaderController controller = new LeaderController(new FaithTrackController(table));
         controller.chooseLeaderCard(21);
         controller.actionOnLeaderCard(false);
         assertFalse(table.turnOf().getLeaderCards()[0].hasBeenPlayed());
@@ -105,7 +106,7 @@ class LeaderControllerTest {
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
 
-        LeaderController controller = new LeaderController(table);
+        LeaderController controller = new LeaderController(new FaithTrackController(table));
         controller.chooseLeaderCard(21);
         controller.actionOnLeaderCard(false);
         assertEquals(2, table.turnOf().getLeaderCards().length);

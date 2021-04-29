@@ -16,8 +16,8 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 
 public class MarketController extends SelectionController{
-    public MarketController(Table table, FaithTrackController ftc){
-        super(table, ftc);
+    public MarketController(FaithTrackController ftc){
+        super(ftc);
     }
 
     public void selectInShelf(Resource resType, int numberOfShelf){

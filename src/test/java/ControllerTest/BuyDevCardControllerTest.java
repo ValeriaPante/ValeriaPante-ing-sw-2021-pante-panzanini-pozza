@@ -3,6 +3,7 @@ package ControllerTest;
 import it.polimi.ingsw.Cards.DevCardType;
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Controller.BuyDevCardController;
+import it.polimi.ingsw.Controller.FaithTrackController;
 import it.polimi.ingsw.Controller.LeaderController;
 import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
@@ -32,7 +33,7 @@ class BuyDevCardControllerTest {
 
         table.turnOf().getStrongBox().addEnumMap(resourceOwned);
 
-        BuyDevCardController controller = new BuyDevCardController(table);
+        BuyDevCardController controller = new BuyDevCardController(new FaithTrackController(table));
         controller.chooseDevCard(3);
         int id = table.getDevDecks()[2].getTopCard().getId();
         EnumMap<Resource, Integer> cost = table.getDevDecks()[2].getTopCard().getCost();
@@ -64,7 +65,7 @@ class BuyDevCardControllerTest {
 
         table.turnOf().getStrongBox().addEnumMap(resourceOwned);
 
-        BuyDevCardController controller = new BuyDevCardController(table);
+        BuyDevCardController controller = new BuyDevCardController(new FaithTrackController(table));
 
         //1st invalid buying: wrong deck index
         controller.chooseDevCard(14);
@@ -103,7 +104,7 @@ class BuyDevCardControllerTest {
 
         table.turnOf().getStrongBox().addEnumMap(resourceOwned);
 
-        BuyDevCardController controller = new BuyDevCardController(table);
+        BuyDevCardController controller = new BuyDevCardController(new FaithTrackController(table));
 
         //chooses another card with level 3, which he can't place anywhere
         controller.chooseDevCard(11);
@@ -167,8 +168,9 @@ class BuyDevCardControllerTest {
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.TRANSMUTATION, input, 45));
 
-        LeaderController lController = new LeaderController(table);
-        BuyDevCardController controller = new BuyDevCardController(table);
+        FaithTrackController ftc = new FaithTrackController(table);
+        LeaderController lController = new LeaderController(ftc);
+        BuyDevCardController controller = new BuyDevCardController(ftc);
         controller.chooseDevCard(3);
         int id = table.getDevDecks()[2].getTopCard().getId();
         EnumMap<Resource, Integer> cost = table.getDevDecks()[2].getTopCard().getCost();
