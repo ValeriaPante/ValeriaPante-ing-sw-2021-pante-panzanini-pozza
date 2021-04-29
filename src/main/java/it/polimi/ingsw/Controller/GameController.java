@@ -203,7 +203,7 @@ public class GameController {
                     maxNumOfResources = points[1];
                     table.clearWinners();
                     table.addWinner(player);
-                } else if (points[0] == maxPoints && points[1] > maxNumOfResources){
+                } else if (points[0] == maxPoints && points[1] == maxNumOfResources){
                     table.addWinner(player);
                 }
             }
