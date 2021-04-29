@@ -19,6 +19,10 @@ public class GameController {
     private FaithTrackController faithTrackController;
     private final List<String> players;
 
+    public GameController(){
+        this.players = new ArrayList<>();
+    }
+
     public void addNewPlayer(String playerName){
         players.add(playerName);
     }
@@ -26,6 +30,8 @@ public class GameController {
     public void removePlayer(String playerName){
         players.remove(playerName);
     }
+
+
 
     private void initializePlayersLeaderCard(){
         LeaderDeck leaderDeck = new LeaderDeck();
@@ -86,9 +92,7 @@ public class GameController {
 
     }
 
-    public GameController(){
-        this.players = new ArrayList<>();
-    }
+
 
     //End turn
     //--------------------------------------------------------------------------------------------

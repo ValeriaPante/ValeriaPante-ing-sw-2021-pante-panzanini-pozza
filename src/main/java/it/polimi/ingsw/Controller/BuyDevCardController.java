@@ -76,8 +76,8 @@ public class BuyDevCardController extends CardActionController{
         table.clearBroadcastMessage();
 
         if (this.thereIsASelection()){
-            table.turnOf().setMacroTurnType(MacroTurnType.BUYNEWCARD);
-            table.turnOf().setMicroTurnType(MicroTurnType.SETTINGUP);
+            table.turnOf().setMacroTurnType(MacroTurnType.BUY_NEW_CARD);
+            table.turnOf().setMicroTurnType(MicroTurnType.SETTING_UP);
             for(DevDeck deck: table.getDevDecks()){
                 if(deck.getTopCard().isSelected()) {
                     StrongBox temp = table.turnOf().getSupportContainer();
@@ -93,7 +93,7 @@ public class BuyDevCardController extends CardActionController{
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
-        if (this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTINGUP){
+        if (this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
             LeaderCard card = getUsableLeaderCard(id);
             if (card == null) table.turnOf().setErrorMessage("This Leader Card doesn't exist or hasn't been played. ");
             else{
@@ -106,7 +106,7 @@ public class BuyDevCardController extends CardActionController{
 
                     table.turnOf().getSupportContainer().clear();
                     if(toBePaid.isEmpty()){
-                        table.turnOf().setMicroTurnType(MicroTurnType.ANYDECISION);
+                        table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);
                     } else {
                         table.turnOf().getSupportContainer().addEnumMap(toBePaid);
                     }
@@ -122,7 +122,7 @@ public class BuyDevCardController extends CardActionController{
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
-        if(this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTINGUP){
+        if(this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
             try{
                 if(!this.isEnough()){
                     table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too many resources.");
@@ -135,7 +135,7 @@ public class BuyDevCardController extends CardActionController{
 
             for(Payable payable: this.getPayableWithSelection())
                 payable.pay();
-            table.turnOf().setMicroTurnType(MicroTurnType.ANYDECISION);
+            table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);
         }
     }
 
@@ -173,7 +173,7 @@ public class BuyDevCardController extends CardActionController{
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
-        if(this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.ANYDECISION){
+        if(this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.ANY_DECISION){
             DevDeck chosenDeck = null;
             for(DevDeck deck: table.getDevDecks()){
                 if(deck.getTopCard().isSelected()) {

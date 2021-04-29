@@ -134,10 +134,10 @@ public class ProductionController extends CardActionController{
 
         if (this.player.getMacroTurnType() == MacroTurnType.NONE && this.player.getMicroTurnType() == MicroTurnType.NONE){
             this.player.setMacroTurnType(MacroTurnType.PRODUCTION);
-            this.player.setMicroTurnType(MicroTurnType.SETTINGUP);
+            this.player.setMicroTurnType(MicroTurnType.SETTING_UP);
             return true;
         }
-        else if (this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTINGUP){
+        else if (this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTING_UP){
             return true;
         }
         else{
@@ -199,7 +199,7 @@ public class ProductionController extends CardActionController{
         }
         //a questo punto sono tutti selezionati
         this.player.setMacroTurnType(MacroTurnType.PRODUCTION);
-        this.player.setMicroTurnType(MicroTurnType.SETTINGUP);
+        this.player.setMicroTurnType(MicroTurnType.SETTING_UP);
     }
 
     @Override
@@ -265,7 +265,7 @@ public class ProductionController extends CardActionController{
     public void activateProduction(){
         this.player = super.table.turnOf();
 
-        if (!(this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTINGUP)){
+        if (!(this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTING_UP)){
             this.player.setErrorMessage("You can't");
             return;
         }
@@ -351,7 +351,7 @@ public class ProductionController extends CardActionController{
         if (toPutInStrongBox.containsKey(Resource.ANY)){
             player.getSupportContainer().clear();
             player.getSupportContainer().addEnumMap(new EnumMap<>(Resource.class){{put(Resource.ANY, toPutInStrongBox.get(Resource.ANY));}});
-            player.setMicroTurnType(MicroTurnType.ANYDECISION);
+            player.setMicroTurnType(MicroTurnType.ANY_DECISION);
         }
         else{
             this.effectiveTransaction(player, payableWithSelection, toPutInStrongBox);
@@ -397,7 +397,7 @@ public class ProductionController extends CardActionController{
 
     public void anySelection(Resource resource){
         RealPlayer player = super.table.turnOf();
-        if (player.getMicroTurnType() != MicroTurnType.ANYDECISION) {
+        if (player.getMicroTurnType() != MicroTurnType.ANY_DECISION) {
             //exception:
             player.setErrorMessage("You can't do this now");
             return;
@@ -426,12 +426,12 @@ public class ProductionController extends CardActionController{
 
     public void backFromAnySelection(){
         this.player = super.table.turnOf();
-        if (this.player.getMicroTurnType() != MicroTurnType.ANYDECISION){
+        if (this.player.getMicroTurnType() != MicroTurnType.ANY_DECISION){
             this.player.setErrorMessage("Ma dove vorresti tornare indietro scusa?");
             return;
         }
         super.table.turnOf().getSupportContainer().clear();
-        super.table.turnOf().setMicroTurnType(MicroTurnType.SETTINGUP);
+        super.table.turnOf().setMicroTurnType(MicroTurnType.SETTING_UP);
     }
 
 }
