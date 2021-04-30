@@ -1,10 +1,10 @@
 # Default ignored files
 /shelf/
 /workspace.xml
+/target
+*.class
 # Datasource local storage ignored files
 /../../../../../../../:\Users\valer\IdeaProjects\ing-sw-2021-pante-panzanini-pozza\Progetto\.idea/dataSources/
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-/target
-*.class
