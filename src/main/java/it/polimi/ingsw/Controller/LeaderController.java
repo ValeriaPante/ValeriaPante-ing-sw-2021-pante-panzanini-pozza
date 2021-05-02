@@ -14,15 +14,6 @@ public class LeaderController extends SelectionController{
         super(ftc);
     }
 
-    //seleziona la carta
-    public void chooseLeaderCard(int id){
-        table.turnOf().clearErrorMessage();
-        table.clearBroadcastMessage();
-
-        LeaderCard chosenCard = this.leaderCardFromID(id);
-        if(chosenCard != null) chosenCard.select();
-    }
-
     //attiva/scarta la carta
     public void actionOnLeaderCard(int id, Boolean discard) {
         table.turnOf().clearErrorMessage();
