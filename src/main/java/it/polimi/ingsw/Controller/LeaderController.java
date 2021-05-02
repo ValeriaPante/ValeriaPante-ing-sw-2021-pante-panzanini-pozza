@@ -24,25 +24,20 @@ public class LeaderController extends SelectionController{
     }
 
     //attiva/scarta la carta
-    public void actionOnLeaderCard(Boolean discard) {
+    public void actionOnLeaderCard(int id, Boolean discard) {
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
-        LeaderCard pickedCard = null;
-        for(LeaderCard card: table.turnOf().getLeaderCards())
-            if(card.isSelected()){
-                pickedCard = card;
-                break;
-            }
+        LeaderCard chosenCard = this.leaderCardFromID(id);
 
-        if(pickedCard != null){
+        if(chosenCard != null){
             if (discard){
-                table.turnOf().discardLeaderCard(pickedCard);
+                table.turnOf().discardLeaderCard(chosenCard);
                 this.faithTrackController.movePlayerOfTurn(1);
-            } else if (!pickedCard.hasBeenPlayed()){
-                if (!checkRequirements(pickedCard))
+            } else if (!chosenCard.hasBeenPlayed()){
+                if (!checkRequirements(chosenCard))
                     table.turnOf().setErrorMessage("You don't have the requirements needed. ");
-                else pickedCard.play();
+                else chosenCard.play();
             }
         }
     }
