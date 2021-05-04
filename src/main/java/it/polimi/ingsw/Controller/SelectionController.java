@@ -20,7 +20,7 @@ public class SelectionController {
         this.faithTrackController = ftc;
     }
 
-    public LeaderCard getUsableLeaderCard(int serial){
+    protected LeaderCard getUsableLeaderCard(int serial){
         LeaderCard specifiedLeaderCard = leaderCardFromID(serial);
         if (specifiedLeaderCard == null)
             return null;
@@ -32,7 +32,7 @@ public class SelectionController {
         return specifiedLeaderCard;
     }
 
-    public LeaderCard leaderCardFromID(int serial){
+    protected LeaderCard leaderCardFromID(int serial){
         boolean ownCard = false;
         LeaderCard specifiedLeaderCard = null;
         for (LeaderCard lc : table.turnOf().getLeaderCards()) {
@@ -49,7 +49,7 @@ public class SelectionController {
     }
 
     //takes the shelf with "numberOfShelf" capacity and tries to select one Resource
-    public void selectFromShelf(Resource resType, int numberOfShelf){
+    protected void selectFromShelf(Resource resType, int numberOfShelf){
         Shelf currentShelf = shelfFromCapacity(numberOfShelf);
         if (currentShelf == null)
             return;
@@ -66,7 +66,7 @@ public class SelectionController {
     }
 
     //takes the leader card with ID "serial" and tries to single select
-    public void selectFromLeaderStorage(Resource resType, int serial, int resPosition){
+    protected void selectFromLeaderStorage(Resource resType, int serial, int resPosition){
         LeaderCard specifiedLeaderCard = getUsableLeaderCard(serial);
         if(specifiedLeaderCard == null)
             return;
@@ -92,16 +92,16 @@ public class SelectionController {
     }
 
     //selects "quantity" resources of "resType" type from player's StrongBox
-    public void selectFromStrongBox(Resource resType, int quantity){
+    protected void selectFromStrongBox(Resource resType, int quantity){
         selectFromAStrongBox(table.turnOf().getStrongBox(), resType, quantity);
     }
 
-    public void selectFromSupportContainer(Resource resType, int quantity){
+    protected void selectFromSupportContainer(Resource resType, int quantity){
         selectFromAStrongBox(table.turnOf().getSupportContainer(), resType, quantity);
     }
 
     //takes the shelf with "numberOfShelf" capacity and tries to DEselect one Resource
-    public void deselectFromShelf(Resource resType, int numberOfShelf){
+    protected void deselectFromShelf(Resource resType, int numberOfShelf){
         Shelf currentShelf = shelfFromCapacity(numberOfShelf);
         if (currentShelf == null)
             return;
@@ -118,15 +118,15 @@ public class SelectionController {
     }
 
     //DEselects "quantity" resources of "resType" type from player's StrongBox
-    public void deselectFromStrongBox(Resource resType, int quantity){
+    protected void deselectFromStrongBox(Resource resType, int quantity){
         deselectFromAStrongBox(table.turnOf().getStrongBox(), resType,quantity);
     }
 
-    public void deselectFromSupportContainer(Resource resType, int quantity){
+    protected void deselectFromSupportContainer(Resource resType, int quantity){
         deselectFromAStrongBox(table.turnOf().getSupportContainer(), resType,quantity);
     }
 
-    private void selectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
+    protected void selectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
         if (quantity == 0)
             //Error message: "No quantity specified"
             return;
@@ -141,7 +141,7 @@ public class SelectionController {
         }
     }
 
-    private void deselectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
+    protected void deselectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
         if (quantity == 0)
             //Error message: "No quantity specified"
             return;
@@ -156,7 +156,7 @@ public class SelectionController {
         }
     }
 
-    public void deselectAllResources(){
+    protected void deselectAllResources(){
         table.turnOf().getStrongBox().clearSelection();
         table.turnOf().getSupportContainer().clearSelection();
         for (Shelf s : table.turnOf().getShelves())
