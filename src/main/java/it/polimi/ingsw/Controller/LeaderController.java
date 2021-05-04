@@ -14,35 +14,21 @@ public class LeaderController extends SelectionController{
         super(ftc);
     }
 
-    //seleziona la carta
-    public void chooseLeaderCard(int id){
+    //attiva/scarta la carta
+    public void actionOnLeaderCard(int id, Boolean discard) {
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
         LeaderCard chosenCard = this.leaderCardFromID(id);
-        if(chosenCard != null) chosenCard.select();
-    }
 
-    //attiva/scarta la carta
-    public void actionOnLeaderCard(Boolean discard) {
-        table.turnOf().clearErrorMessage();
-        table.clearBroadcastMessage();
-
-        LeaderCard pickedCard = null;
-        for(LeaderCard card: table.turnOf().getLeaderCards())
-            if(card.isSelected()){
-                pickedCard = card;
-                break;
-            }
-
-        if(pickedCard != null){
+        if(chosenCard != null){
             if (discard){
-                table.turnOf().discardLeaderCard(pickedCard);
+                table.turnOf().discardLeaderCard(chosenCard);
                 this.faithTrackController.movePlayerOfTurn(1);
-            } else if (!pickedCard.hasBeenPlayed()){
-                if (!checkRequirements(pickedCard))
+            } else if (!chosenCard.hasBeenPlayed()){
+                if (!checkRequirements(chosenCard))
                     table.turnOf().setErrorMessage("You don't have the requirements needed. ");
-                else pickedCard.play();
+                else chosenCard.play();
             }
         }
     }

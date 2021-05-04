@@ -179,8 +179,7 @@ class BuyDevCardControllerTest {
         controller.applyDiscountAbility(21);
         assertEquals(cost, table.turnOf().getSupportContainer().content());
 
-        lController.chooseLeaderCard(21);
-        lController.actionOnLeaderCard(false);
+        lController.actionOnLeaderCard(21, false);
         controller.applyDiscountAbility(21);
         assertNotEquals(cost, table.turnOf().getSupportContainer().content());
 

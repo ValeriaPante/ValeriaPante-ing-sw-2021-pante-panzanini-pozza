@@ -37,11 +37,9 @@ class LeaderControllerTest {
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
 
         LeaderController controller = new LeaderController(new FaithTrackController(table));
-        controller.chooseLeaderCard(21);
-        controller.actionOnLeaderCard(true);
+        controller.actionOnLeaderCard(21,true);
         assertEquals(1, table.turnOf().getLeaderCards().length);
-        controller.chooseLeaderCard(45);
-        controller.actionOnLeaderCard(true);
+        controller.actionOnLeaderCard(45,true);
         assertEquals(0, table.turnOf().getLeaderCards().length);
     }
 
@@ -63,8 +61,7 @@ class LeaderControllerTest {
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
 
         LeaderController controller = new LeaderController(new FaithTrackController(table));
-        controller.chooseLeaderCard(21);
-        controller.actionOnLeaderCard(false);
+        controller.actionOnLeaderCard(21,false);
         assertFalse(table.turnOf().getLeaderCards()[0].hasBeenPlayed());
     }
 
@@ -86,8 +83,7 @@ class LeaderControllerTest {
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
 
         LeaderController controller = new LeaderController(new FaithTrackController(table));
-        controller.chooseLeaderCard(21);
-        controller.actionOnLeaderCard(false);
+        controller.actionOnLeaderCard(21,false);
         assertFalse(table.turnOf().getLeaderCards()[0].hasBeenPlayed());
     }
 
@@ -107,15 +103,13 @@ class LeaderControllerTest {
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
 
         LeaderController controller = new LeaderController(new FaithTrackController(table));
-        controller.chooseLeaderCard(21);
-        controller.actionOnLeaderCard(false);
+        controller.actionOnLeaderCard(21, false);
         assertEquals(2, table.turnOf().getLeaderCards().length);
         assertTrue(table.turnOf().getLeaderCards()[0].hasBeenPlayed());
         assertFalse(table.turnOf().getLeaderCards()[1].hasBeenPlayed());
 
         //riattiva una carta già attivata
-        controller.chooseLeaderCard(21);
-        controller.actionOnLeaderCard(false);
+        controller.actionOnLeaderCard(21,false);
         assertTrue(table.turnOf().getLeaderCards()[0].hasBeenPlayed());
         assertFalse(table.turnOf().getLeaderCards()[1].hasBeenPlayed());
     }
