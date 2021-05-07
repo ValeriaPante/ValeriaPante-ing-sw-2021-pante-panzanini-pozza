@@ -3,8 +3,8 @@ package it.polimi.ingsw.Controller;
 import it.polimi.ingsw.Cards.DevCardType;
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Deposit.Depot;
+import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Exceptions.BrokenPlayerException;
-import it.polimi.ingsw.Game.Table;
 
 import java.util.*;
 
@@ -18,17 +18,18 @@ public class LeaderController extends SelectionController{
     public void actionOnLeaderCard(int id, Boolean discard) {
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.NONE || table.turnOf().getMacroTurnType() == MacroTurnType.DONE){
+            LeaderCard chosenCard = this.leaderCardFromID(id);
 
-        LeaderCard chosenCard = this.leaderCardFromID(id);
-
-        if(chosenCard != null){
-            if (discard){
-                table.turnOf().discardLeaderCard(chosenCard);
-                this.faithTrackController.movePlayerOfTurn(1);
-            } else if (!chosenCard.hasBeenPlayed()){
-                if (!checkRequirements(chosenCard))
-                    table.turnOf().setErrorMessage("You don't have the requirements needed. ");
-                else chosenCard.play();
+            if(chosenCard != null){
+                if (discard){
+                    table.turnOf().discardLeaderCard(chosenCard);
+                    this.faithTrackController.movePlayerOfTurn(1);
+                } else if (!chosenCard.hasBeenPlayed()){
+                    if (!checkRequirements(chosenCard))
+                        table.turnOf().setErrorMessage("You don't have the requirements needed. ");
+                    else chosenCard.play();
+                }
             }
         }
     }
