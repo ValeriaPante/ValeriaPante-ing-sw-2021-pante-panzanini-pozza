@@ -13,7 +13,7 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LeaderCardTest {
+public class LeaderCardTest {
 
     @Test
     public void checksPlayLeaderCard(){

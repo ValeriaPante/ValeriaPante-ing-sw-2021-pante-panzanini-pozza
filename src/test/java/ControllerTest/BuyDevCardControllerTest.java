@@ -6,6 +6,7 @@ import it.polimi.ingsw.Controller.BuyDevCardController;
 import it.polimi.ingsw.Controller.FaithTrackController;
 import it.polimi.ingsw.Controller.LeaderController;
 import it.polimi.ingsw.Enums.LeaderCardType;
+import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Game.Table;
 import it.polimi.ingsw.Player.RealPlayer;
@@ -17,13 +18,14 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BuyDevCardControllerTest {
+public class BuyDevCardControllerTest {
 
     @Test
     public void validBuying(){
         Table table = new Table(2);
         table.addPlayer(new RealPlayer("user1"));
         table.addPlayer(new RealPlayer("user2"));
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
         resourceOwned.put(Resource.SERVANT, 50);
@@ -56,6 +58,7 @@ class BuyDevCardControllerTest {
         Table table = new Table(2);
         table.addPlayer(new RealPlayer("user1"));
         table.addPlayer(new RealPlayer("user2"));
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
         resourceOwned.put(Resource.SERVANT, 50);
@@ -95,6 +98,7 @@ class BuyDevCardControllerTest {
         Table table = new Table(2);
         table.addPlayer(new RealPlayer("user1"));
         table.addPlayer(new RealPlayer("user2"));
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
         resourceOwned.put(Resource.SERVANT, 50);
@@ -147,6 +151,7 @@ class BuyDevCardControllerTest {
         Table table = new Table(2);
         table.addPlayer(new RealPlayer("user1"));
         table.addPlayer(new RealPlayer("user2"));
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
         resourceOwned.put(Resource.SERVANT, 50);
@@ -166,10 +171,12 @@ class BuyDevCardControllerTest {
         input.put(Resource.STONE, 1);
 
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.TRANSMUTATION, input, 45));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
 
         FaithTrackController ftc = new FaithTrackController(table);
         LeaderController lController = new LeaderController(ftc);
+        lController.actionOnLeaderCard(45, false);
+
         BuyDevCardController controller = new BuyDevCardController(ftc);
         controller.chooseDevCard(3);
         int id = table.getDevDecks()[2].getTopCard().getId();
@@ -179,8 +186,7 @@ class BuyDevCardControllerTest {
         controller.applyDiscountAbility(21);
         assertEquals(cost, table.turnOf().getSupportContainer().content());
 
-        lController.actionOnLeaderCard(21, false);
-        controller.applyDiscountAbility(21);
+        controller.applyDiscountAbility(45);
         assertNotEquals(cost, table.turnOf().getSupportContainer().content());
 
         if(table.turnOf().getSupportContainer().content() != null)

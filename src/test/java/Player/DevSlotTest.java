@@ -13,7 +13,7 @@ import java.util.EnumMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class DevSlotTest {
+public class DevSlotTest {
 
     @Test
     public void checksPlacing(){

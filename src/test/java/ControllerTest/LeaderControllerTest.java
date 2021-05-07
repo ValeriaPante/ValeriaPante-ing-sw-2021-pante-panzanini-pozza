@@ -6,6 +6,7 @@ import it.polimi.ingsw.Controller.FaithTrackController;
 import it.polimi.ingsw.Controller.LeaderController;
 import it.polimi.ingsw.Enums.Colour;
 import it.polimi.ingsw.Enums.LeaderCardType;
+import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Game.Table;
 import it.polimi.ingsw.Player.RealPlayer;
@@ -17,13 +18,14 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class LeaderControllerTest {
+public class LeaderControllerTest {
 
     @Test
     public void discarding(){
         Table table = new Table(2);
         table.addPlayer(new RealPlayer("user1"));
         table.addPlayer(new RealPlayer("user2"));
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
         Map<DevCardType, Integer> devCardReq = new HashMap<>();
@@ -48,6 +50,7 @@ class LeaderControllerTest {
         Table table = new Table(2);
         table.addPlayer(new RealPlayer("user1"));
         table.addPlayer(new RealPlayer("user2"));
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
         Map<DevCardType, Integer> devCardReq = new HashMap<>();
@@ -70,6 +73,7 @@ class LeaderControllerTest {
         Table table = new Table(2);
         table.addPlayer(new RealPlayer("user1"));
         table.addPlayer(new RealPlayer("user2"));
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
         Map<DevCardType, Integer> devCardReq = new HashMap<>();
@@ -92,6 +96,7 @@ class LeaderControllerTest {
         Table table = new Table(2);
         table.addPlayer(new RealPlayer("user1"));
         table.addPlayer(new RealPlayer("user2"));
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
         Map<DevCardType, Integer> devCardReq = new HashMap<>();
