@@ -148,7 +148,6 @@ public class ProductionController extends CardActionController{
     }
 
     public void selectCardProduction(int idCard){
-        this.player = super.table.turnOf();
         if (!this.isTurnTypeValid()){
             return;
         }
@@ -158,8 +157,6 @@ public class ProductionController extends CardActionController{
     }
 
     public void selectAllProductionPowers(){
-        this.player = super.table.turnOf();
-
         if (!this.isTurnTypeValid()){
             return;
         }
@@ -388,7 +385,6 @@ public class ProductionController extends CardActionController{
             super.faithTrackController.movePlayerOfTurn(faithPoints);
         }
         player.setMacroTurnType(MacroTurnType.DONE);
-        player.setMacroTurnType(MacroTurnType.NONE);
         player.setMicroTurnType(MicroTurnType.NONE);
 
         this.deselectAllProdPowersSelected(player);
