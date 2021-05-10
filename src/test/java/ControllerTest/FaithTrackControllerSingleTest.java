@@ -2,14 +2,15 @@ package ControllerTest;
 
 import it.polimi.ingsw.Controller.FaithTrackController;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
+import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Game.Table;
 import it.polimi.ingsw.Player.RealPlayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class FaithTrackControllerSingleTest {
 
@@ -132,7 +133,7 @@ public class FaithTrackControllerSingleTest {
 
         //Lorenzo turn -> 24
         this.table.nextTurn();
-        this.faithTrackController.movePlayerOfTurn(24);
+        assertThrows(GameOver.class, () ->this.faithTrackController.movePlayerOfTurn(24));
 
         assertEquals(PopeFavorCardState.DISABLED, this.table.getPlayers()[0].getPopeFavorCards()[0].getState());
         assertEquals(PopeFavorCardState.DISABLED, this.table.getPlayers()[0].getPopeFavorCards()[1].getState());
@@ -146,7 +147,7 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("Player reaches the end")
     public void movePlayerOfTurnCase9(){
 
-        this.faithTrackController.movePlayerOfTurn(24);
+        assertThrows(GameOver.class, ()-> this.faithTrackController.movePlayerOfTurn(24));
 
         assertEquals(PopeFavorCardState.FACEUP, this.table.getPlayers()[0].getPopeFavorCards()[0].getState());
         assertEquals(PopeFavorCardState.FACEUP, this.table.getPlayers()[0].getPopeFavorCards()[1].getState());
@@ -212,7 +213,7 @@ public class FaithTrackControllerSingleTest {
     @Test
     @DisplayName("Lorenzo reaches the end")
     public void moveAllTheOthersCase6(){
-        this.faithTrackController.moveAllTheOthers(30);
+        assertThrows(GameOver.class, ()-> this.faithTrackController.moveAllTheOthers(30));
 
         assertTrue(this.table.isLastLap());
     }

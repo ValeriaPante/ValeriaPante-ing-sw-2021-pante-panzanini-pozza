@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.FaithTrack.FaithTrack;
 import it.polimi.ingsw.FaithTrack.VaticanRelation;
 import it.polimi.ingsw.Game.Table;
@@ -81,6 +82,9 @@ public class FaithTrackController {
         if (toActivate.length != 0){
             this.updateCardV2(toActivate, table.getPlayers());
         }
+        if (this.table.isSinglePlayer() && this.table.isLastLap()){
+            throw new GameOver();
+        }
     }
 
     //move all players except the one in turn
@@ -95,6 +99,9 @@ public class FaithTrackController {
                 toActivate = this.toActivate(this.table.getFaithTrack().getVaticanRelations(), this.table.getLorenzo().getPosition());
                 if (toActivate.length != 0){
                     this.updateCardV2(toActivate, table.getPlayers());
+                }
+                if (this.table.isLastLap()) {
+                    throw new GameOver();
                 }
             }
             else{
