@@ -25,7 +25,7 @@ public class Lobby {
         this.lobby.add(user);
     }
 
-    public void removePlayer(User user){
+    public void removeUser(User user){
         //this.lobby.remove(user);
 
         for (int i=0; i<this.lobby.size(); i++){
@@ -36,7 +36,7 @@ public class Lobby {
         }
     }
 
-    public List<User> getPlayers(){
+    public List<User> getUsers(){
         return this.lobby;
     }
 

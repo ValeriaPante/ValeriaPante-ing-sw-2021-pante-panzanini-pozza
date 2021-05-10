@@ -21,7 +21,7 @@ public class Model {
     public List<Integer> getAllUsersIds(){
         LinkedList<Integer> allIds = new LinkedList<>();
         for(Lobby lobby : this.lobbies){
-            for (User user : lobby.getPlayers()){
+            for (User user : lobby.getUsers()){
                 allIds.add(user.getId());
             }
         }
@@ -81,9 +81,9 @@ public class Model {
         //qua non notifico nulla perchè so sicuramente che se chiamo questo metodo
         //mi serve mettere l'user da qualche altra parte
         for (Lobby lobby : this.lobbies){
-            for (User user : lobby.getPlayers()){
+            for (User user : lobby.getUsers()){
                 if (user.getId() == userId){
-                    lobby.removePlayer(user);
+                    lobby.removeUser(user);
 
                     //cancello la lobby se una volta rimosso un giocatore questa è vuota
                     //è una cosa che dovrebbe fare il controller ma mi sembra stupido passarlo sopra
