@@ -19,24 +19,19 @@ public class GameController {
     private FaithTrackController faithTrackController;
     private final List<String> players;
 
-    public GameController(){
+    public GameController(List<String> players, boolean dealingCardsAllInOne) throws NullPointerException, IndexOutOfBoundsException{
+        if (players == null)
+            throw new NullPointerException();
+
+        if ((players.size() > 4)||(players.isEmpty()))
+            throw new IndexOutOfBoundsException();
+
         this.players = new ArrayList<>();
-    }
-
-    public void addNewPlayer(String playerName) throws IndexOutOfBoundsException{
-        if (players.size() == 4)
-            //Error message: "Cannot join this game"
-        players.add(playerName);
-        if (players.size() == 4)
-            startGame(true);
-    }
-
-    public void removePlayer(String playerName){
-        players.remove(playerName);
+        startGame(dealingCardsAllInOne);
     }
 
     //allInOne is about card handling to players
-    public void startGame(boolean allInOne){
+    private void startGame(boolean allInOne){
         this.table = new Table(players.size());
         this.faithTrackController = new FaithTrackController(table);
 
@@ -59,7 +54,6 @@ public class GameController {
         }
     }
 
-
     public Table getTable(){
         return this.table;
     }
@@ -69,6 +63,8 @@ public class GameController {
     }
 
     public void discardLeaderCard (int serial){
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.DISCARD_LEADER_CARD)
+            return;
         if (table.turnOf().getLeaderCards().length == 2)
             return;
 
@@ -103,6 +99,9 @@ public class GameController {
     }
 
     public void selectResource(int capacityShelf1, Resource resType1){
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
+            return;
+
         if ((capacityShelf1 > 3) || (capacityShelf1 < 1))
             //Error message: "Bad shelf selection"
             return;

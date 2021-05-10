@@ -20,39 +20,44 @@ public class MarketController extends SelectionController{
         super(ftc);
     }
 
-    public void selectInShelf(Resource resType, int numberOfShelf){
+    @Override
+    public void selectFromShelf(Resource resType, int numberOfShelf){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
-        selectFromShelf(resType, numberOfShelf);
+        super.selectFromShelf(resType, numberOfShelf);
     }
 
-    public void selectIntLeaderStorage(Resource resType, int serial, int resPosition){
+    @Override
+    public void selectFromLeaderStorage(Resource resType, int serial, int resPosition){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
-        selectFromLeaderStorage(resType, serial, resPosition);
+        super.selectFromLeaderStorage(resType, serial, resPosition);
     }
 
-    public void selectInSupportContainer(Resource resType, int quantity){
+    @Override
+    public void selectFromSupportContainer(Resource resType, int quantity){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
-        selectFromSupportContainer(resType, quantity);
+        super.selectFromSupportContainer(resType, quantity);
     }
 
-    public void deselectInShelf(Resource resType, int numberOfShelf){
+    @Override
+    public void deselectFromShelf(Resource resType, int numberOfShelf){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
-        deselectFromShelf(resType, numberOfShelf);
+        super.deselectFromShelf(resType, numberOfShelf);
     }
 
-    public void deselectInSupportContainer(Resource resType, int quantity){
+    @Override
+    public void deselectFromSupportContainer(Resource resType, int quantity){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
-        deselectFromSupportContainer(resType, quantity);
+        super.deselectFromSupportContainer(resType, quantity);
     }
 
     //moves all the resources selected from leader deposit and shelves to supportContainer (in player of turn)

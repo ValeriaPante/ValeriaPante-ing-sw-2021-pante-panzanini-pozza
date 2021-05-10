@@ -52,13 +52,13 @@ public class MarketControllerTest {
 //            }
 //        }
 //
-////        controller = new MarketController();
-////        controller.update(player, new EnumMap<>(Resource.class){{
-////            put(Resource.COIN, 2);
-////            put(Resource.SERVANT, 2);
-////            put(Resource.STONE, 2);
-////            put(Resource.SHIELD, 2);
-////        }});
+//        controller = new MarketController();
+//        controller.update(player, new EnumMap<>(Resource.class){{
+//            put(Resource.COIN, 2);
+//            put(Resource.SERVANT, 2);
+//            put(Resource.STONE, 2);
+//            put(Resource.SHIELD, 2);
+//        }});
 //
 //        // <----
 //        for (Shelf s: player.getShelves()){
@@ -78,7 +78,7 @@ public class MarketControllerTest {
 //
 //        controller.exchange();
 //
-////        assertEquals();
+
     }
 
     @Test
@@ -118,13 +118,13 @@ public class MarketControllerTest {
 //            }
 //        }
 //
-////        controller = new MarketController();
-////        controller.update(player, new EnumMap<>(Resource.class){{
-////            put(Resource.COIN, 2);
-////            put(Resource.SERVANT, 2);
-////            put(Resource.STONE, 2);
-////            put(Resource.SHIELD, 2);
-////        }});
+//        controller = new MarketController();
+//        controller.update(player, new EnumMap<>(Resource.class){{
+//            put(Resource.COIN, 2);
+//            put(Resource.SERVANT, 2);
+//            put(Resource.STONE, 2);
+//            put(Resource.SHIELD, 2);
+//        }});
 //
 
     }
@@ -173,13 +173,13 @@ public class MarketControllerTest {
 //            }
 //        }
 //
-////        controller = new MarketController();
-////        controller.update(player, new EnumMap<>(Resource.class){{
-////            put(Resource.COIN, 2);
-////            put(Resource.SERVANT, 2);
-////            put(Resource.STONE, 2);
-////            put(Resource.SHIELD, 2);
-////        }});
+//        controller = new MarketController();
+//        controller.update(player, new EnumMap<>(Resource.class){{
+//            put(Resource.COIN, 2);
+//            put(Resource.SERVANT, 2);
+//            put(Resource.STONE, 2);
+//            put(Resource.SHIELD, 2);
+//        }});
 //
 
     }

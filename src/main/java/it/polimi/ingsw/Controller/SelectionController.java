@@ -126,7 +126,7 @@ public class SelectionController {
         deselectFromAStrongBox(table.turnOf().getSupportContainer(), resType,quantity);
     }
 
-    protected void selectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
+    private void selectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
         if (quantity == 0)
             //Error message: "No quantity specified"
             return;
@@ -141,7 +141,7 @@ public class SelectionController {
         }
     }
 
-    protected void deselectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
+    private void deselectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
         if (quantity == 0)
             //Error message: "No quantity specified"
             return;
