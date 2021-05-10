@@ -157,7 +157,6 @@ public class RealPlayer extends Player{
                     if (!leaderCard.getAbility().isEmpty())
                         allResources.addEnumMap(leaderCard.getAbility().getContent());
                 } catch (WeDontDoSuchThingsHere e) {
-                    e.printStackTrace();
                 }
             }
             if (allResources.isEmpty())
