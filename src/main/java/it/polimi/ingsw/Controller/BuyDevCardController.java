@@ -9,6 +9,7 @@ import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.CantPutThisHere;
+import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import it.polimi.ingsw.Deposit.StrongBox;
 
@@ -200,7 +201,7 @@ public class BuyDevCardController extends CardActionController{
 
     }
 
-    public void chooseDevSlot(int numberOfSlot){
+    public void chooseDevSlot(int numberOfSlot) throws GameOver {
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -219,7 +220,10 @@ public class BuyDevCardController extends CardActionController{
                     chosenDeck.draw();
                     table.turnOf().setMicroTurnType(MicroTurnType.NONE);
                     table.turnOf().setMacroTurnType(MacroTurnType.DONE);
-                    if(table.turnOf().getNumberOfDevCardOwned() == 7) table.setLastLap();
+                    if(table.turnOf().getNumberOfDevCardOwned() == 7){
+                        table.setLastLap();
+                        throw new GameOver();
+                    }
                 } catch (CantPutThisHere e) {
                     table.turnOf().setErrorMessage("This Slot can't contain your card. ");
                 } catch (IndexOutOfBoundsException e) {

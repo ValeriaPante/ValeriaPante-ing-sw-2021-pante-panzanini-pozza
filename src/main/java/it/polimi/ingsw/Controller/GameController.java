@@ -173,13 +173,9 @@ public class GameController {
         table.turnOf().setMicroTurnType(MicroTurnType.NONE);
         table.nextTurn();
         if(table.isSinglePlayer() && !table.isLastLap()){
+            playActionToken(table.getLorenzo().getActionTokenDeck().draw());
             if(anEntireLineIsEmpty()){
                 table.setLastLap();
-            } else {
-                playActionToken(table.getLorenzo().getActionTokenDeck().draw());
-                if(anEntireLineIsEmpty()){
-                    table.setLastLap();
-                }
             }
         }
         if(table.isSinglePlayer()) table.nextTurn();
