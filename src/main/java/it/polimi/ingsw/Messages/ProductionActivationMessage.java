@@ -1,4 +1,9 @@
 package it.polimi.ingsw.Messages;
 
-public class ProductionActivationMessage extends Message{
+import it.polimi.ingsw.Controller.ControllerSwitch;
+
+public class ProductionActivationMessage implements Message{
+    public void readThrough(ControllerSwitch controllerSwitch){
+        controllerSwitch.actionOnMessage(this);
+    }
 }

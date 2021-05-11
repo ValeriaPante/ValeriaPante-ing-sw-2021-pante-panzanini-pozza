@@ -1,6 +1,8 @@
 package it.polimi.ingsw.Messages;
 
-public class TransmutationMessage extends Message{
+import it.polimi.ingsw.Controller.ControllerSwitch;
+
+public class TransmutationMessage implements Message{
     private final int serial1;
     private final int serial2;
     private final int quantity1;
@@ -27,5 +29,9 @@ public class TransmutationMessage extends Message{
 
     public int getQuantity2() {
         return quantity2;
+    }
+
+    public void readThrough(ControllerSwitch controllerSwitch){
+        controllerSwitch.actionOnMessage(this);
     }
 }

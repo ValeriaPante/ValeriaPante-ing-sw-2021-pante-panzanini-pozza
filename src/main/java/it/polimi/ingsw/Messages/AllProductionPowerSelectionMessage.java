@@ -1,4 +1,9 @@
 package it.polimi.ingsw.Messages;
 
-public class AllProductionPowerSelectionMessage extends Message{
+import it.polimi.ingsw.Controller.ControllerSwitch;
+
+public class AllProductionPowerSelectionMessage implements Message{
+    public void readThrough(ControllerSwitch controllerSwitch){
+        controllerSwitch.actionOnMessage(this);
+    }
 }

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Messages;
 
-public class IntMessage extends Message{
+public abstract class IntMessage implements Message{
     private final int integer;
 
     public IntMessage(int integer) {

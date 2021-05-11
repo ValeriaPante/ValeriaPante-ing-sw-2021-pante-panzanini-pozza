@@ -1,4 +1,9 @@
 package it.polimi.ingsw.Messages;
 
-public class EndTurnMessage extends Message{
+import it.polimi.ingsw.Controller.ControllerSwitch;
+
+public class EndTurnMessage implements Message{
+    public void readThrough(ControllerSwitch controllerSwitch){
+        controllerSwitch.actionOnMessage(this);
+    }
 }

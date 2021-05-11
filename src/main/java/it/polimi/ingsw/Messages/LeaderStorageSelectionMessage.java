@@ -1,8 +1,9 @@
 package it.polimi.ingsw.Messages;
 
+import it.polimi.ingsw.Controller.ControllerSwitch;
 import it.polimi.ingsw.Enums.Resource;
 
-public class LeaderStorageSelectionMessage extends Message{
+public class LeaderStorageSelectionMessage implements Message{
     private final int id;
     private final int resPosition;
     private final Resource resource;
@@ -23,5 +24,9 @@ public class LeaderStorageSelectionMessage extends Message{
 
     public Resource getResource() {
         return resource;
+    }
+
+    public void readThrough(ControllerSwitch controllerSwitch){
+        controllerSwitch.actionOnMessage(this);
     }
 }

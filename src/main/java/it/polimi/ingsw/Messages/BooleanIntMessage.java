@@ -1,7 +1,7 @@
 package it.polimi.ingsw.Messages;
 
-public class BooleanIntMessage extends IntMessage{
-    private boolean aBoolean;
+public abstract class BooleanIntMessage extends IntMessage{
+    private final boolean aBoolean;
 
     public BooleanIntMessage(int integer, boolean aBoolean) {
         super(integer);

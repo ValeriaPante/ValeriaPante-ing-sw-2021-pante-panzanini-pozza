@@ -1,4 +1,9 @@
 package it.polimi.ingsw.Messages;
 
-public class ExchangeMessage extends Message{
+import it.polimi.ingsw.Controller.ControllerSwitch;
+
+public class ExchangeMessage implements Message{
+    public void readThrough(ControllerSwitch controllerSwitch){
+        controllerSwitch.actionOnMessage(this);
+    }
 }

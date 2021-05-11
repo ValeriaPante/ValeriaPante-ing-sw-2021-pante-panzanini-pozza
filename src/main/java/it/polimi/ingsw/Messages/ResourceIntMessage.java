@@ -2,7 +2,7 @@ package it.polimi.ingsw.Messages;
 
 import it.polimi.ingsw.Enums.Resource;
 
-public class ResourceIntMessage extends IntMessage{
+public abstract class ResourceIntMessage extends IntMessage{
     private final Resource resource;
 
     public ResourceIntMessage(int integer, Resource resource) {

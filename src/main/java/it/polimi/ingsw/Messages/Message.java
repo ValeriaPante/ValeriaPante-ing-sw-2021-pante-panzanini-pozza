@@ -1,4 +1,7 @@
 package it.polimi.ingsw.Messages;
 
-public class Message {
+import it.polimi.ingsw.Controller.ControllerSwitch;
+
+public interface Message {
+    public void readThrough(ControllerSwitch controllerSwitch);
 }
