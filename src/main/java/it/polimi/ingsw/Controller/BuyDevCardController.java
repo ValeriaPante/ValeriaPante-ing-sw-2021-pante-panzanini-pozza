@@ -23,7 +23,7 @@ public class BuyDevCardController extends CardActionController{
         super(ftc);
     }
 
-    public boolean chooseDevCard(int chosenDeck){
+    public void chooseDevCard(int chosenDeck){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -49,9 +49,7 @@ public class BuyDevCardController extends CardActionController{
             } catch (IndexOutOfBoundsException e){
                 table.turnOf().setErrorMessage("Wrong selection: There is no such deck. ");
             }
-            return true;
-        }
-        return false;
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
     private boolean atLeastOneDevSlotIsAvailable(DevCard card){
@@ -75,7 +73,7 @@ public class BuyDevCardController extends CardActionController{
         return false;
     }
 
-    public boolean buyDevCard(){
+    public void buyDevCard(){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -90,12 +88,10 @@ public class BuyDevCardController extends CardActionController{
                     break;
                 }
             }
-            return true;
-        }
-        return false;
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
-    public boolean applyDiscountAbility(int id){
+    public void applyDiscountAbility(int id){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -121,9 +117,7 @@ public class BuyDevCardController extends CardActionController{
                     table.turnOf().setErrorMessage("This Leader Card has not a discount ability. ");
                 }
             }
-            return true;
-        }
-        return false;
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
     public boolean selectionFromShelf(Resource resType, int numberOfShelf){
@@ -166,7 +160,7 @@ public class BuyDevCardController extends CardActionController{
         return false;
     }
 
-    public boolean paySelected(){
+    public void paySelected(){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -174,19 +168,17 @@ public class BuyDevCardController extends CardActionController{
             try{
                 if(!this.isEnough()){
                     table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too many resources.");
-                    return true;
+                    return;
                 }
             } catch (IndexOutOfBoundsException e){
                 table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too few resources. ");
-                return true;
+                return;
             }
 
             for(Payable payable: this.getPayableWithSelection())
                 payable.pay();
             table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);
-            return true;
-        }
-        return false;
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
 
@@ -219,7 +211,7 @@ public class BuyDevCardController extends CardActionController{
 
     }
 
-    public boolean chooseDevSlot(int numberOfSlot) throws GameOver {
+    public void chooseDevSlot(int numberOfSlot) throws GameOver {
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -248,8 +240,6 @@ public class BuyDevCardController extends CardActionController{
                     table.turnOf().setErrorMessage("Wrong selection: there is not such slot. ");
                 }
             }
-            return true;
-        }
-        return false;
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 }

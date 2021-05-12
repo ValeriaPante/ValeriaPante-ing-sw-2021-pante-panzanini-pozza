@@ -15,7 +15,7 @@ public class LeaderController extends SelectionController{
     }
 
     //attiva/scarta la carta
-    public boolean actionOnLeaderCard(int id, Boolean discard) {
+    public void actionOnLeaderCard(int id, Boolean discard) {
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
         if(table.turnOf().getMacroTurnType() == MacroTurnType.NONE || table.turnOf().getMacroTurnType() == MacroTurnType.DONE){
@@ -31,9 +31,7 @@ public class LeaderController extends SelectionController{
                     else chosenCard.play();
                 }
             }
-            return true;
-        }
-        return false;
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
     private boolean checkRequirements(LeaderCard leaderCardForAction){
