@@ -23,7 +23,7 @@ public class BuyDevCardController extends CardActionController{
         super(ftc);
     }
 
-    public void chooseDevCard(int chosenDeck){
+    public boolean chooseDevCard(int chosenDeck){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -49,7 +49,9 @@ public class BuyDevCardController extends CardActionController{
             } catch (IndexOutOfBoundsException e){
                 table.turnOf().setErrorMessage("Wrong selection: There is no such deck. ");
             }
+            return true;
         }
+        return false;
     }
 
     private boolean atLeastOneDevSlotIsAvailable(DevCard card){
@@ -73,7 +75,7 @@ public class BuyDevCardController extends CardActionController{
         return false;
     }
 
-    public void buyDevCard(){
+    public boolean buyDevCard(){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -88,10 +90,12 @@ public class BuyDevCardController extends CardActionController{
                     break;
                 }
             }
+            return true;
         }
+        return false;
     }
 
-    public void applyDiscountAbility(int id){
+    public boolean applyDiscountAbility(int id){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -117,40 +121,52 @@ public class BuyDevCardController extends CardActionController{
                     table.turnOf().setErrorMessage("This Leader Card has not a discount ability. ");
                 }
             }
+            return true;
         }
+        return false;
     }
 
-    @Override
-    public void selectFromShelf(Resource resType, int numberOfShelf){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.selectFromShelf(resType, numberOfShelf);
+    public boolean selectionFromShelf(Resource resType, int numberOfShelf){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
+            selectFromShelf(resType, numberOfShelf);
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void selectFromLeaderStorage(Resource resType, int serial, int resPosition){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.selectFromLeaderStorage(resType, serial, resPosition);
+    public boolean selectionFromLeaderStorage(Resource resType, int serial, int resPosition){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
+            selectFromLeaderStorage(resType, serial, resPosition);
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void selectFromStrongBox(Resource resType, int quantity){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.selectFromStrongBox(resType, quantity);
+    public boolean selectionFromStrongBox(Resource resType, int quantity){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
+            selectFromStrongBox(resType, quantity);
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void deselectFromShelf(Resource resType, int numberOfShelf){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.deselectFromShelf(resType, numberOfShelf);
+    public boolean deselectionFromShelf(Resource resType, int numberOfShelf){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP) {
+            deselectFromShelf(resType, numberOfShelf);
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void deselectFromStrongBox(Resource resType, int quantity){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.deselectFromStrongBox(resType, quantity);
+    public boolean deselectionFromStrongBox(Resource resType, int quantity){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
+            deselectFromStrongBox(resType, quantity);
+            return true;
+        }
+        return false;
     }
 
-    public void paySelected(){
+    public boolean paySelected(){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -158,17 +174,19 @@ public class BuyDevCardController extends CardActionController{
             try{
                 if(!this.isEnough()){
                     table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too many resources.");
-                    return;
+                    return true;
                 }
             } catch (IndexOutOfBoundsException e){
                 table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too few resources. ");
-                return;
+                return true;
             }
 
             for(Payable payable: this.getPayableWithSelection())
                 payable.pay();
             table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);
+            return true;
         }
+        return false;
     }
 
 
@@ -201,7 +219,7 @@ public class BuyDevCardController extends CardActionController{
 
     }
 
-    public void chooseDevSlot(int numberOfSlot) throws GameOver {
+    public boolean chooseDevSlot(int numberOfSlot) throws GameOver {
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
 
@@ -230,6 +248,8 @@ public class BuyDevCardController extends CardActionController{
                     table.turnOf().setErrorMessage("Wrong selection: there is not such slot. ");
                 }
             }
+            return true;
         }
+        return false;
     }
 }
