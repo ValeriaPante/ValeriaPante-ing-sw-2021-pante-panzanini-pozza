@@ -14,6 +14,8 @@ public class Visitor {
 
     public void updateModel(ChangedStrongboxMessage m){ }
 
+    public void updateModel(ChangedSupportContainerMessage m){ }
+
     public void updateModel(InitMessage m){ }
 
     public void updateModel(NewDevCardMessage m){ }

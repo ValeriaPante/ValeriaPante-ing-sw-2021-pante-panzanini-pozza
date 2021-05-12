@@ -80,6 +80,9 @@ public class Client implements Runnable{
                     case "changedStrongbox":
                         message = new ChangedStrongboxMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
                         break;
+                    case "changedSupportContainer":
+                        message = new ChangedSupportContainerMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                        break;
                     case "changedLeaderStorage":
                         message = new ChangedLeaderStorageMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("cardId").getAsInt(), gson.fromJson(toEvaluate.get("owned"), Resource[].class));
                         break;
