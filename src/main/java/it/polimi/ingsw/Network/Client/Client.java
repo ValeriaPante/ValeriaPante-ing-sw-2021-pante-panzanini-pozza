@@ -96,6 +96,12 @@ public class Client implements Runnable{
                         message = new WinnerMessage(toEvaluate.get("id").getAsInt());
                         result = true;
                         break;
+                    case "error":
+                        message = new ErrorMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("error").getAsString());
+                        break;
+                    case "broadcastError":
+                        message = new BroadcastErrorMessage(toEvaluate.get("error").getAsString());
+                        break;
                     default:
                         break;
                 }

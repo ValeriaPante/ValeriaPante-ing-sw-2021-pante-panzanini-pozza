@@ -32,4 +32,8 @@ public class Visitor {
 
     public void updateModel(WinnerMessage m){ }
 
+    public void updateModel(ErrorMessage m){ }
+
+    public void updateModel(BroadcastErrorMessage m){ }
+
 }
