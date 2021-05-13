@@ -140,11 +140,7 @@ public class ProductionController extends CardActionController{
         else if (this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTING_UP){
             return true;
         }
-        else{
-            //flow non rispettato
-            this.player.setErrorMessage("Not allowed");
-            return false;
-        }
+        return false;
     }
 
     public void selectCardProduction(int idCard){
@@ -199,49 +195,49 @@ public class ProductionController extends CardActionController{
         this.player.setMicroTurnType(MicroTurnType.SETTING_UP);
     }
 
-    @Override
-    public void selectFromShelf(Resource resource, int numberOfShelf){
+    public boolean selectionFromShelf(Resource resource, int numberOfShelf){
         if (!this.isTurnTypeValid()){
-            return;
+            return false;
         }
         super.selectFromShelf(resource, numberOfShelf);
         this.checkResetCondition();
+        return true;
     }
 
-    @Override
-    public void deselectFromShelf(Resource resource, int numberOfShelf){
+    public boolean deselectionFromShelf(Resource resource, int numberOfShelf){
         if (!this.isTurnTypeValid()){
-            return;
+            return false;
         }
         super.deselectFromShelf(resource, numberOfShelf);
         this.checkResetCondition();
+        return true;
     }
 
-    @Override
-    public void selectFromStrongBox(Resource resource, int quantity){
+    public boolean selectionFromStrongBox(Resource resource, int quantity){
         if (!this.isTurnTypeValid()){
-            return;
+            return false;
         }
         super.selectFromStrongBox(resource, quantity);
         this.checkResetCondition();
+        return true;
     }
 
-    @Override
-    public void deselectFromStrongBox(Resource resource, int quantity){
+    public boolean deselectionFromStrongBox(Resource resource, int quantity){
         if (!this.isTurnTypeValid()){
-            return;
+            return false;
         }
         super.deselectFromStrongBox(resource, quantity);
         this.checkResetCondition();
+        return true;
     }
 
-    @Override
-    public void selectFromLeaderStorage(Resource resource, int idCard, int resPosition){
+    public boolean selectionFromLeaderStorage(Resource resource, int idCard, int resPosition){
         if (!this.isTurnTypeValid()){
-            return;
+            return false;
         }
         super.selectFromLeaderStorage(resource, idCard, resPosition);
         this.checkResetCondition();
+        return true;
     }
 
     private void checkResetCondition(){
