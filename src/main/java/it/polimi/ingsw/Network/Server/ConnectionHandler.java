@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Network.Server;
 
-import it.polimi.ingsw.Controller.PreGameController.RequestHandler;
+import it.polimi.ingsw.Network.RequestHandlers.RequestHandler;
 
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -1,6 +1,6 @@
 package it.polimi.ingsw.PreGameModel;
 
-import it.polimi.ingsw.Controller.PreGameController.RequestHandler;
+import it.polimi.ingsw.Network.RequestHandlers.RequestHandler;
 import it.polimi.ingsw.Network.Server.ConnectionHandler;
 
 public class User {

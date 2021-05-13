@@ -1,4 +1,4 @@
-package it.polimi.ingsw.Controller.PreGameController;
+package it.polimi.ingsw.Network.RequestHandlers;
 
 public interface RequestHandler{
     void requestEvaluator(int id, String request);
