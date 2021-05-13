@@ -49,7 +49,7 @@ public class BuyDevCardController extends CardActionController{
             } catch (IndexOutOfBoundsException e){
                 table.turnOf().setErrorMessage("Wrong selection: There is no such deck. ");
             }
-        }
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
     private boolean atLeastOneDevSlotIsAvailable(DevCard card){
@@ -88,7 +88,7 @@ public class BuyDevCardController extends CardActionController{
                     break;
                 }
             }
-        }
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
     public void applyDiscountAbility(int id){
@@ -117,37 +117,47 @@ public class BuyDevCardController extends CardActionController{
                     table.turnOf().setErrorMessage("This Leader Card has not a discount ability. ");
                 }
             }
+        } else table.turnOf().setErrorMessage("You can't do this action");
+    }
+
+    public boolean selectionFromShelf(Resource resType, int numberOfShelf){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
+            selectFromShelf(resType, numberOfShelf);
+            return true;
         }
+        return false;
     }
 
-    @Override
-    public void selectFromShelf(Resource resType, int numberOfShelf){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.selectFromShelf(resType, numberOfShelf);
+    public boolean selectionFromLeaderStorage(Resource resType, int serial, int resPosition){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
+            selectFromLeaderStorage(resType, serial, resPosition);
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void selectFromLeaderStorage(Resource resType, int serial, int resPosition){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.selectFromLeaderStorage(resType, serial, resPosition);
+    public boolean selectionFromStrongBox(Resource resType, int quantity){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
+            selectFromStrongBox(resType, quantity);
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void selectFromStrongBox(Resource resType, int quantity){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.selectFromStrongBox(resType, quantity);
+    public boolean deselectionFromShelf(Resource resType, int numberOfShelf){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP) {
+            deselectFromShelf(resType, numberOfShelf);
+            return true;
+        }
+        return false;
     }
 
-    @Override
-    public void deselectFromShelf(Resource resType, int numberOfShelf){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.deselectFromShelf(resType, numberOfShelf);
-    }
-
-    @Override
-    public void deselectFromStrongBox(Resource resType, int quantity){
-        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP)
-            super.deselectFromStrongBox(resType, quantity);
+    public boolean deselectionFromStrongBox(Resource resType, int quantity){
+        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
+            deselectFromStrongBox(resType, quantity);
+            return true;
+        }
+        return false;
     }
 
     public void paySelected(){
@@ -168,7 +178,7 @@ public class BuyDevCardController extends CardActionController{
             for(Payable payable: this.getPayableWithSelection())
                 payable.pay();
             table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);
-        }
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
 
@@ -230,6 +240,6 @@ public class BuyDevCardController extends CardActionController{
                     table.turnOf().setErrorMessage("Wrong selection: there is not such slot. ");
                 }
             }
-        }
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 }

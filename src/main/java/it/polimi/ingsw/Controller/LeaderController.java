@@ -31,7 +31,7 @@ public class LeaderController extends SelectionController{
                     else chosenCard.play();
                 }
             }
-        }
+        } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
     private boolean checkRequirements(LeaderCard leaderCardForAction){
