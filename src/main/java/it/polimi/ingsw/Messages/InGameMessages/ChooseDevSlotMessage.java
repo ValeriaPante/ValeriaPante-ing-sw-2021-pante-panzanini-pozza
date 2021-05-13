@@ -1,9 +1,10 @@
-package it.polimi.ingsw.Messages;
+package it.polimi.ingsw.Messages.InGameMessages;
 
 import it.polimi.ingsw.Controller.ControllerSwitch;
+import it.polimi.ingsw.Messages.IntMessage;
 
-public class DiscountAbilityMessage extends IntMessage{
-    public DiscountAbilityMessage(int integer) {
+public class ChooseDevSlotMessage extends IntMessage {
+    public ChooseDevSlotMessage(int integer) {
         super(integer);
     }
 

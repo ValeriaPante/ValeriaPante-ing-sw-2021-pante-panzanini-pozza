@@ -1,9 +1,10 @@
-package it.polimi.ingsw.Messages;
+package it.polimi.ingsw.Messages.InGameMessages;
 
 import it.polimi.ingsw.Controller.ControllerSwitch;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Messages.Message;
 
-public class LeaderStorageSelectionMessage implements Message{
+public class LeaderStorageSelectionMessage implements Message {
     private final int id;
     private final int resPosition;
     private final Resource resource;

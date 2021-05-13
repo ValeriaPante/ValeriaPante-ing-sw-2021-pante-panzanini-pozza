@@ -182,7 +182,7 @@ public class GameController {
             endGame();
     }
 
-    private void endGame(){
+    public void endGame(){
         if(table.isSinglePlayer()){
             if(anEntireLineIsEmpty() || table.getFaithTrack().finished(table.getLorenzo().getPosition()))
                 table.addWinner(table.getLorenzo());
