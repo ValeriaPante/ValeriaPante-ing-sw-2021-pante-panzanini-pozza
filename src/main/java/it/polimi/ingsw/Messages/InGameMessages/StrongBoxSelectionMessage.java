@@ -1,10 +1,11 @@
-package it.polimi.ingsw.Messages;
+package it.polimi.ingsw.Messages.InGameMessages;
 
 import it.polimi.ingsw.Controller.ControllerSwitch;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Messages.ResourceIntMessage;
 
-public class SelectResourceMessage extends ResourceIntMessage{
-    public SelectResourceMessage(int integer, Resource resource) {
+public class StrongBoxSelectionMessage extends ResourceIntMessage {
+    public StrongBoxSelectionMessage(int integer, Resource resource) {
         super(integer, resource);
     }
 

@@ -1,8 +1,9 @@
-package it.polimi.ingsw.Messages;
+package it.polimi.ingsw.Messages.InGameMessages;
 
 import it.polimi.ingsw.Controller.ControllerSwitch;
+import it.polimi.ingsw.Messages.Message;
 
-public class TransmutationMessage implements Message{
+public class TransmutationMessage implements Message {
     private final int serial1;
     private final int serial2;
     private final int quantity1;

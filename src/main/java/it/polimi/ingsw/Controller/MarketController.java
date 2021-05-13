@@ -9,7 +9,6 @@ import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
-import it.polimi.ingsw.Game.Table;
 import it.polimi.ingsw.Player.RealPlayer;
 
 import java.util.ArrayList;
@@ -20,23 +19,22 @@ public class MarketController extends SelectionController{
         super(ftc);
     }
 
-    @Override
-    public void selectFromShelf(Resource resType, int numberOfShelf){
+    public boolean selectionFromShelf(Resource resType, int numberOfShelf){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
-            return;
+            return false;
 
         super.selectFromShelf(resType, numberOfShelf);
+        return true;
     }
 
-    @Override
-    public void selectFromLeaderStorage(Resource resType, int serial, int resPosition){
+    public boolean selectionFromLeaderStorage(Resource resType, int serial, int resPosition){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
-            return;
+            return false;
 
         super.selectFromLeaderStorage(resType, serial, resPosition);
+        return true;
     }
 
-    @Override
     public void selectFromSupportContainer(Resource resType, int quantity){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
@@ -44,15 +42,14 @@ public class MarketController extends SelectionController{
         super.selectFromSupportContainer(resType, quantity);
     }
 
-    @Override
-    public void deselectFromShelf(Resource resType, int numberOfShelf){
+    public boolean deselectionFromShelf(Resource resType, int numberOfShelf){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
-            return;
+            return false;
 
         super.deselectFromShelf(resType, numberOfShelf);
+        return true;
     }
 
-    @Override
     public void deselectFromSupportContainer(Resource resType, int quantity){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
