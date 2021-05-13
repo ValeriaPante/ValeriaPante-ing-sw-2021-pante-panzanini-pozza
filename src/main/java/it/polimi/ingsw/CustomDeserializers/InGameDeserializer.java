@@ -2,14 +2,14 @@ package it.polimi.ingsw.CustomDeserializers;
 
 import com.google.gson.*;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Messages.*;
 import it.polimi.ingsw.Messages.InGameMessages.*;
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.*;
 
 import java.lang.reflect.Type;
 
-public class InGameDeserializer implements JsonDeserializer<Message> {
+public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
     @Override
-    public Message deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
+    public InGameMessage deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
 
         try{
@@ -102,11 +102,11 @@ public class InGameDeserializer implements JsonDeserializer<Message> {
                     return new TransmutationMessage(jsonObject.get("serial1").getAsInt(), jsonObject.get("serial2").getAsInt(), jsonObject.get("quantity1").getAsInt(), jsonObject.get("quantity2").getAsInt());
 
                 default:
-                    //Error Message: "Incorrect message type for in-game"
+                    //Error InGameMessage: "Incorrect message type for in-game"
                     return null;
             }
         } catch (NullPointerException e) {
-            //Error Message: "Incorrect message syntax"
+            //Error InGameMessage: "Incorrect message syntax"
             return null;
         }
     }
