@@ -13,5 +13,5 @@ public abstract class PreGameMessage {
         this.senderId = senderId;
     }
 
-    public void readThrough(PreGameControllerSwitch preGameControllerSwitch){};
+    public abstract void readThrough(PreGameControllerSwitch preGameControllerSwitch);
 }

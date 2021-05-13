@@ -103,11 +103,11 @@ public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
 
                 default:
                     //Error InGameMessage: "Incorrect message type for in-game"
-                    return null;
+                    return new NoActionMessage();
             }
         } catch (NullPointerException e) {
             //Error InGameMessage: "Incorrect message syntax"
-            return null;
+            return new NoActionMessage();
         }
     }
 }

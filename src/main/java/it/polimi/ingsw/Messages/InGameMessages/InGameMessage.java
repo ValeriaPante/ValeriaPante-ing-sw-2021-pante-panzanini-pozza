@@ -13,5 +13,5 @@ public abstract class InGameMessage {
         this.senderId = senderId;
     }
 
-    public void readThrough(InGameControllerSwitch inGameControllerSwitch){};
+    public abstract void readThrough(InGameControllerSwitch inGameControllerSwitch);
 }
