@@ -38,78 +38,83 @@ public class Client implements Runnable{
                 JsonObject toEvaluate = array.get(i).getAsJsonObject();
 
                 FromServerMessage message = null;
-                switch(toEvaluate.get("type").getAsString()){
-                    case "newLobby":
-                        message = new NewLobbyMessage(toEvaluate.get("id").getAsInt(), toEvaluate.get("firstPlayer").getAsString());
-                        break;
-                    case "changedLobby":
-                        message = new ChangedLobbyMessage(toEvaluate.get("id").getAsInt(), gson.fromJson(toEvaluate.get("players"), String[].class));
-                        break;
-                    case "removeLobby":
-                        message = new RemoveLobbyMessage(toEvaluate.get("id").getAsInt());
-                        break;
-                    case "init":
-                        JsonArray playersInfo = toEvaluate.get("players").getAsJsonArray();
-                        int[] playersId = new int[playersInfo.size()];
-                        String[] playersUsernames = new String[playersInfo.size()];
-                        ArrayList<int[]> playersLeaderCards = new ArrayList<>();
-                        ArrayList<HashMap<Resource, Integer>> playersInitialResources = new ArrayList<>();
+                try{
+                    switch(toEvaluate.get("type").getAsString()){
+                        case "newLobby":
+                            message = new NewLobbyMessage(toEvaluate.get("id").getAsInt(), toEvaluate.get("firstPlayer").getAsString());
+                            break;
+                        case "changedLobby":
+                            message = new ChangedLobbyMessage(toEvaluate.get("id").getAsInt(), gson.fromJson(toEvaluate.get("players"), String[].class));
+                            break;
+                        case "removeLobby":
+                            message = new RemoveLobbyMessage(toEvaluate.get("id").getAsInt());
+                            break;
+                        case "init":
+                            JsonArray playersInfo = toEvaluate.get("players").getAsJsonArray();
+                            int[] playersId = new int[playersInfo.size()];
+                            String[] playersUsernames = new String[playersInfo.size()];
+                            ArrayList<int[]> playersLeaderCards = new ArrayList<>();
+                            ArrayList<HashMap<Resource, Integer>> playersInitialResources = new ArrayList<>();
 
-                        for(int j = 0; j < playersInfo.size(); j++){
-                            JsonObject player = array.get(j).getAsJsonObject();
-                            playersId[j] = player.get("userId").getAsInt();
-                            playersUsernames[j] = player.get("username").getAsString();
-                            playersLeaderCards.add(gson.fromJson(player.get("initialLeaderCards"), int[].class));
-                            playersInitialResources.add(gson.fromJson(player.get("initialResources"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
-                        }
+                            for(int j = 0; j < playersInfo.size(); j++){
+                                JsonObject player = array.get(j).getAsJsonObject();
+                                playersId[j] = player.get("userId").getAsInt();
+                                playersUsernames[j] = player.get("username").getAsString();
+                                playersLeaderCards.add(gson.fromJson(player.get("initialLeaderCards"), int[].class));
+                                playersInitialResources.add(gson.fromJson(player.get("initialResources"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                            }
 
-                        message = new InitMessage(gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, playersLeaderCards, playersInitialResources); //da fare
-                        break;
-                    case "actionOnLeaderCard":
-                        message = new ActionOnLeaderCardMessage(toEvaluate.get("playedId").getAsInt(), toEvaluate.get("discard").getAsBoolean(), toEvaluate.get("id").getAsInt());
-                        break;
-                    case "newDevCard":
-                        message = new NewDevCardMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("newPlayerCardId").getAsInt(), toEvaluate.get("numberOfSlot").getAsInt());
-                        break;
-                    case "newTopCard":
-                        message = new NewTopCardMessage(toEvaluate.get("id").getAsInt(), toEvaluate.get("numberOfDeck").getAsInt());
-                        break;
-                    case "changedShelf":
-                        message = new ChangedShelfMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("numberOfShelf").getAsInt(), gson.fromJson(toEvaluate.get("resourceType"), Resource.class),toEvaluate.get("quantity").getAsInt());
-                        break;
-                    case "changedStrongbox":
-                        message = new ChangedStrongboxMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
-                        break;
-                    case "changedSupportContainer":
-                        message = new ChangedSupportContainerMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
-                        break;
-                    case "changedLeaderStorage":
-                        message = new ChangedLeaderStorageMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("cardId").getAsInt(), gson.fromJson(toEvaluate.get("owned"), Resource[].class));
-                        break;
-                    case "newMarketState":
-                        message = new NewMarketStateMessage(gson.fromJson(toEvaluate.get("grid"), Resource[].class));
-                        break;
-                    case "popeFavourCardState":
-                        message = new PopeFavourCardStateMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("cards"), PopeFavorCardState[].class));
-                        break;
-                    case "newPlayerPosition":
-                        message = new NewPlayerPositionMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("pos").getAsInt());
-                        break;
-                    case "winner":
-                        message = new WinnerMessage(toEvaluate.get("id").getAsInt());
-                        result = true;
-                        break;
-                    case "error":
-                        message = new ErrorMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("error").getAsString());
-                        break;
-                    case "broadcastError":
-                        message = new BroadcastErrorMessage(toEvaluate.get("error").getAsString());
-                        break;
-                    default:
-                        break;
+                            message = new InitMessage(gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, playersLeaderCards, playersInitialResources); //da fare
+                            break;
+                        case "actionOnLeaderCard":
+                            message = new ActionOnLeaderCardMessage(toEvaluate.get("playedId").getAsInt(), toEvaluate.get("discard").getAsBoolean(), toEvaluate.get("id").getAsInt());
+                            break;
+                        case "newDevCard":
+                            message = new NewDevCardMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("newPlayerCardId").getAsInt(), toEvaluate.get("numberOfSlot").getAsInt());
+                            break;
+                        case "newTopCard":
+                            message = new NewTopCardMessage(toEvaluate.get("id").getAsInt(), toEvaluate.get("numberOfDeck").getAsInt());
+                            break;
+                        case "changedShelf":
+                            message = new ChangedShelfMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("numberOfShelf").getAsInt(), gson.fromJson(toEvaluate.get("resourceType"), Resource.class),toEvaluate.get("quantity").getAsInt());
+                            break;
+                        case "changedStrongbox":
+                            message = new ChangedStrongboxMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                            break;
+                        case "changedSupportContainer":
+                            message = new ChangedSupportContainerMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                            break;
+                        case "changedLeaderStorage":
+                            message = new ChangedLeaderStorageMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("cardId").getAsInt(), gson.fromJson(toEvaluate.get("owned"), Resource[].class));
+                            break;
+                        case "newMarketState":
+                            message = new NewMarketStateMessage(gson.fromJson(toEvaluate.get("grid"), Resource[].class));
+                            break;
+                        case "popeFavourCardState":
+                            message = new PopeFavourCardStateMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("cards"), PopeFavorCardState[].class));
+                            break;
+                        case "newPlayerPosition":
+                            message = new NewPlayerPositionMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("pos").getAsInt());
+                            break;
+                        case "winner":
+                            message = new WinnerMessage(toEvaluate.get("id").getAsInt());
+                            result = true;
+                            break;
+                        case "error":
+                            message = new ErrorMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("error").getAsString());
+                            break;
+                        case "broadcastError":
+                            message = new BroadcastErrorMessage(toEvaluate.get("error").getAsString());
+                            break;
+                        default:
+                            break;
+                    }
+
+                    if(message != null) message.visit(visitor);
+                } catch (NullPointerException e){
+                    //there is some format error inside the message
                 }
 
-                if(message != null) message.visit(visitor);
             }
         }
         return result;
