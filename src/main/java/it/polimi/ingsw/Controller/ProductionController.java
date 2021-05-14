@@ -34,7 +34,7 @@ public class ProductionController extends CardActionController{
         }
 
         for (DevSlot devSlot : player.getDevSlots()){
-            if (devSlot.topCard().isSelected()){
+            if (!devSlot.isEmpty() && devSlot.topCard().isSelected()){
                 selectedProdPowers.add(devSlot.topCard().getProdPower());
             }
         }
@@ -59,6 +59,7 @@ public class ProductionController extends CardActionController{
         for (ProductionPower alreadySelectedProdPower : this.getSelectedProductionPowers(player)){
             resourceRequired.addEnumMap(alreadySelectedProdPower.getInput());
         }
+        resourceRequired.addEnumMap(productionPower.getInput());
         return super.isAffordableSomehow(resourceRequired.content());
     }
 
@@ -250,7 +251,7 @@ public class ProductionController extends CardActionController{
             //per ora controllo che se anche tutte le risorse sono deselezionate allora il turno diventa NONE
             if (super.getPayableWithSelection().isEmpty()){
                 this.player.setMacroTurnType(MacroTurnType.NONE);
-                this.player.setMacroTurnType(MacroTurnType.NONE);
+                this.player.setMicroTurnType(MicroTurnType.NONE);
             }
         }
     }

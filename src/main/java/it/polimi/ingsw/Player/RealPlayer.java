@@ -162,7 +162,7 @@ public class RealPlayer extends Player{
             if (allResources.isEmpty())
                 throw new BrokenPlayerException();
         }
-        return allResources.content();
+        return (allResources.content() == null) ? new EnumMap<>(Resource.class) : allResources.content();
     }
 
     //it can be used to know if the player owns any Resource

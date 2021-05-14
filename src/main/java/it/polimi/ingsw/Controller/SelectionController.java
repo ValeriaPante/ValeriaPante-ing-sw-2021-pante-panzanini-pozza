@@ -72,11 +72,11 @@ public class SelectionController {
             return;
 
         try{
-            if (specifiedLeaderCard.getAbility().getCapacity().containsKey(resType)){
+            if (!specifiedLeaderCard.getAbility().getCapacity().containsKey(resType)){
                 //Error message: "Resource type note allowed"
                 return;
             }
-            if (specifiedLeaderCard.getAbility().getContent().containsKey(resType)){
+            if (!specifiedLeaderCard.getAbility().getContent().containsKey(resType)){
                 //Error message: "Resource not contained"
                 return;
             }
