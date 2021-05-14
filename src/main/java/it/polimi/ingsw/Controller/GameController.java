@@ -14,7 +14,7 @@ import it.polimi.ingsw.Cards.*;
 
 import java.util.*;
 
-public class GameController {
+public class GameController extends CertifiedResourceUsage{
     private Table table;
     private FaithTrackController faithTrackController;
     private final List<String> players;
@@ -99,15 +99,16 @@ public class GameController {
     }
 
     public void selectResource(int capacityShelf1, Resource resType1){
+        if(!super.getLegalResource(resType1)){
+            table.turnOf().setErrorMessage("Illegal resource type selected");
+            return;
+        }
+
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
         if ((capacityShelf1 > 3) || (capacityShelf1 < 1))
             //Error message: "Bad shelf selection"
-            return;
-
-        if ((resType1 != Resource.COIN) && (resType1 != Resource.SHIELD) && (resType1 != Resource.SERVANT) && (resType1 != Resource.STONE))
-            //Error message: "Bad resource selection"
             return;
 
         if ((table.getPlayers().length == 4) && (table.turnOf() == table.getPlayers()[3])){
