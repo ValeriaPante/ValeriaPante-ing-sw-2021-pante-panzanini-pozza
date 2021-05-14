@@ -9,7 +9,7 @@ import it.polimi.ingsw.Game.Table;
 
 import java.util.EnumMap;
 
-public class SelectionController {
+public class SelectionController extends CertifiedResourceUsage{
     protected final Table table;
     protected EnumMap<Resource, Integer> enumMap;
     protected FaithTrackController faithTrackController;
@@ -32,6 +32,14 @@ public class SelectionController {
         return specifiedLeaderCard;
     }
 
+    private boolean resCheck(Resource resource){
+        if(super.getLegalResource(resource))
+            return true;
+
+        table.turnOf().setErrorMessage("Illegal resource type selected");
+        return false;
+    }
+
     protected LeaderCard leaderCardFromID(int serial){
         boolean ownCard = false;
         LeaderCard specifiedLeaderCard = null;
@@ -50,6 +58,9 @@ public class SelectionController {
 
     //takes the shelf with "numberOfShelf" capacity and tries to select one Resource
     protected void selectFromShelf(Resource resType, int numberOfShelf){
+        if(!resCheck(resType))
+            return;
+
         Shelf currentShelf = shelfFromCapacity(numberOfShelf);
         if (currentShelf == null)
             return;
@@ -67,6 +78,9 @@ public class SelectionController {
 
     //takes the leader card with ID "serial" and tries to single select
     protected void selectFromLeaderStorage(Resource resType, int serial, int resPosition){
+        if(!resCheck(resType))
+            return;
+
         LeaderCard specifiedLeaderCard = getUsableLeaderCard(serial);
         if(specifiedLeaderCard == null)
             return;
@@ -102,6 +116,9 @@ public class SelectionController {
 
     //takes the shelf with "numberOfShelf" capacity and tries to DEselect one Resource
     protected void deselectFromShelf(Resource resType, int numberOfShelf){
+        if(!resCheck(resType))
+            return;
+
         Shelf currentShelf = shelfFromCapacity(numberOfShelf);
         if (currentShelf == null)
             return;
@@ -127,6 +144,9 @@ public class SelectionController {
     }
 
     private void selectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
+        if(!resCheck(resType))
+            return;
+
         if (quantity == 0)
             //Error message: "No quantity specified"
             return;
@@ -142,6 +162,9 @@ public class SelectionController {
     }
 
     private void deselectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
+        if(!resCheck(resType))
+            return;
+
         if (quantity == 0)
             //Error message: "No quantity specified"
             return;

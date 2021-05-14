@@ -11,6 +11,7 @@ public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
     @Override
     public InGameMessage deserialize(JsonElement jsonElement, Type type, JsonDeserializationContext jsonDeserializationContext) throws JsonParseException {
         JsonObject jsonObject = jsonElement.getAsJsonObject();
+        Resource resource;
 
         try{
             switch (jsonObject.get("type").getAsString()){
@@ -18,7 +19,10 @@ public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
                     return new AllProductionPowerSelectionMessage();
 
                 case "AnySelection":
-                    return new AnySelectionMessage(Resource.fromAlias(jsonObject.get("resource").getAsString()));
+                    resource = Resource.fromAlias(jsonObject.get("resource").getAsString());
+                    if (resource == null)
+                        return new NoActionMessage();
+                    return new AnySelectionMessage(resource);
 
                 case "BackFromAnySelection":
                     return new BackFromAnySelectionMessage();
@@ -51,7 +55,10 @@ public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
                     return new LeaderDiscardMessage(jsonObject.get("integer").getAsInt());
 
                 case "LeaderStorageSelection":
-                    return new LeaderStorageSelectionMessage(jsonObject.get("id").getAsInt(), jsonObject.get("resPosition").getAsInt(), Resource.fromAlias(jsonObject.get("resource").getAsString()));
+                    resource = Resource.fromAlias(jsonObject.get("resource").getAsString());
+                    if (resource == null)
+                        return new NoActionMessage();
+                    return new LeaderStorageSelectionMessage(jsonObject.get("id").getAsInt(), jsonObject.get("resPosition").getAsInt(), resource);
 
                 case "MarketSelection":
                     return new MarketSelectionMessage(jsonObject.get("integer").getAsInt(), jsonObject.get("boolean").getAsBoolean());
@@ -75,25 +82,44 @@ public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
                     return new QuitFromMarketMessage();
 
                 case "SelectResource":
-                    return new SelectResourceMessage(jsonObject.get("integer").getAsInt(), Resource.fromAlias(jsonObject.get("resource").getAsString()));
+                    resource = Resource.fromAlias(jsonObject.get("resource").getAsString());
+                    if (resource == null)
+                        return new NoActionMessage();
+                    return new SelectResourceMessage(jsonObject.get("integer").getAsInt(), resource);
 
                 case "ShelfDeselection":
-                    return new ShelfDeselectionMessage(jsonObject.get("integer").getAsInt(), Resource.fromAlias(jsonObject.get("resource").getAsString()));
+                    resource = Resource.fromAlias(jsonObject.get("resource").getAsString());
+                    if (resource == null)
+                        return new NoActionMessage();
+                    return new ShelfDeselectionMessage(jsonObject.get("integer").getAsInt(), resource);
 
                 case "ShelfSelection":
-                    return new ShelfSelectionMessage(jsonObject.get("integer").getAsInt(), Resource.fromAlias(jsonObject.get("resource").getAsString()));
+                    resource = Resource.fromAlias(jsonObject.get("resource").getAsString());
+                    if (resource == null)
+                        return new NoActionMessage();
+                    return new ShelfSelectionMessage(jsonObject.get("integer").getAsInt(), resource);
 
                 case "StrongBoxDeselection":
-                    return new StrongBoxDeselectionMessage(jsonObject.get("integer").getAsInt(), Resource.fromAlias(jsonObject.get("resource").getAsString()));
+                    resource = Resource.fromAlias(jsonObject.get("resource").getAsString());
+                    if (resource == null)
+                        return new NoActionMessage();
+                    return new StrongBoxDeselectionMessage(jsonObject.get("integer").getAsInt(), resource);
 
                 case "StrongBoxSelection":
-                    return new StrongBoxSelectionMessage(jsonObject.get("integer").getAsInt(), Resource.fromAlias(jsonObject.get("resource").getAsString()));
+                    resource = Resource.fromAlias(jsonObject.get("resource").getAsString());
+                    if (resource == null)
+                        return new NoActionMessage();
+                    return new StrongBoxSelectionMessage(jsonObject.get("integer").getAsInt(), resource);
 
                 case "SupportContainerDeselection":
-                    return new SupportContainerDeselectionMessage(jsonObject.get("integer").getAsInt(), Resource.fromAlias(jsonObject.get("resource").getAsString()));
+                    resource = Resource.fromAlias(jsonObject.get("resource").getAsString());
+                    if (resource == null)
+                        return new NoActionMessage();
+                    return new SupportContainerDeselectionMessage(jsonObject.get("integer").getAsInt(), resource);
 
                 case "SupportContainerSelection":
-                    return new SupportContainerSelectionMessage(jsonObject.get("integer").getAsInt(), Resource.fromAlias(jsonObject.get("resource").getAsString()));
+                    resource = Resource.fromAlias(jsonObject.get("resource").getAsString());
+                    return (resource == null) ? new NoActionMessage() : new SupportContainerSelectionMessage(jsonObject.get("integer").getAsInt(), resource);
 
                 case "TakeFromMarket":
                     return new TakeFromMarketMessage();
