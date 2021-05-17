@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Network.Client.Messages.*;
+import it.polimi.ingsw.View.View;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -19,8 +20,8 @@ public class Client implements Runnable{
     private PrintWriter toServer;
     private final Visitor visitor;
 
-    public Client(){
-        this.visitor = new Visitor();
+    public Client(View view){
+        this.visitor = new Visitor(view);
     }
 
     //ritorna true se la partita è finita
@@ -61,10 +62,9 @@ public class Client implements Runnable{
                                 playersId[j] = player.get("userId").getAsInt();
                                 playersUsernames[j] = player.get("username").getAsString();
                                 playersLeaderCards.add(gson.fromJson(player.get("initialLeaderCards"), int[].class));
-                                playersInitialResources.add(gson.fromJson(player.get("initialResources"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
                             }
 
-                            message = new InitMessage(gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, playersLeaderCards, playersInitialResources); //da fare
+                            message = new InitMessage(toEvaluate.get("clientId").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, playersLeaderCards);
                             break;
                         case "actionOnLeaderCard":
                             message = new ActionOnLeaderCardMessage(toEvaluate.get("playedId").getAsInt(), toEvaluate.get("discard").getAsBoolean(), toEvaluate.get("id").getAsInt());
@@ -88,7 +88,7 @@ public class Client implements Runnable{
                             message = new ChangedLeaderStorageMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("cardId").getAsInt(), gson.fromJson(toEvaluate.get("owned"), Resource[].class));
                             break;
                         case "newMarketState":
-                            message = new NewMarketStateMessage(gson.fromJson(toEvaluate.get("grid"), Resource[].class));
+                            message = new NewMarketStateMessage(gson.fromJson(toEvaluate.get("grid"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class));
                             break;
                         case "popeFavourCardState":
                             message = new PopeFavourCardStateMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("cards"), PopeFavorCardState[].class));
@@ -102,9 +102,6 @@ public class Client implements Runnable{
                             break;
                         case "error":
                             message = new ErrorMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("error").getAsString());
-                            break;
-                        case "broadcastError":
-                            message = new BroadcastErrorMessage(toEvaluate.get("error").getAsString());
                             break;
                         default:
                             break;

@@ -14,6 +14,14 @@ public class ChangedLeaderStorageMessage extends WithIntMessage{
         this.owned = owned;
     }
 
+    public int getCardId() {
+        return cardId;
+    }
+
+    public Resource[] getOwned() {
+        return owned;
+    }
+
     @Override
     public void visit(Visitor v){
         v.updateModel(this);
