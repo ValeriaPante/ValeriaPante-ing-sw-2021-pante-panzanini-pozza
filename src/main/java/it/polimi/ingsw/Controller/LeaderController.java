@@ -4,7 +4,6 @@ import it.polimi.ingsw.Cards.DevCardType;
 import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Enums.MacroTurnType;
-import it.polimi.ingsw.Exceptions.BrokenPlayerException;
 
 import java.util.*;
 
@@ -41,11 +40,9 @@ public class LeaderController extends SelectionController{
     private boolean checkResourceReq(LeaderCard leaderCardForAction){
         // prende il contenuto che hai da tutti
         Depot allResourceOwned = new Depot();
-        try {
-            allResourceOwned.addEnumMap(table.turnOf().getResourcesOwned());
-        } catch (BrokenPlayerException e){
-            return leaderCardForAction.getResourceReq().isEmpty();
-        }
+
+        allResourceOwned.addEnumMap(table.turnOf().getResourcesOwned());
+
         return allResourceOwned.contains(leaderCardForAction.getResourceReq());
     }
 

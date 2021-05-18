@@ -9,7 +9,6 @@ import it.polimi.ingsw.Deposit.StrongBox;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.BrokenPlayerException;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 
 import java.util.ArrayList;
@@ -159,8 +158,6 @@ public class RealPlayer extends Player{
                 } catch (WeDontDoSuchThingsHere e) {
                 }
             }
-            if (allResources.isEmpty())
-                throw new BrokenPlayerException();
         }
         return (allResources.content() == null) ? new EnumMap<>(Resource.class) : allResources.content();
     }
