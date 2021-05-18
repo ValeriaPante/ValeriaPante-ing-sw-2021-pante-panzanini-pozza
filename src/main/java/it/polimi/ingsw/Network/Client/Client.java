@@ -55,7 +55,6 @@ public class Client implements Runnable{
                             int[] playersId = new int[playersInfo.size()];
                             String[] playersUsernames = new String[playersInfo.size()];
                             ArrayList<int[]> playersLeaderCards = new ArrayList<>();
-                            ArrayList<HashMap<Resource, Integer>> playersInitialResources = new ArrayList<>();
 
                             for(int j = 0; j < playersInfo.size(); j++){
                                 JsonObject player = array.get(j).getAsJsonObject();
