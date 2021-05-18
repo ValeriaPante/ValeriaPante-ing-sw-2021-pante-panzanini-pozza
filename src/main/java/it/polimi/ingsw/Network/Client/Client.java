@@ -10,7 +10,6 @@ import it.polimi.ingsw.View.View;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
 
@@ -54,16 +53,19 @@ public class Client implements Runnable{
                             JsonArray playersInfo = toEvaluate.get("players").getAsJsonArray();
                             int[] playersId = new int[playersInfo.size()];
                             String[] playersUsernames = new String[playersInfo.size()];
-                            ArrayList<int[]> playersLeaderCards = new ArrayList<>();
 
                             for(int j = 0; j < playersInfo.size(); j++){
                                 JsonObject player = array.get(j).getAsJsonObject();
                                 playersId[j] = player.get("userId").getAsInt();
                                 playersUsernames[j] = player.get("username").getAsString();
-                                playersLeaderCards.add(gson.fromJson(player.get("initialLeaderCards"), int[].class));
                             }
 
-                            message = new InitMessage(toEvaluate.get("clientId").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, playersLeaderCards);
+                            int[] clientLeaderCards = gson.fromJson(toEvaluate.get("initialLeaderCards"), int[].class);
+
+                            message = new InitMessage(toEvaluate.get("clientId").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, clientLeaderCards);
+                            break;
+                        case "start":
+                            message = new StartMessage();
                             break;
                         case "actionOnLeaderCard":
                             message = new ActionOnLeaderCardMessage(toEvaluate.get("playedId").getAsInt(), toEvaluate.get("discard").getAsBoolean(), toEvaluate.get("id").getAsInt());
@@ -116,19 +118,6 @@ public class Client implements Runnable{
         return result;
     }
 
-/*    public void ping() {
-        new Thread(() -> {
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                toServer.println("ping");
-            }
-        }).start();
-    }*/
-
     public void run(){
         if(fromServer != null && toServer != null) {
             while (true) {
@@ -160,6 +149,5 @@ public class Client implements Runnable{
         }
         this.update(username);
         System.out.println("Connection established");
-        //ping();
     }
 }

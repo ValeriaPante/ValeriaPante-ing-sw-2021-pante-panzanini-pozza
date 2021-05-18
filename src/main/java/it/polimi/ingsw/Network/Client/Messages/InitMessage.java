@@ -3,8 +3,6 @@ package it.polimi.ingsw.Network.Client.Messages;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Network.Client.Visitor;
 
-import java.util.ArrayList;
-
 public class InitMessage extends WithIntMessage{
 
     private final Resource[][] market;
@@ -12,9 +10,9 @@ public class InitMessage extends WithIntMessage{
     private final int[][] devDecks;
     private final int[] playersId;
     private final String[] playersUsernames;
-    private final ArrayList<int[]> playersLeaderCards;
+    private final int[] localPlayerLeaderCards;
 
-    public InitMessage(int clientId, Resource[] market, Resource slide, int[] devDecks, int[] playersId, String[] playersUsernames, ArrayList<int[]> playersLeaderCards) {
+    public InitMessage(int clientId, Resource[] market, Resource slide, int[] devDecks, int[] playersId, String[] playersUsernames, int[] playersLeaderCards) {
         this.id = clientId;
 
         this.market = new Resource[3][4];
@@ -29,7 +27,7 @@ public class InitMessage extends WithIntMessage{
 
         this.playersId = playersId;
         this.playersUsernames = playersUsernames;
-        this.playersLeaderCards = playersLeaderCards;
+        this.localPlayerLeaderCards = playersLeaderCards;
     }
 
     public Resource[][] getMarket() {
@@ -52,8 +50,8 @@ public class InitMessage extends WithIntMessage{
         return playersUsernames;
     }
 
-    public ArrayList<int[]> getPlayersLeaderCards() {
-        return playersLeaderCards;
+    public int[] getLocalPlayerLeaderCards() {
+        return localPlayerLeaderCards;
     }
 
     @Override
