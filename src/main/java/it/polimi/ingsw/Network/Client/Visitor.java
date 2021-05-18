@@ -29,6 +29,10 @@ public class Visitor {
         view.updateLobbyState(m.getId(), m.getPlayers());
     }
 
+    public void updateModel(StartMessage m){
+        view.startGame();
+    }
+
     public void updateModel(ChangedShelfMessage m){
         model.getPlayerFromId(m.getId()).setShelf(m.getResourceType(), m.getQuantity(), m.getNumberOfShelf());
         view.updateShelves(m.getId(), m.getNumberOfShelf());
@@ -51,9 +55,12 @@ public class Visitor {
         for(int i = 0; i < m.getPlayersId().length; i++){
             SimplifiedPlayer p = new SimplifiedPlayer();
             p.setUsername(m.getPlayersUsernames()[i]);
-            for(int j = 0; j < m.getPlayersLeaderCards().get(i).length; j++){
-                p.addLeaderCard(m.getPlayersLeaderCards().get(i)[j]);
+            if(m.getPlayersId()[i] == m.getId()){
+                for(int j = 0; j < m.getLocalPlayerLeaderCards().length; j++){
+                    p.addLeaderCard(m.getLocalPlayerLeaderCards()[j]);
+                }
             }
+
             model.addPlayer(m.getPlayersId()[i], p);
         }
         view.chooseLeaderCards();
