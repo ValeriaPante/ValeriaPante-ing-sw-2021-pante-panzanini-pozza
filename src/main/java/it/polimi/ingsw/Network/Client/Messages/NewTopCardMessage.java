@@ -15,7 +15,8 @@ public class NewTopCardMessage extends WithIntMessage{
     }
 
     @Override
-    public void visit(Visitor v){
+    public boolean visit(Visitor v){
         v.updateModel(this);
+        return false;
     }
 }

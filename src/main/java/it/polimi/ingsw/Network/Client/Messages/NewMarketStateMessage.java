@@ -25,7 +25,8 @@ public class NewMarketStateMessage extends FromServerMessage{
         return slide;
     }
     @Override
-    public void visit(Visitor v){
+    public boolean visit(Visitor v){
         v.updateModel(this);
+        return false;
     }
 }

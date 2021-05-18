@@ -4,5 +4,5 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public abstract class FromServerMessage {
 
-    public void visit(Visitor v){}
+    public boolean visit(Visitor v){ return false;}
 }
