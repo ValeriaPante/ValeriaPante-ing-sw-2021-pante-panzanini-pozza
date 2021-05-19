@@ -2,13 +2,11 @@ package it.polimi.ingsw.View.CLI;
 
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.View.ClientModel.Game;
+import it.polimi.ingsw.View.Observable;
 import it.polimi.ingsw.View.View;
 
-public class CLI implements View {
-    @Override
-    public void showNewLobby(int lobbyId, String firstPlayer) {
-
-    }
+public class CLI extends Observable implements View {
+    private Game model;
 
     @Override
     public void updateLobbyState(int lobbyId, String[] players) {
@@ -101,7 +99,7 @@ public class CLI implements View {
     }
 
     @Override
-    public Game getModel() {
-        return null;
+    public Game getModel(){
+        return model;
     }
 }
