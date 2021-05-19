@@ -205,6 +205,10 @@ public class RealPlayer extends Player{
         //notify to client
     }
 
+    public String getErrorMessage() {
+        return this.errorMessage;
+    }
+
     public void clearErrorMessage(){
         this.errorMessage = null;
     }

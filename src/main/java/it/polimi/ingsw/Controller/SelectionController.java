@@ -25,9 +25,11 @@ public class SelectionController extends CertifiedResourceUsage{
         if (specifiedLeaderCard == null)
             return null;
 
-        if (!specifiedLeaderCard.hasBeenPlayed())
-            //Error message: "Card not played"
+        if (!specifiedLeaderCard.hasBeenPlayed()){
+            table.turnOf().setErrorMessage("Card not played");
             return null;
+        }
+
 
         return specifiedLeaderCard;
     }
@@ -49,9 +51,10 @@ public class SelectionController extends CertifiedResourceUsage{
                 specifiedLeaderCard = lc;
             }
         }
-        if (!ownCard)
-            //Error message: "Not own leader card"
+        if (!ownCard) {
+            table.turnOf().setErrorMessage("Not own leader card");
             return null;
+        }
 
         return specifiedLeaderCard;
     }
