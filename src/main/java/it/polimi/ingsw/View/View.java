@@ -5,7 +5,6 @@ import it.polimi.ingsw.View.ClientModel.Game;
 
 public interface View {
 
-    void showNewLobby(int lobbyId, String firstPlayer);
     void updateLobbyState(int lobbyId, String[] players);
     void removeLobby(int lobbyId);
 

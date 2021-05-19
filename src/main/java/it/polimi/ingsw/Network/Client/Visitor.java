@@ -70,10 +70,6 @@ public class Visitor {
         view.addDevCardInSlot(m.getId(), m.getCardId(), m.getNumberOfSlot());
     }
 
-    public void updateModel(NewLobbyMessage m){
-        view.showNewLobby(m.getId(), m.getFirstPlayer());
-    }
-
     public void updateModel(NewMarketStateMessage m){
         model.updateMarketState(m.getGrid(), m.getSlide());
     }

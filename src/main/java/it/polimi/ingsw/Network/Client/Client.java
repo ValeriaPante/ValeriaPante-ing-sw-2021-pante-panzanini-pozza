@@ -4,7 +4,6 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Network.Client.Messages.*;
 import it.polimi.ingsw.View.View;
 
@@ -52,9 +51,6 @@ public class Client implements Runnable{
 
                 try{
                     switch(toEvaluate.get("type").getAsString()){
-                        case "newLobby":
-                            result.add(new NewLobbyMessage(toEvaluate.get("id").getAsInt(), toEvaluate.get("firstPlayer").getAsString()));
-                            break;
                         case "changedLobby":
                             result.add(new ChangedLobbyMessage(toEvaluate.get("id").getAsInt(), gson.fromJson(toEvaluate.get("players"), String[].class)));
                             break;
