@@ -18,7 +18,7 @@ public class PreGameDeserializer implements JsonDeserializer<PreGameMessage> {
                 case "Disconnect":
                     return new DisconnectMessage();
                 case "MoveToLobby":
-                    return new MoveToLobbyMessage(jsonObject.get("integer").getAsInt());
+                    return new MoveToLobbyMessage(jsonObject.get("lobbyId").getAsInt());
                 case "StartGame":
                     return new StartGameMessage();
                 default:

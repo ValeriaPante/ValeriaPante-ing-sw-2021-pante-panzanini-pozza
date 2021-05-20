@@ -49,7 +49,7 @@ public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
                     return new ExchangeMessage();
 
                 case "LeaderCardAction":
-                    return new LeaderCardActionMessage(jsonObject.get("integer").getAsInt(), jsonObject.get("boolean").getAsBoolean());
+                    return new LeaderCardActionMessage(jsonObject.get("integer").getAsInt(), jsonObject.get("aBoolean").getAsBoolean());
 
                 case "LeaderDiscard":
                     return new LeaderDiscardMessage(jsonObject.get("integer").getAsInt());
@@ -61,7 +61,7 @@ public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
                     return new LeaderStorageSelectionMessage(jsonObject.get("id").getAsInt(), jsonObject.get("resPosition").getAsInt(), resource);
 
                 case "MarketSelection":
-                    return new MarketSelectionMessage(jsonObject.get("integer").getAsInt(), jsonObject.get("boolean").getAsBoolean());
+                    return new MarketSelectionMessage(jsonObject.get("integer").getAsInt(), jsonObject.get("aBoolean").getAsBoolean());
 
                 case "MoveToLeaderStorage":
                     return new MoveToLeaderStorageMessage(jsonObject.get("integer").getAsInt());
