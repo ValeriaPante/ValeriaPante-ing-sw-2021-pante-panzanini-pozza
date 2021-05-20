@@ -8,6 +8,8 @@ public interface View {
     void updateLobbyState(int lobbyId, String[] players);
     void removeLobby(int lobbyId);
 
+    void chooseLobby(int lobbyId);
+
     void chooseLeaderCards();
     void chooseInitialResources();
     void startGame();

@@ -19,6 +19,11 @@ public class CLI extends Observable implements View {
     }
 
     @Override
+    public void chooseLobby(int lobbyId){
+
+    }
+
+    @Override
     public void chooseLeaderCards() {
 
     }
