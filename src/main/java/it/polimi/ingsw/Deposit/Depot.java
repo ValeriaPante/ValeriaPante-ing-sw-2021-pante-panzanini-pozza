@@ -44,7 +44,7 @@ public class Depot{
 
     //no check if the Resource passed is null
     public synchronized void singleAdd(Resource toBeAdded) {
-        inside.put(toBeAdded, ((inside.containsKey(toBeAdded)) ? inside.get(toBeAdded) : 0) + 1);
+        inside.put(toBeAdded, (inside.getOrDefault(toBeAdded, 0)) + 1);
     }
 
     public synchronized void addEnumMap(EnumMap<Resource, Integer> mapToBeAdded) throws NullPointerException{
@@ -53,7 +53,7 @@ public class Depot{
 
         for (Resource r : Resource.values())
             if (mapToBeAdded.containsKey(r))
-                inside.put(r, ((inside.containsKey(r)) ? inside.get(r) : 0) + mapToBeAdded.get(r));
+                inside.put(r, (inside.getOrDefault(r, 0)) + mapToBeAdded.get(r));
     }
 
     //returns an EnumMap with the resources contained
