@@ -143,7 +143,7 @@ public class MarketTest {
         EnumMap<Resource, Integer> marketContent = new EnumMap<>(Resource.class);
         for(int i=0; i<3; i++)
             for (int j=0; j<4; j++)
-                marketContent.put(newMarketMatrix[i][j], 1 + (marketContent.get(newMarketMatrix[i][j]) == null ? 0 : marketContent.get(newMarketMatrix[i][j]) ) );
+                marketContent.put(newMarketMatrix[i][j], 1 + marketContent.getOrDefault(newMarketMatrix[i][j], 0));
 
         marketContent.put(market.getSlide(), 1+ (marketContent.get(market.getSlide()) == null ? 0 : marketContent.get(market.getSlide())));
 
@@ -193,7 +193,7 @@ public class MarketTest {
         marketContent.clear();
         for(int i=0; i<3; i++)
             for (int j=0; j<4; j++)
-                marketContent.put(newMarketMatrix[i][j], 1 + (marketContent.get(newMarketMatrix[i][j]) == null ? 0 : marketContent.get(newMarketMatrix[i][j]) ) );
+                marketContent.put(newMarketMatrix[i][j], 1 + marketContent.getOrDefault(newMarketMatrix[i][j], 0) );
 
         marketContent.put(market.getSlide(), 1+ (marketContent.get(market.getSlide()) == null ? 0 : marketContent.get(market.getSlide())));
 
