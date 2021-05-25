@@ -24,6 +24,15 @@ public class DevSlot{
         return result;
     }
 
+    public void selectTopCard(){
+        if (this.isEmpty()){
+            return;
+        }
+        else{
+            this.cards.get(0).select();
+        }
+    }
+
     public int numberOfCards(){
         return cards.size();
     }

@@ -84,12 +84,17 @@ public class ProductionController extends CardActionController{
 
         //devCards
         for (DevSlot devSlot : player.getDevSlots()) {
-            if (devSlot.topCard().getId() == idCard) {
+            if (!devSlot.isEmpty() && devSlot.topCard().getId() == idCard) {
                 if (devSlot.topCard().isSelected()) {
-                    devSlot.topCard().select();
+                    devSlot.selectTopCard();
                 } else {
                     if (this.isAffordableSomehow(devSlot.topCard().getProdPower(), player)) {
-                        devSlot.topCard().select();
+                        if (devSlot.isEmpty()){
+                            player.setErrorMessage("This devSlot is empty");
+                        }
+                        else{
+                            devSlot.selectTopCard();
+                        }
                     } else {
                         //non si può permettere questa carta
                         player.setErrorMessage("You can't activate this production because you don't have enough resources");
@@ -138,10 +143,9 @@ public class ProductionController extends CardActionController{
             this.player.setMicroTurnType(MicroTurnType.SETTING_UP);
             return true;
         }
-        else if (this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTING_UP){
-            return true;
+        else{
+            return this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTING_UP;
         }
-        return false;
     }
 
     public void selectCardProduction(int idCard){
@@ -167,6 +171,7 @@ public class ProductionController extends CardActionController{
         if (!super.isAffordableSomehow(allInputs.content())){
             //non ha abbastanza risorse per attivarli tutti
             this.player.setErrorMessage("you can't activate all production Powers together because you don' have enough resources");
+            this.checkResetCondition();
             return;
         }
 
@@ -175,7 +180,7 @@ public class ProductionController extends CardActionController{
         }
         for (DevSlot devSlot : this.player.getDevSlots()){
             if (!devSlot.isEmpty() && !devSlot.topCard().isSelected()){
-                devSlot.topCard().select();
+                devSlot.selectTopCard();
             }
         }
 
@@ -274,7 +279,7 @@ public class ProductionController extends CardActionController{
         Depot resourceSelected = new Depot();
 
         for (Shelf shelf : this.player.getShelves()){
-            if (!shelf.isEmpty()) {
+            if (!shelf.isEmpty() && shelf.getQuantitySelected()!=0) {
                 resourceSelected.addEnumMap(new EnumMap<>(Resource.class) {{
                     put(shelf.getResourceType(), shelf.getQuantitySelected());
                 }});
@@ -359,7 +364,7 @@ public class ProductionController extends CardActionController{
 
         for (DevSlot devSlot : player.getDevSlots()){
             if (!devSlot.isEmpty() && devSlot.topCard().isSelected()){
-                devSlot.topCard().select();
+                devSlot.selectTopCard();
             }
         }
 
@@ -395,7 +400,7 @@ public class ProductionController extends CardActionController{
             player.setErrorMessage("You can't do this now");
             return;
         }
-        if (resource == Resource.ANY || resource == Resource.WHITE){
+        if (resource == Resource.ANY || resource == Resource.WHITE || resource == Resource.FAITH){
             //exception:
             player.setErrorMessage("Resource specified not allowed");
             return;
