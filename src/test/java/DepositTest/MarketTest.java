@@ -1,6 +1,6 @@
 package DepositTest;
 
-import it.polimi.ingsw.Deposit.Market;
+import it.polimi.ingsw.Model.Deposit.Market;
 import it.polimi.ingsw.Enums.Resource;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

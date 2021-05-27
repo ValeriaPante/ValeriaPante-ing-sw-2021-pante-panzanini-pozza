@@ -1,12 +1,12 @@
 package Player;
 
-import it.polimi.ingsw.Abilities.ProductionPower.ProductionPower;
-import it.polimi.ingsw.Cards.DevCard;
-import it.polimi.ingsw.Cards.DevCardType;
+import it.polimi.ingsw.Model.Abilities.ProductionPower.ProductionPower;
+import it.polimi.ingsw.Model.Cards.DevCard;
+import it.polimi.ingsw.Model.Cards.DevCardType;
 import it.polimi.ingsw.Enums.Colour;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.CantPutThisHere;
-import it.polimi.ingsw.Player.DevSlot;
+import it.polimi.ingsw.Model.Player.DevSlot;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumMap;

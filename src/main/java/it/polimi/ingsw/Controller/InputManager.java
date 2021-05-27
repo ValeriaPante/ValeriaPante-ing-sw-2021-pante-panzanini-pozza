@@ -1,9 +1,9 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Abilities.ProductionPower.ProductionPower;
-import it.polimi.ingsw.Deposit.Payable;
+import it.polimi.ingsw.Model.Abilities.ProductionPower.ProductionPower;
+import it.polimi.ingsw.Model.Deposit.Payable;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Player.RealPlayer;
+import it.polimi.ingsw.Model.Player.RealPlayer;
 
 import java.util.EnumMap;
 import java.util.LinkedList;

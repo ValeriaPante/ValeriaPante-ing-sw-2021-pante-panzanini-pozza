@@ -1,16 +1,9 @@
 package ControllerTest;
 
-import it.polimi.ingsw.Cards.LeaderCard;
 import it.polimi.ingsw.Controller.MarketController;
-import it.polimi.ingsw.Decks.LeaderDeck;
-import it.polimi.ingsw.Deposit.Shelf;
-import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
-import it.polimi.ingsw.Player.RealPlayer;
+import it.polimi.ingsw.Model.Player.RealPlayer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.EnumMap;
 
 public class MarketControllerTest {
     private RealPlayer player;

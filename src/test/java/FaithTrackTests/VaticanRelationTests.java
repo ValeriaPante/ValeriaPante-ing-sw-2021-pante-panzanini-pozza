@@ -1,6 +1,6 @@
 package FaithTrackTests;
 
-import it.polimi.ingsw.FaithTrack.VaticanRelation;
+import it.polimi.ingsw.Model.FaithTrack.VaticanRelation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

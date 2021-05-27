@@ -1,17 +1,17 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Cards.DevCard;
-import it.polimi.ingsw.Cards.LeaderCard;
-import it.polimi.ingsw.Decks.DevDeck;
-import it.polimi.ingsw.Deposit.Depot;
-import it.polimi.ingsw.Deposit.Payable;
+import it.polimi.ingsw.Model.Cards.DevCard;
+import it.polimi.ingsw.Model.Cards.LeaderCard;
+import it.polimi.ingsw.Model.Decks.DevDeck;
+import it.polimi.ingsw.Model.Deposit.Depot;
+import it.polimi.ingsw.Model.Deposit.Payable;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.CantPutThisHere;
 import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
-import it.polimi.ingsw.Deposit.StrongBox;
+import it.polimi.ingsw.Model.Deposit.StrongBox;
 
 import java.util.EnumMap;
 import java.util.Map;

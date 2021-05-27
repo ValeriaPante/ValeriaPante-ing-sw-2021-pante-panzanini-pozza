@@ -1,6 +1,6 @@
 package AbilitesTest;
 
-import it.polimi.ingsw.Abilities.Ability;
+import it.polimi.ingsw.Model.Abilities.Ability;
 import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;

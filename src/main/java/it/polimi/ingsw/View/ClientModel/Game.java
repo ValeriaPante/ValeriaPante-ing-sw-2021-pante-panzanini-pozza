@@ -2,6 +2,7 @@ package it.polimi.ingsw.View.ClientModel;
 
 import it.polimi.ingsw.Enums.Resource;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Game {
@@ -9,7 +10,7 @@ public class Game {
     private Resource slide;
     private int[][] devDecks;
     private int localPlayerId;
-    private HashMap<Integer, SimplifiedPlayer> players;
+    private HashMap<Integer, SimplifiedPlayer> players = new HashMap<>();
 
 
     public SimplifiedPlayer getPlayerFromId(int id){
@@ -51,5 +52,9 @@ public class Game {
 
     public void setLocalPlayerId(int localPlayerId) {
         this.localPlayerId = localPlayerId;
+    }
+
+    public int getLocalPlayerIndex(){
+        return new ArrayList<>(players.keySet()).indexOf(localPlayerId);
     }
 }

@@ -1,6 +1,6 @@
 package DecksTest;
 
-import it.polimi.ingsw.Decks.LeaderDeck;
+import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

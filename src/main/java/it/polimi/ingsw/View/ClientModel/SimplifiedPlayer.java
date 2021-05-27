@@ -11,7 +11,7 @@ public class SimplifiedPlayer {
     private HashMap<Resource, Integer> strongbox;
     private HashMap<Resource, Integer> supportContainer;
     private HashMap<Resource, Integer>[] shelves;
-    private ArrayList<Integer> leaderCards;
+    private ArrayList<Integer> leaderCards = new ArrayList<>();
 
     public String getUsername() {
         return username;

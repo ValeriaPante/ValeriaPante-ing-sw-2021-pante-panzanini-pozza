@@ -2,8 +2,8 @@ package ControllerTest;
 
 import it.polimi.ingsw.Controller.FaithTrackController;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
-import it.polimi.ingsw.Game.Table;
-import it.polimi.ingsw.Player.RealPlayer;
+import it.polimi.ingsw.Model.Game.Table;
+import it.polimi.ingsw.Model.Player.RealPlayer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

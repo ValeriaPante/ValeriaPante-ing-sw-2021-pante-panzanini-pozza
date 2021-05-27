@@ -1,8 +1,8 @@
 package DecksTest;
 
-import it.polimi.ingsw.Cards.DevCard;
-import it.polimi.ingsw.Cards.DevCardType;
-import it.polimi.ingsw.Decks.DevDeck;
+import it.polimi.ingsw.Model.Cards.DevCard;
+import it.polimi.ingsw.Model.Cards.DevCardType;
+import it.polimi.ingsw.Model.Decks.DevDeck;
 import it.polimi.ingsw.Enums.Colour;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

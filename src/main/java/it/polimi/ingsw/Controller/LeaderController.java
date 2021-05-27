@@ -1,8 +1,8 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Cards.DevCardType;
-import it.polimi.ingsw.Cards.LeaderCard;
-import it.polimi.ingsw.Deposit.Depot;
+import it.polimi.ingsw.Model.Cards.DevCardType;
+import it.polimi.ingsw.Model.Cards.LeaderCard;
+import it.polimi.ingsw.Model.Deposit.Depot;
 import it.polimi.ingsw.Enums.MacroTurnType;
 
 import java.util.*;

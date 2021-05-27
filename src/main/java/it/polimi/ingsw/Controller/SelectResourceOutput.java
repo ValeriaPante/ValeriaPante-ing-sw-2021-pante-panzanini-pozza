@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Deposit.Payable;
+import it.polimi.ingsw.Model.Deposit.Payable;
 import it.polimi.ingsw.Enums.Resource;
 
 import java.util.EnumMap;

@@ -1,21 +1,15 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Cards.DevCardType;
-import it.polimi.ingsw.Cards.LeaderCard;
-import it.polimi.ingsw.Controller.FaithTrackController;
-import it.polimi.ingsw.Controller.SelectionController;
-import it.polimi.ingsw.Decks.LeaderDeck;
+import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
-import it.polimi.ingsw.Game.Table;
-import it.polimi.ingsw.Player.RealPlayer;
+import it.polimi.ingsw.Model.Game.Table;
+import it.polimi.ingsw.Model.Player.RealPlayer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 

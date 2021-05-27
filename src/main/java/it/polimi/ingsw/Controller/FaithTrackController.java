@@ -1,11 +1,11 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Exceptions.GameOver;
-import it.polimi.ingsw.FaithTrack.FaithTrack;
-import it.polimi.ingsw.FaithTrack.VaticanRelation;
-import it.polimi.ingsw.Game.Table;
-import it.polimi.ingsw.Player.Player;
-import it.polimi.ingsw.Player.RealPlayer;
+import it.polimi.ingsw.Model.FaithTrack.FaithTrack;
+import it.polimi.ingsw.Model.FaithTrack.VaticanRelation;
+import it.polimi.ingsw.Model.Game.Table;
+import it.polimi.ingsw.Model.Player.Player;
+import it.polimi.ingsw.Model.Player.RealPlayer;
 
 import java.util.ArrayList;
 

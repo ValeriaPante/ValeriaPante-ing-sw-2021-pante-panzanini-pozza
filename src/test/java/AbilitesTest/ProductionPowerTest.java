@@ -1,6 +1,6 @@
 package AbilitesTest;
 
-import it.polimi.ingsw.Abilities.ProductionPower.ProductionPower;
+import it.polimi.ingsw.Model.Abilities.ProductionPower.ProductionPower;
 import it.polimi.ingsw.Enums.Resource;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

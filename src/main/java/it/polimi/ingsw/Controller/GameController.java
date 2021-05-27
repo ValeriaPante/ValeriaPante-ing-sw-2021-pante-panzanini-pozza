@@ -1,16 +1,14 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Decks.DevDeck;
-import it.polimi.ingsw.Decks.LeaderDeck;
-import it.polimi.ingsw.Deposit.Shelf;
+import it.polimi.ingsw.Model.Decks.DevDeck;
+import it.polimi.ingsw.Model.Decks.LeaderDeck;
+import it.polimi.ingsw.Model.Deposit.Shelf;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Deposit.Depot;
 import it.polimi.ingsw.Enums.*;
 import it.polimi.ingsw.Exceptions.*;
-import it.polimi.ingsw.Game.Table;
-import it.polimi.ingsw.FaithTrack.*;
-import it.polimi.ingsw.Player.*;
-import it.polimi.ingsw.Cards.*;
+import it.polimi.ingsw.Model.Game.Table;
+import it.polimi.ingsw.Model.Player.*;
+import it.polimi.ingsw.Model.Cards.*;
 
 import java.util.*;
 

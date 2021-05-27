@@ -1,7 +1,7 @@
 package CardsTest;
 
-import it.polimi.ingsw.Cards.DevCardType;
-import it.polimi.ingsw.Cards.LeaderCard;
+import it.polimi.ingsw.Model.Cards.DevCardType;
+import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Enums.Colour;
 import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;

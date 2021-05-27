@@ -1,11 +1,11 @@
 package it.polimi.ingsw.Controller;
 
-import it.polimi.ingsw.Cards.LeaderCard;
-import it.polimi.ingsw.Deposit.Shelf;
-import it.polimi.ingsw.Deposit.StrongBox;
+import it.polimi.ingsw.Model.Cards.LeaderCard;
+import it.polimi.ingsw.Model.Deposit.Shelf;
+import it.polimi.ingsw.Model.Deposit.StrongBox;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
-import it.polimi.ingsw.Game.Table;
+import it.polimi.ingsw.Model.Game.Table;
 
 import java.util.EnumMap;
 

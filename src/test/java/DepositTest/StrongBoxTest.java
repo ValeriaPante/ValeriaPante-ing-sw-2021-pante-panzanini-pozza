@@ -1,8 +1,7 @@
 package DepositTest;
 
-import it.polimi.ingsw.Deposit.StrongBox;
+import it.polimi.ingsw.Model.Deposit.StrongBox;
 import it.polimi.ingsw.Enums.Resource;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
