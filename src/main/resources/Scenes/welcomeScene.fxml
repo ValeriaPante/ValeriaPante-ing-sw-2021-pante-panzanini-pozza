@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="367.0" prefWidth="428.0" VBox.vgrow="ALWAYS">
+         <children>
+            <ImageView>
+               <image>
+                  <Image url="@../Images/Immagine.jpg" />
+               </image>
+            </ImageView>
+            <Button id="startButton" layoutX="618.0" layoutY="479.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="138.0" text="Play">
+               <font>
+                  <Font name="Bookman Old Style" size="22.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
