@@ -52,7 +52,7 @@ public class SimplifiedPlayer {
 
     public void setShelf(Resource type, int quantity, int numShelf) {
         this.shelves[numShelf].clear();
-        this.shelves[numShelf].put(type, quantity);
+        if(type != null) this.shelves[numShelf].put(type, quantity);
     }
 
     public ArrayList<Integer> getLeaderCards() {

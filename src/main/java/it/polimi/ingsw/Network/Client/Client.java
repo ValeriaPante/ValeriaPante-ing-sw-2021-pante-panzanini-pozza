@@ -54,9 +54,6 @@ public class Client implements Runnable{
                         case "changedLobby":
                             result.add(new ChangedLobbyMessage(toEvaluate.get("id").getAsInt(), gson.fromJson(toEvaluate.get("players"), String[].class)));
                             break;
-                        case "removeLobby":
-                            result.add(new RemoveLobbyMessage(toEvaluate.get("id").getAsInt()));
-                            break;
                         case "init":
                             JsonArray playersInfo = toEvaluate.get("players").getAsJsonArray();
                             int[] playersId = new int[playersInfo.size()];

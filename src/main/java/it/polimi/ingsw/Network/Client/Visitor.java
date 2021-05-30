@@ -26,7 +26,8 @@ public class Visitor {
     }
 
     public void updateModel(ChangedLobbyMessage m){
-        view.updateLobbyState(m.getId(), m.getPlayers());
+        if(m.getPlayers().length == 0) view.removeLobby(m.getId());
+        else view.updateLobbyState(m.getId(), m.getPlayers());
     }
 
     public void updateModel(StartMessage m){
@@ -84,10 +85,6 @@ public class Visitor {
 
     public void updateModel(PopeFavourCardStateMessage m){
         view.updatePopeFavourCard(m.getId(), m.getCards());
-    }
-
-    public void updateModel(RemoveLobbyMessage m){
-        view.removeLobby(m.getId());
     }
 
     public void updateModel(WinnerMessage m){
