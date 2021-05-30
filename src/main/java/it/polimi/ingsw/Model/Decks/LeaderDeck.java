@@ -7,12 +7,16 @@ import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Enums.LeaderCardType;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class LeaderDeck implements Deck{
     private List<LeaderCard> deck;
@@ -20,14 +24,9 @@ public class LeaderDeck implements Deck{
     public LeaderDeck() {
         deck = new ArrayList<>();
 
-        Path path = Paths.get(this.getClass().getResource("/JSONs/LeaderCardsConfig.json").toString().substring(6));
-        String config;
-
-        try {
-            config = Files.readString(path, StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Error during the reading of the config file");
-        }
+        InputStream in = getClass().getResourceAsStream("/JSONs/LeaderCardsConfig.json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        String config = reader.lines().collect(Collectors.joining());
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
         Map<DevCardType, Integer> devCardReq = new HashMap<>();

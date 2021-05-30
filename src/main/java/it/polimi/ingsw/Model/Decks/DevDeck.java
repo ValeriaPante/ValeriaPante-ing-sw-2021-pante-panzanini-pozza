@@ -7,12 +7,16 @@ import it.polimi.ingsw.Model.Cards.DevCardType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Model.Abilities.ProductionPower.ProductionPower;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class DevDeck implements Deck{
     private List<DevCard> deck;
@@ -26,15 +30,9 @@ public class DevDeck implements Deck{
             throw new IllegalArgumentException();
         }
 
-        Path path = Paths.get(this.getClass().getResource("/JSONs/DevCardsConfig.json").toString().substring(6));
-        String config;
-
-        try {
-            config = Files.readString(path, StandardCharsets.UTF_8);
-        }
-        catch (IOException e){
-            throw new IllegalArgumentException("Error during the reading of the config file");
-        }
+        InputStream in = getClass().getResourceAsStream("/JSONs/DevCardsConfig.json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        String config = reader.lines().collect(Collectors.joining());
 
         EnumMap<Resource, Integer> cost = new EnumMap<>(Resource.class);
         EnumMap<Resource, Integer> input = new EnumMap<>(Resource.class);
