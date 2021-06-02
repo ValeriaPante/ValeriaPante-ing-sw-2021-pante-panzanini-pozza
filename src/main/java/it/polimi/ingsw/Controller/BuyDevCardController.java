@@ -13,14 +13,16 @@ import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import it.polimi.ingsw.Model.Deposit.StrongBox;
 
+import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 
 public class BuyDevCardController extends CardActionController{
-
+    private final ArrayList<Integer> appliedDiscounts;
 
     public BuyDevCardController(FaithTrackController ftc){
         super(ftc);
+        appliedDiscounts = new ArrayList<>();
     }
 
     public void chooseDevCard(int chosenDeck){
@@ -93,6 +95,7 @@ public class BuyDevCardController extends CardActionController{
             LeaderCard card = getUsableLeaderCard(id);
             if (card == null) table.turnOf().setErrorMessage("This Leader Card doesn't exist or hasn't been played. ");
             else{
+                if(appliedDiscounts.contains(id)) return;
                 EnumMap<Resource, Integer> toBePaid = table.turnOf().getSupportContainer().content();
                 try {
                     toBePaid.replaceAll((k, v) -> v - ((card.getAbility().getDiscount().get(k) != null) ? card.getAbility().getDiscount().get(k) : 0));
@@ -224,6 +227,7 @@ public class BuyDevCardController extends CardActionController{
                     chosenDeck.draw();
                     table.turnOf().setMicroTurnType(MicroTurnType.NONE);
                     table.turnOf().setMacroTurnType(MacroTurnType.DONE);
+                    appliedDiscounts.clear();
                     if(table.turnOf().getNumberOfDevCardOwned() == 7){
                         table.setLastLap();
                         throw new GameOver();
