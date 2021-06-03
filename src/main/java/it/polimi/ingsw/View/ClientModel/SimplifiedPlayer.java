@@ -76,8 +76,8 @@ public class SimplifiedPlayer {
 
     public void addDevCardInSlot(int cardId, int numeberOfSlot){
         for (int j = 0; j < devSlots[numeberOfSlot - 1].length; j++){
-            if(devSlots[numeberOfSlot][j] == 0){
-                devSlots[numeberOfSlot][j] = cardId;
+            if(devSlots[numeberOfSlot - 1][j] == 0){
+                devSlots[numeberOfSlot - 1][j] = cardId;
                 break;
             }
         }

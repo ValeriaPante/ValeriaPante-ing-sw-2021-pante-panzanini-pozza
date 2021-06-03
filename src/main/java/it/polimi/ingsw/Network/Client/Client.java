@@ -150,5 +150,6 @@ public class Client implements Runnable{
         }
         this.update(username);
         System.out.println("Connection established");
+        this.run();
     }
 }

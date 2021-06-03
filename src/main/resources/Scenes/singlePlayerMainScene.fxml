@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1238.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar prefHeight="25.0" prefWidth="1238.0">
+         <menus>
+            <Menu mnemonicParsing="false" text="Menu">
+               <items>
+                  <MenuItem id="market" mnemonicParsing="false" text="Get from market" />
+                  <MenuItem id="devcard" mnemonicParsing="false" text="Buy development card" />
+               </items>
+            </Menu>
+         </menus>
+      </MenuBar>
+      <ImageView fitHeight="654.0" fitWidth="1006.0" layoutY="24.0">
+         <image>
+            <Image url="@../Images/colored.jpg" />
+         </image>
+      </ImageView>
+      <Button id="activate2" layoutX="1013.0" layoutY="339.0" mnemonicParsing="false" prefWidth="103.0" text="Activate">
+         <font>
+            <Font name="Bookman Old Style" size="11.0" />
+         </font>
+      </Button>
+      <Button id="discard2" layoutX="1129.0" layoutY="339.0" mnemonicParsing="false" prefWidth="103.0" text="Discard">
+         <font>
+            <Font name="Bookman Old Style" size="11.0" />
+         </font>
+      </Button>
+      <Button id="activate1" layoutX="1013.0" layoutY="26.0" mnemonicParsing="false" prefWidth="103.0" text="Activate">
+         <font>
+            <Font name="Bookman Old Style" size="11.0" />
+         </font>
+      </Button>
+      <AnchorPane id="card1" layoutX="1027.0" layoutY="48.0" prefHeight="289.0" prefWidth="190.0" />
+      <AnchorPane id="card2" layoutX="1027.0" layoutY="368.0" prefHeight="303.0" prefWidth="190.0" />
+      <Button id="discard1" layoutX="1129.0" layoutY="26.0" mnemonicParsing="false" prefWidth="103.0" text="Discard">
+         <font>
+            <Font name="Bookman Old Style" size="11.0" />
+         </font>
+      </Button>
+   </children>
+</Pane>

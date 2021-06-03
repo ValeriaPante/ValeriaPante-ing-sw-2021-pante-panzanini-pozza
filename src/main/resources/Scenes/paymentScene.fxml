@@ -1,0 +1,541 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="686.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Button id="buyButton" layoutX="248.0" layoutY="530.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="207.0" text="Pay">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="249.0" layoutY="22.0" text="Choose how to pay" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="20.0" />
+         </font>
+      </Label>
+      <AnchorPane layoutX="72.0" layoutY="80.0" prefHeight="100.0" prefWidth="559.0" style="-fx-background-color: e6ccb2;">
+         <children>
+            <ImageView fitHeight="51.0" fitWidth="62.0" layoutX="56.0" layoutY="25.0">
+               <image>
+                  <Image url="@../Images/coin.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="67.0" fitWidth="62.0" layoutX="197.0" layoutY="17.0">
+               <image>
+                  <Image url="@../Images/shield.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="61.0" fitWidth="62.0" layoutX="341.0" layoutY="20.0">
+               <image>
+                  <Image url="@../Images/servant.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="67.0" fitWidth="62.0" layoutX="476.0" layoutY="17.0">
+               <image>
+                  <Image url="@../Images/stone.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="14.0" layoutY="19.0" text="8">
+               <font>
+                  <Font name="Bookman Old Style" size="52.0" />
+               </font>
+            </Label>
+            <Label layoutX="152.0" layoutY="20.0" text="8">
+               <font>
+                  <Font name="Bookman Old Style" size="52.0" />
+               </font>
+            </Label>
+            <Label layoutX="300.0" layoutY="19.0" text="8">
+               <font>
+                  <Font name="Bookman Old Style" size="52.0" />
+               </font>
+            </Label>
+            <Label layoutX="437.0" layoutY="19.0" text="8">
+               <font>
+                  <Font name="Bookman Old Style" size="52.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <Label layoutX="79.0" layoutY="62.0" text="COST" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="27.0" layoutY="236.0">
+         <image>
+            <Image url="@../Images/coin.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="27.0" layoutY="300.0">
+         <image>
+            <Image url="@../Images/shield.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="27.0" layoutY="365.0">
+         <image>
+            <Image url="@../Images/servant.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="27.0" layoutY="436.0">
+         <image>
+            <Image url="@../Images/stone.png" />
+         </image>
+      </ImageView>
+      <Label id="count0" layoutX="123.0" layoutY="247.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count1" layoutX="122.0" layoutY="315.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count2" layoutX="122.0" layoutY="380.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count3" layoutX="122.0" layoutY="451.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="188.0" layoutY="241.0">
+         <image>
+            <Image url="@../Images/coin.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="188.0" layoutY="305.0">
+         <image>
+            <Image url="@../Images/shield.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="188.0" layoutY="370.0">
+         <image>
+            <Image url="@../Images/servant.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="188.0" layoutY="441.0">
+         <image>
+            <Image url="@../Images/stone.png" />
+         </image>
+      </ImageView>
+      <Label id="count4" layoutX="284.0" layoutY="252.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count5" layoutX="283.0" layoutY="320.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count6" layoutX="283.0" layoutY="385.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count7" layoutX="283.0" layoutY="456.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="351.0" layoutY="240.0">
+         <image>
+            <Image url="@../Images/coin.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="351.0" layoutY="304.0">
+         <image>
+            <Image url="@../Images/shield.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="351.0" layoutY="369.0">
+         <image>
+            <Image url="@../Images/servant.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="351.0" layoutY="440.0">
+         <image>
+            <Image url="@../Images/stone.png" />
+         </image>
+      </ImageView>
+      <Label id="count8" layoutX="447.0" layoutY="251.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count9" layoutX="446.0" layoutY="319.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count10" layoutX="446.0" layoutY="384.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count11" layoutX="446.0" layoutY="455.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="32.0" layoutY="211.0" text="Shelves" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="188.0" layoutY="212.0" text="Strongbox" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="351.0" layoutY="211.0" text="Leader Storage 1" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font>
+      </Label>
+      <Button id="plusButton0" graphicTextGap="0.0" layoutX="134.0" layoutY="239.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton0" layoutX="79.0" layoutY="239.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton1" graphicTextGap="0.0" layoutX="134.0" layoutY="307.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton2" graphicTextGap="0.0" layoutX="134.0" layoutY="372.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton3" graphicTextGap="0.0" layoutX="134.0" layoutY="443.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton4" graphicTextGap="0.0" layoutX="295.0" layoutY="245.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton5" graphicTextGap="0.0" layoutX="295.0" layoutY="313.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton6" graphicTextGap="0.0" layoutX="295.0" layoutY="378.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton7" graphicTextGap="0.0" layoutX="295.0" layoutY="449.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton8" graphicTextGap="0.0" layoutX="458.0" layoutY="244.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton9" graphicTextGap="0.0" layoutX="458.0" layoutY="312.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton10" graphicTextGap="0.0" layoutX="458.0" layoutY="377.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton11" graphicTextGap="0.0" layoutX="458.0" layoutY="448.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton1" layoutX="79.0" layoutY="307.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton2" layoutX="79.0" layoutY="372.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton3" layoutX="79.0" layoutY="443.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton4" layoutX="235.0" layoutY="245.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton5" layoutX="235.0" layoutY="313.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton6" layoutX="235.0" layoutY="378.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton7" layoutX="235.0" layoutY="449.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton8" layoutX="403.0" layoutY="244.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton9" layoutX="403.0" layoutY="312.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);;">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton10" layoutX="403.0" layoutY="377.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton11" layoutX="403.0" layoutY="448.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="516.0" layoutY="239.0">
+         <image>
+            <Image url="@../Images/coin.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="516.0" layoutY="303.0">
+         <image>
+            <Image url="@../Images/shield.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="516.0" layoutY="368.0">
+         <image>
+            <Image url="@../Images/servant.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="516.0" layoutY="439.0">
+         <image>
+            <Image url="@../Images/stone.png" />
+         </image>
+      </ImageView>
+      <Label id="count8" layoutX="612.0" layoutY="250.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count9" layoutX="611.0" layoutY="318.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count10" layoutX="611.0" layoutY="383.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label id="count11" layoutX="611.0" layoutY="454.0" text="0" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="516.0" layoutY="210.0" text="Leader Storage 2" textFill="WHITE">
+         <font>
+            <Font name="Bookman Old Style" size="15.0" />
+         </font>
+      </Label>
+      <Button id="plusButton12" graphicTextGap="0.0" layoutX="623.0" layoutY="243.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton13" graphicTextGap="0.0" layoutX="623.0" layoutY="311.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton14" graphicTextGap="0.0" layoutX="623.0" layoutY="376.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="plusButton15" graphicTextGap="0.0" layoutX="623.0" layoutY="447.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="22.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/plus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton12" layoutX="568.0" layoutY="243.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton13" layoutX="568.0" layoutY="311.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton14" layoutX="568.0" layoutY="376.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+      <Button id="minusButton15" layoutX="568.0" layoutY="447.0" mnemonicParsing="false" prefHeight="0.0" prefWidth="0.0" style="-fx-background-color: rgba(0,0,0,0);">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0">
+               <image>
+                  <Image url="@../Images/minus.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
+   </children>
+</Pane>
