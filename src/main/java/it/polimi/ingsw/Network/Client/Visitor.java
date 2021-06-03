@@ -26,8 +26,14 @@ public class Visitor {
     }
 
     public void updateModel(ChangedLobbyMessage m){
-        if(m.getPlayers().length == 0) view.removeLobby(m.getId());
-        else view.updateLobbyState(m.getId(), m.getPlayers());
+        if(m.getPlayers().length == 0) {
+            model.removeLobby(m.getId());
+            view.removeLobby(m.getId());
+        }
+        else{
+            model.addLobby(m.getId(), m.getPlayers());
+            view.updateLobbyState(m.getId(), m.getPlayers());
+        }
     }
 
     public void updateModel(StartMessage m){

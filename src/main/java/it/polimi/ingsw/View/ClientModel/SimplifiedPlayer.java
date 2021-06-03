@@ -14,6 +14,7 @@ public class SimplifiedPlayer {
             new HashMap(), new HashMap(), new HashMap()
     };
     private ArrayList<Integer> leaderCards = new ArrayList<>();
+    private int[][] devSlots = new int[3][3];
 
     public String getUsername() {
         return username;
@@ -69,4 +70,16 @@ public class SimplifiedPlayer {
         this.leaderCards.remove(cardId);
     }
 
+    public int[][] getDevSlots() {
+        return devSlots;
+    }
+
+    public void addDevCardInSlot(int cardId, int numeberOfSlot){
+        for (int j = 0; j < devSlots[numeberOfSlot - 1].length; j++){
+            if(devSlots[numeberOfSlot][j] == 0){
+                devSlots[numeberOfSlot][j] = cardId;
+                break;
+            }
+        }
+    }
 }

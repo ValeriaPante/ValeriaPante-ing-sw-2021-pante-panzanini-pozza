@@ -11,7 +11,8 @@ public class Game {
     private int[][] devDecks;
     private int localPlayerId;
     private HashMap<Integer, SimplifiedPlayer> players = new HashMap<>();
-
+    private  HashMap<Integer, String[]> lobbies = new HashMap<>();
+    private int localPlayerLobbyId;
 
     public SimplifiedPlayer getPlayerFromId(int id){
         return players.get(id);
@@ -60,5 +61,25 @@ public class Game {
 
     public int getNumberOfPlayers(){
         return players.keySet().size();
+    }
+
+    public int getLocalPlayerLobbyId() {
+        return localPlayerLobbyId;
+    }
+
+    public void setLocalPlayerLobbyId(int localPlayerLobbyId) {
+        this.localPlayerLobbyId = localPlayerLobbyId;
+    }
+
+    public HashMap<Integer, String[]> getLobbies() {
+        return lobbies;
+    }
+
+    public void addLobby(int lobbyId, String[] players) {
+        lobbies.put(lobbyId, players);
+    }
+
+    public void removeLobby(int lobbyId) {
+        lobbies.remove(lobbyId);
     }
 }
