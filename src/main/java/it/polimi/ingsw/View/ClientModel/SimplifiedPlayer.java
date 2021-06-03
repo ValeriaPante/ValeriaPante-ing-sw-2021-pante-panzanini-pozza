@@ -7,10 +7,12 @@ import java.util.HashMap;
 
 public class SimplifiedPlayer {
     private String username;
-    private HashMap<Integer, Resource[]> leaderStorages;
-    private HashMap<Resource, Integer> strongbox;
-    private HashMap<Resource, Integer> supportContainer;
-    private HashMap<Resource, Integer>[] shelves;
+    private HashMap<Integer, Resource[]> leaderStorages = new HashMap<>();
+    private HashMap<Resource, Integer> strongbox = new HashMap<>();
+    private HashMap<Resource, Integer> supportContainer = new HashMap<>();
+    private HashMap<Resource, Integer>[] shelves = new HashMap[] {
+            new HashMap(), new HashMap(), new HashMap()
+    };
     private ArrayList<Integer> leaderCards = new ArrayList<>();
 
     public String getUsername() {
