@@ -4,11 +4,10 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<?import javafx.scene.layout.AnchorPane?>
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="643.0" prefWidth="1001.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="673.0" layoutY="39.0">
@@ -519,9 +518,14 @@
             <Font name="Bookman Old Style" size="19.0" />
          </font>
       </Button>
-      <ImageView id="basic" fitHeight="136.0" fitWidth="142.0" layoutX="44.0" layoutY="365.0">
+      <ImageView id="basic" fitHeight="136.0" fitWidth="142.0" layoutX="45.0" layoutY="400.0">
          <image>
             <Image url="@../Images/pergamena.PNG" />
+         </image>
+      </ImageView>
+      <ImageView id="tick6" fitHeight="56.0" fitWidth="47.0" layoutX="92.0" layoutY="520.0">
+         <image>
+            <Image url="@../Images/check.png" />
          </image>
       </ImageView>
    </children>

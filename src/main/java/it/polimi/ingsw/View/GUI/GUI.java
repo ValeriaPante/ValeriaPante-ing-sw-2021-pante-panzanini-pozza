@@ -44,12 +44,6 @@ public class GUI extends Application implements View {
                 {Resource.FAITH, Resource.WHITE, Resource.WHITE, Resource.SERVANT},
                 {Resource.COIN, Resource.STONE, Resource.SERVANT, Resource.SHIELD}};
         model.updateMarketState(market, Resource.STONE);
-        model.getPlayerFromId(4).addDevCardInSlot(1,1);
-        model.getPlayerFromId(4).addDevCardInSlot(2,3);
-        model.getPlayerFromId(4).addDevCardInSlot(3,3);
-        addDevCardInSlot(4, 1, 1);
-        addDevCardInSlot(4,2,2);
-        addDevCardInSlot(4,3,3);
 
         HashMap<Resource, Integer> map = new HashMap<>();
         map.put(Resource.ANY,7);
@@ -114,6 +108,14 @@ public class GUI extends Application implements View {
                 this.startGame();
                 Thread.sleep(7000);
                 this.updateSupportContainer(model.getLocalPlayerId());
+                model.getPlayerFromId(4).addDevCardInSlot(1,2);
+                addDevCardInSlot(4, 1, 2);
+                Thread.sleep(7000);
+                model.getPlayerFromId(4).addDevCardInSlot(2,2);
+                addDevCardInSlot(4,2,2);
+                Thread.sleep(7000);
+                model.getPlayerFromId(4).addDevCardInSlot(3,2);
+                addDevCardInSlot(4,3,2);
             } catch (Exception e){
 
             }
@@ -287,6 +289,19 @@ public class GUI extends Application implements View {
         if(playerId == model.getLocalPlayerId()){
             ProductionScene.setDevCardOnTop(slot-1, cardId);
         }
+
+        Platform.runLater(() -> {
+            int[] singleSlot = model.getPlayerFromId(playerId).getDevSlots()[slot - 1];
+            if(model.getNumberOfPlayers() == 1){
+                if(singleSlot[1] == 0) Transition.addCardInSlot(cardId, slot, 1);
+                else if(singleSlot[2] == 0) Transition.addCardInSlot(cardId, slot, 2);
+                else Transition.addCardInSlot(cardId, slot, 3);
+            } else {
+                if(singleSlot[1] == 0) Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 1);
+                else if(singleSlot[2] == 0) Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 2);
+                else Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 3);
+            }
+        });
     }
 
     @Override

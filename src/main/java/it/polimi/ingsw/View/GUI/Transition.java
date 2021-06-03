@@ -1,10 +1,15 @@
 package it.polimi.ingsw.View.GUI;
 
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.InputStream;
 
 public class Transition {
     private static Stage primaryStage;
@@ -118,5 +123,30 @@ public class Transition {
         if(LeaderCardScene.getCount() == 2){
 
         }
+    }
+
+    public static void enableProductionButton(){
+        dialogStage.getScene().getRoot().lookup("#continue").setDisable(false);
+    }
+
+    public static void addCardInSlot(int playerIndex, int cardId, int slot, int row){
+        InputStream in = Transition.class.getResourceAsStream("/Images/"+cardId+".png");
+        ImageView image = new ImageView();
+        image.setImage(new Image(in));
+        image.setFitWidth(50);
+        image.setPreserveRatio(true);
+        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+        AnchorPane card = (AnchorPane) grid.getChildren().get(playerIndex).lookup("#slot"+slot).lookup("#card"+row);
+        card.getChildren().add(image);
+    }
+
+    public static void addCardInSlot( int cardId, int slot, int row){
+        InputStream in = Transition.class.getResourceAsStream("/Images/"+cardId+".png");
+        ImageView image = new ImageView();
+        image.setImage(new Image(in));
+        image.setFitWidth(150);
+        image.setPreserveRatio(true);
+        AnchorPane card = (AnchorPane) mainScene.getRoot().lookup("#slot"+slot).lookup("#card"+row);
+        card.getChildren().add(image);
     }
 }

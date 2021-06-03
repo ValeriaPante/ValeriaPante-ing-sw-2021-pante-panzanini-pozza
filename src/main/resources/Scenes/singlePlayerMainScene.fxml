@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1238.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1238.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2
+" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <MenuBar prefHeight="25.0" prefWidth="1238.0">
          <menus>
@@ -49,5 +50,26 @@
             <Font name="Bookman Old Style" size="11.0" />
          </font>
       </Button>
+      <AnchorPane id="slot1" layoutX="390.0" layoutY="297.0" prefHeight="323.0" prefWidth="175.0">
+         <children>
+            <AnchorPane id="card1" layoutX="15.0" layoutY="90.0" prefHeight="225.0" prefWidth="150.0" />
+            <AnchorPane id="card2" layoutX="15.0" layoutY="50.0" prefHeight="225.0" prefWidth="150.0" />
+            <AnchorPane id="card3" layoutX="15.0" layoutY="10.0" prefHeight="225.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane id="slot2" layoutX="581.0" layoutY="291.0" prefHeight="323.0" prefWidth="175.0">
+         <children>
+            <AnchorPane id="card1" layoutX="10.0" layoutY="90.0" prefHeight="225.0" prefWidth="150.0" />
+            <AnchorPane id="card2" layoutX="10.0" layoutY="50.0" prefHeight="225.0" prefWidth="150.0" />
+            <AnchorPane id="card3" layoutX="10.0" layoutY="10.0" prefHeight="225.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane id="slot3" layoutX="777.0" layoutY="291.0" prefHeight="323.0" prefWidth="175.0">
+         <children>
+            <AnchorPane id="card1" layoutX="20.0" layoutY="90.0" prefHeight="225.0" prefWidth="150.0" />
+            <AnchorPane id="card2" layoutX="20.0" layoutY="50.0" prefHeight="225.0" prefWidth="150.0" />
+            <AnchorPane id="card3" layoutX="20.0" layoutY="10.0" prefHeight="225.0" prefWidth="150.0" />
+         </children>
+      </AnchorPane>
    </children>
 </Pane>

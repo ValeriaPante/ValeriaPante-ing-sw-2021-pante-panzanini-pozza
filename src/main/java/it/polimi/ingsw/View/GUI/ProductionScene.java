@@ -121,6 +121,13 @@ public class ProductionScene extends PaymentScene{
             });
             card5.getChildren().add(image);
         }
+
+        root.lookup("#tick6").setVisible(false);
+        root.lookup("#basic").setOnMouseClicked(mouseEvent -> {
+            //sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(0));
+            Node tick = root.lookup("#tick6");
+            tick.setVisible(!tick.isVisible());
+        });
     }
 
     public static void setDevCardOnTop(int devSlot, int cardId){

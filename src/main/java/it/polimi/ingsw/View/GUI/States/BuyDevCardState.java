@@ -1,7 +1,6 @@
 package it.polimi.ingsw.View.GUI.States;
 
 import it.polimi.ingsw.View.GUI.*;
-import it.polimi.ingsw.View.GUI.States.State;
 import javafx.scene.Scene;
 
 import java.util.ArrayList;

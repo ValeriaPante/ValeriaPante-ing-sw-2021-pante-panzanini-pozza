@@ -59,6 +59,10 @@ public class Game {
         return new ArrayList<>(players.keySet()).indexOf(localPlayerId);
     }
 
+    public int getPlayerIndex(int playerId){
+        return new ArrayList<>(players.keySet()).indexOf(playerId);
+    }
+
     public int getNumberOfPlayers(){
         return players.keySet().size();
     }

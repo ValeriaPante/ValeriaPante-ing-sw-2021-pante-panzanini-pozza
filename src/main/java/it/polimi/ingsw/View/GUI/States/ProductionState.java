@@ -23,9 +23,7 @@ public class ProductionState extends State{
 
     @Override
     public void goBack(){
-        toDo.add(0, done.get(0));
-        done.remove(0);
-        Transition.setDialogScene(new Scene(toDo.get(0).getRoot()));
+        Transition.enableProductionButton();
     }
 
     @Override
