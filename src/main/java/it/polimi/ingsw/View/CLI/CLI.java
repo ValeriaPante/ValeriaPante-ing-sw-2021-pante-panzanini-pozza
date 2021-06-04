@@ -3,18 +3,26 @@ package it.polimi.ingsw.View.CLI;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Network.Client.Client;
+import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import it.polimi.ingsw.View.ClientModel.Game;
 import it.polimi.ingsw.View.Observable;
 import it.polimi.ingsw.View.View;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class CLI extends Observable implements View, Runnable{
     private final Game model;
     private final Client client;
+
     private final Scanner input;
+
+    private boolean someoneIsWaitingForInput;
+    private boolean newInputStringReady;
+    private String inputString;
+
     private final LeaderCardPrinter leaderCardPrinter;
+    private final DevCardPrinter devCardPrinter;
+    private final FaithTrackPrinter faithTrackPrinter;
     private final InputManager inputManager;
 
     public CLI(){
@@ -22,6 +30,8 @@ public class CLI extends Observable implements View, Runnable{
         this.client = new Client(this);
         this.input = new Scanner(System.in);
         this.leaderCardPrinter = new LeaderCardPrinter();
+        this.devCardPrinter = new DevCardPrinter();
+        this.faithTrackPrinter = new FaithTrackPrinter();
         this.inputManager = new InputManager();
     }
 
@@ -38,7 +48,7 @@ public class CLI extends Observable implements View, Runnable{
                 Color.colourText("       ▀█   ███   █▀    ███    █▀   ▄████████▀     ▄████▀     ██████████   ███    ███  ▄████████▀        ▀██████▀    ███        \n", "YELLOW") +
                 Color.colourText("                                                                           ███    ███                                           \n", "YELLOW") +
                 Color.colourText("    ▄████████    ▄████████ ███▄▄▄▄      ▄████████  ▄█     ▄████████    ▄████████    ▄████████ ███▄▄▄▄    ▄████████    ▄████████ \n", "YELLOW") +
-                Color.colourText("   ███    ███   ███    ███ ███▀▀▀██▄   ███    ███ ███    ███    ███   ███    ███   ███    ███ ███▀▀▀██▄ ███    ███   ███    ███ \n", "YELLOW") +
+                Color.colourText("   ███    ███   ███    ███ ███▀▀▀██▄   ███    ███ ███   ███    ███   ███    ███   ███    ███ ███▀▀▀██▄ ███    ███   ███    ███ \n", "YELLOW") +
                 Color.colourText("   ███    ███   ███    █▀  ███   ███   ███    ███ ███▌   ███    █▀    ███    █▀    ███    ███ ███   ███ ███    █▀    ███    █▀  \n", "YELLOW") +
                 Color.colourText("  ▄███▄▄▄▄██▀  ▄███▄▄▄     ███   ███   ███    ███ ███▌   ███          ███          ███    ███ ███   ███ ███         ▄███▄▄▄     \n", "YELLOW") +
                 Color.colourText(" ▀▀███▀▀▀▀▀   ▀▀███▀▀▀     ███   ███ ▀███████████ ███▌ ▀███████████ ▀███████████ ▀███████████ ███   ███ ███        ▀▀███▀▀▀     \n", "YELLOW") +
@@ -53,34 +63,59 @@ public class CLI extends Observable implements View, Runnable{
         String port = input.nextLine();
         System.out.println("Now, please, enter the username you want to play with:");
         String username = input.nextLine();
-        client.connect(ip, port, username);
+        new Thread(() -> client.connect(ip, port, username)).start();
 
         waitForInput();
     }
 
     private void waitForInput(){
         while (true){
-
+            if (input.hasNext()){
+                if (someoneIsWaitingForInput) {
+                    inputString = input.nextLine().trim();
+                    newInputStringReady = true;
+                    synchronized (this) {
+                        notifyAll();
+                    }
+                }
+                else {
+                    // operazioni non attese (esempio richiedere di stampare board di un player quando non è il suo turno)
+                }
+            }
         }
     }
 
-    @Override
-    public void updateLobbyState(int lobbyId, String[] players) {
-        System.out.println("\nLobby number "+ Color.colourInt( lobbyId, "YELLOW") + ": \n" +
-                " __________________\n" +
-                "|                  |\n" +
-                "|          LOBBY ID: " + lobbyId + "\n" +
-                "|    PLAYERS INSIDE: ");
-
-        for(int i=0; i<players.length; i++){
-            if (i > 0)
-                System.out.print(", ");
-            System.out.print(players[i]);
+    private String getInput() {
+        someoneIsWaitingForInput = true;
+        synchronized (this) {
+            while (!newInputStringReady) {
+                try {
+                    wait();
+                } catch (InterruptedException ignored) {}
+            }
         }
+        newInputStringReady = false;
+        someoneIsWaitingForInput = false;
+        return inputString;
+    }
 
-        System.out.println("\n" +
-                "|                  |\n" +
-                " ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ ");
+    @Override
+    public void updateLobbyState(int lobbyId) {
+//        System.out.println("\nLobby number "+ Color.colourInt( lobbyId, "YELLOW") + ": \n" +
+//                " __________________\n" +
+//                "|                  |\n" +
+//                "|          LOBBY ID: " + lobbyId + "\n" +
+//                "|    PLAYERS INSIDE: ");
+//
+//        for(int i=0; i<players.length; i++){
+//            if (i > 0)
+//                System.out.print(", ");
+//            System.out.print(players[i]);
+//        }
+//
+//        System.out.println("\n" +
+//                "|                  |\n" +
+//                " ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ ");
     }
 
     @Override
@@ -101,11 +136,22 @@ public class CLI extends Observable implements View, Runnable{
                 leaderCardPrinter.printFromID(i, null);
             System.out.println("Pick and discard two of them before starting. \n " +
                     "Write down their id, one by one:");
-            while (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().size() > 2)
-                model.getPlayerFromId(model.getLocalPlayerId()).removeLeaderCard(input.nextInt());
+            while (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().size() > 2){
+                int id = Integer.parseInt(getInput());
+                if (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().contains(id))
+                    client.update(MessageToServerCreator.createLeaderDiscardMessage(id));
+                else
+                    System.out.println("Your input is not correct, please, enter the id of card you own! Retry:");
+            }
+
         });
 
         thread.start();
+    }
+
+    @Override
+    public void nextTurn(int playerId) {
+
     }
 
     @Override
