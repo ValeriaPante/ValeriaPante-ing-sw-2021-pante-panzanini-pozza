@@ -40,6 +40,10 @@ public class MarketScene extends ObservableByGUI{
             observer.getCurrentState().next();
         });
 
+        root.lookup("#quit").setOnMouseClicked(mouseEvent -> {
+            Transition.hideDialog();
+        });
+
         rowsAndColumns = new ArrayList<>();
         for (int i = 0; i < 7; i++){
             Region region = (Region) root.getChildren().get(i+23);

@@ -59,6 +59,10 @@ public class DevDecksScene extends ObservableByGUI{
             observer.toBuyDevCardState();
             observer.getCurrentState().next();
         });
+
+        root.lookup("#quit").setOnMouseClicked(mouseEvent -> {
+            Transition.hideDialog();
+        });
     }
 
     private void deselectAll(){

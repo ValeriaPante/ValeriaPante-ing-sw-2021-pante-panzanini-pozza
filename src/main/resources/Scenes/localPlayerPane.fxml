@@ -66,5 +66,10 @@
             <Image url="@../Images/faith.png" />
          </image>
       </ImageView>
+      <ImageView id="calamaio" fitHeight="29.0" fitWidth="25.0" layoutX="2.0" layoutY="2.0">
+         <image>
+            <Image url="@../Images/calamaio.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

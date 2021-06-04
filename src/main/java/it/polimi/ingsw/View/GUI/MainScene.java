@@ -42,6 +42,7 @@ public class MainScene extends ObservableByGUI{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                if(i > 0) player.lookup("#calamaio").setVisible(false);
                 ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
                 Pane grid = (Pane) player.lookup("#pane");
                 AnchorPane card1 = (AnchorPane) grid.lookup("#card1");
@@ -58,7 +59,7 @@ public class MainScene extends ObservableByGUI{
                 image2.setPreserveRatio(true);
                 card1.getChildren().add(image1);
                 card2.getChildren().add(image2);
-                gridPane.add(player, i/2, i%2);
+                gridPane.add(player, i%2, i/2);
                 card1.setId(String.valueOf(lc.get(0)));
                 card2.setId(String.valueOf(lc.get(1)));
 
@@ -97,6 +98,7 @@ public class MainScene extends ObservableByGUI{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                if(i > 0) player.lookup("#calamaio").setVisible(false);
                 AnchorPane card1 = (AnchorPane) player.lookup("#lc1");
                 AnchorPane card2 = (AnchorPane) player.lookup("#lc2");
                 InputStream in3 = getClass().getResourceAsStream("/Images/retro.jpg");
@@ -111,9 +113,8 @@ public class MainScene extends ObservableByGUI{
                 image4.setPreserveRatio(true);
                 card1.getChildren().add(image3);
                 card2.getChildren().add(image4);
-                gridPane.add(player,i/2, i%2);
+                gridPane.add(player,i%2, i/2);
             }
-
         }
 
         MenuBar menuBar = (MenuBar) root.getChildren().get(0);

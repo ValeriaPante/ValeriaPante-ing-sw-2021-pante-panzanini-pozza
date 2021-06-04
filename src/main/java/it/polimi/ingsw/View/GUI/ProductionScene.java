@@ -32,6 +32,10 @@ public class ProductionScene extends PaymentScene{
 
     @Override
     public void initialise(){
+        root.lookup("#quit").setOnMouseClicked(mouseEvent -> {
+            Transition.hideDialog();
+        });
+
         initialiseButtons();
         AnchorPane card1 = (AnchorPane) root.lookup("#card1");
         root.lookup("#tick1").setVisible(false);

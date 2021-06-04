@@ -104,7 +104,7 @@ public class GUI extends Application implements View {
                 this.chooseLeaderCards();
                 Thread.sleep(5000);
                 this.startGame();
-                /*Thread.sleep(7000);
+                Thread.sleep(7000);
                 this.updateSupportContainer(model.getLocalPlayerId());
                 model.getPlayerFromId(3).addDevCardInSlot(1,2);
                 addDevCardInSlot(3, 1, 2);
@@ -117,13 +117,15 @@ public class GUI extends Application implements View {
                 Thread.sleep(3000);
                 updatePositions(3, 2);
                 Thread.sleep(3000);
-                updatePositions(2, 8);*/
-                /*Thread.sleep(3000);
-                showErrorMessage("sbagliato!!!");*/
+                updatePositions(2, 8);
                 Thread.sleep(3000);
                 activateLeaderCard(3, 64);
                 Thread.sleep(3000);
                 discardLeaderCard(3, 61);
+                Thread.sleep(3000);
+                nextTurn(2);
+                Thread.sleep(3000);
+                showWinner("valeria");
             } catch (Exception e){
 
             }
@@ -328,12 +330,15 @@ public class GUI extends Application implements View {
 
     @Override
     public void nextTurn(int playerId) {
-
+        if(model.getNumberOfPlayers() > 1) Platform.runLater(() -> Transition.nextTurn(model.getPlayerIndex(playerId), model.getNumberOfPlayers()));
     }
 
     @Override
     public void showWinner(String username) {
-
+        Platform.runLater(() -> {
+            Transition.setWinnerScene(new WinnerScene(username));
+            Transition.toWinnerScene();
+        });
     }
 
     @Override

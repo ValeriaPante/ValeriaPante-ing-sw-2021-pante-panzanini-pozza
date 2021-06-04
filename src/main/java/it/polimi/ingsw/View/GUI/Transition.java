@@ -11,6 +11,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.InputStream;
 
@@ -75,6 +76,10 @@ public class Transition {
         Transition.mainScene = new Scene(mainScene.getRoot());
     }
 
+    public static void setWinnerScene(WinnerScene winnerScene){
+        Transition.winnerScene = new Scene(winnerScene.getRoot());
+    }
+
     public static void toWelcomeScene(){
         primaryStage.setScene(welcomeScene);
     }
@@ -107,8 +112,13 @@ public class Transition {
         primaryStage.setScene(mainScene);
     }
 
+    public static void toWinnerScene(){
+        primaryStage.setScene(winnerScene);
+    }
+
     public static void showDialog(){
         dialogStage.initModality(Modality.APPLICATION_MODAL);
+        dialogStage.initStyle(StageStyle.UNDECORATED);
         dialogStage.showAndWait();
     }
 
@@ -214,5 +224,13 @@ public class Transition {
         mainScene.getRoot().lookup("#activate"+cardId).setVisible(false);
         mainScene.getRoot().lookup("#discard"+cardId).setVisible(false);
         mainScene.getRoot().lookup("#"+cardId).setVisible(false);
+    }
+
+    public static void nextTurn(int index, int numberOfPlayers){
+        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+        for(int i = 0; i < numberOfPlayers; i++){
+            grid.getChildren().get(i).lookup("#calamaio").setVisible(false);
+        }
+        grid.getChildren().get(index).lookup("#calamaio").setVisible(true);
     }
 }
