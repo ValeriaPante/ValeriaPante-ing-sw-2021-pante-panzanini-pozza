@@ -5,7 +5,7 @@ import it.polimi.ingsw.View.ClientModel.Game;
 
 public interface View {
 
-    void updateLobbyState(int lobbyId, String[] players);
+    void updateLobbyState(int lobbyId);
     void removeLobby(int lobbyId);
 
     void chooseLobby(int lobbyId);
@@ -30,6 +30,8 @@ public interface View {
     void discardLeaderCard(int playerId, int cardId);
 
     void addDevCardInSlot(int playerId, int cardId, int slot);
+
+    void nextTurn(int playerId);
 
     void showWinner(String username);
 

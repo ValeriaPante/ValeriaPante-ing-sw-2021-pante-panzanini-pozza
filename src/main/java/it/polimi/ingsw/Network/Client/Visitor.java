@@ -38,7 +38,7 @@ public class Visitor {
         }
         else{
             model.addLobby(m.getId(), m.getPlayers());
-            view.updateLobbyState(m.getId(), m.getPlayers());
+            view.updateLobbyState(m.getId());
         }
     }
 

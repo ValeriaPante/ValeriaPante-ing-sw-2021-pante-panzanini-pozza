@@ -88,18 +88,18 @@ public class GUI extends Application implements View {
                 Thread.sleep(5000);
                 model.addLobby(1000, new String[]{"valeria"});
                 LobbiesScene.addLobby(1000);
-                this.updateLobbyState(1000, null);
+                this.updateLobbyState(1000);
                 Thread.sleep(5000);
                 model.addLobby(0, new String[]{"valeria", "salvo"});
                 LobbiesScene.addLobby(0);
-                this.updateLobbyState(0, null);
+                this.updateLobbyState(0);
                 model.addLobby(1001, new String[]{"valeria", "salvo"});
                 LobbiesScene.addLobby(1001);
-                this.updateLobbyState(1001, null);
+                this.updateLobbyState(1001);
                 this.removeLobby(2);
                 model.addLobby(1002, new String[]{"seby", "salvo"});
                 LobbiesScene.addLobby(1002);
-                this.updateLobbyState(1002, null);
+                this.updateLobbyState(1002);
                 Thread.sleep(5000);
                 this.chooseLeaderCards();
                 Thread.sleep(5000);
@@ -133,7 +133,7 @@ public class GUI extends Application implements View {
     }
 
     @Override
-    public void updateLobbyState(int lobbyId, String[] players) {
+    public void updateLobbyState(int lobbyId) {
         Platform.runLater(() -> {
             LobbiesScene.addLobby(lobbyId);
             LobbiesScene lobbiesScene = new LobbiesScene(this);
@@ -310,6 +310,11 @@ public class GUI extends Application implements View {
                 else Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 3);
             }
         });
+    }
+
+    @Override
+    public void nextTurn(int playerId) {
+
     }
 
     @Override
