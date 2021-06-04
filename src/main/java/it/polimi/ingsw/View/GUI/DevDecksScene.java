@@ -3,7 +3,6 @@ package it.polimi.ingsw.View.GUI;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -17,7 +16,7 @@ import java.util.Map;
 
 public class DevDecksScene extends ObservableByGUI{
     private Pane root;
-    private HashMap<Integer, Region> selection;
+    private final HashMap<Integer, Region> selection;
 
     public DevDecksScene(GUI gui){
         addObserver(gui);
@@ -32,23 +31,25 @@ public class DevDecksScene extends ObservableByGUI{
         selection = new HashMap<>();
         for(int i = 0; i < devDecks.length; i++ )
             for(int j = 0; j < devDecks[i].length; j++){
-                Region region = (Region) root.getChildren().get(2+i*4+j);
-                region.setVisible(false);
-                selection.put(devDecks[i][j], region);
-                InputStream in = getClass().getResourceAsStream("/Images/"+devDecks[i][j]+".png");
-                ImageView image = new ImageView();
-                image.setImage(new Image(in));
-                image.setFitWidth(120);
-                image.setPreserveRatio(true);
-                image.setId(String.valueOf(devDecks[i][j]));
-                image.setOnMouseClicked(mouseEvent -> {
-                    deselectAll();
-                    int cardId = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
-                    selection.get(cardId).setVisible(true);
-                    //sendMessageToServer(MessageToServerCreator.createChooseDevCardMessage(cardId));
-                    mouseEvent.consume();
-                });
-                grid.add(image, j, i);
+                if(devDecks[i][j] != 0){
+                    Region region = (Region) root.getChildren().get(2+i*4+j);
+                    region.setVisible(false);
+                    selection.put(devDecks[i][j], region);
+                    InputStream in = getClass().getResourceAsStream("/Images/"+devDecks[i][j]+".png");
+                    ImageView image = new ImageView();
+                    image.setImage(new Image(in));
+                    image.setFitWidth(120);
+                    image.setPreserveRatio(true);
+                    image.setId(String.valueOf(devDecks[i][j]));
+                    image.setOnMouseClicked(mouseEvent -> {
+                        deselectAll();
+                        int cardId = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
+                        selection.get(cardId).setVisible(true);
+                        //sendMessageToServer(MessageToServerCreator.createChooseDevCardMessage(cardId));
+                        mouseEvent.consume();
+                    });
+                    grid.add(image, j, i);
+                }
             }
 
 

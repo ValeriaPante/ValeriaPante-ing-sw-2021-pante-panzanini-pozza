@@ -25,6 +25,15 @@ public class GUI extends Application implements View {
         model = new Game();
         client = new Client(this);
 
+        stage.setTitle("Masters of Renaissance ");
+        Transition.setPrimaryStage(stage);
+        WelcomeScene welcomeScene = new WelcomeScene();
+        welcomeScene.addObserver(this);
+        Transition.setWelcomeScene(welcomeScene);
+        Transition.toWelcomeScene();
+        stage.setResizable(false);
+        stage.show();
+
         //to remove
         //--------------------------------------------------
         model.setLocalPlayerId(4);
@@ -73,17 +82,6 @@ public class GUI extends Application implements View {
         LobbiesScene.addLobby(9);
         LobbiesScene.addLobby(10);
         LobbiesScene.addLobby(11);
-        //----------------------------------------------------------------------------------
-
-
-        stage.setTitle("Masters of Renaissance ");
-        Transition.setPrimaryStage(stage);
-        WelcomeScene welcomeScene = new WelcomeScene();
-        welcomeScene.addObserver(this);
-        Transition.setWelcomeScene(welcomeScene);
-        Transition.toWelcomeScene();
-        stage.setResizable(false);
-        stage.show();
 
         new Thread(() ->{
             try{
@@ -108,18 +106,25 @@ public class GUI extends Application implements View {
                 this.startGame();
                 Thread.sleep(7000);
                 this.updateSupportContainer(model.getLocalPlayerId());
-                model.getPlayerFromId(4).addDevCardInSlot(1,2);
-                addDevCardInSlot(4, 1, 2);
+                model.getPlayerFromId(3).addDevCardInSlot(1,2);
+                addDevCardInSlot(3, 1, 2);
                 Thread.sleep(7000);
-                model.getPlayerFromId(4).addDevCardInSlot(2,2);
-                addDevCardInSlot(4,2,2);
+                model.getPlayerFromId(3).addDevCardInSlot(2,2);
+                addDevCardInSlot(3,2,2);
                 Thread.sleep(7000);
-                model.getPlayerFromId(4).addDevCardInSlot(3,2);
-                addDevCardInSlot(4,3,2);
+                model.getPlayerFromId(3).addDevCardInSlot(3,2);
+                addDevCardInSlot(3,3,2);
+                Thread.sleep(3000);
+                updatePositions(3, 2);
+                Thread.sleep(3000);
+                updatePositions(2, 8);
+                /*Thread.sleep(3000);
+                showErrorMessage("sbagliato!!!");*/
             } catch (Exception e){
 
             }
         }).start();
+        //----------------------------------------------------------------------------------
 
     }
 
@@ -244,7 +249,13 @@ public class GUI extends Application implements View {
 
     @Override
     public void updatePositions(int playerId, int pos) {
-
+        Platform.runLater(() -> {
+            if(model.getNumberOfPlayers() == 1){
+                Platform.runLater(() -> Transition.updatePosition(playerId != model.getLocalPlayerId(), pos));
+            } else {
+                Platform.runLater(() -> Transition.updatePosition(model.getPlayerIndex(playerId), pos));
+            }
+        });
     }
 
     @Override
@@ -264,9 +275,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void updateSupportContainer(int playerId) {
-        if(playerId == model.getLocalPlayerId()) Platform.runLater(() -> {
-            currentState.next();
-        });
+        if(playerId == model.getLocalPlayerId()) Platform.runLater(() -> currentState.next());
     }
 
     @Override
@@ -276,7 +285,6 @@ public class GUI extends Application implements View {
 
     @Override
     public void activateLeaderCard(int playerId, int cardId) {
-
     }
 
     @Override
@@ -306,11 +314,15 @@ public class GUI extends Application implements View {
 
     @Override
     public void showWinner(String username) {
+
     }
 
     @Override
     public void showErrorMessage(String message) {
-        currentState.goBack();
+        Platform.runLater(() -> {
+            Transition.showErrorMessage(message);
+            currentState.goBack();
+        });
     }
 
     @Override

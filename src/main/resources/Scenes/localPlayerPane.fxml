@@ -61,5 +61,10 @@
             <AnchorPane id="card3" layoutX="15.0" layoutY="40.0" prefHeight="76.0" prefWidth="50.0" />
          </children>
       </AnchorPane>
+      <ImageView id="faith" fitHeight="29.0" fitWidth="25.0" layoutX="12.0" layoutY="54.0">
+         <image>
+            <Image url="@../Images/faith.png" />
+         </image>
+      </ImageView>
    </children>
 </Pane>

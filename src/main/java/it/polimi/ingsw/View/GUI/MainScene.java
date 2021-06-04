@@ -17,6 +17,12 @@ import java.util.ArrayList;
 
 public class MainScene extends ObservableByGUI{
     private Pane root;
+    private static final double[][] positions = {
+            {34,52}, {57,52}, {59, 33}, {58, 14}, {81,14}, {103,14}, {125,14},
+            {145,14}, {170,14}, {170, 33}, {170,54}, {191,54}, {217,54}, {240,54},
+            {263, 54}, {285,54}, {285,31}, {285,14}, {308,14}, {332,14}, {354,14},
+            {376,14}, {398,14}, {421,14}
+    };
 
     public MainScene(GUI gui){
         addObserver(gui);
@@ -58,25 +64,23 @@ public class MainScene extends ObservableByGUI{
                 activate1.setId(lc.get(0).toString());
                 activate1.setOnAction(actionEvent -> {
                     //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
-                    actionEvent.consume();
                 });
                 Button discard1 = (Button) player.lookup("#discard1");
                 discard1.setId(lc.get(0).toString());
                 discard1.setOnAction(actionEvent -> {
                     //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
-                    actionEvent.consume();
+                    ((Button) actionEvent.getSource()).setDisable(true);
                 });
                 Button activate2 = (Button) player.lookup("#activate2");
                 activate2.setId(lc.get(1).toString());
                 activate2.setOnAction(actionEvent -> {
                     //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
-                    actionEvent.consume();
                 });
                 Button discard2 = (Button) player.lookup("#discard2");
                 discard2.setId(lc.get(1).toString());
                 discard2.setOnAction(actionEvent -> {
                     //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
-                    actionEvent.consume();
+                    ((Button) actionEvent.getSource()).setDisable(true);
                 });
             } else {
                 try {
@@ -104,18 +108,16 @@ public class MainScene extends ObservableByGUI{
 
         MenuBar menuBar = (MenuBar) root.getChildren().get(0);
         Menu menu = menuBar.getMenus().get(0);
-        menu.getItems().get(0).setOnAction(actionEvent -> {
-            observer.showMarket();
-        });
-        menu.getItems().get(1).setOnAction(actionEvent -> {
-            observer.showDevDecks();
-        });
-        menu.getItems().get(2).setOnAction(actionEvent -> {
-            observer.activateProduction();
-        });
+        menu.getItems().get(0).setOnAction(actionEvent -> observer.showMarket());
+        menu.getItems().get(1).setOnAction(actionEvent -> observer.showDevDecks());
+        menu.getItems().get(2).setOnAction(actionEvent -> observer.activateProduction());
     }
 
     public Pane getRoot() {
         return root;
+    }
+
+    public static double[][] getPositions() {
+        return positions;
     }
 }

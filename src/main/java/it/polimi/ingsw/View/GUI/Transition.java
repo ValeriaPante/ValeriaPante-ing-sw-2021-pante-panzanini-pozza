@@ -1,6 +1,8 @@
 package it.polimi.ingsw.View.GUI;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -22,6 +24,7 @@ public class Transition {
     private static Scene leaderCardsScene;
     private static Scene initialResourcesScene;
     private static Scene mainScene;
+    private static Scene winnerScene;
 
     public static void setPrimaryStage(Stage primaryStage) {
         Transition.primaryStage = primaryStage;
@@ -116,13 +119,15 @@ public class Transition {
         dialogStage.close();
     }
 
+    public static void showErrorMessage(String message){
+        Alert alert = new Alert(Alert.AlertType.ERROR, message);
+        alert.showAndWait();
+    }
+
     public static void updateLeaderCards(int index){
         GridPane gridPane = (GridPane) leaderCardsScene.getRoot().lookup("#gridPane");
         gridPane.getChildren().remove(index);
         gridPane.add(new Pane(),index,0);
-        if(LeaderCardScene.getCount() == 2){
-
-        }
     }
 
     public static void enableProductionButton(){
@@ -148,5 +153,24 @@ public class Transition {
         image.setPreserveRatio(true);
         AnchorPane card = (AnchorPane) mainScene.getRoot().lookup("#slot"+slot).lookup("#card"+row);
         card.getChildren().add(image);
+    }
+
+    public static void updatePosition(int index, int position){
+        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+        double[] newPos = MainScene.getPositions()[position - 2];
+        grid.getChildren().get(index).lookup("#faith").setLayoutX(newPos[0]);
+        grid.getChildren().get(index).lookup("#faith").setLayoutY(newPos[1]);
+    }
+
+    public static void updatePosition(boolean isLorenzo, int position){
+        if(isLorenzo){
+            double[] newPos = SinglePlayerMainScene.getLorenzoPositions()[position - 2];
+            mainScene.getRoot().lookup("#lorenzo").setLayoutX(newPos[0]);
+            mainScene.getRoot().lookup("#lorenzo").setLayoutY(newPos[1]);
+        } else {
+            double[] newPos = SinglePlayerMainScene.getPlayerPositions()[position - 2];
+            mainScene.getRoot().lookup("#faith").setLayoutX(newPos[0]);
+            mainScene.getRoot().lookup("#faith").setLayoutY(newPos[1]);
+        }
     }
 }

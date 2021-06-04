@@ -16,8 +16,14 @@ public class Visitor {
     }
 
     public void updateModel(ActionOnLeaderCardMessage m){
-        if(m.isDiscard()) view.discardLeaderCard(m.getId(), m.getCardId());
-        else  view.activateLeaderCard(m.getId(), m.getCardId());
+        if(m.isDiscard()){
+            model.getPlayerFromId(m.getId()).getLeaderCards().remove(Integer.valueOf(m.getCardId()));
+            view.discardLeaderCard(m.getId(), m.getCardId());
+        }
+        else{
+            if(m.getId() != model.getLocalPlayerId()) model.getPlayerFromId(m.getId()).getLeaderCards().add(m.getCardId());
+            view.activateLeaderCard(m.getId(), m.getCardId());
+        }
     }
 
     public void updateModel(ChangedLeaderStorageMessage m){

@@ -16,6 +16,18 @@ import java.util.ArrayList;
 public class SinglePlayerMainScene extends ObservableByGUI{
 
     private Pane root;
+    private static final double[][] local = {
+            {83,143}, {129,143}, {132, 105}, {130, 58}, {179,58}, {227,58}, {275,58},
+            {325,58}, {374,58}, {374, 103}, {374,143}, {425,143}, {474,143}, {522,143},
+            {572, 143}, {622,143}, {622,98}, {622,59}, {669,59}, {718,59}, {769,59},
+            {817,59}, {865,59}, {916,59}
+    };
+    private static final double[][] lorenzo = {
+            {100,143}, {153,143}, {156, 105}, {154, 58}, {203,58}, {251,58}, {299,58},
+            {349,58}, {398,58}, {398, 103}, {398,143}, {449,143}, {498,143}, {546,143},
+            {596, 143}, {646,143}, {646,98}, {646,59}, {693,59}, {742,59}, {793,59},
+            {841,59}, {889,59}, {940,59}
+    };
 
     public SinglePlayerMainScene(GUI gui){
         addObserver(gui);
@@ -82,5 +94,13 @@ public class SinglePlayerMainScene extends ObservableByGUI{
 
     public Pane getRoot() {
         return root;
+    }
+
+    public static double[][] getPlayerPositions() {
+        return local;
+    }
+
+    public static double[][] getLorenzoPositions() {
+        return lorenzo;
     }
 }
