@@ -28,6 +28,7 @@ public class LobbiesScene extends ObservableByGUI{
         Button newLobbyButton = (Button) root.lookup("#createLobbyButton");
         newLobbyButton.setOnAction(event -> {
             //sendMessageToServer(MessageToServerCreator.createCreationLobbyMessage());
+            Transition.toWaitingToStartScene();
         });
         Pane lobbyPane = null;
 

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -172,5 +173,46 @@ public class Transition {
             mainScene.getRoot().lookup("#faith").setLayoutX(newPos[0]);
             mainScene.getRoot().lookup("#faith").setLayoutY(newPos[1]);
         }
+    }
+
+    public static void activateLeaderCard(int index, int cardId, boolean isLocalPlayer){
+        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+        Node playerPane = grid.getChildren().get(index);
+        if(isLocalPlayer){
+            ((Button) playerPane.lookup("#activate"+cardId)).setDisable(true);
+        } else {
+            InputStream in = Transition.class.getResourceAsStream("/Images/"+cardId+".png");
+            ImageView image = new ImageView();
+            image.setImage(new Image(in));
+            image.setFitWidth(100);
+            image.setPreserveRatio(true);
+            AnchorPane card = playerPane.lookup("#lc1") != null ? (AnchorPane) playerPane.lookup("#lc1") : (AnchorPane) playerPane.lookup("#lc2");
+            card.getChildren().add(image);
+            card.setId(String.valueOf(cardId));
+        }
+    }
+
+    public static void activateLeaderCard(int cardId){
+        ((Button) mainScene.getRoot().lookup("#activate"+cardId)).setDisable(true);
+    }
+
+    public static void discardLeaderCard(int index, int cardId, boolean isLocalPlayer){
+        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+        Node playerPane = grid.getChildren().get(index);
+        if(isLocalPlayer){
+            playerPane.lookup("#"+cardId).setVisible(false);
+            playerPane.lookup("#activate"+cardId).setVisible(false);
+            playerPane.lookup("#discard"+cardId).setVisible(false);
+        } else {
+            if(playerPane.lookup("#"+cardId) != null) playerPane.lookup("#"+cardId).setVisible(false);
+            else if(playerPane.lookup("#lc1") != null) playerPane.lookup("#lc1").setVisible(false);
+            else playerPane.lookup("#lc2").setVisible(false);
+        }
+    }
+
+    public static void discardLeaderCard(int cardId){
+        mainScene.getRoot().lookup("#activate"+cardId).setVisible(false);
+        mainScene.getRoot().lookup("#discard"+cardId).setVisible(false);
+        mainScene.getRoot().lookup("#"+cardId).setVisible(false);
     }
 }

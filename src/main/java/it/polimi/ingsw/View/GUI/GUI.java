@@ -104,7 +104,7 @@ public class GUI extends Application implements View {
                 this.chooseLeaderCards();
                 Thread.sleep(5000);
                 this.startGame();
-                Thread.sleep(7000);
+                /*Thread.sleep(7000);
                 this.updateSupportContainer(model.getLocalPlayerId());
                 model.getPlayerFromId(3).addDevCardInSlot(1,2);
                 addDevCardInSlot(3, 1, 2);
@@ -117,9 +117,13 @@ public class GUI extends Application implements View {
                 Thread.sleep(3000);
                 updatePositions(3, 2);
                 Thread.sleep(3000);
-                updatePositions(2, 8);
+                updatePositions(2, 8);*/
                 /*Thread.sleep(3000);
                 showErrorMessage("sbagliato!!!");*/
+                Thread.sleep(3000);
+                activateLeaderCard(3, 64);
+                Thread.sleep(3000);
+                discardLeaderCard(3, 61);
             } catch (Exception e){
 
             }
@@ -285,11 +289,21 @@ public class GUI extends Application implements View {
 
     @Override
     public void activateLeaderCard(int playerId, int cardId) {
+        if(model.getNumberOfPlayers() > 1){
+            Platform.runLater(() -> Transition.activateLeaderCard(model.getPlayerIndex(playerId), cardId, playerId == model.getLocalPlayerId()));
+        } else {
+            Platform.runLater(() -> Transition.activateLeaderCard(cardId));
+        }
     }
 
     @Override
     public void discardLeaderCard(int playerId, int cardId) {
+        if(model.getNumberOfPlayers() > 1){
+            Platform.runLater(() -> Transition.discardLeaderCard(model.getPlayerIndex(playerId), cardId, playerId == model.getLocalPlayerId()));
+        } else {
+            Platform.runLater(() -> Transition.discardLeaderCard(cardId));
 
+        }
     }
 
     @Override

@@ -60,27 +60,28 @@ public class SinglePlayerMainScene extends ObservableByGUI{
             //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
             actionEvent.consume();
         });
+        activate1.setId("activate"+lc.get(0));
         Button discard1 = (Button) root.lookup("#discard1");
         discard1.setId(lc.get(0).toString());
         discard1.setOnAction(actionEvent -> {
             //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
             actionEvent.consume();
         });
+        discard1.setId("discard"+lc.get(0));
         Button activate2 = (Button) root.lookup("#activate2");
         activate2.setId(lc.get(1).toString());
         activate2.setOnAction(actionEvent -> {
             //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
             actionEvent.consume();
         });
+        activate2.setId("activate"+lc.get(1));
         Button discard2 = (Button) root.lookup("#discard2");
         discard2.setId(lc.get(1).toString());
         discard2.setOnAction(actionEvent -> {
             //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
             actionEvent.consume();
         });
-
-
-
+        discard2.setId("discard"+lc.get(1));
 
         MenuBar menuBar = (MenuBar) root.getChildren().get(0);
         Menu menu = menuBar.getMenus().get(0);

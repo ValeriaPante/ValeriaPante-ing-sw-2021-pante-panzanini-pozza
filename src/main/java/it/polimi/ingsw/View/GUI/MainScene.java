@@ -59,36 +59,46 @@ public class MainScene extends ObservableByGUI{
                 card1.getChildren().add(image1);
                 card2.getChildren().add(image2);
                 gridPane.add(player, i/2, i%2);
+                card1.setId(String.valueOf(lc.get(0)));
+                card2.setId(String.valueOf(lc.get(1)));
 
                 Button activate1 = (Button) player.lookup("#activate1");
                 activate1.setId(lc.get(0).toString());
                 activate1.setOnAction(actionEvent -> {
                     //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
                 });
+                activate1.setId("activate"+lc.get(0));
+
                 Button discard1 = (Button) player.lookup("#discard1");
                 discard1.setId(lc.get(0).toString());
                 discard1.setOnAction(actionEvent -> {
                     //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
                     ((Button) actionEvent.getSource()).setDisable(true);
                 });
+                discard1.setId("discard"+lc.get(0));
+
                 Button activate2 = (Button) player.lookup("#activate2");
                 activate2.setId(lc.get(1).toString());
                 activate2.setOnAction(actionEvent -> {
                     //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
                 });
+                activate2.setId("activate"+lc.get(1));
+
                 Button discard2 = (Button) player.lookup("#discard2");
                 discard2.setId(lc.get(1).toString());
                 discard2.setOnAction(actionEvent -> {
                     //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
                     ((Button) actionEvent.getSource()).setDisable(true);
                 });
+                discard2.setId("discard"+lc.get(1));
             } else {
                 try {
                     player= FXMLLoader.load(getClass().getResource("/Scenes/playerPane.fxml"));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                GridPane grid2 = (GridPane) player.lookup("#grid");
+                AnchorPane card1 = (AnchorPane) player.lookup("#lc1");
+                AnchorPane card2 = (AnchorPane) player.lookup("#lc2");
                 InputStream in3 = getClass().getResourceAsStream("/Images/retro.jpg");
                 InputStream in4 = getClass().getResourceAsStream("/Images/retro.jpg");
                 ImageView image3 = new ImageView();
@@ -99,8 +109,8 @@ public class MainScene extends ObservableByGUI{
                 image4.setFitWidth(100);
                 image3.setPreserveRatio(true);
                 image4.setPreserveRatio(true);
-                grid2.add(image3, 0, 0);
-                grid2.add(image4, 0,1);
+                card1.getChildren().add(image3);
+                card2.getChildren().add(image4);
                 gridPane.add(player,i/2, i%2);
             }
 
@@ -119,5 +129,9 @@ public class MainScene extends ObservableByGUI{
 
     public static double[][] getPositions() {
         return positions;
+    }
+
+    public static void setCard(){
+
     }
 }
