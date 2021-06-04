@@ -32,6 +32,7 @@ public class Visitor {
     }
 
     public void updateModel(ChangedLobbyMessage m){
+        if(m.isMine()) model.setLocalPlayerLobbyId(m.getId());
         if(m.getPlayers().length == 0) {
             model.removeLobby(m.getId());
             view.removeLobby(m.getId());
@@ -97,6 +98,10 @@ public class Visitor {
 
     public void updateModel(PopeFavourCardStateMessage m){
         view.updatePopeFavourCard(m.getId(), m.getCards());
+    }
+
+    public void updateModel(TurnOfMessage m){
+        view.nextTurn(m.getId());
     }
 
     public void updateModel(WinnerMessage m){

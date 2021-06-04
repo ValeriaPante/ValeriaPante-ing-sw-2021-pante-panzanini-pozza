@@ -52,7 +52,7 @@ public class Client implements Runnable{
                 try{
                     switch(toEvaluate.get("type").getAsString()){
                         case "changedLobby":
-                            result.add(new ChangedLobbyMessage(toEvaluate.get("id").getAsInt(), gson.fromJson(toEvaluate.get("players"), String[].class)));
+                            result.add(new ChangedLobbyMessage(toEvaluate.get("id").getAsInt(), gson.fromJson(toEvaluate.get("players"), String[].class), toEvaluate.get("itsYou").getAsBoolean()));
                             break;
                         case "init":
                             JsonArray playersInfo = toEvaluate.get("players").getAsJsonArray();
