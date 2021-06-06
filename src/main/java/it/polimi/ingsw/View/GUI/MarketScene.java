@@ -37,7 +37,7 @@ public class MarketScene extends ObservableByGUI{
         sendButton.setOnAction(event -> {
             //sendMessageToServer(MessageToServerCreator.createTakeFromMarketMessage());
             observer.toMarketState();
-            observer.getCurrentState().next();
+            Transition.hideDialog();
         });
 
         root.lookup("#quit").setOnMouseClicked(mouseEvent -> {

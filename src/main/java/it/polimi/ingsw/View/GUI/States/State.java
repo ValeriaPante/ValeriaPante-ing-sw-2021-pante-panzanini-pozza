@@ -17,9 +17,10 @@ public class State {
             Transition.hideDialog();
         } else {
             toDo.get(0).initialise();
-            Transition.setDialogScene(new Scene(toDo.get(0).getRoot()));
+            Transition.setDialogScene(toDo.get(0).getRoot());
             done.add(0, toDo.get(0));
             toDo.remove(0);
+            Transition.reshowDialog();
         }
     }
 

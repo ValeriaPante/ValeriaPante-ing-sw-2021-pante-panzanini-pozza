@@ -8,6 +8,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="678.0" prefWidth="1238.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
@@ -18,6 +19,9 @@
                <items>
                   <MenuItem id="market" mnemonicParsing="false" text="Get from market" />
                   <MenuItem id="devcard" mnemonicParsing="false" text="Buy development card" />
+                  <MenuItem id="prodpower" mnemonicParsing="false" text="Activate production" />
+                  <MenuItem id="containers" mnemonicParsing="false" text="Manage your deposits" />
+                  <MenuItem id="endturn" mnemonicParsing="false" text="End you turn" />
                </items>
             </Menu>
          </menus>
@@ -80,5 +84,19 @@
             <Image url="@../Images/faith.png" />
          </image>
       </ImageView>
+      <Region id="strongbox" layoutX="31.0" layoutY="503.0" prefHeight="127.0" prefWidth="175.0" />
+      <AnchorPane id="pope1" layoutX="248.0" layoutY="114.0" prefHeight="67.0" prefWidth="68.0" />
+      <AnchorPane id="pope2" layoutX="497.0" layoutY="76.0" prefHeight="67.0" prefWidth="68.0" />
+      <AnchorPane id="pope3" layoutX="790.0" layoutY="114.0" prefHeight="67.0" prefWidth="68.0" />
+      <AnchorPane id="shelf11" layoutX="119.0" layoutY="313.0" prefHeight="33.0" prefWidth="35.0" />
+      <AnchorPane id="shelf21" layoutX="100.0" layoutY="368.0" prefHeight="33.0" prefWidth="35.0" />
+      <AnchorPane id="shelf22" layoutX="137.0" layoutY="368.0" prefHeight="33.0" prefWidth="35.0" />
+      <AnchorPane id="shelf31" layoutX="73.0" layoutY="426.0" prefHeight="33.0" prefWidth="35.0" />
+      <AnchorPane id="shelf32" layoutX="108.0" layoutY="426.0" prefHeight="33.0" prefWidth="35.0" />
+      <AnchorPane id="shelf33" layoutX="155.0" layoutY="426.0" prefHeight="33.0" prefWidth="35.0" />
+      <AnchorPane id="lc11" layoutX="1030.0" layoutY="210.0" prefHeight="103.0" prefWidth="86.0" />
+      <AnchorPane id="lc12" layoutX="1130.0" layoutY="210.0" prefHeight="103.0" prefWidth="86.0" />
+      <AnchorPane id="lc22" layoutX="1130.0" layoutY="547.0" prefHeight="103.0" prefWidth="86.0" />
+      <AnchorPane id="lc21" layoutX="1030.0" layoutY="547.0" prefHeight="103.0" prefWidth="86.0" />
    </children>
 </Pane>

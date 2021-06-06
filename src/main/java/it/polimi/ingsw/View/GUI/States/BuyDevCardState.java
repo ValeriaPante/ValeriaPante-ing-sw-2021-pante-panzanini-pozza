@@ -34,14 +34,18 @@ public class BuyDevCardState extends State {
 
     @Override
     public void goBack(){
+        if(done.size() == 0){
+            Transition.reshowDialog();
+            return;
+        }
         toDo.add(0, done.get(0));
         done.remove(0);
-        Transition.setDialogScene(new Scene(toDo.get(0).getRoot()));
+        Transition.setDialogScene(toDo.get(0).getRoot());
     }
 
     @Override
     public void refresh() {
         done.get(0).initialise();
-        Transition.setDialogScene(new Scene(toDo.get(0).getRoot()));
+        Transition.setDialogScene(toDo.get(0).getRoot());
     }
 }

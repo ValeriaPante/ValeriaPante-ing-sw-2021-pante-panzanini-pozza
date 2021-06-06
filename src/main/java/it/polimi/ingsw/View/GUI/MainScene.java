@@ -2,15 +2,15 @@ package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -35,6 +35,8 @@ public class MainScene extends ObservableByGUI{
         GridPane gridPane = (GridPane) root.lookup("#grid");
         Pane player = null;
 
+        ArrayList<String> usernames = observer.getModel().getUsernames();
+
         for(int i = 0; i < observer.getModel().getNumberOfPlayers(); i++){
             if(observer.getModel().getLocalPlayerIndex() == i){
                 try {
@@ -43,6 +45,7 @@ public class MainScene extends ObservableByGUI{
                     e.printStackTrace();
                 }
                 if(i > 0) player.lookup("#calamaio").setVisible(false);
+                ((Label) player.lookup("#username")).setText(usernames.get(i)+"(you)");
                 ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
                 Pane grid = (Pane) player.lookup("#pane");
                 AnchorPane card1 = (AnchorPane) grid.lookup("#card1");
@@ -62,6 +65,12 @@ public class MainScene extends ObservableByGUI{
                 gridPane.add(player, i%2, i/2);
                 card1.setId(String.valueOf(lc.get(0)));
                 card2.setId(String.valueOf(lc.get(1)));
+
+                player.lookup("#lc11").setId("lc"+lc.get(0)+"1");
+                player.lookup("#lc12").setId("lc"+lc.get(0)+"2");
+                player.lookup("#lc21").setId("lc"+lc.get(1)+"1");
+                player.lookup("#lc22").setId("lc"+lc.get(1)+"2");
+
 
                 Button activate1 = (Button) player.lookup("#activate1");
                 activate1.setId(lc.get(0).toString());
@@ -92,6 +101,31 @@ public class MainScene extends ObservableByGUI{
                     ((Button) actionEvent.getSource()).setDisable(true);
                 });
                 discard2.setId("discard"+lc.get(1));
+
+                for (int k = 1; k < 4; k++){
+                    InputStream in = getClass().getResourceAsStream("/Images/pope"+k+".png");
+                    ImageView image = new ImageView();
+                    image.setImage(new Image(in));
+                    image.setFitWidth(31);
+                    image.setPreserveRatio(true);
+                    ((AnchorPane) player.lookup("#pope"+k)).getChildren().add(image);
+                }
+
+                Region strongbox = (Region) player.lookup("#strongbox");
+                Tooltip inside = new Tooltip();
+                Pane tooltip = null;
+                try {
+                    tooltip = FXMLLoader.load(getClass().getResource("/Scenes/strongboxPane.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ((Label)tooltip.lookup("#coin")).setText("0");
+                ((Label)tooltip.lookup("#shield")).setText("0");
+                ((Label)tooltip.lookup("#stone")).setText("0");
+                ((Label)tooltip.lookup("#servant")).setText("0");
+                inside.setGraphic(tooltip);
+                Tooltip.install(strongbox, inside);
+
             } else {
                 try {
                     player= FXMLLoader.load(getClass().getResource("/Scenes/playerPane.fxml"));
@@ -99,6 +133,7 @@ public class MainScene extends ObservableByGUI{
                     e.printStackTrace();
                 }
                 if(i > 0) player.lookup("#calamaio").setVisible(false);
+                ((Label) player.lookup("#username")).setText(usernames.get(i));
                 AnchorPane card1 = (AnchorPane) player.lookup("#lc1");
                 AnchorPane card2 = (AnchorPane) player.lookup("#lc2");
                 InputStream in3 = getClass().getResourceAsStream("/Images/retro.jpg");
@@ -113,7 +148,32 @@ public class MainScene extends ObservableByGUI{
                 image4.setPreserveRatio(true);
                 card1.getChildren().add(image3);
                 card2.getChildren().add(image4);
+
+                for (int k = 1; k < 4; k++){
+                    InputStream in = getClass().getResourceAsStream("/Images/pope"+k+".png");
+                    ImageView image = new ImageView();
+                    image.setImage(new Image(in));
+                    image.setFitWidth(31);
+                    image.setPreserveRatio(true);
+                    ((AnchorPane) player.lookup("#pope"+k)).getChildren().add(image);
+                }
+
                 gridPane.add(player,i%2, i/2);
+
+                Region strongbox = (Region) player.lookup("#strongbox");
+                Tooltip inside = new Tooltip();
+                Pane tooltip = null;
+                try {
+                    tooltip = FXMLLoader.load(getClass().getResource("/Scenes/strongboxPane.fxml"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ((Label)tooltip.lookup("#coin")).setText("0");
+                ((Label)tooltip.lookup("#shield")).setText("0");
+                ((Label)tooltip.lookup("#stone")).setText("0");
+                ((Label)tooltip.lookup("#servant")).setText("0");
+                inside.setGraphic(tooltip);
+                Tooltip.install(strongbox, inside);
             }
         }
 
@@ -122,6 +182,9 @@ public class MainScene extends ObservableByGUI{
         menu.getItems().get(0).setOnAction(actionEvent -> observer.showMarket());
         menu.getItems().get(1).setOnAction(actionEvent -> observer.showDevDecks());
         menu.getItems().get(2).setOnAction(actionEvent -> observer.activateProduction());
+        menu.getItems().get(3).setOnAction(actionEvent -> observer.showDeposits());
+        menu.getItems().get(4).setOnAction(actionEvent -> sendMessageToServer(MessageToServerCreator.createEndTurnMessage()));
+        if(observer.getModel().getPlayerIndex(observer.getModel().getLocalPlayerId()) > 0) menu.setVisible(false);
     }
 
     public Pane getRoot() {
@@ -132,7 +195,4 @@ public class MainScene extends ObservableByGUI{
         return positions;
     }
 
-    public static void setCard(){
-
-    }
 }

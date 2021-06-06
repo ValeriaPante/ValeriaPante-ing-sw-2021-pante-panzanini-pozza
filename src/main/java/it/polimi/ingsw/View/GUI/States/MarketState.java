@@ -1,9 +1,9 @@
 package it.polimi.ingsw.View.GUI.States;
 
+import it.polimi.ingsw.View.GUI.ContainersScene;
 import it.polimi.ingsw.View.GUI.GUI;
 import it.polimi.ingsw.View.GUI.Transition;
 import it.polimi.ingsw.View.GUI.TransmutationScene;
-import javafx.scene.Scene;
 
 import java.util.ArrayList;
 
@@ -24,18 +24,26 @@ public class MarketState extends State{
             transmutationScene.addObserver(gui);
             toDo.add(transmutationScene);
         }
+
+        ContainersScene containersScene = new ContainersScene();
+        containersScene.addObserver(gui);
+        toDo.add(containersScene);
     }
 
     @Override
     public void goBack(){
+        if(done.size() == 0){
+            Transition.reshowDialog();
+            return;
+        }
         toDo.add(0, done.get(0));
         done.remove(0);
-        Transition.setDialogScene(new Scene(toDo.get(0).getRoot()));
+        Transition.setDialogScene(toDo.get(0).getRoot());
     }
 
     @Override
     public void refresh() {
         done.get(0).initialise();
-        Transition.setDialogScene(new Scene(toDo.get(0).getRoot()));
+        Transition.setDialogScene(toDo.get(0).getRoot());
     }
 }

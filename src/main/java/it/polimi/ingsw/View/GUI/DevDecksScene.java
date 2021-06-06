@@ -57,7 +57,7 @@ public class DevDecksScene extends ObservableByGUI{
         sendButton.setOnAction(event -> {
             //sendMessageToServer(MessageToServerCreator.createBuyDevCardMessage());
             observer.toBuyDevCardState();
-            observer.getCurrentState().next();
+            Transition.hideDialog();
         });
 
         root.lookup("#quit").setOnMouseClicked(mouseEvent -> {

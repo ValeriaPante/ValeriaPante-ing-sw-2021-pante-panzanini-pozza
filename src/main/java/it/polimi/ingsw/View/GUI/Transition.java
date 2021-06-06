@@ -1,19 +1,30 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Enums.PopeFavorCardState;
+import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Network.Client.Client;
+import it.polimi.ingsw.Network.Client.MessageToServerCreator;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Transition {
     private static Stage primaryStage;
@@ -27,17 +38,21 @@ public class Transition {
     private static Scene initialResourcesScene;
     private static Scene mainScene;
     private static Scene winnerScene;
+    private static boolean onContainersScene;
 
-    public static void setPrimaryStage(Stage primaryStage) {
+    public static void setPrimaryStage(Stage primaryStage, Client connectionHandler) {
         Transition.primaryStage = primaryStage;
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            //connectionHandler.update(MessageToServerCreator.createDisconnectMessage());
+        });
     }
 
     public static void setDialogStage(Stage dialogStage){
         Transition.dialogStage = dialogStage;
     }
 
-    public static void setDialogScene(Scene scene){
-        dialogStage.setScene(scene);
+    public static void setDialogScene(Pane scene){
+        dialogStage.getScene().setRoot(scene);
     }
 
     public static void setWelcomeScene(WelcomeScene welcomeScene) {
@@ -79,7 +94,6 @@ public class Transition {
     public static void setWinnerScene(WinnerScene winnerScene){
         Transition.winnerScene = new Scene(winnerScene.getRoot());
     }
-
     public static void toWelcomeScene(){
         primaryStage.setScene(welcomeScene);
     }
@@ -122,8 +136,8 @@ public class Transition {
         dialogStage.showAndWait();
     }
 
-    public static void setUnclosableDialog(){
-
+    public static void reshowDialog(){
+        if(!dialogStage.isShowing()) dialogStage.showAndWait();
     }
 
     public static void hideDialog(){
@@ -133,6 +147,10 @@ public class Transition {
     public static void showErrorMessage(String message){
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
         alert.showAndWait();
+    }
+
+    public static void setOnContainersScene(boolean onContainersScene){
+        Transition.onContainersScene = onContainersScene;
     }
 
     public static void updateLeaderCards(int index){
@@ -196,10 +214,21 @@ public class Transition {
             image.setImage(new Image(in));
             image.setFitWidth(100);
             image.setPreserveRatio(true);
-            AnchorPane card = playerPane.lookup("#lc1") != null ? (AnchorPane) playerPane.lookup("#lc1") : (AnchorPane) playerPane.lookup("#lc2");
+
+            AnchorPane card;
+            if(playerPane.lookup("#lc1") != null){
+                card = (AnchorPane) playerPane.lookup("#lc1");
+                playerPane.lookup("#lc11").setId("lc"+cardId+"1");
+                playerPane.lookup("#lc12").setId("lc"+cardId+"2");
+            } else {
+                card = (AnchorPane) playerPane.lookup("#lc2");
+                playerPane.lookup("#lc21").setId("lc"+cardId+"1");
+                playerPane.lookup("#lc22").setId("lc"+cardId+"2");
+            }
             card.getChildren().add(image);
             card.setId(String.valueOf(cardId));
         }
+
     }
 
     public static void activateLeaderCard(int cardId){
@@ -218,19 +247,165 @@ public class Transition {
             else if(playerPane.lookup("#lc1") != null) playerPane.lookup("#lc1").setVisible(false);
             else playerPane.lookup("#lc2").setVisible(false);
         }
+        if(playerPane.lookup("#"+cardId) == null){
+            playerPane.lookup("#lc"+cardId+"1").setVisible(false);
+            playerPane.lookup("#lc"+cardId+"2").setVisible(false);
+        }
     }
 
     public static void discardLeaderCard(int cardId){
         mainScene.getRoot().lookup("#activate"+cardId).setVisible(false);
         mainScene.getRoot().lookup("#discard"+cardId).setVisible(false);
         mainScene.getRoot().lookup("#"+cardId).setVisible(false);
+        mainScene.getRoot().lookup("#lc"+cardId+"1").setVisible(false);
+        mainScene.getRoot().lookup("#lc"+cardId+"2").setVisible(false);
     }
 
-    public static void nextTurn(int index, int numberOfPlayers){
+    public static void nextTurn(int index, int numberOfPlayers, boolean itsMyTurn){
         GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
         for(int i = 0; i < numberOfPlayers; i++){
             grid.getChildren().get(i).lookup("#calamaio").setVisible(false);
         }
         grid.getChildren().get(index).lookup("#calamaio").setVisible(true);
+        if(itsMyTurn) ((MenuBar) ((Pane)mainScene.getRoot()).getChildren().get(0)).getMenus().get(0).setVisible(true);
+        else ((MenuBar) ((Pane)mainScene.getRoot()).getChildren().get(0)).getMenus().get(0).setVisible(false);
+    }
+
+    public static void updatePopeFavourCards(int index, PopeFavorCardState[] states){
+        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+        for(int i = 0; i < states.length; i++){
+            switch (states[i]){
+                case FACEDOWN:
+                    break;
+                case FACEUP:
+                    InputStream in = Transition.class.getResourceAsStream("/Images/check.png");
+                    ImageView image = new ImageView();
+                    image.setImage(new Image(in));
+                    image.setFitWidth(31);
+                    image.setPreserveRatio(true);
+                    AnchorPane space = (AnchorPane) grid.getChildren().get(index).lookup("#pope"+(i+1));
+                    space.getChildren().remove(0);
+                    space.getChildren().add(image);
+                    break;
+                case DISABLED:
+                    grid.getChildren().get(index).lookup("#pope"+(i+1)).setVisible(false);
+                    break;
+            }
+        }
+    }
+
+    public static void updatePopeFavourCards(PopeFavorCardState[] states){
+        for(int i = 0; i < states.length; i++){
+            switch (states[i]){
+                case FACEDOWN:
+                    break;
+                case FACEUP:
+                    InputStream in = Transition.class.getResourceAsStream("/Images/tick.png");
+                    ImageView image = new ImageView();
+                    image.setImage(new Image(in));
+                    image.setFitWidth(31);
+                    image.setPreserveRatio(true);
+                    AnchorPane space = (AnchorPane) mainScene.getRoot().lookup("#pope"+(i+1));
+                    space.getChildren().remove(0);
+                    space.getChildren().add(image);
+                    break;
+                case DISABLED:
+                    mainScene.getRoot().lookup("#pope"+(i+1)).setVisible(false);
+                    break;
+            }
+        }
+    }
+
+    public static void updateShelf(int index, int shelfNumber, HashMap<Resource, Integer> inside, GUI gui){
+        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+        for(int i = 1; i < shelfNumber + 1; i++){
+            for(Map.Entry<Resource, Integer> shelf: inside.entrySet()){
+                AnchorPane container = (AnchorPane) grid.getChildren().get(index).lookup("#shelf"+(shelfNumber)+(i));
+                insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey());
+            }
+        }
+        if(onContainersScene) gui.showDeposits();
+    }
+
+    public static void updateShelf(int shelfNumber, HashMap<Resource, Integer> inside, GUI gui){
+        for(int i = 1; i < shelfNumber + 1; i++){
+            AnchorPane container = (AnchorPane) mainScene.getRoot().lookup("#shelf"+(shelfNumber)+(i));
+            for(Map.Entry<Resource, Integer> shelf: inside.entrySet()){
+                insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey());
+            }
+        }
+        if(onContainersScene) gui.showDeposits();
+    }
+
+    private static void insertImagesOnShelf(AnchorPane container, int i, int occupied, Resource resource){
+        if(container.getChildren().size() > 0) container.getChildren().remove(0);
+        if( i <= occupied){
+            InputStream in = Transition.class.getResourceAsStream("/Images/"+resource.toString().toLowerCase()+".png");
+            ImageView image = new ImageView();
+            image.setImage(new Image(in));
+            image.setFitWidth(18);
+            image.setPreserveRatio(true);
+            container.getChildren().add(image);
+        }
+    }
+
+    public static void updateStrongbox(int index, HashMap<Resource, Integer> inside){
+        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+        Region region = (Region) grid.getChildren().get(index).lookup("#strongbox");
+        updateStrongboxTooltip(region, inside);
+    }
+
+    public static void updateStrongbox(HashMap<Resource, Integer> inside){
+        Region region = (Region) mainScene.lookup("#strongbox");
+        updateStrongboxTooltip(region, inside);
+    }
+
+    private static void updateStrongboxTooltip(Region region, HashMap<Resource, Integer> inside){
+        Tooltip strongbox = new Tooltip();
+        Pane tooltip = null;
+        try {
+            tooltip = FXMLLoader.load(Transition.class.getResource("/Scenes/strongboxPane.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for(Map.Entry<Resource, Integer> entry: inside.entrySet()){
+            ((Label)tooltip.lookup("#"+entry.getKey().toString().toLowerCase())).setText(entry.getValue().toString());
+        }
+
+        strongbox.setGraphic(tooltip);
+        Tooltip.install(region, strongbox);
+    }
+
+    public static void updateLeaderStorage(int index, int cardId, Resource[] resources){
+        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+        Pane player = (Pane) grid.getChildren().get(index);
+        for(int i = 1; i < 3; i++){
+            AnchorPane container = (AnchorPane) player.lookup("#lc"+(cardId)+(i));
+            if(container.getChildren().size() > 0) container.getChildren().remove(0);
+            if(resources.length >= i){
+                InputStream in = Transition.class.getResourceAsStream("/Images/"+resources[i - 1].toString().toLowerCase()+".png");
+                ImageView image = new ImageView();
+                image.setImage(new Image(in));
+                image.setFitWidth(34);
+                image.setPreserveRatio(true);
+                container.getChildren().add(image);
+            }
+        }
+    }
+
+    public static void updateLeaderStorage(int cardId, Resource[] resources){
+        for(int i = 1; i < 3; i++){
+            AnchorPane container = (AnchorPane) mainScene.getRoot().lookup("#lc"+(cardId)+(i));
+            if(container.getChildren().size() > 0) container.getChildren().remove(0);
+            if(resources.length >= i){
+                InputStream in = Transition.class.getResourceAsStream("/Images/"+resources[i - 1].toString().toLowerCase()+".png");
+                ImageView image = new ImageView();
+                image.setImage(new Image(in));
+                image.setFitWidth(86);
+                image.setPreserveRatio(true);
+                container.getChildren().add(image);
+            }
+        }
     }
 }

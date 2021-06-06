@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
@@ -54,6 +55,20 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         card1.getChildren().add(image1);
         card2.getChildren().add(image2);
 
+        for (int k = 1; k < 4; k++){
+            InputStream in = getClass().getResourceAsStream("/Images/pope"+k+".png");
+            ImageView image = new ImageView();
+            image.setImage(new Image(in));
+            image.setFitWidth(68);
+            image.setPreserveRatio(true);
+            ((AnchorPane) root.lookup("#pope"+k)).getChildren().add(image);
+        }
+
+        root.lookup("#lc11").setId("lc"+lc.get(0)+"1");
+        root.lookup("#lc12").setId("lc"+lc.get(0)+"2");
+        root.lookup("#lc21").setId("lc"+lc.get(1)+"1");
+        root.lookup("#lc22").setId("lc"+lc.get(1)+"2");
+
         Button activate1 = (Button) root.lookup("#activate1");
         activate1.setId(lc.get(0).toString());
         activate1.setOnAction(actionEvent -> {
@@ -85,12 +100,11 @@ public class SinglePlayerMainScene extends ObservableByGUI{
 
         MenuBar menuBar = (MenuBar) root.getChildren().get(0);
         Menu menu = menuBar.getMenus().get(0);
-        menu.getItems().get(0).setOnAction(actionEvent -> {
-            observer.showMarket();
-        });
-        menu.getItems().get(1).setOnAction(actionEvent -> {
-            observer.showDevDecks();
-        });
+        menu.getItems().get(0).setOnAction(actionEvent -> observer.showMarket());
+        menu.getItems().get(1).setOnAction(actionEvent -> observer.showDevDecks());
+        menu.getItems().get(2).setOnAction(actionEvent -> observer.activateProduction());
+        menu.getItems().get(3).setOnAction(actionEvent -> observer.showDeposits());
+        menu.getItems().get(4).setOnAction(actionEvent -> sendMessageToServer(MessageToServerCreator.createEndTurnMessage()));
     }
 
     public Pane getRoot() {

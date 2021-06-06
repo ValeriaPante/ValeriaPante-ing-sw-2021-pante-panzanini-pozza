@@ -4,6 +4,7 @@ import it.polimi.ingsw.Enums.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Game {
     private Resource[][] grid;
@@ -45,6 +46,14 @@ public class Game {
 
     public void addPlayer(int playerId, SimplifiedPlayer player){
         players.put(playerId, player);
+    }
+
+    public ArrayList<String> getUsernames(){
+        ArrayList<String> usernames = new ArrayList<>();
+        for(Map.Entry<Integer, SimplifiedPlayer> player: players.entrySet()){
+            usernames.add(player.getValue().getUsername());
+        }
+        return usernames;
     }
 
     public int getLocalPlayerId() {

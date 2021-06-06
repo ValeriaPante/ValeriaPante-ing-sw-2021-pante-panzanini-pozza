@@ -28,6 +28,10 @@ public class SimplifiedPlayer {
         return leaderStorages.get(cardId);
     }
 
+    public HashMap<Integer, Resource[]> getAllLeaderStorages(){
+        return leaderStorages;
+    }
+
     public void setLeaderStorage(int cardId, Resource[] leaderStorage) {
         if(this.leaderStorages.get(cardId) == null) this.leaderStorages.put(cardId, leaderStorage);
         else this.leaderStorages.replace(cardId, leaderStorage);

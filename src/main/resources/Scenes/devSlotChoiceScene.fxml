@@ -8,29 +8,29 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="509.0" prefWidth="591.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="686.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="41.0" layoutY="38.0" text="Click on the slot where you want to put your new card" textFill="WHITE">
+      <Label layoutX="77.0" layoutY="41.0" text="Click on the slot where you want to put your new card" textFill="WHITE">
          <font>
             <Font name="Bookman Old Style" size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="393.0" fitWidth="591.0" layoutY="117.0">
+      <ImageView fitHeight="482.0" fitWidth="686.0" layoutY="117.0">
          <image>
             <Image url="@../Images/slots.jpg" />
          </image>
       </ImageView>
-      <AnchorPane id="card0" layoutX="29.0" layoutY="262.0" prefHeight="211.0" prefWidth="150.0" />
-      <AnchorPane id="card1" layoutX="29.0" layoutY="213.0" prefHeight="211.0" prefWidth="150.0" />
-      <AnchorPane id="card2" layoutX="29.0" layoutY="163.0" prefHeight="211.0" prefWidth="150.0" />
-      <AnchorPane id="card3" layoutX="221.0" layoutY="262.0" prefHeight="211.0" prefWidth="150.0" />
-      <AnchorPane id="card4" layoutX="221.0" layoutY="213.0" prefHeight="211.0" prefWidth="150.0" />
-      <AnchorPane id="card5" layoutX="221.0" layoutY="163.0" prefHeight="211.0" prefWidth="150.0" />
-      <AnchorPane id="card6" layoutX="417.0" layoutY="262.0" prefHeight="211.0" prefWidth="150.0" />
-      <AnchorPane id="card7" layoutX="417.0" layoutY="213.0" prefHeight="211.0" prefWidth="150.0" />
-      <AnchorPane id="card8" layoutX="417.0" layoutY="163.0" prefHeight="211.0" prefWidth="150.0" />
-      <Region id="slot1" layoutY="117.0" prefHeight="393.0" prefWidth="200.0" />
-      <Region id="slot2" layoutX="196.0" layoutY="117.0" prefHeight="393.0" prefWidth="200.0" />
-      <Region id="slot3" layoutX="392.0" layoutY="117.0" prefHeight="393.0" prefWidth="200.0" />
+      <AnchorPane id="card0" layoutX="50.0" layoutY="292.0" prefHeight="211.0" prefWidth="150.0" />
+      <AnchorPane id="card1" layoutX="50.0" layoutY="243.0" prefHeight="211.0" prefWidth="150.0" />
+      <AnchorPane id="card2" layoutX="50.0" layoutY="193.0" prefHeight="211.0" prefWidth="150.0" />
+      <AnchorPane id="card3" layoutX="260.0" layoutY="292.0" prefHeight="211.0" prefWidth="150.0" />
+      <AnchorPane id="card4" layoutX="260.0" layoutY="243.0" prefHeight="211.0" prefWidth="150.0" />
+      <AnchorPane id="card5" layoutX="260.0" layoutY="193.0" prefHeight="211.0" prefWidth="150.0" />
+      <AnchorPane id="card6" layoutX="500.0" layoutY="292.0" prefHeight="211.0" prefWidth="150.0" />
+      <AnchorPane id="card7" layoutX="500.0" layoutY="243.0" prefHeight="211.0" prefWidth="150.0" />
+      <AnchorPane id="card8" layoutX="500.0" layoutY="193.0" prefHeight="211.0" prefWidth="150.0" />
+      <Region id="slot1" layoutY="117.0" prefHeight="482.0" prefWidth="225.0" />
+      <Region id="slot2" layoutX="236.0" layoutY="118.0" prefHeight="482.0" prefWidth="218.0" />
+      <Region id="slot3" layoutX="467.0" layoutY="119.0" prefHeight="482.0" prefWidth="218.0" />
    </children>
 </Pane>
