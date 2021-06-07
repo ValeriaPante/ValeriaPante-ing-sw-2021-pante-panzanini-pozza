@@ -13,7 +13,7 @@ import java.util.ArrayList;
 public class LeaderCardScene extends ObservableByGUI{
 
     private Pane root;
-    private static int count;
+    private int count;
 
     public LeaderCardScene(GUI gui){
         addObserver(gui);
