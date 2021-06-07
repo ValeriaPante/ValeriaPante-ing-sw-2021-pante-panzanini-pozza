@@ -2,7 +2,6 @@ package it.polimi.ingsw.View.GUI.States;
 
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.View.GUI.*;
-import javafx.scene.Scene;
 
 import java.util.ArrayList;
 import java.util.HashMap;

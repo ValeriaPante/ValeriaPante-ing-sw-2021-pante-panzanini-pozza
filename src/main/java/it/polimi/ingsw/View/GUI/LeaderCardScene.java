@@ -38,7 +38,8 @@ public class LeaderCardScene extends ObservableByGUI{
                 Transition.updateLeaderCards(Math.max(index - count, 0));
                 count++;
                 if (count == 2){
-                    observer.chooseInitialResources();
+                    observer.setGamePhase(1);
+                    Transition.toLoadingScene();
                 }
             });
             gridPane.addColumn(i, image);

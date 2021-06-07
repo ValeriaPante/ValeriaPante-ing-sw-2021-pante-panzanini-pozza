@@ -5,7 +5,6 @@ import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Network.Client.Client;
 import it.polimi.ingsw.View.ClientModel.Game;
-import it.polimi.ingsw.View.ClientModel.SimplifiedPlayer;
 import it.polimi.ingsw.View.GUI.States.*;
 import it.polimi.ingsw.View.View;
 import javafx.application.Application;
@@ -13,12 +12,11 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.util.HashMap;
-
 public class GUI extends Application implements View {
     private Game model;
     private Client client;
     private State currentState;
+    private int gamePhase;
 
     @Override
     public void start(Stage stage){
@@ -100,6 +98,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void startGame() {
+        gamePhase = 2;
         if(model.getNumberOfPlayers() == 1){
             Platform.runLater(() -> {
                 SinglePlayerMainScene mainScene = new SinglePlayerMainScene(this);
@@ -272,7 +271,9 @@ public class GUI extends Application implements View {
 
     @Override
     public void nextTurn(int playerId) {
-        if(model.getNumberOfPlayers() > 1) Platform.runLater(() -> Transition.nextTurn(model.getPlayerIndex(playerId), model.getNumberOfPlayers(), playerId == model.getLocalPlayerId()));
+        if(gamePhase == 0) this.chooseLeaderCards();
+        else if(gamePhase == 1) this.chooseInitialResources();
+        else if(model.getNumberOfPlayers() > 1) Platform.runLater(() -> Transition.nextTurn(model.getPlayerIndex(playerId), model.getNumberOfPlayers(), playerId == model.getLocalPlayerId()));
     }
 
     @Override
@@ -314,5 +315,9 @@ public class GUI extends Application implements View {
 
     public void toDoneState(){
         currentState = new DoneState();
+    }
+
+    public void setGamePhase(int numberOfPhase){
+        this.gamePhase = numberOfPhase;
     }
 }

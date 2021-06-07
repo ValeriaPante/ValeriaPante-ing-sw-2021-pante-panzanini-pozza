@@ -159,10 +159,6 @@ public class Transition {
         gridPane.add(new Pane(),index,0);
     }
 
-    public static void enableProductionButton(){
-        dialogStage.getScene().getRoot().lookup("#continue").setDisable(false);
-    }
-
     public static void addCardInSlot(int playerIndex, int cardId, int slot, int row){
         InputStream in = Transition.class.getResourceAsStream("/Images/"+cardId+".png");
         ImageView image = new ImageView();
