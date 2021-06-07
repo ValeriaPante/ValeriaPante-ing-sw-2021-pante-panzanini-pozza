@@ -77,7 +77,6 @@ public class Visitor {
 
             model.addPlayer(m.getPlayersId()[i], p);
         }
-        view.chooseLeaderCards();
     }
 
     public void updateModel(NewDevCardMessage m){
