@@ -47,10 +47,6 @@ public class LeaderCardScene extends ObservableByGUI{
 
     }
 
-    public static int getCount() {
-        return count;
-    }
-
     public Pane getRoot() {
         return root;
     }
