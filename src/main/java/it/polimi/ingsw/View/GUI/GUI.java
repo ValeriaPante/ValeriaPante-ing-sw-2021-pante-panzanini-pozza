@@ -19,7 +19,7 @@ public class GUI extends Application implements View {
     private boolean actionDone;
 
     @Override
-    public void start(Stage stage){
+    public void start(Stage stage) throws Exception{
         model = new Game();
         client = new Client(this);
 
