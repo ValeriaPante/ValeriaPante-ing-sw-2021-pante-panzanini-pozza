@@ -2,7 +2,6 @@ package it.polimi.ingsw.View.GUI.States;
 
 import it.polimi.ingsw.View.GUI.Initializable;
 import it.polimi.ingsw.View.GUI.Transition;
-import javafx.scene.Scene;
 
 import java.util.ArrayList;
 

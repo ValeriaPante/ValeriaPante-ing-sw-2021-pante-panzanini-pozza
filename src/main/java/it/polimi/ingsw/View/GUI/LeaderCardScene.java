@@ -34,7 +34,7 @@ public class LeaderCardScene extends ObservableByGUI{
             image.setId(String.valueOf(i));
             image.setOnMouseClicked(mouseEvent -> {
                 int index = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
-                //sendMessageToServer(MessageToServerCreator.createLeaderDiscardMessage(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().get(index)));
+                sendMessageToServer(MessageToServerCreator.createLeaderDiscardMessage(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().get(index)));
                 Transition.updateLeaderCards(Math.max(index - count, 0));
                 count++;
                 if (count == 2){

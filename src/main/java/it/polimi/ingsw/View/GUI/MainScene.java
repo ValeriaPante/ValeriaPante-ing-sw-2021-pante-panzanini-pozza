@@ -10,7 +10,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -74,30 +73,26 @@ public class MainScene extends ObservableByGUI{
 
                 Button activate1 = (Button) player.lookup("#activate1");
                 activate1.setId(lc.get(0).toString());
-                activate1.setOnAction(actionEvent -> {
-                    //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
-                });
+                activate1.setOnAction(actionEvent -> sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false)));
                 activate1.setId("activate"+lc.get(0));
 
                 Button discard1 = (Button) player.lookup("#discard1");
                 discard1.setId(lc.get(0).toString());
                 discard1.setOnAction(actionEvent -> {
-                    //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
+                    sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
                     ((Button) actionEvent.getSource()).setDisable(true);
                 });
                 discard1.setId("discard"+lc.get(0));
 
                 Button activate2 = (Button) player.lookup("#activate2");
                 activate2.setId(lc.get(1).toString());
-                activate2.setOnAction(actionEvent -> {
-                    //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
-                });
+                activate2.setOnAction(actionEvent -> sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false)));
                 activate2.setId("activate"+lc.get(1));
 
                 Button discard2 = (Button) player.lookup("#discard2");
                 discard2.setId(lc.get(1).toString());
                 discard2.setOnAction(actionEvent -> {
-                    //sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
+                    sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
                     ((Button) actionEvent.getSource()).setDisable(true);
                 });
                 discard2.setId("discard"+lc.get(1));

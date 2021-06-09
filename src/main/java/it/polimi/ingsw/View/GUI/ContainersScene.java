@@ -4,20 +4,16 @@ import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
-import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.ClipboardContent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -53,12 +49,8 @@ public class ContainersScene extends Initializable{
                 db.setContent(content);
                 dragEvent.consume();
             });
-            coin.setOnDragEntered(dragEvent -> {
-                //sendMessageToServer(MessageToServerCreator.createSupportContainerSelectionMessage(1, Resource.COIN))
-            });
-            coin.setOnDragExited(dragEvent -> {
-                //sendMessageToServer(MessageToServerCreator.createSupportContainerDeselectionMessage(1, Resource.COIN))
-            });
+            coin.setOnDragEntered(dragEvent -> sendMessageToServer(MessageToServerCreator.createSupportContainerSelectionMessage(1, Resource.COIN)));
+            coin.setOnDragExited(dragEvent -> sendMessageToServer(MessageToServerCreator.createSupportContainerDeselectionMessage(1, Resource.COIN)));
         }
 
         Label shieldCount = (Label) root.lookup("#shield");
@@ -152,11 +144,11 @@ public class ContainersScene extends Initializable{
                         });
                         image.setOnDragEntered(dragEvent -> {
                             int numberOfShelf = Integer.parseInt(((Node) dragEvent.getSource()).getId());
-                            //sendMessageToServer(MessageToServerCreator.createShelfSelectionMessage(numberOfShelf, entry.getKey()));
+                            sendMessageToServer(MessageToServerCreator.createShelfSelectionMessage(numberOfShelf, entry.getKey()));
                         });
                         image.setOnDragExited(dragEvent -> {
                             int numberOfShelf = Integer.parseInt(((Node) dragEvent.getSource()).getId());
-                            //sendMessageToServer(MessageToServerCreator.createSupportContainerDeselectionMessage(numberOfShelf, entry.getKey()));
+                            sendMessageToServer(MessageToServerCreator.createSupportContainerDeselectionMessage(numberOfShelf, entry.getKey()));
                         });
 
                         ((AnchorPane) root.lookup("#shelf"+ (j + 1) + (i + 1))).getChildren().add(image);
@@ -167,7 +159,7 @@ public class ContainersScene extends Initializable{
 
         for(int i = 1; i < 3; i++){
             for(int j = 1; j < i + 1; j++){
-                AnchorPane shelf = (AnchorPane) root.lookup("#shelf"+String.valueOf(i)+String.valueOf(j));
+                AnchorPane shelf = (AnchorPane) root.lookup("#shelf"+ (i) + (j));
                 shelf.setId(String.valueOf(i));
                 shelf.setOnDragOver(dragEvent -> {
                     if (dragEvent.getGestureSource() != container && dragEvent.getDragboard().hasString()) {
@@ -181,8 +173,8 @@ public class ContainersScene extends Initializable{
                     boolean success = false;
                     if (db.hasString()) {
                         AnchorPane source = (AnchorPane) dragEvent.getSource();
-                        //if(source.getChildren().size() == 0) sendMessageToServer(MessageToServerCreator.createExchangeMessage());
-                        //else sendMessageToServer(MessageToServerCreator.createMoveToShelfMessage(Integer.parseInt(source.getId())));
+                        if(source.getChildren().size() == 0) sendMessageToServer(MessageToServerCreator.createExchangeMessage());
+                        else sendMessageToServer(MessageToServerCreator.createMoveToShelfMessage(Integer.parseInt(source.getId())));
                         success = true;
                     }
                     dragEvent.setDropCompleted(success);
@@ -206,7 +198,7 @@ public class ContainersScene extends Initializable{
             leaderCard.getChildren().add(image);
             Resource[] resources = storage.getValue();
             for(int i = 1; i < 3; i++){
-                AnchorPane space = (AnchorPane) root.lookup("#lc"+String.valueOf(availableSpace)+(i));
+                AnchorPane space = (AnchorPane) root.lookup("#lc"+ (availableSpace) +(i));
                 space.setOnDragOver(dragEvent -> {
                     if (dragEvent.getGestureSource() != container && dragEvent.getDragboard().hasString()) {
                         dragEvent.acceptTransferModes(TransferMode.COPY_OR_MOVE);
@@ -219,8 +211,8 @@ public class ContainersScene extends Initializable{
                     boolean success = false;
                     if (db.hasString()) {
                         AnchorPane source = (AnchorPane) dragEvent.getSource();
-                        //if(source.getChildren().size() == 0) sendMessageToServer(MessageToServerCreator.createExchangeMessage());
-                        //else sendMessageToServer(MessageToServerCreator.createMoveToShelfMessage(Integer.parseInt(source.getId())));
+                        if(source.getChildren().size() == 0) sendMessageToServer(MessageToServerCreator.createExchangeMessage());
+                        else sendMessageToServer(MessageToServerCreator.createMoveToShelfMessage(Integer.parseInt(source.getId())));
                         success = true;
                     }
                     dragEvent.setDropCompleted(success);
@@ -243,13 +235,8 @@ public class ContainersScene extends Initializable{
                         int numberOfCard = storage.getKey();
                         int position = j;
                         Resource resourceType = resources[j];
-                        resourceImage.setOnDragEntered(dragEvent -> {
-                            //sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(resourceType,position, numberOfCard));
-                        });
-                        resourceImage.setOnDragExited(dragEvent -> {
-                            //sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(resourceType,position, numberOfCard));
-
-                        });
+                        resourceImage.setOnDragEntered(dragEvent -> sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(resourceType,position, numberOfCard)));
+                        resourceImage.setOnDragExited(dragEvent -> sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(resourceType,position, numberOfCard)));
                         space.getChildren().add(resourceImage);
                     }
                 }

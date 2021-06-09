@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 
@@ -25,28 +26,28 @@ public class ChooseOutputScene extends Initializable{
         updateCounter();
 
         root.lookup("#coin").setOnMouseClicked(mouseEvent -> {
-            //sendMessageToServer(MessageToServerCreator.createAnySelectionMessage(Resource.COIN));
+            sendMessageToServer(MessageToServerCreator.createAnySelectionMessage(Resource.COIN));
             chosen++;
             updateCounter();
             if(chosen == toChoose) disableClick();
         });
 
         root.lookup("#shield").setOnMouseClicked(mouseEvent -> {
-            //sendMessageToServer(MessageToServerCreator.createAnySelectionMessage(Resource.SHIELD));
+            sendMessageToServer(MessageToServerCreator.createAnySelectionMessage(Resource.SHIELD));
             chosen++;
             updateCounter();
             if(chosen == toChoose) disableClick();
         });
 
         root.lookup("#stone").setOnMouseClicked(mouseEvent -> {
-            //sendMessageToServer(MessageToServerCreator.createAnySelectionMessage(Resource.STONE));
+            sendMessageToServer(MessageToServerCreator.createAnySelectionMessage(Resource.STONE));
             chosen++;
             updateCounter();
             if(chosen == toChoose) disableClick();
         });
 
         root.lookup("#servant").setOnMouseClicked(mouseEvent -> {
-            //sendMessageToServer(MessageToServerCreator.createAnySelectionMessage(Resource.SERVANT));
+            sendMessageToServer(MessageToServerCreator.createAnySelectionMessage(Resource.SERVANT));
             chosen++;
             updateCounter();
             if(chosen == toChoose) disableClick();

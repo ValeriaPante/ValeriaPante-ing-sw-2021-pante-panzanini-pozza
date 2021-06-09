@@ -2,7 +2,6 @@ package it.polimi.ingsw.View.GUI;
 
 
 import it.polimi.ingsw.Enums.PopeFavorCardState;
-import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Network.Client.Client;
 import it.polimi.ingsw.View.ClientModel.Game;
 import it.polimi.ingsw.View.GUI.States.*;
@@ -17,6 +16,7 @@ public class GUI extends Application implements View {
     private Client client;
     private State currentState;
     private int gamePhase;
+    private boolean actionDone;
 
     @Override
     public void start(Stage stage){
@@ -31,7 +31,6 @@ public class GUI extends Application implements View {
         Transition.toWelcomeScene();
         stage.setResizable(false);
         stage.show();
-
 
     }
 
@@ -117,42 +116,55 @@ public class GUI extends Application implements View {
 
     @Override
     public void showMarket() {
-        Platform.runLater(() -> {
-            MarketScene marketScene = new MarketScene(this);
-            Stage dialog = new Stage();
-            dialog.setScene(new Scene(marketScene.getRoot()));
-            dialog.setTitle("Get from market");
-            dialog.setResizable(false);
-            Transition.setDialogStage(dialog);
-            Transition.showDialog();
-        });
+        if(actionDone){
+            Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
+        } else {
+            Platform.runLater(() -> {
+                MarketScene marketScene = new MarketScene(this);
+                Stage dialog = new Stage();
+                dialog.setScene(new Scene(marketScene.getRoot()));
+                dialog.setTitle("Get from market");
+                dialog.setResizable(false);
+                Transition.setDialogStage(dialog);
+                Transition.showDialog();
+            });
+        }
     }
 
     @Override
     public void showDevDecks() {
-        Platform.runLater(() -> {
-            DevDecksScene devDecksScene = new DevDecksScene(this);
-            Stage dialog = new Stage();
-            dialog.setScene(new Scene(devDecksScene.getRoot()));
-            dialog.setTitle("Buy development card");
-            dialog.setResizable(false);
-            Transition.setDialogStage(dialog);
-            Transition.showDialog();
-        });
+        if(actionDone){
+            Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
+        } else {
+            Platform.runLater(() -> {
+                DevDecksScene devDecksScene = new DevDecksScene(this);
+                Stage dialog = new Stage();
+                dialog.setScene(new Scene(devDecksScene.getRoot()));
+                dialog.setTitle("Buy development card");
+                dialog.setResizable(false);
+                Transition.setDialogStage(dialog);
+                Transition.showDialog();
+            });
+        }
+
     }
 
     public void activateProduction(){
-        Platform.runLater(() -> {
-            ProductionScene productionScene = new ProductionScene();
-            productionScene.addObserver(this);
-            productionScene.initialise();
-            Stage dialog = new Stage();
-            dialog.setScene(new Scene(productionScene.getRoot()));
-            dialog.setTitle("Activate production");
-            dialog.setResizable(false);
-            Transition.setDialogStage(dialog);
-            Transition.showDialog();
-        });
+        if(actionDone){
+            Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
+        } else {
+            Platform.runLater(() -> {
+                ProductionScene productionScene = new ProductionScene();
+                productionScene.addObserver(this);
+                productionScene.initialise();
+                Stage dialog = new Stage();
+                dialog.setScene(new Scene(productionScene.getRoot()));
+                dialog.setTitle("Activate production");
+                dialog.setResizable(false);
+                Transition.setDialogStage(dialog);
+                Transition.showDialog();
+            });
+        }
     }
 
     public void showDeposits(){
@@ -215,7 +227,10 @@ public class GUI extends Application implements View {
 
     @Override
     public void updateSupportContainer(int playerId) {
-        if(playerId == model.getLocalPlayerId()) Platform.runLater(() -> currentState.next());
+        if(playerId == model.getLocalPlayerId()){
+            Platform.runLater(() -> currentState.next());
+            this.actionDone = true;
+        }
     }
 
     @Override
@@ -271,9 +286,9 @@ public class GUI extends Application implements View {
 
     @Override
     public void nextTurn(int playerId) {
-        if(gamePhase == 0) this.chooseLeaderCards();
-        else if(gamePhase == 1) this.chooseInitialResources();
-        else if(model.getNumberOfPlayers() > 1) Platform.runLater(() -> Transition.nextTurn(model.getPlayerIndex(playerId), model.getNumberOfPlayers(), playerId == model.getLocalPlayerId()));
+        if(gamePhase == 0 && playerId == model.getLocalPlayerId()) this.chooseLeaderCards();
+        else if(gamePhase == 1 && playerId == model.getLocalPlayerId()) this.chooseInitialResources();
+        else if(gamePhase > 1 && model.getNumberOfPlayers() > 1) Platform.runLater(() -> Transition.nextTurn(model.getPlayerIndex(playerId), model.getNumberOfPlayers(), playerId == model.getLocalPlayerId()));
     }
 
     @Override

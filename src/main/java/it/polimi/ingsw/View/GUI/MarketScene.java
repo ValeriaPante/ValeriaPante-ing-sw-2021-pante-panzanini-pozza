@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class MarketScene extends ObservableByGUI{
     private Pane root;
-    private ArrayList<Region> rowsAndColumns;
+    private final ArrayList<Region> rowsAndColumns;
 
     public MarketScene(GUI gui){
         addObserver(gui);
@@ -40,9 +40,7 @@ public class MarketScene extends ObservableByGUI{
             Transition.hideDialog();
         });
 
-        root.lookup("#quit").setOnMouseClicked(mouseEvent -> {
-            Transition.hideDialog();
-        });
+        root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());
 
         rowsAndColumns = new ArrayList<>();
         for (int i = 0; i < 7; i++){
@@ -55,16 +53,15 @@ public class MarketScene extends ObservableByGUI{
                 deselectAll();
                 int index = Integer.parseInt(((Region) mouseEvent.getSource()).getId());
                 rowsAndColumns.get(index).setVisible(true);
-                /*if(index < 3) sendMessageToServer(MessageToServerCreator.createMarketSelectionMessage(index, true));
-                else sendMessageToServer(MessageToServerCreator.createMarketSelectionMessage(index-3, false));*/
+                if(index < 3) sendMessageToServer(MessageToServerCreator.createMarketSelectionMessage(index, true));
+                else sendMessageToServer(MessageToServerCreator.createMarketSelectionMessage(index-3, false));
                 mouseEvent.consume();
             });
         }
     }
 
     private void deselectAll(){
-        for(int i = 0; i < rowsAndColumns.size(); i++)
-            rowsAndColumns.get(i).setVisible(false);
+        for (Region rowsAndColumn : rowsAndColumns) rowsAndColumn.setVisible(false);
     }
 
     private Color getColorFromResource(Resource resource){

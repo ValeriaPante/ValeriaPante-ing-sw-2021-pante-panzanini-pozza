@@ -32,11 +32,8 @@ public class PaymentScene extends Initializable{
 
         Button pay = (Button) root.lookup("#buyButton");
         pay.setOnAction(event -> {
+            //sendMessageToServer(MessageToServerCreator.createPaySelectedMessage());
             observer.getCurrentState().next();
-        });
-
-        root.lookup("#quit").setOnMouseClicked(mouseEvent -> {
-            Transition.hideDialog();
         });
     }
 
@@ -82,9 +79,12 @@ public class PaymentScene extends Initializable{
             if(lc.get(i) > 52 && lc.get(i) < 57){
                 leaderStoragesID[i] = lc.get(i);
                 Resource[] storage = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderStorage(lc.get(i));
-                for (Resource resource : storage)
-                    if( i == 0) leaderStorages1.put(resource, (leaderStorages1.containsKey(resource)) ? leaderStorages1.get(storage[i]) + 1 : 1);
-                    else if (i == 1) leaderStorages2.put(resource, (leaderStorages2.containsKey(resource)) ? leaderStorages2.get(storage[i]) + 1 : 1);
+                if(storage != null){
+                    for (Resource resource : storage)
+                        if( i == 0) leaderStorages1.put(resource, (leaderStorages1.containsKey(resource)) ? leaderStorages1.get(storage[i]) + 1 : 1);
+                        else leaderStorages2.put(resource, (leaderStorages2.containsKey(resource)) ? leaderStorages2.get(storage[i]) + 1 : 1);
+
+                }
             }
         }
         if(leaderStoragesID[0] != 0) setPositions(leaderStoragesID[0], previousPosition1, nextPosition1);
@@ -457,7 +457,7 @@ public class PaymentScene extends Initializable{
         if(leaderStorages2.get(Resource.COIN) == 0) ( root.lookup("#plusButton12")).setDisable(true);
 
         ((Button) root.lookup("#minusButton13")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SHIELD, previousPosition2.get(Resource.SHIELD), leaderStoragesID[2]));
+            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SHIELD, previousPosition2.get(Resource.SHIELD), leaderStoragesID[1]));
             updatePosition(leaderStoragesID[1], Resource.SHIELD, previousPosition2, nextPosition2);
             Label count = (Label) root.lookup("#coun13");
             int currentCount = Integer.parseInt(count.getText())-1;
@@ -554,16 +554,19 @@ public class PaymentScene extends Initializable{
 
     private void setPositions(int cardId, EnumMap<Resource, Integer> position1, EnumMap<Resource, Integer> position2){
         ArrayList<Resource> resources = new ArrayList<>();
-        Collections.addAll(resources, observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderStorage(cardId));
-        Collections.reverse(resources);
-        position1.put(Resource.COIN, -1);
-        position1.put(Resource.STONE, -1);
-        position1.put(Resource.SHIELD, -1);
-        position1.put(Resource.SERVANT, -1);
-        position2.put(Resource.COIN, resources.indexOf(Resource.COIN));
-        position2.put(Resource.STONE, resources.indexOf(Resource.STONE));
-        position2.put(Resource.SHIELD, resources.indexOf(Resource.SHIELD));
-        position2.put(Resource.SERVANT, resources.indexOf(Resource.SERVANT));
+        if(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderStorage(cardId) != null){
+            Collections.addAll(resources, observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderStorage(cardId));
+            Collections.reverse(resources);
+            position1.put(Resource.COIN, -1);
+            position1.put(Resource.STONE, -1);
+            position1.put(Resource.SHIELD, -1);
+            position1.put(Resource.SERVANT, -1);
+            position2.put(Resource.COIN, resources.indexOf(Resource.COIN));
+            position2.put(Resource.STONE, resources.indexOf(Resource.STONE));
+            position2.put(Resource.SHIELD, resources.indexOf(Resource.SHIELD));
+            position2.put(Resource.SERVANT, resources.indexOf(Resource.SERVANT));
+        }
+
 
     }
 }

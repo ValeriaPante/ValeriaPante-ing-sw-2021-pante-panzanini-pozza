@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -23,15 +24,13 @@ public class DiscountsScene extends Initializable{
     @Override
     public void initialise(){
         Button button = (Button) root.lookup("#button");
-        button.setOnAction(event -> {
-            observer.getCurrentState().next();
-        });
+        button.setOnAction(event -> observer.getCurrentState().next());
 
         ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
         ArrayList<Integer> discountLC = new ArrayList<>();
 
-        for(int i = 0; i < lc.size(); i++){
-            if(lc.get(i) > 48 && lc.get(i) < 53) discountLC.add(lc.get(i));
+        for (Integer integer : lc) {
+            if (integer > 48 && integer < 53) discountLC.add(integer);
         }
 
         root.getChildren().get(5).setVisible(false);
@@ -47,6 +46,7 @@ public class DiscountsScene extends Initializable{
             image1.setPreserveRatio(true);
             image1.setOnMouseClicked(mouseEvent -> {
                 root.getChildren().get(5).setVisible(true);
+                sendMessageToServer(MessageToServerCreator.createDiscountAbilityMessage(discountLC.get(0)));
             });
             card1.getChildren().add(image1);
 
@@ -58,6 +58,7 @@ public class DiscountsScene extends Initializable{
             image2.setPreserveRatio(true);
             image2.setOnMouseClicked(mouseEvent -> {
                 root.getChildren().get(6).setVisible(true);
+                sendMessageToServer(MessageToServerCreator.createDiscountAbilityMessage(discountLC.get(1)));
             });
             card2.getChildren().add(image2);
 
@@ -70,6 +71,7 @@ public class DiscountsScene extends Initializable{
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
                 root.getChildren().get(7).setVisible(true);
+                sendMessageToServer(MessageToServerCreator.createDiscountAbilityMessage(discountLC.get(0)));
             });
             card.getChildren().add(image);
 

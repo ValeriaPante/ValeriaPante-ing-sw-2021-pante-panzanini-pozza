@@ -10,9 +10,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
@@ -42,9 +39,7 @@ public class Transition {
 
     public static void setPrimaryStage(Stage primaryStage, Client connectionHandler) {
         Transition.primaryStage = primaryStage;
-        primaryStage.setOnCloseRequest(windowEvent -> {
-            //connectionHandler.update(MessageToServerCreator.createDisconnectMessage());
-        });
+        primaryStage.setOnCloseRequest(windowEvent -> connectionHandler.update(MessageToServerCreator.createDisconnectMessage()));
     }
 
     public static void setDialogStage(Stage dialogStage){
@@ -203,7 +198,7 @@ public class Transition {
         GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
         Node playerPane = grid.getChildren().get(index);
         if(isLocalPlayer){
-            ((Button) playerPane.lookup("#activate"+cardId)).setDisable(true);
+            playerPane.lookup("#activate"+cardId).setDisable(true);
         } else {
             InputStream in = Transition.class.getResourceAsStream("/Images/"+cardId+".png");
             ImageView image = new ImageView();
@@ -228,7 +223,7 @@ public class Transition {
     }
 
     public static void activateLeaderCard(int cardId){
-        ((Button) mainScene.getRoot().lookup("#activate"+cardId)).setDisable(true);
+        mainScene.getRoot().lookup("#activate"+cardId).setDisable(true);
     }
 
     public static void discardLeaderCard(int index, int cardId, boolean isLocalPlayer){
@@ -263,8 +258,7 @@ public class Transition {
             grid.getChildren().get(i).lookup("#calamaio").setVisible(false);
         }
         grid.getChildren().get(index).lookup("#calamaio").setVisible(true);
-        if(itsMyTurn) ((MenuBar) ((Pane)mainScene.getRoot()).getChildren().get(0)).getMenus().get(0).setVisible(true);
-        else ((MenuBar) ((Pane)mainScene.getRoot()).getChildren().get(0)).getMenus().get(0).setVisible(false);
+        ((MenuBar) ((Pane)mainScene.getRoot()).getChildren().get(0)).getMenus().get(0).setVisible(itsMyTurn);
     }
 
     public static void updatePopeFavourCards(int index, PopeFavorCardState[] states){

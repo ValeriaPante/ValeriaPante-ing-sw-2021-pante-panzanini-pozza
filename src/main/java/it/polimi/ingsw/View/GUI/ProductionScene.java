@@ -24,7 +24,7 @@ public class ProductionScene extends PaymentScene{
 
         Button pay = (Button) root.lookup("#continue");
         pay.setOnAction(event -> {
-            //sendMessageToServer(MessageToServerCreator.createProductionActivationMessage());
+            sendMessageToServer(MessageToServerCreator.createProductionActivationMessage());
             observer.toProductionState();
             Transition.hideDialog();
         });
@@ -32,9 +32,7 @@ public class ProductionScene extends PaymentScene{
 
     @Override
     public void initialise(){
-        root.lookup("#quit").setOnMouseClicked(mouseEvent -> {
-            Transition.hideDialog();
-        });
+        root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());
 
         initialiseButtons();
         AnchorPane card1 = (AnchorPane) root.lookup("#card1");
@@ -46,7 +44,7 @@ public class ProductionScene extends PaymentScene{
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
-                //sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[0]));
+                sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[0]));
                 Node tick = root.lookup("#tick1");
                 tick.setVisible(!tick.isVisible());
             });
@@ -62,7 +60,7 @@ public class ProductionScene extends PaymentScene{
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
-                //sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[1]));
+                sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[1]));
                 Node tick = root.lookup("#tick2");
                 tick.setVisible(!tick.isVisible());
             });
@@ -78,7 +76,7 @@ public class ProductionScene extends PaymentScene{
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
-                //sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[2]));
+                sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[2]));
                 Node tick = root.lookup("#tick3");
                 tick.setVisible(!tick.isVisible());
             });
@@ -103,7 +101,7 @@ public class ProductionScene extends PaymentScene{
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
-                //sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[3]));
+                sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[3]));
                 Node tick = root.lookup("#tick4");
                 tick.setVisible(!tick.isVisible());
             });
@@ -119,7 +117,7 @@ public class ProductionScene extends PaymentScene{
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
-                //sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[4]));
+                sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(devCardOnTop[4]));
                 Node tick = root.lookup("#tick5");
                 tick.setVisible(!tick.isVisible());
             });
@@ -128,7 +126,7 @@ public class ProductionScene extends PaymentScene{
 
         root.lookup("#tick6").setVisible(false);
         root.lookup("#basic").setOnMouseClicked(mouseEvent -> {
-            //sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(0));
+            sendMessageToServer(MessageToServerCreator.createCardProductionSelectionMessage(0));
             Node tick = root.lookup("#tick6");
             tick.setVisible(!tick.isVisible());
         });

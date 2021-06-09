@@ -27,14 +27,14 @@ public class LobbiesScene extends ObservableByGUI{
         FlowPane box = (FlowPane) scrollPane.getContent();
         Button newLobbyButton = (Button) root.lookup("#createLobbyButton");
         newLobbyButton.setOnAction(event -> {
-            //sendMessageToServer(MessageToServerCreator.createCreationLobbyMessage());
+            sendMessageToServer(MessageToServerCreator.createCreationLobbyMessage());
             Transition.toWaitingToStartScene();
         });
         Pane lobbyPane = null;
 
         HashMap<Integer, String[]> lobbies = observer.getModel().getLobbies();
 
-        for(int j = 0; j < orderedLobbies.size(); j++){
+        for (Integer orderedLobby : orderedLobbies) {
             try {
                 lobbyPane = FXMLLoader.load(getClass().getResource("/Scenes/lobbyPane.fxml"));
             } catch (IOException e) {
@@ -42,14 +42,14 @@ public class LobbiesScene extends ObservableByGUI{
             }
             Pane pane = (Pane) lobbyPane.lookup("#scrollPane");
             Label lobbyId = (Label) pane.getChildren().get(0);
-            lobbyId.setText(orderedLobbies.get(j).toString());
-            for(int i = 0; i < lobbies.get(orderedLobbies.get(j)).length; i++){
-                Label username = (Label) pane.getChildren().get(1+i);
-                username.setText(lobbies.get(orderedLobbies.get(j))[i]);
+            lobbyId.setText(orderedLobby.toString());
+            for (int i = 0; i < lobbies.get(orderedLobby).length; i++) {
+                Label username = (Label) pane.getChildren().get(1 + i);
+                username.setText(lobbies.get(orderedLobby)[i]);
             }
             Button goButton = (Button) pane.getChildren().get(5);
             goButton.setOnAction(event -> {
-                int lobbyNum = Integer.parseInt(((Label) ((Pane)((Button) event.getSource()).getParent()).getChildren().get(0)).getText());
+                int lobbyNum = Integer.parseInt(((Label) ((Pane) ((Button) event.getSource()).getParent()).getChildren().get(0)).getText());
                 WaitingToStartScene waitingToStartScene = new WaitingToStartScene(lobbyNum, observer.getModel().getLobbies().get(lobbyNum));
                 waitingToStartScene.addObserver(this.observer);
                 Transition.setWaitingToStartScene(waitingToStartScene);
@@ -60,7 +60,7 @@ public class LobbiesScene extends ObservableByGUI{
     }
 
     public static void addLobby(int lobbyId){
-        if(orderedLobbies.indexOf(lobbyId) == -1) orderedLobbies.add(lobbyId);
+        if(!orderedLobbies.contains(lobbyId)) orderedLobbies.add(lobbyId);
     }
 
     public static void removeLobby(int lobbyId){

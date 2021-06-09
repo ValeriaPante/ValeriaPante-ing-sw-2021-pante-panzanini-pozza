@@ -1,7 +1,6 @@
 package it.polimi.ingsw.View.GUI.States;
 
 import it.polimi.ingsw.View.GUI.*;
-import javafx.scene.Scene;
 
 import java.util.ArrayList;
 
@@ -13,8 +12,8 @@ public class BuyDevCardState extends State {
 
         ArrayList<Integer> lc = gui.getModel().getPlayerFromId(gui.getModel().getLocalPlayerId()).getLeaderCards();
         int count = 0;
-        for(int i = 0; i < lc.size(); i++){
-            if(lc.get(i) > 48 && lc.get(i) < 53) count++;
+        for (Integer integer : lc) {
+            if (integer > 48 && integer < 53) count++;
         }
 
         if(count > 0){

@@ -23,7 +23,7 @@ public class UsernameScene extends ObservableByGUI {
             TextField ip = (TextField) root.lookup("#ipAddress");
             TextField port = (TextField) root.lookup("#port");
             TextField username = (TextField) root.lookup("#usernameBox");
-            //this.connect(ip.getText(), port.getText(), username.getText());
+            this.connect(ip.getText(), port.getText(), username.getText());
             LobbiesScene lobbiesScene = new LobbiesScene(this.observer);
             Transition.setLobbiesScene(lobbiesScene);
             Transition.toLobbiesScene();

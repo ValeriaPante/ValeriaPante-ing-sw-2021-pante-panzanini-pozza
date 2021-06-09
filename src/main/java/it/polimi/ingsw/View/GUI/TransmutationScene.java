@@ -1,7 +1,8 @@
 package it.polimi.ingsw.View.GUI;
 
-import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
 import javafx.scene.image.Image;
@@ -24,6 +25,7 @@ public class TransmutationScene extends Initializable{
 
     @Override
     public void initialise(){
+
         AnchorPane card1 = (AnchorPane) root.getChildren().get(1);
         AnchorPane card2 = (AnchorPane) root.getChildren().get(2);
         ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
@@ -48,5 +50,13 @@ public class TransmutationScene extends Initializable{
         spinner1.setValueFactory(spinnerValueFactory1);
         SpinnerValueFactory<Integer> spinnerValueFactory2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,12);
         spinner2.setValueFactory(spinnerValueFactory2);
+
+        Button sendButton = (Button) root.lookup("#buyButton");
+        sendButton.setOnAction(event -> {
+            sendMessageToServer(MessageToServerCreator.createTransmutationMessage(lc.get(0), lc.get(1), spinner1.getValue(), spinner2.getValue()));
+            Transition.hideDialog();
+        });
+
+
     }
 }
