@@ -30,14 +30,14 @@ public class TransmutationScene extends Initializable{
         AnchorPane card2 = (AnchorPane) root.getChildren().get(2);
         ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
 
-        InputStream in1 = getClass().getResourceAsStream("/Images/"+lc.get(0)+".png");
+        InputStream in1 = getClass().getResourceAsStream("/accessible/assets/imgs/" +lc.get(0)+".png");
         ImageView image1 = new ImageView();
         image1.setImage(new Image(in1));
         image1.setFitWidth(255);
         image1.setPreserveRatio(true);
         card1.getChildren().add(image1);
 
-        InputStream in2 = getClass().getResourceAsStream("/Images/"+lc.get(1)+".png");
+        InputStream in2 = getClass().getResourceAsStream("/accessible/assets/imgs/" +lc.get(1)+".png");
         ImageView image2 = new ImageView();
         image2.setImage(new Image(in2));
         image2.setFitWidth(255);

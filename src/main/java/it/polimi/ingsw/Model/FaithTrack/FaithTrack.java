@@ -54,7 +54,7 @@ public class FaithTrack {
 
     //costruttore
     public FaithTrack() throws IllegalArgumentException{
-        Path path = Paths.get(this.getClass().getResource("/JSONs/FaithTrackConfig.json").toString().substring(6));
+        Path path = Paths.get(this.getClass().getResource("/accessible/JSONs/FaithTrackConfig.json").toString().substring(6));
         String config;
 
         try {

@@ -11,7 +11,7 @@
    <children>
       <ImageView id="coin" fitHeight="71.0" fitWidth="82.0" layoutX="188.0" layoutY="126.0">
          <image>
-            <Image url="@../Images/coin.png" />
+            <Image url="@../accessible/assets/imgs/coin.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -19,7 +19,7 @@
       </ImageView>
       <ImageView id="shield" fitHeight="71.0" fitWidth="71.0" layoutX="193.0" layoutY="226.0">
          <image>
-            <Image url="@../Images/shield.png" />
+            <Image url="@../accessible/assets/imgs/shield.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -27,7 +27,7 @@
       </ImageView>
       <ImageView id="stone" fitHeight="71.0" fitWidth="82.0" layoutX="187.0" layoutY="318.0">
          <image>
-            <Image url="@../Images/stone.png" />
+            <Image url="@../accessible/assets/imgs/stone.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -35,7 +35,7 @@
       </ImageView>
       <ImageView id="servant" fitHeight="71.0" fitWidth="82.0" layoutX="187.0" layoutY="407.0">
          <image>
-            <Image url="@../Images/servant.png" />
+            <Image url="@../accessible/assets/imgs/servant.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

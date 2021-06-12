@@ -18,7 +18,7 @@
       </Label>
       <ImageView id="back" fitHeight="46.0" fitWidth="45.0" layoutX="6.0" layoutY="518.0">
          <image>
-            <Image url="@../Images/goback.png" />
+            <Image url="@../accessible/assets/imgs/goback.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />
@@ -26,34 +26,34 @@
       </ImageView>
       <ImageView fitHeight="390.0" fitWidth="324.0" layoutX="491.0" layoutY="181.0">
          <image>
-            <Image url="@../Images/shelf.png" />
+            <Image url="@../accessible/assets/imgs/shelf.png" />
          </image>
       </ImageView>
       <AnchorPane id="lc1" layoutX="38.0" layoutY="218.0" prefHeight="300.0" prefWidth="200.0" />
       <AnchorPane id="lc2" layoutX="268.0" layoutY="218.0" prefHeight="300.0" prefWidth="200.0" />
       <ImageView id="supportContainer" fitHeight="118.0" fitWidth="600.0" layoutX="22.0" layoutY="73.0">
          <image>
-            <Image url="@../Images/supportContainer.png" />
+            <Image url="@../accessible/assets/imgs/supportContainer.png" />
          </image>
       </ImageView>
       <ImageView id="coinImage" fitHeight="51.0" fitWidth="62.0" layoutX="108.0" layoutY="118.0">
          <image>
-            <Image url="@../Images/coin.png" />
+            <Image url="@../accessible/assets/imgs/coin.png" />
          </image>
       </ImageView>
       <ImageView id="shieldImage" fitHeight="67.0" fitWidth="62.0" layoutX="249.0" layoutY="110.0">
          <image>
-            <Image url="@../Images/shield.png" />
+            <Image url="@../accessible/assets/imgs/shield.png" />
          </image>
       </ImageView>
       <ImageView id="servantImage" fitHeight="61.0" fitWidth="62.0" layoutX="393.0" layoutY="113.0">
          <image>
-            <Image url="@../Images/servant.png" />
+            <Image url="@../accessible/assets/imgs/servant.png" />
          </image>
       </ImageView>
       <ImageView id="stoneImage" fitHeight="67.0" fitWidth="62.0" layoutX="528.0" layoutY="110.0">
          <image>
-            <Image url="@../Images/stone.png" />
+            <Image url="@../accessible/assets/imgs/stone.png" />
          </image>
       </ImageView>
       <Label id="coin" layoutX="66.0" layoutY="112.0" text="8">

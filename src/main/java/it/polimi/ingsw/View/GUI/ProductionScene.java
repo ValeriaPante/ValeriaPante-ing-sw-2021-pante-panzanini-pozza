@@ -38,7 +38,7 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card1 = (AnchorPane) root.lookup("#card1");
         root.lookup("#tick1").setVisible(false);
         if(devCardOnTop[0] != 0){
-            InputStream in = getClass().getResourceAsStream("/Images/"+devCardOnTop[0]+".png");
+            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[0]+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(150);
@@ -54,7 +54,7 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card2 = (AnchorPane) root.lookup("#card2");
         root.lookup("#tick2").setVisible(false);
         if(devCardOnTop[1] != 0){
-            InputStream in = getClass().getResourceAsStream("/Images/"+devCardOnTop[1]+".png");
+            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[1]+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(150);
@@ -70,7 +70,7 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card3 = (AnchorPane) root.lookup("#card3");
         root.lookup("#tick3").setVisible(false);
         if(devCardOnTop[2] != 0){
-            InputStream in = getClass().getResourceAsStream("/Images/"+devCardOnTop[2]+".png");
+            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[2]+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(150);
@@ -95,7 +95,7 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card4 = (AnchorPane) root.lookup("#card4");
         root.lookup("#tick4").setVisible(false);
         if(devCardOnTop[3] != 0){
-            InputStream in = getClass().getResourceAsStream("/Images/"+devCardOnTop[3]+".png");
+            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[3]+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(150);
@@ -111,7 +111,7 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card5 = (AnchorPane) root.lookup("#card5");
         root.lookup("#tick5").setVisible(false);
         if(devCardOnTop[4] != 0){
-            InputStream in = getClass().getResourceAsStream("/Images/"+devCardOnTop[4]+".png");
+            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[4]+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(150);

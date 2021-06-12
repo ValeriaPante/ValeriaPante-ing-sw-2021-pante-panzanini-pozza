@@ -18,7 +18,7 @@ public class LeaderCardPrinter extends mapPrinter {
     private JsonObject currentCard;
 
     public LeaderCardPrinter(){
-        InputStream in = getClass().getResourceAsStream("/JSONs/LeaderCardsConfig.json");
+        InputStream in = getClass().getResourceAsStream("/accessible/JSONs/LeaderCardsConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String config = reader.lines().collect(Collectors.joining());
 

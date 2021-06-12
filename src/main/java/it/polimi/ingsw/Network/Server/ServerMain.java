@@ -13,7 +13,7 @@ public class ServerMain {
 
         PreGameRequestHandler controller = new PreGameRequestHandler(executorService);
 
-        Server server = new Server(1337, controller, executorService);
+        Server server = new Server(42000, controller, executorService);
         server.start();
 
     }

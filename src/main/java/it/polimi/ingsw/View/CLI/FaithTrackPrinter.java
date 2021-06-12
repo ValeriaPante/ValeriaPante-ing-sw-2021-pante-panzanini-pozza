@@ -12,7 +12,7 @@ public class FaithTrackPrinter {
     private final JsonArray vaticanRelations;
 
     public FaithTrackPrinter(){
-        InputStream in = getClass().getResourceAsStream("/JSONs/FaithTrackConfig.json");
+        InputStream in = getClass().getResourceAsStream("/accessible/JSONs/FaithTrackConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String config = reader.lines().collect(Collectors.joining());
 

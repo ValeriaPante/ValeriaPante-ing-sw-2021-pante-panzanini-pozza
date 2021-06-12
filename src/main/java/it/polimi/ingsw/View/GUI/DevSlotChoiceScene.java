@@ -39,7 +39,7 @@ public class DevSlotChoiceScene extends Initializable{
             for (int j = 0; j < devCards[i].length; j++){
                 if(devCards[i][j] != 0){
                     AnchorPane card = (AnchorPane) root.lookup("#card"+(j+3*i));
-                    InputStream in = getClass().getResourceAsStream("/Images/"+devCards[i][j]+".png");
+                    InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCards[i][j]+".png");
                     ImageView image = new ImageView();
                     image.setImage(new Image(in));
                     image.setFitWidth(150);

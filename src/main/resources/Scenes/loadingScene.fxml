@@ -11,7 +11,7 @@
    <children>
       <ImageView fitHeight="475.0" fitWidth="715.0">
          <image>
-            <Image url="@../Images/Immagine.jpg" />
+            <Image url="@../accessible/assets/imgs/Immagine.jpg" />
          </image>
       </ImageView>
       <Label layoutX="273.0" layoutY="14.0" prefHeight="38.0" prefWidth="170.0" text="Loading..." textFill="#f5ecd9">

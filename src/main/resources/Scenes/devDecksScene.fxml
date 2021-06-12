@@ -45,7 +45,7 @@
       <Region layoutX="424.0" layoutY="385.0" prefHeight="182.67" prefWidth="132.5" style="-fx-border-color: #ffd60a; -fx-border-width: 3;" />
       <ImageView id="quit" fitHeight="35.0" fitWidth="38.0" layoutX="3.0" layoutY="572.0">
          <image>
-            <Image url="@../Images/goback.png" />
+            <Image url="@../accessible/assets/imgs/goback.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

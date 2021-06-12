@@ -13,7 +13,7 @@
    <children>
       <ImageView fitHeight="302.0" fitWidth="464.0">
          <image>
-            <Image url="@../Images/colored.jpg" />
+            <Image url="@../accessible/assets/imgs/colored.jpg" />
          </image>
       </ImageView>
       <Pane id="pane" layoutX="463.0" prefHeight="308.0" prefWidth="103.0">
@@ -65,12 +65,12 @@
       </AnchorPane>
       <ImageView id="faith" fitHeight="29.0" fitWidth="25.0" layoutX="12.0" layoutY="54.0">
          <image>
-            <Image url="@../Images/faith.png" />
+            <Image url="@../accessible/assets/imgs/faith.png" />
          </image>
       </ImageView>
       <ImageView id="calamaio" fitHeight="29.0" fitWidth="25.0" layoutX="2.0" layoutY="2.0">
          <image>
-            <Image url="@../Images/calamaio.png" />
+            <Image url="@../accessible/assets/imgs/calamaio.png" />
          </image>
       </ImageView>
       <Region id="strongbox" layoutX="14.0" layoutY="225.0" prefHeight="54.0" prefWidth="79.0" />

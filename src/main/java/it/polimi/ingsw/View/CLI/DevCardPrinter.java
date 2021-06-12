@@ -17,7 +17,7 @@ public class DevCardPrinter extends mapPrinter{
     String color;
 
     public DevCardPrinter(){
-        InputStream in = getClass().getResourceAsStream("/JSONs/DevCardsConfig.json");
+        InputStream in = getClass().getResourceAsStream("/accessible/JSONs/DevCardsConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String config = reader.lines().collect(Collectors.joining());
 

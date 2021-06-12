@@ -42,8 +42,8 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
         AnchorPane card1 = (AnchorPane) root.lookup("#card1");
         AnchorPane card2 = (AnchorPane) root.lookup("#card2");
-        InputStream in1 = getClass().getResourceAsStream("/Images/"+lc.get(0)+".png");
-        InputStream in2 = getClass().getResourceAsStream("/Images/"+lc.get(1)+".png");
+        InputStream in1 = getClass().getResourceAsStream("/accessible/assets/imgs/" +lc.get(0)+".png");
+        InputStream in2 = getClass().getResourceAsStream("/accessible/assets/imgs/" +lc.get(1)+".png");
         ImageView image1 = new ImageView();
         ImageView image2 = new ImageView();
         image1.setImage(new Image(in1));
@@ -56,7 +56,7 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         card2.getChildren().add(image2);
 
         for (int k = 1; k < 4; k++){
-            InputStream in = getClass().getResourceAsStream("/Images/pope"+k+".png");
+            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/pope" +k+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(68);

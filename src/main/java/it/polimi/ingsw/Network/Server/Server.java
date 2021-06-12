@@ -46,6 +46,7 @@ public class Server{
                 this.executor.submit(() -> {
                     try {
                         ConnectionHandler connectionHandler = new ConnectionHandler(newClient, requestHandler);
+                        connectionHandler.update();
                         String nickname = connectionHandler.waitForNickname();
                         requestHandler.addNewSocket(nickname, connectionHandler);
                         //a questo punto se che tutto è settato correttamente, posso far partire il thread su connectionHandler

@@ -39,7 +39,7 @@ public class DiscountsScene extends Initializable{
 
         if(discountLC.size() == 2){
             AnchorPane card1 = (AnchorPane) root.getChildren().get(1);
-            InputStream in1 = getClass().getResourceAsStream("/Images/"+discountLC.get(0)+".png");
+            InputStream in1 = getClass().getResourceAsStream("/accessible/assets/imgs/" +discountLC.get(0)+".png");
             ImageView image1 = new ImageView();
             image1.setImage(new Image(in1));
             image1.setFitWidth(255);
@@ -51,7 +51,7 @@ public class DiscountsScene extends Initializable{
             card1.getChildren().add(image1);
 
             AnchorPane card2 = (AnchorPane) root.getChildren().get(2);
-            InputStream in2 = getClass().getResourceAsStream("/Images/"+discountLC.get(1)+".png");
+            InputStream in2 = getClass().getResourceAsStream("/accessible/assets/imgs/" +discountLC.get(1)+".png");
             ImageView image2 = new ImageView();
             image2.setImage(new Image(in2));
             image2.setFitWidth(255);
@@ -64,7 +64,7 @@ public class DiscountsScene extends Initializable{
 
         } else {
             AnchorPane card = (AnchorPane) root.getChildren().get(3);
-            InputStream in = getClass().getResourceAsStream("/Images/"+discountLC.get(0)+".png");
+            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +discountLC.get(0)+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(255);

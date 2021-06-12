@@ -26,7 +26,7 @@ public class LeaderCardScene extends ObservableByGUI{
         GridPane gridPane = (GridPane) root.lookup("#gridPane");
         ArrayList<Integer> leaderCards = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
         for(int i = 0; i  < leaderCards.size(); i++){
-            InputStream in = getClass().getResourceAsStream("/Images/"+leaderCards.get(i)+".png");
+            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +leaderCards.get(i)+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(200);

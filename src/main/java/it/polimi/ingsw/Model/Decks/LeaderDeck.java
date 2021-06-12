@@ -8,13 +8,8 @@ import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Enums.LeaderCardType;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -24,7 +19,7 @@ public class LeaderDeck implements Deck{
     public LeaderDeck() {
         deck = new ArrayList<>();
 
-        InputStream in = getClass().getResourceAsStream("/JSONs/LeaderCardsConfig.json");
+        InputStream in = getClass().getResourceAsStream("/accessible/JSONs/LeaderCardsConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String config = reader.lines().collect(Collectors.joining());
 

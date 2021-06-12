@@ -147,7 +147,7 @@ public class InitialResourcesScene extends ObservableByGUI{
     }
 
     private ImageView getImageFromResource(String resource){
-        InputStream in = getClass().getResourceAsStream("/Images/"+resource.toLowerCase()+".png");
+        InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +resource.toLowerCase()+".png");
         ImageView image = new ImageView();
         image.setImage(new Image(in));
         image.setFitWidth(70);

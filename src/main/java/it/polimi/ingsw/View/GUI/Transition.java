@@ -155,7 +155,7 @@ public class Transition {
     }
 
     public static void addCardInSlot(int playerIndex, int cardId, int slot, int row){
-        InputStream in = Transition.class.getResourceAsStream("/Images/"+cardId+".png");
+        InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +cardId+".png");
         ImageView image = new ImageView();
         image.setImage(new Image(in));
         image.setFitWidth(50);
@@ -166,7 +166,7 @@ public class Transition {
     }
 
     public static void addCardInSlot( int cardId, int slot, int row){
-        InputStream in = Transition.class.getResourceAsStream("/Images/"+cardId+".png");
+        InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +cardId+".png");
         ImageView image = new ImageView();
         image.setImage(new Image(in));
         image.setFitWidth(150);
@@ -200,7 +200,7 @@ public class Transition {
         if(isLocalPlayer){
             playerPane.lookup("#activate"+cardId).setDisable(true);
         } else {
-            InputStream in = Transition.class.getResourceAsStream("/Images/"+cardId+".png");
+            InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +cardId+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(100);
@@ -268,7 +268,7 @@ public class Transition {
                 case FACEDOWN:
                     break;
                 case FACEUP:
-                    InputStream in = Transition.class.getResourceAsStream("/Images/check.png");
+                    InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/check.png");
                     ImageView image = new ImageView();
                     image.setImage(new Image(in));
                     image.setFitWidth(31);
@@ -290,7 +290,7 @@ public class Transition {
                 case FACEDOWN:
                     break;
                 case FACEUP:
-                    InputStream in = Transition.class.getResourceAsStream("/Images/tick.png");
+                    InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/tick.png");
                     ImageView image = new ImageView();
                     image.setImage(new Image(in));
                     image.setFitWidth(31);
@@ -330,7 +330,7 @@ public class Transition {
     private static void insertImagesOnShelf(AnchorPane container, int i, int occupied, Resource resource){
         if(container.getChildren().size() > 0) container.getChildren().remove(0);
         if( i <= occupied){
-            InputStream in = Transition.class.getResourceAsStream("/Images/"+resource.toString().toLowerCase()+".png");
+            InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +resource.toString().toLowerCase()+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(18);
@@ -374,7 +374,7 @@ public class Transition {
             AnchorPane container = (AnchorPane) player.lookup("#lc"+(cardId)+(i));
             if(container.getChildren().size() > 0) container.getChildren().remove(0);
             if(resources.length >= i){
-                InputStream in = Transition.class.getResourceAsStream("/Images/"+resources[i - 1].toString().toLowerCase()+".png");
+                InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +resources[i - 1].toString().toLowerCase()+".png");
                 ImageView image = new ImageView();
                 image.setImage(new Image(in));
                 image.setFitWidth(34);
@@ -389,7 +389,7 @@ public class Transition {
             AnchorPane container = (AnchorPane) mainScene.getRoot().lookup("#lc"+(cardId)+(i));
             if(container.getChildren().size() > 0) container.getChildren().remove(0);
             if(resources.length >= i){
-                InputStream in = Transition.class.getResourceAsStream("/Images/"+resources[i - 1].toString().toLowerCase()+".png");
+                InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +resources[i - 1].toString().toLowerCase()+".png");
                 ImageView image = new ImageView();
                 image.setImage(new Image(in));
                 image.setFitWidth(86);

@@ -11,7 +11,7 @@
          <children>
             <ImageView>
                <image>
-                  <Image url="@../Images/Immagine.jpg" />
+                  <Image url="@../accessible/assets/imgs/Immagine.jpg" />
                </image>
             </ImageView>
             <Button id="startButton" layoutX="618.0" layoutY="479.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="138.0" text="Play">

@@ -35,7 +35,7 @@ public class DevDecksScene extends ObservableByGUI{
                     Region region = (Region) root.getChildren().get(2+i*4+j);
                     region.setVisible(false);
                     selection.put(devDecks[i][j], region);
-                    InputStream in = getClass().getResourceAsStream("/Images/"+devDecks[i][j]+".png");
+                    InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devDecks[i][j]+".png");
                     ImageView image = new ImageView();
                     image.setImage(new Image(in));
                     image.setFitWidth(120);
