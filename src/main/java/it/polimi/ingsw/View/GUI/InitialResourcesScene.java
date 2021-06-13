@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.SelectResourceMessage;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -79,7 +80,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                sendMessageToServer(MessageToServerCreator.createSelectResourceMessage(1, Resource.valueOf(db.getString())));
+                sendMessage(new SelectResourceMessage(1, Resource.valueOf(db.getString())));
                 count++;
                 success = true;
             }
@@ -105,7 +106,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                sendMessageToServer(MessageToServerCreator.createSelectResourceMessage(2, Resource.valueOf(db.getString())));
+                sendMessage(new SelectResourceMessage(2, Resource.valueOf(db.getString())));
                 count++;
                 success = true;
             }
@@ -131,7 +132,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                sendMessageToServer(MessageToServerCreator.createSelectResourceMessage(3, Resource.valueOf(db.getString())));
+                sendMessage(new SelectResourceMessage(3, Resource.valueOf(db.getString())));
                 count++;
                 success = true;
             }

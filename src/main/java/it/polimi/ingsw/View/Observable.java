@@ -1,11 +1,11 @@
 package it.polimi.ingsw.View;
 
-import it.polimi.ingsw.Network.Client.Client;
+import it.polimi.ingsw.Network.Client.MessageToServerManager;
 
 public abstract class Observable {
-    private Client observer;
+    private MessageToServerManager observer;
 
-    public void addObserver(Client observer){
+    public void addObserver(MessageToServerManager observer){
         this.observer = observer;
     }
 

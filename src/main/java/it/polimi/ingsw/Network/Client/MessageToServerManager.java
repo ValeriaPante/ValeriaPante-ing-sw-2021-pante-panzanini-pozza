@@ -4,14 +4,14 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
 import it.polimi.ingsw.Network.AssetDescriptor;
 import it.polimi.ingsw.Network.Client.Messages.*;
 import it.polimi.ingsw.Network.Receiver;
 import it.polimi.ingsw.Network.Sender;
 import it.polimi.ingsw.View.View;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
 import java.net.URISyntaxException;
@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class Client implements Runnable{
+public class MessageToServerManager implements Runnable, MessageManager{
 
     private Receiver fromServer;
     private Sender toServer;
@@ -29,7 +29,7 @@ public class Client implements Runnable{
     private final Gson gson;
     private final JsonParser parser;
 
-    public Client(View view){
+    public MessageToServerManager(View view){
         this.visitor = new Visitor(view);
         this.gson = new Gson();
         this. parser = new JsonParser();
@@ -144,10 +144,22 @@ public class Client implements Runnable{
         }
     }
 
+    @Override
+    public void update(InGameMessage message) {
+        toServer.send(MessageToJsonConverter.create(message));
+    }
+
+    @Override
+    public void update(PreGameMessage message) {
+        toServer.send(MessageToJsonConverter.create(message));
+    }
+
+    //to remove
     public void update(String inputLine) {
         toServer.send(inputLine);
     }
 
+    @Override
     public void connect(String ip, String port, String username) {
         try {
             Socket socket = new Socket(ip, Integer.parseInt(port));

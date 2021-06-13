@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.CreationLobbyMessage;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -27,7 +28,7 @@ public class LobbiesScene extends ObservableByGUI{
         FlowPane box = (FlowPane) scrollPane.getContent();
         Button newLobbyButton = (Button) root.lookup("#createLobbyButton");
         newLobbyButton.setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createCreationLobbyMessage());
+            sendMessage(new CreationLobbyMessage());
             Transition.toWaitingToStartScene();
         });
         Pane lobbyPane = null;

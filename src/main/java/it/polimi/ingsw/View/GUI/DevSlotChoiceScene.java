@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.ChooseDevSlotMessage;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
@@ -22,15 +23,15 @@ public class DevSlotChoiceScene extends Initializable{
     @Override
     public void initialise(){
         root.lookup("#slot1").setOnMouseClicked(mouseEvent -> {
-            sendMessageToServer(MessageToServerCreator.createChooseDevSlotMessage(1));
+            sendMessage(new ChooseDevSlotMessage(1));
             observer.getCurrentState().next();
         });
         root.lookup("#slot2").setOnMouseClicked(mouseEvent -> {
-            sendMessageToServer(MessageToServerCreator.createChooseDevSlotMessage(2));
+            sendMessage(new ChooseDevSlotMessage(2));
             observer.getCurrentState().next();
         });
         root.lookup("#slot3").setOnMouseClicked(mouseEvent -> {
-            sendMessageToServer(MessageToServerCreator.createChooseDevSlotMessage(3));
+            sendMessage(new ChooseDevSlotMessage(3));
             observer.getCurrentState().next();
         });
 

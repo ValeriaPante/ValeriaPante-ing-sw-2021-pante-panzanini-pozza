@@ -2,7 +2,9 @@ package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Network.Client.Client;
+import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.DisconnectMessage;
+import it.polimi.ingsw.Network.Client.MessageManager;
+import it.polimi.ingsw.Network.Client.MessageToServerManager;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -37,13 +39,17 @@ public class Transition {
     private static Scene winnerScene;
     private static boolean onContainersScene;
 
-    public static void setPrimaryStage(Stage primaryStage, Client connectionHandler) {
+    public static void setPrimaryStage(Stage primaryStage) {
         Transition.primaryStage = primaryStage;
-        primaryStage.setOnCloseRequest(windowEvent -> connectionHandler.update(MessageToServerCreator.createDisconnectMessage()));
     }
 
     public static void setDialogStage(Stage dialogStage){
         Transition.dialogStage = dialogStage;
+    }
+
+    public static void setDisconnectOnClose(MessageManager connectionHandler){
+        primaryStage.setOnCloseRequest(windowEvent -> connectionHandler.update(new DisconnectMessage()));
+
     }
 
     public static void setDialogScene(Pane scene){

@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.TransmutationMessage;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -53,7 +54,7 @@ public class TransmutationScene extends Initializable{
 
         Button sendButton = (Button) root.lookup("#buyButton");
         sendButton.setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createTransmutationMessage(lc.get(0), lc.get(1), spinner1.getValue(), spinner2.getValue()));
+            sendMessage(new TransmutationMessage(lc.get(0), lc.get(1), spinner1.getValue(), spinner2.getValue()));
             Transition.hideDialog();
         });
 

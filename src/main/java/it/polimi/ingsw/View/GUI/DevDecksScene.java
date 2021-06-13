@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.BuyDevCardMessage;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -55,7 +56,7 @@ public class DevDecksScene extends ObservableByGUI{
 
         Button sendButton = (Button) root.lookup("#buyButton");
         sendButton.setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createBuyDevCardMessage());
+            sendMessage(new BuyDevCardMessage());
             observer.toBuyDevCardState();
             Transition.hideDialog();
         });

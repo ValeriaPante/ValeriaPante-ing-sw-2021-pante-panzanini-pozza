@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.*;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -93,7 +94,7 @@ public class PaymentScene extends Initializable{
         completeMap(leaderStorages2);
 
         ((Button) root.lookup("#minusButton0")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createShelfDeselectionMessage(shelfNumbers.get(Resource.COIN), Resource.COIN));
+            sendMessage(new ShelfDeselectionMessage(shelfNumbers.get(Resource.COIN), Resource.COIN));
             Label count = (Label) root.lookup("#count0");
             int currentCount = Integer.parseInt(count.getText())-1;
             count.setText(String.valueOf(currentCount));
@@ -106,7 +107,7 @@ public class PaymentScene extends Initializable{
         });
         root.lookup("#minusButton0").setDisable(true);
         ((Button) root.lookup("#plusButton0")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createShelfSelectionMessage(shelfNumbers.get(Resource.COIN), Resource.COIN));
+            sendMessage(new ShelfSelectionMessage(shelfNumbers.get(Resource.COIN), Resource.COIN));
             Label count = (Label) root.lookup("#count0");
             int currentCount = Integer.parseInt(count.getText())+1;
             count.setText(String.valueOf(currentCount));
@@ -120,7 +121,7 @@ public class PaymentScene extends Initializable{
         if(shelves.get(Resource.COIN) == 0) root.lookup("#plusButton0").setDisable(true);
 
         ((Button) root.lookup("#minusButton1")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createShelfDeselectionMessage(shelfNumbers.get(Resource.SHIELD), Resource.SHIELD));
+            sendMessage(new ShelfDeselectionMessage(shelfNumbers.get(Resource.SHIELD), Resource.SHIELD));
             Label count = (Label) root.lookup("#count1");
             int currentCount = Integer.parseInt(count.getText())-1;
             count.setText(String.valueOf(currentCount));
@@ -133,7 +134,7 @@ public class PaymentScene extends Initializable{
         });
         root.lookup("#minusButton1").setDisable(true);
         ((Button) root.lookup("#plusButton1")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createShelfSelectionMessage(shelfNumbers.get(Resource.SHIELD), Resource.SHIELD));
+            sendMessage(new ShelfSelectionMessage(shelfNumbers.get(Resource.SHIELD), Resource.SHIELD));
             Label count = (Label) root.lookup("#count1");
             int currentCount = Integer.parseInt(count.getText())+1;
             count.setText(String.valueOf(currentCount));
@@ -147,7 +148,7 @@ public class PaymentScene extends Initializable{
         if(shelves.get(Resource.SHIELD) == 0) ( root.lookup("#plusButton1")).setDisable(true);
 
         ((Button) root.lookup("#minusButton2")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createShelfDeselectionMessage(shelfNumbers.get(Resource.SERVANT), Resource.SERVANT));
+            sendMessage(new ShelfDeselectionMessage(shelfNumbers.get(Resource.SERVANT), Resource.SERVANT));
             Label count = (Label) root.lookup("#count2");
             int currentCount = Integer.parseInt(count.getText())-1;
             count.setText(String.valueOf(currentCount));
@@ -160,7 +161,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton2")).setDisable(true);
         ((Button) root.lookup("#plusButton2")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createShelfSelectionMessage(shelfNumbers.get(Resource.SERVANT), Resource.SERVANT));
+            sendMessage(new ShelfSelectionMessage(shelfNumbers.get(Resource.SERVANT), Resource.SERVANT));
             Label count = (Label) root.lookup("#count2");
             int currentCount = Integer.parseInt(count.getText())+1;
             count.setText(String.valueOf(currentCount));
@@ -174,7 +175,7 @@ public class PaymentScene extends Initializable{
         if(shelves.get(Resource.SERVANT) == 0) ( root.lookup("#plusButton2")).setDisable(true);
 
         ((Button) root.lookup("#minusButton3")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createShelfDeselectionMessage(shelfNumbers.get(Resource.STONE), Resource.STONE));
+            sendMessage(new ShelfDeselectionMessage(shelfNumbers.get(Resource.STONE), Resource.STONE));
             Label count = (Label) root.lookup("#count3");
             int currentCount = Integer.parseInt(count.getText())-1;
             count.setText(String.valueOf(currentCount));
@@ -187,7 +188,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton3")).setDisable(true);
         ((Button) root.lookup("#plusButton3")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createShelfSelectionMessage(shelfNumbers.get(Resource.STONE), Resource.STONE));
+            sendMessage( new ShelfSelectionMessage(shelfNumbers.get(Resource.STONE), Resource.STONE));
             Label count = (Label) root.lookup("#count3");
             int currentCount = Integer.parseInt(count.getText())+1;
             count.setText(String.valueOf(currentCount));
@@ -204,7 +205,7 @@ public class PaymentScene extends Initializable{
 
 
         ((Button) root.lookup("#minusButton4")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createStrongBoxDeselectionMessage(1, Resource.COIN));
+            sendMessage(new StrongBoxDeselectionMessage(1, Resource.COIN));
             Label count = (Label) root.lookup("#count4");
             int currentCount = Integer.parseInt(count.getText())-1;
             count.setText(String.valueOf(currentCount));
@@ -217,7 +218,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton4")).setDisable(true);
         ((Button) root.lookup("#plusButton4")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createStrongBoxSelectionMessage(1, Resource.COIN));
+            sendMessage(new StrongBoxSelectionMessage(1, Resource.COIN));
             Label count = (Label) root.lookup("#count4");
             int currentCount = Integer.parseInt(count.getText())+1;
             count.setText(String.valueOf(currentCount));
@@ -231,7 +232,7 @@ public class PaymentScene extends Initializable{
         if(strongbox.get(Resource.COIN) == 0) ( root.lookup("#plusButton4")).setDisable(true);
 
         ((Button) root.lookup("#minusButton5")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createStrongBoxDeselectionMessage(1, Resource.SHIELD));
+            sendMessage(new StrongBoxDeselectionMessage(1, Resource.SHIELD));
             Label count = (Label) root.lookup("#count5");
             int currentCount = Integer.parseInt(count.getText())-1;
             count.setText(String.valueOf(currentCount));
@@ -244,7 +245,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton5")).setDisable(true);
         ((Button) root.lookup("#plusButton5")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createStrongBoxSelectionMessage(1, Resource.SHIELD));
+            sendMessage(new StrongBoxSelectionMessage(1, Resource.SHIELD));
             Label count = (Label) root.lookup("#count5");
             int currentCount = Integer.parseInt(count.getText())+1;
             count.setText(String.valueOf(currentCount));
@@ -258,7 +259,7 @@ public class PaymentScene extends Initializable{
         if(strongbox.get(Resource.SHIELD) == 0) ( root.lookup("#plusButton5")).setDisable(true);
 
         ((Button) root.lookup("#minusButton6")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createStrongBoxDeselectionMessage(1, Resource.SERVANT));
+            sendMessage(new StrongBoxDeselectionMessage(1, Resource.SERVANT));
             Label count = (Label) root.lookup("#count6");
             int currentCount = Integer.parseInt(count.getText())-1;
             count.setText(String.valueOf(currentCount));
@@ -271,7 +272,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton6")).setDisable(true);
         ((Button) root.lookup("#plusButton6")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createStrongBoxSelectionMessage(1, Resource.SERVANT));
+            sendMessage(new StrongBoxSelectionMessage(1, Resource.SERVANT));
             Label count = (Label) root.lookup("#count6");
             int currentCount = Integer.parseInt(count.getText())+1;
             count.setText(String.valueOf(currentCount));
@@ -285,7 +286,7 @@ public class PaymentScene extends Initializable{
         if(strongbox.get(Resource.SERVANT) == 0) ( root.lookup("#plusButton6")).setDisable(true);
 
         ((Button) root.lookup("#minusButton7")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createStrongBoxDeselectionMessage(1, Resource.STONE));
+            sendMessage(new StrongBoxDeselectionMessage(1, Resource.STONE));
             Label count = (Label) root.lookup("#count7");
             int currentCount = Integer.parseInt(count.getText())-1;
             count.setText(String.valueOf(currentCount));
@@ -298,7 +299,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton7")).setDisable(true);
         ((Button) root.lookup("#plusButton7")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createStrongBoxSelectionMessage(1, Resource.STONE));
+            sendMessage(new StrongBoxSelectionMessage(1, Resource.STONE));
             Label count = (Label) root.lookup("#count7");
             int currentCount = Integer.parseInt(count.getText())+1;
             count.setText(String.valueOf(currentCount));
@@ -312,7 +313,7 @@ public class PaymentScene extends Initializable{
         if(strongbox.get(Resource.STONE) == 0) ( root.lookup("#plusButton7")).setDisable(true);
 
         ((Button) root.lookup("#minusButton8")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.COIN, previousPosition1.get(Resource.COIN), leaderStoragesID[0]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], previousPosition1.get(Resource.COIN), Resource.COIN));
             updatePosition(leaderStoragesID[0], Resource.COIN, previousPosition1, nextPosition1);
             Label count = (Label) root.lookup("#count8");
             int currentCount = Integer.parseInt(count.getText())-1;
@@ -326,7 +327,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton8")).setDisable(true);
         ((Button) root.lookup("#plusButton8")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.COIN, nextPosition1.get(Resource.COIN), leaderStoragesID[0]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], nextPosition1.get(Resource.COIN), Resource.COIN));
             updatePosition(leaderStoragesID[0], Resource.COIN, nextPosition1, previousPosition1);
             Label count = (Label) root.lookup("#count8");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -341,7 +342,7 @@ public class PaymentScene extends Initializable{
         if(leaderStorages1.get(Resource.COIN) == 0) ( root.lookup("#plusButton8")).setDisable(true);
 
         ((Button) root.lookup("#minusButton9")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SHIELD, previousPosition1.get(Resource.SHIELD), leaderStoragesID[0]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], previousPosition1.get(Resource.SHIELD), Resource.SHIELD));
             updatePosition(leaderStoragesID[0], Resource.SHIELD, previousPosition1, nextPosition1);
             Label count = (Label) root.lookup("#count9");
             int currentCount = Integer.parseInt(count.getText())-1;
@@ -355,7 +356,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton9")).setDisable(true);
         ((Button) root.lookup("#plusButton9")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SHIELD, nextPosition1.get(Resource.SHIELD), leaderStoragesID[0]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], nextPosition1.get(Resource.SHIELD), Resource.SHIELD));
             updatePosition(leaderStoragesID[0], Resource.SHIELD, nextPosition1, previousPosition1);
             Label count = (Label) root.lookup("#count9");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -370,7 +371,7 @@ public class PaymentScene extends Initializable{
         if(leaderStorages1.get(Resource.SHIELD) == 0) ( root.lookup("#plusButton9")).setDisable(true);
 
         ((Button) root.lookup("#minusButton10")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SERVANT, previousPosition1.get(Resource.SERVANT), leaderStoragesID[0]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], previousPosition1.get(Resource.SERVANT), Resource.SERVANT));
             updatePosition(leaderStoragesID[0], Resource.SERVANT, previousPosition1, nextPosition1);
             Label count = (Label) root.lookup("#count10");
             int currentCount = Integer.parseInt(count.getText())-1;
@@ -384,7 +385,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton10")).setDisable(true);
         ((Button) root.lookup("#plusButton10")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SERVANT, nextPosition1.get(Resource.SERVANT), leaderStoragesID[0]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], nextPosition1.get(Resource.SERVANT), Resource.SERVANT));
             updatePosition(leaderStoragesID[0], Resource.SERVANT, nextPosition1, previousPosition1);
             Label count = (Label) root.lookup("#count10");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -399,7 +400,7 @@ public class PaymentScene extends Initializable{
         if(leaderStorages1.get(Resource.SERVANT) == 0) ( root.lookup("#plusButton10")).setDisable(true);
 
         ((Button) root.lookup("#minusButton11")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.STONE, previousPosition1.get(Resource.STONE), leaderStoragesID[0]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], previousPosition1.get(Resource.STONE), Resource.STONE));
             updatePosition(leaderStoragesID[0], Resource.STONE, previousPosition1, nextPosition1);
             Label count = (Label) root.lookup("#count11");
             int currentCount = Integer.parseInt(count.getText())-1;
@@ -413,7 +414,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton11")).setDisable(true);
         ((Button) root.lookup("#plusButton11")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.STONE, nextPosition1.get(Resource.STONE), leaderStoragesID[0]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], nextPosition1.get(Resource.STONE), Resource.STONE));
             updatePosition(leaderStoragesID[0], Resource.STONE, nextPosition1, previousPosition1);
             Label count = (Label) root.lookup("#count11");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -428,7 +429,7 @@ public class PaymentScene extends Initializable{
         if(leaderStorages1.get(Resource.STONE) == 0) ( root.lookup("#plusButton11")).setDisable(true);
 
         ((Button) root.lookup("#minusButton12")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.COIN, previousPosition2.get(Resource.COIN), leaderStoragesID[1]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], previousPosition2.get(Resource.COIN), Resource.COIN));
             updatePosition(leaderStoragesID[1], Resource.COIN, previousPosition2, nextPosition2);
             Label count = (Label) root.lookup("#count12");
             int currentCount = Integer.parseInt(count.getText())-1;
@@ -442,7 +443,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton12")).setDisable(true);
         ((Button) root.lookup("#plusButton12")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.COIN, nextPosition2.get(Resource.COIN), leaderStoragesID[1]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], nextPosition2.get(Resource.COIN), Resource.COIN));
             updatePosition(leaderStoragesID[1], Resource.COIN, nextPosition2, previousPosition2);
             Label count = (Label) root.lookup("#count12");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -457,7 +458,7 @@ public class PaymentScene extends Initializable{
         if(leaderStorages2.get(Resource.COIN) == 0) ( root.lookup("#plusButton12")).setDisable(true);
 
         ((Button) root.lookup("#minusButton13")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SHIELD, previousPosition2.get(Resource.SHIELD), leaderStoragesID[1]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], previousPosition2.get(Resource.SHIELD), Resource.SHIELD));
             updatePosition(leaderStoragesID[1], Resource.SHIELD, previousPosition2, nextPosition2);
             Label count = (Label) root.lookup("#coun13");
             int currentCount = Integer.parseInt(count.getText())-1;
@@ -471,7 +472,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton13")).setDisable(true);
         ((Button) root.lookup("#plusButton13")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SHIELD, nextPosition2.get(Resource.SHIELD), leaderStoragesID[1]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], nextPosition2.get(Resource.SHIELD), Resource.SHIELD));
             updatePosition(leaderStoragesID[1], Resource.SHIELD, nextPosition2, previousPosition2);
             Label count = (Label) root.lookup("#count13");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -486,7 +487,7 @@ public class PaymentScene extends Initializable{
         if(leaderStorages2.get(Resource.SHIELD) == 0) ( root.lookup("#plusButton13")).setDisable(true);
 
         ((Button) root.lookup("#minusButton14")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SERVANT, previousPosition2.get(Resource.SERVANT), leaderStoragesID[1]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], previousPosition2.get(Resource.SERVANT), Resource.SERVANT));
             updatePosition(leaderStoragesID[1], Resource.SERVANT, previousPosition2, nextPosition2);
             Label count = (Label) root.lookup("#count14");
             int currentCount = Integer.parseInt(count.getText())-1;
@@ -500,7 +501,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton14")).setDisable(true);
         ((Button) root.lookup("#plusButton14")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.SERVANT, nextPosition2.get(Resource.SERVANT), leaderStoragesID[1]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], nextPosition2.get(Resource.SERVANT), Resource.SERVANT));
             updatePosition(leaderStoragesID[1], Resource.SERVANT, nextPosition2, previousPosition2);
             Label count = (Label) root.lookup("#count14");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -515,7 +516,7 @@ public class PaymentScene extends Initializable{
         if(leaderStorages2.get(Resource.SERVANT) == 0) ( root.lookup("#plusButton14")).setDisable(true);
 
         ((Button) root.lookup("#minusButton15")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.STONE, previousPosition2.get(Resource.STONE), leaderStoragesID[1]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], previousPosition2.get(Resource.STONE), Resource.STONE));
             updatePosition(leaderStoragesID[1], Resource.STONE, previousPosition2, nextPosition2);
             Label count = (Label) root.lookup("#count15");
             int currentCount = Integer.parseInt(count.getText())-1;
@@ -529,7 +530,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton15")).setDisable(true);
         ((Button) root.lookup("#plusButton15")).setOnAction(event -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderStorageSelectionMessage(Resource.STONE, nextPosition2.get(Resource.STONE), leaderStoragesID[1]));
+            sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], nextPosition2.get(Resource.STONE), Resource.STONE));
             updatePosition(leaderStoragesID[1], Resource.STONE, nextPosition2, previousPosition2);
             Label count = (Label) root.lookup("#count15");
             int currentCount = Integer.parseInt(count.getText())+1;

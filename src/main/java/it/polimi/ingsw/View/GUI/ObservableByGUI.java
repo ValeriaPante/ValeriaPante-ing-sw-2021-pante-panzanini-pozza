@@ -1,5 +1,8 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
+
 public abstract class ObservableByGUI {
     protected GUI observer;
 
@@ -7,11 +10,15 @@ public abstract class ObservableByGUI {
         this.observer = observer;
     }
 
-    public void sendMessageToServer(String messageToSend){
-        observer.getClient().update(messageToSend);
+    public void sendMessage(InGameMessage messageToSend){
+        observer.getMessageManager().update(messageToSend);
+    }
+
+    public void sendMessage(PreGameMessage messageToSend){
+        observer.getMessageManager().update(messageToSend);
     }
 
     public void connect(String ip, String port, String username){
-        observer.getClient().connect(ip, port, username);
+        observer.getMessageManager().connect(ip, port, username);
     }
 }

@@ -2,7 +2,8 @@ package it.polimi.ingsw.View.GUI;
 
 
 import it.polimi.ingsw.Enums.PopeFavorCardState;
-import it.polimi.ingsw.Network.Client.Client;
+import it.polimi.ingsw.Network.Client.MessageManager;
+import it.polimi.ingsw.Network.Client.MessageToServerManager;
 import it.polimi.ingsw.View.ClientModel.Game;
 import it.polimi.ingsw.View.GUI.States.*;
 import it.polimi.ingsw.View.View;
@@ -13,7 +14,7 @@ import javafx.stage.Stage;
 
 public class GUI extends Application implements View {
     private Game model;
-    private Client client;
+    private MessageManager messageManager;
     private State currentState;
     private int gamePhase;
     private boolean actionDone;
@@ -21,10 +22,10 @@ public class GUI extends Application implements View {
     @Override
     public void start(Stage stage) throws Exception{
         model = new Game();
-        client = new Client(this);
+        messageManager = new MessageToServerManager(this);
 
         stage.setTitle("Masters of Renaissance ");
-        Transition.setPrimaryStage(stage, client);
+        Transition.setPrimaryStage(stage);
         WelcomeScene welcomeScene = new WelcomeScene();
         welcomeScene.addObserver(this);
         Transition.setWelcomeScene(welcomeScene);
@@ -34,8 +35,11 @@ public class GUI extends Application implements View {
 
     }
 
-    public Client getClient(){
-        return this.client;
+    public void setMessageManager(MessageManager messageManager){
+        this.messageManager = messageManager;
+    }
+    public MessageManager getMessageManager(){
+        return this.messageManager;
     }
 
     @Override

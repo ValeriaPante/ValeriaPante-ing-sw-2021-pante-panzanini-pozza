@@ -1,5 +1,7 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.EndTurnMessage;
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.LeaderCardActionMessage;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -72,28 +74,28 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         Button activate1 = (Button) root.lookup("#activate1");
         activate1.setId(lc.get(0).toString());
         activate1.setOnAction(actionEvent -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
+            sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
             actionEvent.consume();
         });
         activate1.setId("activate"+lc.get(0));
         Button discard1 = (Button) root.lookup("#discard1");
         discard1.setId(lc.get(0).toString());
         discard1.setOnAction(actionEvent -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
+            sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
             actionEvent.consume();
         });
         discard1.setId("discard"+lc.get(0));
         Button activate2 = (Button) root.lookup("#activate2");
         activate2.setId(lc.get(1).toString());
         activate2.setOnAction(actionEvent -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
+            sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
             actionEvent.consume();
         });
         activate2.setId("activate"+lc.get(1));
         Button discard2 = (Button) root.lookup("#discard2");
         discard2.setId(lc.get(1).toString());
         discard2.setOnAction(actionEvent -> {
-            sendMessageToServer(MessageToServerCreator.createLeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
+            sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
             actionEvent.consume();
         });
         discard2.setId("discard"+lc.get(1));
@@ -104,7 +106,7 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         menu.getItems().get(1).setOnAction(actionEvent -> observer.showDevDecks());
         menu.getItems().get(2).setOnAction(actionEvent -> observer.activateProduction());
         menu.getItems().get(3).setOnAction(actionEvent -> observer.showDeposits());
-        menu.getItems().get(4).setOnAction(actionEvent -> sendMessageToServer(MessageToServerCreator.createEndTurnMessage()));
+        menu.getItems().get(4).setOnAction(actionEvent -> sendMessage(new EndTurnMessage()));
     }
 
     public Pane getRoot() {
