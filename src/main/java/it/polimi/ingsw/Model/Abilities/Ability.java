@@ -72,30 +72,30 @@ public class Ability implements Payable{
     //type == LeaderCardType.DISCOUNT, map represent the amount discount
     //type == LeaderCardType.TRANSMUTATION, map represent the amount of resources that the white must be transmuted in to
     //type == LeaderCardType.STORAGE map, represent the capacity of the storage
-    public Ability(EnumMap<Resource, Integer> map, LeaderCardType type){
+    public Ability(EnumMap<Resource, Integer> map1, EnumMap<Resource, Integer> map2, LeaderCardType type){
         if (type == LeaderCardType.STORAGE){
-            this.storageAbilityBehavior = new WithStorageAbilityBehavior(map);
+            this.storageAbilityBehavior = new WithStorageAbilityBehavior(map1);
             this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
             this.transmutationAbilityBehavior = new WithoutTransmutationAbilityBehavior();
             this.productionPowerBehavior = new WithoutProductionPowerBehavior();
         }
         else if (type == LeaderCardType.DISCOUNT){
             this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
-            this.discountAbilityBehavior = new WithDiscountAbilityBehavior(map);
+            this.discountAbilityBehavior = new WithDiscountAbilityBehavior(map1);
             this.transmutationAbilityBehavior = new WithoutTransmutationAbilityBehavior();
             this.productionPowerBehavior = new WithoutProductionPowerBehavior();
         }
         else if (type == LeaderCardType.TRANSMUTATION){
             this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
             this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
-            this.transmutationAbilityBehavior = new WithTransmutationAbilityBehavior(map);
+            this.transmutationAbilityBehavior = new WithTransmutationAbilityBehavior(map1);
             this.productionPowerBehavior = new WithoutProductionPowerBehavior();
         }
         else if (type == LeaderCardType.PRODPOWER){
             this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
             this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
             this.transmutationAbilityBehavior = new WithoutTransmutationAbilityBehavior();
-            this.productionPowerBehavior = new WithProductionPowerBehavior(map);
+            this.productionPowerBehavior = new WithProductionPowerBehavior(map1, map2);
         }
         //questo else lo teniamo per sicurezza
         else{

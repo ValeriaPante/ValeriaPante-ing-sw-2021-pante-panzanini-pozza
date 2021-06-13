@@ -29,6 +29,7 @@ public class SelectionControllerTest {
                 new HashMap<>(),
                 LeaderCardType.PRODPOWER,
                 new EnumMap<Resource, Integer>(Resource.class),
+                new EnumMap<>(Resource.class),
                 9999
                 );
         player.addLeaderCard(lc);
@@ -50,6 +51,7 @@ public class SelectionControllerTest {
                 new EnumMap<>(Resource.class),
                 new HashMap<>(),
                 LeaderCardType.PRODPOWER,
+                new EnumMap<>(Resource.class),
                 new EnumMap<>(Resource.class),
                 9998
         );
@@ -89,6 +91,7 @@ public class SelectionControllerTest {
                 new HashMap<>(),
                 LeaderCardType.PRODPOWER,
                 new EnumMap<>(Resource.class),
+                new EnumMap<>(Resource.class),
                 9999
         );
         player.addLeaderCard(lc);
@@ -97,6 +100,7 @@ public class SelectionControllerTest {
                 new EnumMap<>(Resource.class),
                 new HashMap<>(),
                 LeaderCardType.PRODPOWER,
+                new EnumMap<>(Resource.class),
                 new EnumMap<>(Resource.class),
                 9997
         );
@@ -126,6 +130,7 @@ public class SelectionControllerTest {
                 new HashMap<>(),
                 LeaderCardType.PRODPOWER,
                 new EnumMap<>(Resource.class),
+                new EnumMap<>(Resource.class),
                 9998
         );
         player2.addLeaderCard(lc2);
@@ -134,6 +139,7 @@ public class SelectionControllerTest {
                 new EnumMap<>(Resource.class),
                 new HashMap<>(),
                 LeaderCardType.PRODPOWER,
+                new EnumMap<>(Resource.class),
                 new EnumMap<>(Resource.class),
                 9996
         );

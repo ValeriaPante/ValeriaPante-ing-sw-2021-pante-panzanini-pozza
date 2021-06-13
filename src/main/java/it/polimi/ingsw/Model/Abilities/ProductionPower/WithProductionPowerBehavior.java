@@ -13,10 +13,16 @@ public class WithProductionPowerBehavior implements ProductionPowerBehavior {
         return new ProductionPower(this.input, this.output);
     }
 
-    public WithProductionPowerBehavior(EnumMap<Resource, Integer> input){
+    public WithProductionPowerBehavior(EnumMap<Resource, Integer> input, EnumMap<Resource, Integer> output){
         this.input = input.clone();
-        this.output = new EnumMap<>(Resource.class);
-        this.output.put(Resource.ANY, 1);
-        this.output.put(Resource.FAITH,1);
+
+        if(output.isEmpty()){
+            this.output = new EnumMap<>(Resource.class);
+            this.output.put(Resource.ANY, 1);
+            this.output.put(Resource.FAITH,1);
+        } else {
+            this.output = output.clone();
+        }
+
     }
 }

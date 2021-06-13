@@ -274,7 +274,12 @@
 		],
 		"LeaderCardType": "PRODPOWER",
 		"prodpower": {
-			"SHIELD": 1
+			"input": {
+				"SHIELD": 1
+			},
+			"output": {
+
+			}
 		}
 	},
 
@@ -293,7 +298,12 @@
 		],
 		"LeaderCardType": "PRODPOWER",
 		"prodpower": {
-			"SERVANT": 1
+			"input": {
+				"SERVANT": 1
+			},
+			"output": {
+
+			}
 		}
 	},
 
@@ -312,7 +322,12 @@
 		],
 		"LeaderCardType": "PRODPOWER",
 		"prodpower": {
-			"STONE": 1
+			"input": {
+				"STONE": 1
+			},
+			"output": {
+
+			}
 		}
 	},
 
@@ -331,7 +346,12 @@
 		],
 		"LeaderCardType": "PRODPOWER",
 		"prodpower": {
-			"COIN": 1
+			"input": {
+				"COIN": 1
+			},
+			"output": {
+
+			}
 		}
 	}
 ]

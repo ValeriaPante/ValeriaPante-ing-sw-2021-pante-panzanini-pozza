@@ -12,12 +12,13 @@ public class LeaderCard extends CardVP{
     private final Map<DevCardType, Integer> devCardReq;
     private final LeaderCardType type;
     private final EnumMap<Resource, Integer> input;
+    private final EnumMap<Resource, Integer> output;
     private Ability ability;
     private boolean played;
     private final int id;
     private boolean selected;
 
-    public LeaderCard(int vp, EnumMap<Resource, Integer> resourceReq, Map<DevCardType, Integer> devCardReq, LeaderCardType type, EnumMap<Resource, Integer> input, int id) throws IllegalArgumentException{
+    public LeaderCard(int vp, EnumMap<Resource, Integer> resourceReq, Map<DevCardType, Integer> devCardReq, LeaderCardType type, EnumMap<Resource, Integer> input, EnumMap<Resource, Integer> output, int id) throws IllegalArgumentException{
         super(vp);
 
         if(resourceReq == null || devCardReq == null || type == null || input == null){
@@ -31,6 +32,7 @@ public class LeaderCard extends CardVP{
         }
         this.devCardReq = temp;
         this.input = input.clone();
+        this.output = output.clone();
         this.ability = null;
         played = false;
         selected = false;
@@ -65,7 +67,7 @@ public class LeaderCard extends CardVP{
 
     public void play(){
         this.played = true;
-        this.ability = new Ability(this.input, this.type);
+        this.ability = new Ability(this.input, this.output, this.type);
 
     }
 

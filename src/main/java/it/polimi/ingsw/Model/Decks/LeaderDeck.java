@@ -14,7 +14,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class LeaderDeck implements Deck{
-    private List<LeaderCard> deck;
+    private final List<LeaderCard> deck;
 
     public LeaderDeck() {
         deck = new ArrayList<>();
@@ -26,6 +26,7 @@ public class LeaderDeck implements Deck{
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
         Map<DevCardType, Integer> devCardReq = new HashMap<>();
         EnumMap<Resource, Integer> input = new EnumMap<>(Resource.class);
+        EnumMap<Resource, Integer> output = new EnumMap<>(Resource.class);
 
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
@@ -41,10 +42,23 @@ public class LeaderDeck implements Deck{
                 s = card.get("LeaderCardType").getAsString().toLowerCase();
                 LeaderCardType type = gson.fromJson(card.get("LeaderCardType"), LeaderCardType.class);
 
-                Map<Resource, Integer> map = gson.fromJson(card.get(s), new TypeToken<HashMap<Resource, Integer>>(){}.getType());
-                for(Map.Entry<Resource, Integer> entry: map.entrySet()){
-                    input.put(entry.getKey(), entry.getValue());
+                Map<Resource, Integer> map;
+                if(!s.equals("prodpower")){
+                    map = gson.fromJson(card.get(s), new TypeToken<HashMap<Resource, Integer>>(){}.getType());
+                    for(Map.Entry<Resource, Integer> entry: map.entrySet()){
+                        input.put(entry.getKey(), entry.getValue());
+                    }
+                } else {
+                    map = gson.fromJson(card.get(s).getAsJsonObject().get("input"), new TypeToken<HashMap<Resource, Integer>>(){}.getType());
+                    for(Map.Entry<Resource, Integer> entry: map.entrySet()){
+                        input.put(entry.getKey(), entry.getValue());
+                    }
+                    map = gson.fromJson(card.get(s).getAsJsonObject().get("output"), new TypeToken<HashMap<Resource, Integer>>(){}.getType());
+                    for(Map.Entry<Resource, Integer> entry: map.entrySet()){
+                        output.put(entry.getKey(), entry.getValue());
+                    }
                 }
+
 
                 map = gson.fromJson(card.get("resourceReq"),new TypeToken<HashMap<Resource, Integer>>(){}.getType());
                 for(Map.Entry<Resource, Integer> entry: map.entrySet()){
@@ -57,11 +71,12 @@ public class LeaderDeck implements Deck{
                     devCardReq.put(gson.fromJson(obj.get("devCardType"), DevCardType.class), obj.get("quantity").getAsInt());
                 }
 
-                deck.add(new LeaderCard(card.get("victoryPoints").getAsInt(), resourceReq, devCardReq, type, input, card.get("id").getAsInt()));
+                deck.add(new LeaderCard(card.get("victoryPoints").getAsInt(), resourceReq, devCardReq, type, input, output, card.get("id").getAsInt()));
 
                 resourceReq.clear();
                 devCardReq.clear();
                 input.clear();
+                output.clear();
 
             }
         }
