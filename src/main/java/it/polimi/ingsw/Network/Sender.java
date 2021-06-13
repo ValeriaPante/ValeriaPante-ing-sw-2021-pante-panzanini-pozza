@@ -74,6 +74,8 @@ public class Sender {
             byteArrayOutputStream.writeTo(byteArrayOutConcat);
             byteArrayOutConcat.writeTo(this.outputStream);
             this.outputStream.flush();
+            byteArrayOutputStream.close();
+            byteArrayOutConcat.close();
         } catch (IOException e){
             return false;
         }
@@ -90,6 +92,7 @@ public class Sender {
             byteArrayOutStream.writeTo(System.out);//DEBUG
             System.out.println("\n"); //DEBUG
             this.outputStream.flush();
+            byteArrayOutStream.close();
         }catch (IOException e){
             return false;
         }
@@ -105,6 +108,7 @@ public class Sender {
 
             byteArrayOutStream.writeTo(this.outputStream);
             this.outputStream.flush();
+            byteArrayOutStream.close();
         }catch (IOException e){
             return false;
         }

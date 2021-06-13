@@ -1,17 +1,22 @@
 package it.polimi.ingsw.PreGameModel;
 
+import it.polimi.ingsw.Network.Client.Messages.ChangedLobbyMessage;
+import it.polimi.ingsw.Network.JsonToClient.JsonToClientPreGame;
+
 import java.util.LinkedList;
 import java.util.List;
 
-public class Model {
+public class RemotePreGameModel implements PreGameModel{
     //in sostanza tutti i players sono observer delle lobbies
 
     private final LinkedList<Lobby> lobbies;
     private final LinkedList<User> notDecidedYet;
+    private final JsonToClientPreGame jsonToClientPreGame;
 
-    public Model(){
+    public RemotePreGameModel(){
         this.lobbies = new LinkedList<>();
         this.notDecidedYet = new LinkedList<>();
+        this.jsonToClientPreGame = new JsonToClientPreGame();
     }
 
     private void notifyAllUsers(){
@@ -122,6 +127,11 @@ public class Model {
 
     public void addNewUser(User user){
         this.notDecidedYet.add(user);
+        ChangedLobbyMessage message = null;
+        for (Lobby lobby : this.lobbies){
+            String lobbyJson = this.jsonToClientPreGame.changedLobbyMessage(lobby);
+            user.send(lobbyJson);
+        }
         //update the user on the state of the lobbies
     }
 }

@@ -78,6 +78,7 @@ public class ConnectionHandler implements Runnable{
                     try {
                         FileInputStream fileToSend = new FileInputStream(file.getAbsolutePath());
                         this.toClient.send(fileToSend, file.getName());
+                        fileToSend.close();
                         System.out.println("sent asset " + file.getName()); //DEBUG*/
                     }catch (IOException e){
 
@@ -141,7 +142,6 @@ public class ConnectionHandler implements Runnable{
                     digest.update(byteArr, 0, bytesRead);
                 }
             }
-            fileInputS.close();
             fileInputS.close();
         }catch (IOException e){
             return "null";

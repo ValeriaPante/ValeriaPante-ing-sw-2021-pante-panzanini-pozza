@@ -8,7 +8,6 @@ import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
 import it.polimi.ingsw.View.View;
 
 import java.util.ArrayList;
-import java.util.concurrent.Executors;
 
 public class LocalMessageManager implements MessageManager{
 
@@ -18,7 +17,7 @@ public class LocalMessageManager implements MessageManager{
 
     public LocalMessageManager(View view) {
         this.visitor = new Visitor(view);
-        this.preGameControllerSwitch = new PreGameControllerSwitch(Executors.newCachedThreadPool());
+        this.preGameControllerSwitch = new PreGameControllerSwitch(true);
         this.inGameControllerSwitch = new InGameControllerSwitch(new ArrayList<>(){{add("local");}}, true);
     }
 

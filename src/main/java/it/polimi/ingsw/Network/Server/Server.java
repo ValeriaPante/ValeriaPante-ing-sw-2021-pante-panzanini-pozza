@@ -6,18 +6,15 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Server{
 
     private final int port;
     PreGameRequestHandler requestHandler;
-    ExecutorService executor;
 
-    public Server(int port, PreGameRequestHandler requestHandler, ExecutorService executor){
+    public Server(int port, PreGameRequestHandler requestHandler){
         this.port = port;
         this.requestHandler = requestHandler;
-        this.executor = executor;
     }
 
     public void start(){
@@ -30,7 +27,6 @@ public class Server{
             //prob la porta non è disponibile
             return;
         }
-        ExecutorService executor = Executors.newCachedThreadPool();
 
         boolean isServerAccepting = true;
 
@@ -43,14 +39,16 @@ public class Server{
 
                 //devo passare questo socket a qualcosa che lo gestisce
                 //crea tutto quello che mi serve da questo socket
-                this.executor.submit(() -> {
+                new Thread(() -> {
                     try {
                         ConnectionHandler connectionHandler = new ConnectionHandler(newClient, requestHandler);
                         connectionHandler.update();
                         String nickname = connectionHandler.waitForNickname();
+                        System.out.println("Nickname received: " + nickname);
                         requestHandler.addNewSocket(nickname, connectionHandler);
+                        System.out.println("AddNewSocket ended");
                         //a questo punto se che tutto è settato correttamente, posso far partire il thread su connectionHandler
-                        executor.submit(connectionHandler);
+                        new Thread(connectionHandler).start();
                     } catch (IOException e) {
                         //problema nella creazione del connection handler
                         try {
@@ -61,7 +59,7 @@ public class Server{
                             ioException.printStackTrace();
                         }
                     }
-                });
+                }).start();
 
             } catch (IOException e) {
                 //lancia IOException se avviene un errore mentre aspetta la connessione
@@ -72,7 +70,6 @@ public class Server{
         }
 
         //non vorrei mai arrivare qui ma se succede
-        executor.shutdown();
         while (true) {
             try {
                 serverSocket.close();
