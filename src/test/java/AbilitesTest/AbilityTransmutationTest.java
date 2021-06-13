@@ -21,7 +21,7 @@ public class AbilityTransmutationTest {
 
     @BeforeEach
     public void init(){
-        this.ability = new Ability(this.whiteInto, LeaderCardType.TRANSMUTATION);
+        this.ability = new Ability(this.whiteInto, new EnumMap<>(Resource.class), LeaderCardType.TRANSMUTATION);
     }
 
     @Test

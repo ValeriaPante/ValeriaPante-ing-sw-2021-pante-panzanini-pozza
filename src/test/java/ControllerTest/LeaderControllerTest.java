@@ -35,8 +35,8 @@ public class LeaderControllerTest {
         devCardReq.put(new DevCardType(0, Colour.GREEN), 1);
         input.put(Resource.SERVANT, 1);
 
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),21));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),45));
 
         LeaderController controller = new LeaderController(new FaithTrackController(table));
         controller.actionOnLeaderCard(21,true);
@@ -60,8 +60,8 @@ public class LeaderControllerTest {
         devCardReq.put(new DevCardType(0, Colour.GREEN), 1);
         input.put(Resource.SERVANT, 1);
 
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),21));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),45));
 
         LeaderController controller = new LeaderController(new FaithTrackController(table));
         controller.actionOnLeaderCard(21,false);
@@ -83,8 +83,8 @@ public class LeaderControllerTest {
         resourceReq.put(Resource.COIN, 1);
         input.put(Resource.SERVANT, 1);
 
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),21));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),45));
 
         LeaderController controller = new LeaderController(new FaithTrackController(table));
         controller.actionOnLeaderCard(21,false);
@@ -104,8 +104,8 @@ public class LeaderControllerTest {
 
         input.put(Resource.SERVANT, 1);
 
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),21));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),45));
 
         LeaderController controller = new LeaderController(new FaithTrackController(table));
         controller.actionOnLeaderCard(21, false);

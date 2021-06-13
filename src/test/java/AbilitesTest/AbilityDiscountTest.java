@@ -20,7 +20,7 @@ public class AbilityDiscountTest {
 
     @BeforeEach
     public void init(){
-        this.ability = new Ability(this.discount, LeaderCardType.DISCOUNT);
+        this.ability = new Ability(this.discount, new EnumMap<>(Resource.class), LeaderCardType.DISCOUNT);
     }
 
     @Test

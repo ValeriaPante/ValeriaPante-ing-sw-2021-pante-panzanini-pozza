@@ -43,7 +43,7 @@ public class CardActionControllerTest {
             put(Resource.STONE, 2);
             put(Resource.SERVANT, 1);
         }};
-        player1.addLeaderCard(new LeaderCard(3, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.STORAGE, capacity, 11));
+        player1.addLeaderCard(new LeaderCard(3, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.STORAGE, capacity, new EnumMap<>(Resource.class),11));
         player1.getLeaderCards()[0].play();
         player1.getLeaderCards()[0].getAbility().add(Resource.STONE);
         player1.getLeaderCards()[0].getAbility().add(Resource.SERVANT);
@@ -52,10 +52,10 @@ public class CardActionControllerTest {
         capacity = new EnumMap<>(Resource.class){{
             put(Resource.COIN, 2);
         }};
-        player1.addLeaderCard(new LeaderCard(3, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.STORAGE, capacity, 12));
+        player1.addLeaderCard(new LeaderCard(3, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.STORAGE, capacity, new EnumMap<>(Resource.class),12));
 
         //NB questa non è di tipo storage
-        player1.addLeaderCard(new LeaderCard(3, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.PRODPOWER, capacity, 13));
+        player1.addLeaderCard(new LeaderCard(3, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.PRODPOWER, capacity, new EnumMap<>(Resource.class),13));
 
         this.table.addPlayer(player1);
         this.faithTrackController = new FaithTrackController(this.table);

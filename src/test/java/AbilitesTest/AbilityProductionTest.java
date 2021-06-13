@@ -21,7 +21,7 @@ public class AbilityProductionTest {
 
     @BeforeEach
     public void init(){
-        this.ability = new Ability(this.input, LeaderCardType.PRODPOWER);
+        this.ability = new Ability(this.input, new EnumMap<>(Resource.class), LeaderCardType.PRODPOWER);
     }
 
     @Test

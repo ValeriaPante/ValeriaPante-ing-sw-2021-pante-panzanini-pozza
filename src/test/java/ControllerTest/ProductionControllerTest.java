@@ -93,7 +93,7 @@ public class ProductionControllerTest {
         LeaderCard leaderCard = new LeaderCard(3, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.STORAGE, new EnumMap<>(Resource.class){{
             put(Resource.STONE, 3);
             put(Resource.COIN, 1);
-        }}, 20);
+        }}, new EnumMap<>(Resource.class), 20);
         leaderCard.play();
 
         DevCard devCard = new DevCard(2, new EnumMap<>(Resource.class), new DevCardType(1, Colour.PURPLE), new ProductionPower(new EnumMap<>(Resource.class){{
@@ -131,7 +131,7 @@ public class ProductionControllerTest {
         LeaderCard leaderCard = new LeaderCard(2, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.PRODPOWER, new EnumMap<>(Resource.class){{
             put(Resource.COIN, 1);
             put(Resource.STONE,1);
-        }}, 20);
+        }}, new EnumMap<>(Resource.class),20);
         leaderCard.play();
         this.table.turnOf().addLeaderCard(leaderCard);
 
@@ -176,7 +176,7 @@ public class ProductionControllerTest {
         LeaderCard leaderCard1 = new LeaderCard(2, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.PRODPOWER, new EnumMap<>(Resource.class){{
             put(Resource.COIN, 1);
             put(Resource.SERVANT,1);
-        }}, 20);
+        }}, new EnumMap<>(Resource.class),20);
         leaderCard1.play();
         this.table.turnOf().addLeaderCard(leaderCard1);
 
@@ -185,7 +185,7 @@ public class ProductionControllerTest {
         LeaderCard leaderCard2 = new LeaderCard(1, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.STORAGE, new EnumMap<>(Resource.class){{
             put(Resource.COIN, 2);
             put(Resource.SERVANT, 2);
-        }}, 15);
+        }}, new EnumMap<>(Resource.class),15);
         leaderCard2.play();
         leaderCard2.getAbility().add(Resource.COIN);
         leaderCard2.getAbility().add(Resource.COIN);
@@ -358,7 +358,7 @@ public class ProductionControllerTest {
         LeaderCard leaderCard = new LeaderCard(3, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.STORAGE, new EnumMap<>(Resource.class){{
             put(Resource.STONE, 3);
             put(Resource.COIN, 1);
-        }}, 30);
+        }}, new EnumMap<>(Resource.class),30);
         leaderCard.play();
 
         leaderCard.getAbility().add(Resource.STONE);
@@ -412,7 +412,7 @@ public class ProductionControllerTest {
         LeaderCard leaderCard = new LeaderCard(1, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.STORAGE, new EnumMap<>(Resource.class){{
             put(Resource.COIN, 2);
             put(Resource.SERVANT, 2);
-        }}, 15);
+        }}, new EnumMap<>(Resource.class),15);
         leaderCard.play();
         leaderCard.getAbility().add(Resource.COIN);
         leaderCard.getAbility().add(Resource.COIN);
@@ -475,7 +475,7 @@ public class ProductionControllerTest {
         LeaderCard leaderCard1 = new LeaderCard(2, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.PRODPOWER, new EnumMap<>(Resource.class){{
             put(Resource.COIN, 1);
             put(Resource.SERVANT,1);
-        }}, 20);
+        }}, new EnumMap<>(Resource.class),20);
         leaderCard1.play();
         this.table.turnOf().addLeaderCard(leaderCard1);
 
@@ -484,7 +484,7 @@ public class ProductionControllerTest {
         LeaderCard leaderCard2 = new LeaderCard(1, new EnumMap<>(Resource.class), new HashMap<>(), LeaderCardType.STORAGE, new EnumMap<>(Resource.class){{
             put(Resource.COIN, 2);
             put(Resource.SERVANT, 2);
-        }}, 15);
+        }}, new EnumMap<>(Resource.class),15);
         leaderCard2.play();
         leaderCard2.getAbility().add(Resource.COIN);
         leaderCard2.getAbility().add(Resource.COIN);

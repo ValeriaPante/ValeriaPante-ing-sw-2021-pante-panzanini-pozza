@@ -21,7 +21,7 @@ public class AbilityStorageTest {
 
     @BeforeEach
     public void init(){
-        this.ability = new Ability(this.capacity, LeaderCardType.STORAGE);
+        this.ability = new Ability(this.capacity, new EnumMap<>(Resource.class), LeaderCardType.STORAGE);
     }
 
     @Test

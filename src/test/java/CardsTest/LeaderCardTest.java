@@ -24,7 +24,7 @@ public class LeaderCardTest {
         devCardReq.put(new DevCardType(0, Colour.YELLOW), 1);
         devCardReq.put(new DevCardType(0, Colour.GREEN), 1);
         input.put(Resource.SERVANT, 1);
-        LeaderCard card = new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21);
+        LeaderCard card = new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class), 21);
 
         assertNull(card.getAbility());
         card.play();

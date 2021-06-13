@@ -170,8 +170,8 @@ public class BuyDevCardControllerTest {
         input.put(Resource.SHIELD, 1);
         input.put(Resource.STONE, 1);
 
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 21));
-        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, 45));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),21));
+        table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),45));
 
         FaithTrackController ftc = new FaithTrackController(table);
         LeaderController lController = new LeaderController(ftc);
