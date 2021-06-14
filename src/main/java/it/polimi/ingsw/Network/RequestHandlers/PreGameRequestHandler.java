@@ -18,7 +18,7 @@ public class PreGameRequestHandler implements RequestHandler{
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(PreGameMessage.class, new PreGameDeserializer());
         this.customGson = gsonBuilder.create();
-        this.preGameControllerSwitch = new PreGameControllerSwitch(true); //potrebbe essere sbagliato
+        this.preGameControllerSwitch = new PreGameControllerSwitch(false); //potrebbe essere sbagliato
     }
 
     @Override

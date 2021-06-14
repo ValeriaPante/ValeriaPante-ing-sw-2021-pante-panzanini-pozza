@@ -6,8 +6,10 @@ public class ChangedLobbyMessage extends WithIntMessage{
 
     private final String[] players;
     private final boolean itsYou;
+    private final String type;
 
     public ChangedLobbyMessage(int lobbyId, String[] players, boolean itsYou) {
+        this.type = "changedLobby";
         this.id = lobbyId;
         this.players = players;
         this.itsYou = itsYou;

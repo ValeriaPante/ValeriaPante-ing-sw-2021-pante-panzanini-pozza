@@ -32,6 +32,7 @@ public class Visitor {
     }
 
     public void updateModel(ChangedLobbyMessage m){
+        System.out.println("changed lobby method Visitor"); //Debug
         if(m.isMine()) model.setLocalPlayerLobbyId(m.getId());
         if(m.getPlayers().length == 0) {
             model.removeLobby(m.getId());
@@ -39,6 +40,7 @@ public class Visitor {
         }
         else{
             model.addLobby(m.getId(), m.getPlayers());
+            System.out.println("modified model in Visitor class"); //Debug
             view.updateLobbyState(m.getId());
         }
     }

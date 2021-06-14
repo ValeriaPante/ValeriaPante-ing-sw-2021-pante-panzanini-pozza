@@ -14,9 +14,6 @@ public class LocalPreGameModel implements PreGameModel{
     public void createLobby(int id){
     }
 
-    public void playerDisconnect(int userIdDisconnected){
-    }
-
     public int getUserLobbyId(int userId){
         return 0;
     }

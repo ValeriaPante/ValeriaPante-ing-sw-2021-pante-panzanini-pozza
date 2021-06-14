@@ -39,27 +39,25 @@ public class MessageToServerManager implements Runnable, MessageManager{
     private boolean convertInput(String input){
         boolean result = false;
 
-        ArrayList<FromServerMessage> messages = interpret(input);
-        for (FromServerMessage message : messages) result = result || message.visit(visitor);
+        FromServerMessage message = interpret(input);
+        result = result || message.visit(visitor);
 
         return result;
     }
 
-    private ArrayList<FromServerMessage> interpret(String input){
-        ArrayList<FromServerMessage> result = new ArrayList<>();
+    private FromServerMessage interpret(String input){
+        FromServerMessage result = null;
 
-        JsonElement elements = parser.parse(input);
-        if(!elements.isJsonArray()){
+        JsonElement element = parser.parse(input);
+        if (!element.isJsonObject()){
             throw new IllegalArgumentException("Check the config file and his syntax");
-        } else {
-            JsonArray array = elements.getAsJsonArray();
-            for(int i = 0; i < array.size(); i++){
-                JsonObject toEvaluate = array.get(i).getAsJsonObject();
-
+        }
+        else{
+            JsonObject toEvaluate = element.getAsJsonObject();
                 try{
                     switch(toEvaluate.get("type").getAsString()){
                         case "changedLobby":
-                            result.add(new ChangedLobbyMessage(toEvaluate.get("id").getAsInt(), gson.fromJson(toEvaluate.get("players"), String[].class), toEvaluate.get("itsYou").getAsBoolean()));
+                            result = new ChangedLobbyMessage(toEvaluate.get("id").getAsInt(), gson.fromJson(toEvaluate.get("players"), String[].class), toEvaluate.get("itsYou").getAsBoolean());
                             break;
                         case "init":
                             JsonArray playersInfo = toEvaluate.get("players").getAsJsonArray();
@@ -67,53 +65,53 @@ public class MessageToServerManager implements Runnable, MessageManager{
                             String[] playersUsernames = new String[playersInfo.size()];
 
                             for(int j = 0; j < playersInfo.size(); j++){
-                                JsonObject player = array.get(j).getAsJsonObject();
+                                JsonObject player = playersInfo.get(j).getAsJsonObject();
                                 playersId[j] = player.get("userId").getAsInt();
                                 playersUsernames[j] = player.get("username").getAsString();
                             }
 
                             int[] clientLeaderCards = gson.fromJson(toEvaluate.get("initialLeaderCards"), int[].class);
 
-                            result.add(new InitMessage(toEvaluate.get("clientId").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, clientLeaderCards));
+                            result = new InitMessage(toEvaluate.get("clientId").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, clientLeaderCards);
                             break;
                         case "start":
-                            result.add(new StartMessage());
+                            result = (new StartMessage());
                             break;
                         case "actionOnLeaderCard":
-                            result.add(new ActionOnLeaderCardMessage(toEvaluate.get("playedId").getAsInt(), toEvaluate.get("discard").getAsBoolean(), toEvaluate.get("id").getAsInt()));
+                            result = (new ActionOnLeaderCardMessage(toEvaluate.get("playedId").getAsInt(), toEvaluate.get("discard").getAsBoolean(), toEvaluate.get("id").getAsInt()));
                             break;
                         case "newDevCard":
-                            result.add(new NewDevCardMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("newPlayerCardId").getAsInt(), toEvaluate.get("numberOfSlot").getAsInt()));
+                            result = (new NewDevCardMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("newPlayerCardId").getAsInt(), toEvaluate.get("numberOfSlot").getAsInt()));
                             break;
                         case "newTopCard":
-                            result.add(new NewTopCardMessage(toEvaluate.get("id").getAsInt(), toEvaluate.get("numberOfDeck").getAsInt()));
+                            result = (new NewTopCardMessage(toEvaluate.get("id").getAsInt(), toEvaluate.get("numberOfDeck").getAsInt()));
                             break;
                         case "changedShelf":
-                            result.add(new ChangedShelfMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("numberOfShelf").getAsInt(), gson.fromJson(toEvaluate.get("resourceType"), Resource.class),toEvaluate.get("quantity").getAsInt()));
+                            result = (new ChangedShelfMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("numberOfShelf").getAsInt(), gson.fromJson(toEvaluate.get("resourceType"), Resource.class),toEvaluate.get("quantity").getAsInt()));
                             break;
                         case "changedStrongbox":
-                            result.add(new ChangedStrongboxMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType())));
+                            result = (new ChangedStrongboxMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType())));
                             break;
                         case "changedSupportContainer":
-                            result.add(new ChangedSupportContainerMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType())));
+                            result = (new ChangedSupportContainerMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("inside"), new TypeToken<HashMap<Resource, Integer>>(){}.getType())));
                             break;
                         case "changedLeaderStorage":
-                            result.add(new ChangedLeaderStorageMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("cardId").getAsInt(), gson.fromJson(toEvaluate.get("owned"), Resource[].class))) ;
+                            result = (new ChangedLeaderStorageMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("cardId").getAsInt(), gson.fromJson(toEvaluate.get("owned"), Resource[].class))) ;
                             break;
                         case "newMarketState":
-                            result.add(new NewMarketStateMessage(gson.fromJson(toEvaluate.get("grid"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class)));
+                            result = (new NewMarketStateMessage(gson.fromJson(toEvaluate.get("grid"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class)));
                             break;
                         case "popeFavourCardState":
-                            result.add(new PopeFavourCardStateMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("cards"), PopeFavorCardState[].class)));
+                            result = (new PopeFavourCardStateMessage(toEvaluate.get("playerId").getAsInt(), gson.fromJson(toEvaluate.get("cards"), PopeFavorCardState[].class)));
                             break;
                         case "newPlayerPosition":
-                            result.add(new NewPlayerPositionMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("pos").getAsInt()));
+                            result = (new NewPlayerPositionMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("pos").getAsInt()));
                             break;
                         case "winner":
-                            result.add(new WinnerMessage(toEvaluate.get("id").getAsInt()));
+                            result = (new WinnerMessage(toEvaluate.get("id").getAsInt()));
                             break;
                         case "error":
-                            result.add(new ErrorMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("error").getAsString()));
+                            result = (new ErrorMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("error").getAsString()));
                             break;
                         default:
                             break;
@@ -122,16 +120,18 @@ public class MessageToServerManager implements Runnable, MessageManager{
                     //there is some format error inside the message
                 }
             }
-        }
         return result;
     }
 
     public void run(){
+        System.out.println("Starting run");
         if(fromServer != null && toServer != null) {
+            System.out.println("Run started");
             String input;
             while (true) {
                 try {
                     input = fromServer.readMessage();
+                    System.out.println(input); //DEBUG
                     if(convertInput(input))
                         break;
                 }catch (IOException e){

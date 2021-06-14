@@ -31,7 +31,7 @@ public class PreGameControllerSwitch {
     }
 
     public synchronized void actionOnMessage(DisconnectMessage message){
-        this.preGameModel.playerDisconnect(message.getSenderId());
+        this.preGameModel.getAndRemoveUser(message.getSenderId());
     }
 
     public synchronized void actionOnMessage(MoveToLobbyMessage message){
@@ -64,14 +64,15 @@ public class PreGameControllerSwitch {
         new Thread(() ->{
             //a questo punto di faccio un po quello che voglio,
             //lo passo a chi di dovere che gestisce l'inizio della partita
+            System.out.println("Partita iniziata");
         }).start();
     }
 
     public synchronized void addNewUser(User user){
         //qui creo il nuovo clientHandler e nel costruttore gli passo this
-        int id = random.nextInt(100000);
+        int id = this.random.nextInt(100000);
         while (this.preGameModel.getAllUsersIds().contains(id)){
-            id = random.nextInt(100000);
+            id = this.random.nextInt(100000);
         }
         user.setId(id);
         this.preGameModel.addNewUser(user);

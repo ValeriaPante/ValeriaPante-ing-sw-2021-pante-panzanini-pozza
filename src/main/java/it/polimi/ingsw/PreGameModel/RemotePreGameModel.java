@@ -1,6 +1,5 @@
 package it.polimi.ingsw.PreGameModel;
 
-import it.polimi.ingsw.Network.Client.Messages.ChangedLobbyMessage;
 import it.polimi.ingsw.Network.JsonToClient.JsonToClientPreGame;
 
 import java.util.LinkedList;
@@ -8,19 +7,35 @@ import java.util.List;
 
 public class RemotePreGameModel implements PreGameModel{
     //in sostanza tutti i players sono observer delle lobbies
-
     private final LinkedList<Lobby> lobbies;
     private final LinkedList<User> notDecidedYet;
-    private final JsonToClientPreGame jsonToClientPreGame;
 
     public RemotePreGameModel(){
         this.lobbies = new LinkedList<>();
         this.notDecidedYet = new LinkedList<>();
-        this.jsonToClientPreGame = new JsonToClientPreGame();
     }
 
-    private void notifyAllUsers(){
+    private void notifyAllUsers(String message){
+        this.notDecidedYet.forEach(user -> user.send(message));
+        this.lobbies.forEach(lobby -> lobby.getUsers().forEach(user -> user.send(message)));
+    }
 
+    private void notifyUserAllLobbies(User user){
+        this.lobbies.forEach(lobby -> user.send(JsonToClientPreGame.changedLobbyMessage(lobby, false)));
+
+        user.send("{\"players\":[\"Daniel\",\"Vale\",\"Alberto\"],\"itsYou\":false,\"type\":\"changedLobby\",\"id\":1}"); //debug
+    }
+
+    private void notifyAllUsers(String message, int userId, String messageToSpecificUser){
+        this.notDecidedYet.forEach(user -> user.send(message));
+        this.lobbies.forEach(lobby -> lobby.getUsers().forEach(user -> {
+            if (user.getId() == userId){
+                user.send(messageToSpecificUser);
+            }
+            else{
+                user.send(message);
+            }
+        }));
     }
 
     public List<Integer> getAllUsersIds(){
@@ -33,6 +48,7 @@ public class RemotePreGameModel implements PreGameModel{
         for (User user : this.notDecidedYet){
             allIds.add(user.getId());
         }
+        System.out.println("Returned all ids");
         return allIds;
     }
 
@@ -49,11 +65,6 @@ public class RemotePreGameModel implements PreGameModel{
         this.lobbies.add(new Lobby(id));
     }
 
-    public void playerDisconnect(int userIdDisconnected){
-        this.getAndRemoveUser(userIdDisconnected);
-        this.notifyAllUsers();
-    }
-
     public int getUserLobbyId(int userId){
         for (Lobby lobby : this.lobbies){
             if (lobby.getFirstUserId() == userId){
@@ -68,6 +79,8 @@ public class RemotePreGameModel implements PreGameModel{
         for (Lobby lobby : this.lobbies){
             if (lobby.getId() == lobbyId){
                 this.lobbies.remove(lobby);
+                //notifico a tutti che questa lobby è vuota
+                this.notifyAllUsers(JsonToClientPreGame.changedLobbyMessage(new Lobby(lobbyId), false));
                 return lobby;
             }
         }
@@ -90,17 +103,18 @@ public class RemotePreGameModel implements PreGameModel{
                 if (user.getId() == userId){
                     lobby.removeUser(user);
 
+                    //notifico il cambiamento di lobby a tutti
+                    this.notifyAllUsers(JsonToClientPreGame.changedLobbyMessage(lobby, false));
+
                     //cancello la lobby se una volta rimosso un giocatore questa è vuota
                     //è una cosa che dovrebbe fare il controller ma mi sembra stupido passarlo sopra
                     if (lobby.isEmpty()){
                         this.lobbies.remove(lobby);
                     }
-
                     return user;
                 }
             }
         }
-
         //l'user non c'è, molto strano
         return null;
     }
@@ -119,7 +133,7 @@ public class RemotePreGameModel implements PreGameModel{
         for(Lobby lobby : this.lobbies){
             if (lobby.getId() == lobbyId){
                 lobby.addUser(user);
-                this.notifyAllUsers();
+                this.notifyAllUsers(JsonToClientPreGame.changedLobbyMessage(lobby, false), user.getId(), JsonToClientPreGame.changedLobbyMessage(lobby, true));
                 return;
             }
         }
@@ -127,11 +141,6 @@ public class RemotePreGameModel implements PreGameModel{
 
     public void addNewUser(User user){
         this.notDecidedYet.add(user);
-        ChangedLobbyMessage message = null;
-        for (Lobby lobby : this.lobbies){
-            String lobbyJson = this.jsonToClientPreGame.changedLobbyMessage(lobby);
-            user.send(lobbyJson);
-        }
-        //update the user on the state of the lobbies
+        this.notifyUserAllLobbies(user);
     }
 }

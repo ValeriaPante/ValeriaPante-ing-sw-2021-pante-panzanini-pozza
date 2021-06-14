@@ -101,6 +101,7 @@ public class Sender {
 
     //server and client
     public boolean send(String message){
+        System.out.println("Sending: " + message);
         ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
         try{
             byteArrayOutStream.write(this.buildHeader(message.getBytes().length).getBytes());
@@ -109,6 +110,7 @@ public class Sender {
             byteArrayOutStream.writeTo(this.outputStream);
             this.outputStream.flush();
             byteArrayOutStream.close();
+            System.out.println("Sent: " + message);
         }catch (IOException e){
             return false;
         }
