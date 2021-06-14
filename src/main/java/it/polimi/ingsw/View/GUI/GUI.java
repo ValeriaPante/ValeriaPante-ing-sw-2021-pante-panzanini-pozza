@@ -49,8 +49,9 @@ public class GUI extends Application implements View {
         Platform.runLater(() -> Transition.setLobbiesScene(lobbiesScene));
         Platform.runLater(Transition::toLobbiesScene);
 
-        if(WaitingToStartScene.isReady() && lobbyId == model.getLocalPlayerLobbyId()){
+        if(lobbyId == model.getLocalPlayerLobbyId()){
             WaitingToStartScene waitingToStartScene = new WaitingToStartScene(lobbyId, model.getLobbies().get(lobbyId));
+            waitingToStartScene.addObserver(this);
             Platform.runLater(() -> Transition.setWaitingToStartScene(waitingToStartScene));
             Platform.runLater(Transition::toWaitingToStartScene);
         }

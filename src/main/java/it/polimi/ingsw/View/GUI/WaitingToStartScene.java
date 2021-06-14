@@ -37,6 +37,9 @@ public class WaitingToStartScene extends ObservableByGUI{
 
         root.lookup("#back").setOnMouseClicked(mouseEvent -> {
             ready = false;
+            Platform.runLater(() -> LobbiesScene.addLobby(lobbyId));
+            LobbiesScene lobbiesScene = new LobbiesScene(observer);
+            Platform.runLater(() -> Transition.setLobbiesScene(lobbiesScene));
             Platform.runLater(Transition::toLobbiesScene);
         });
     }
