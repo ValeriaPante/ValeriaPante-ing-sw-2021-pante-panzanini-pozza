@@ -12,4 +12,11 @@ public class ShelfSelectionMessage extends ResourceIntMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"ShelfSelection\", " +
+                "\"integer\":"+ this.getInteger() +", "  +
+                "\"resource\":"+ this.getResource().toString() +"}";
+    }
 }

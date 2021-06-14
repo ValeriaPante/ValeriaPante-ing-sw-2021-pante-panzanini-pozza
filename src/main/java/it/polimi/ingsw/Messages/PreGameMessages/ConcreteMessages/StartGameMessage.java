@@ -8,4 +8,9 @@ public class StartGameMessage extends PreGameMessage{
     public void readThrough(PreGameControllerSwitch preGameControllerSwitch) {
         preGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"StartGame\"}";
+    }
 }

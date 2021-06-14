@@ -11,4 +11,10 @@ public class MoveToShelfMessage extends IntMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"MoveToShelf\", " +
+                "\"integer\":"+ this.getInteger() +"}";
+    }
 }

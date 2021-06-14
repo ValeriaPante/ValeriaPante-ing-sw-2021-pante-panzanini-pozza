@@ -14,4 +14,8 @@ public abstract class InGameMessage {
     }
 
     public abstract void readThrough(InGameControllerSwitch inGameControllerSwitch);
+
+    public String toJson(){
+        return null;
+    }
 }

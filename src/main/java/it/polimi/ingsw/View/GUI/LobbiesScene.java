@@ -1,7 +1,7 @@
 package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.CreationLobbyMessage;
-import it.polimi.ingsw.Network.Client.MessageToServerCreator;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -28,8 +28,8 @@ public class LobbiesScene extends ObservableByGUI{
         FlowPane box = (FlowPane) scrollPane.getContent();
         Button newLobbyButton = (Button) root.lookup("#createLobbyButton");
         newLobbyButton.setOnAction(event -> {
-            sendMessage(new CreationLobbyMessage());
-            Transition.toWaitingToStartScene();
+            new Thread(() -> sendMessage(new CreationLobbyMessage())).start();
+            Platform.runLater(Transition::toWaitingToStartScene);
         });
         Pane lobbyPane = null;
 
@@ -53,8 +53,8 @@ public class LobbiesScene extends ObservableByGUI{
                 int lobbyNum = Integer.parseInt(((Label) ((Pane) ((Button) event.getSource()).getParent()).getChildren().get(0)).getText());
                 WaitingToStartScene waitingToStartScene = new WaitingToStartScene(lobbyNum, observer.getModel().getLobbies().get(lobbyNum));
                 waitingToStartScene.addObserver(this.observer);
-                Transition.setWaitingToStartScene(waitingToStartScene);
-                Transition.toWaitingToStartScene();
+                Platform.runLater(() -> Transition.setWaitingToStartScene(waitingToStartScene));
+                Platform.runLater(Transition::toWaitingToStartScene);
             });
             box.getChildren().add(pane);
         }

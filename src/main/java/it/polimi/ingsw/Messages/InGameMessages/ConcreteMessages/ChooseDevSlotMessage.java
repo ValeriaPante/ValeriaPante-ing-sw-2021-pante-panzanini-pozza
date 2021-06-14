@@ -11,4 +11,10 @@ public class ChooseDevSlotMessage extends IntMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"ChooseDevSlot\", " +
+                "\"integer\":"+ this.getInteger() +"}";
+    }
 }

@@ -25,11 +25,11 @@ public class GUI extends Application implements View {
         messageManager = new MessageToServerManager(this);
 
         stage.setTitle("Masters of Renaissance ");
-        Transition.setPrimaryStage(stage);
+        Platform.runLater(() -> Transition.setPrimaryStage(stage));
         WelcomeScene welcomeScene = new WelcomeScene();
         welcomeScene.addObserver(this);
-        Transition.setWelcomeScene(welcomeScene);
-        Transition.toWelcomeScene();
+        Platform.runLater(()-> Transition.setWelcomeScene(welcomeScene));
+        Platform.runLater(Transition::toWelcomeScene);
         stage.setResizable(false);
         stage.show();
 
@@ -44,30 +44,24 @@ public class GUI extends Application implements View {
 
     @Override
     public void updateLobbyState(int lobbyId) {
-        Platform.runLater(() -> {
-            LobbiesScene.addLobby(lobbyId);
-            LobbiesScene lobbiesScene = new LobbiesScene(this);
-            Transition.setLobbiesScene(lobbiesScene);
-            Transition.toLobbiesScene();
-        });
+        Platform.runLater(() -> LobbiesScene.addLobby(lobbyId));
+        LobbiesScene lobbiesScene = new LobbiesScene(this);
+        Platform.runLater(() -> Transition.setLobbiesScene(lobbiesScene));
+        Platform.runLater(Transition::toLobbiesScene);
 
         if(WaitingToStartScene.isReady() && lobbyId == model.getLocalPlayerLobbyId()){
-            Platform.runLater(() -> {
-                WaitingToStartScene waitingToStartScene = new WaitingToStartScene(lobbyId, model.getLobbies().get(lobbyId));
-                Transition.setWaitingToStartScene(waitingToStartScene);
-                Transition.toWaitingToStartScene();
-            });
+            WaitingToStartScene waitingToStartScene = new WaitingToStartScene(lobbyId, model.getLobbies().get(lobbyId));
+            Platform.runLater(() -> Transition.setWaitingToStartScene(waitingToStartScene));
+            Platform.runLater(Transition::toWaitingToStartScene);
         }
     }
 
     @Override
     public void removeLobby(int lobbyId) {
-        Platform.runLater(() -> {
-            LobbiesScene.removeLobby(lobbyId);
-            LobbiesScene lobbiesScene = new LobbiesScene(this);
-            Transition.setLobbiesScene(lobbiesScene);
-            Transition.toLobbiesScene();
-        });
+        LobbiesScene.removeLobby(lobbyId);
+        LobbiesScene lobbiesScene = new LobbiesScene(this);
+        Platform.runLater(() -> Transition.setLobbiesScene(lobbiesScene));
+        Platform.runLater(Transition::toLobbiesScene);
     }
 
     @Override
@@ -77,11 +71,9 @@ public class GUI extends Application implements View {
 
     @Override
     public void chooseLeaderCards() {
-        Platform.runLater(() -> {
-            LeaderCardScene leaderCardScene = new LeaderCardScene(this);
-            Transition.setLeaderCardsScene(leaderCardScene);
-            Transition.toLeaderCardScene();
-        });
+        LeaderCardScene leaderCardScene = new LeaderCardScene(this);
+        Platform.runLater(() -> Transition.setLeaderCardsScene(leaderCardScene));
+        Platform.runLater(Transition::toLeaderCardScene);
     }
 
 
@@ -91,11 +83,9 @@ public class GUI extends Application implements View {
             Platform.runLater(Transition::toLoadingScene);
         } else {
             currentState = new InitialResourcesState();
-            Platform.runLater(() -> {
-                InitialResourcesScene initialResourcesScene = new InitialResourcesScene(this);
-                Transition.setInitialResourcesScene(initialResourcesScene);
-                Transition.toInitialResourcesScene();
-            });
+            InitialResourcesScene initialResourcesScene = new InitialResourcesScene(this);
+            Platform.runLater(() -> Transition.setInitialResourcesScene(initialResourcesScene));
+            Platform.runLater(Transition::toInitialResourcesScene);
         }
     }
 
@@ -103,18 +93,13 @@ public class GUI extends Application implements View {
     public void startGame() {
         gamePhase = 2;
         if(model.getNumberOfPlayers() == 1){
-            Platform.runLater(() -> {
-                SinglePlayerMainScene mainScene = new SinglePlayerMainScene(this);
-                Transition.setMainScene(mainScene);
-                Transition.toMainScene();
-            });
+            SinglePlayerMainScene mainScene = new SinglePlayerMainScene(this);
+            Platform.runLater(() -> Transition.setMainScene(mainScene));
         } else {
-            Platform.runLater(() -> {
-                MainScene mainScene = new MainScene(this);
-                Transition.setMainScene(mainScene);
-                Transition.toMainScene();
-            });
+            MainScene mainScene = new MainScene(this);
+            Platform.runLater(() -> Transition.setMainScene(mainScene));
         }
+        Platform.runLater(Transition::toMainScene);
 
     }
 
@@ -123,15 +108,13 @@ public class GUI extends Application implements View {
         if(actionDone){
             Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
         } else {
-            Platform.runLater(() -> {
-                MarketScene marketScene = new MarketScene(this);
-                Stage dialog = new Stage();
-                dialog.setScene(new Scene(marketScene.getRoot()));
-                dialog.setTitle("Get from market");
-                dialog.setResizable(false);
-                Transition.setDialogStage(dialog);
-                Transition.showDialog();
-            });
+            MarketScene marketScene = new MarketScene(this);
+            Stage dialog = new Stage();
+            Platform.runLater(() -> dialog.setScene(new Scene(marketScene.getRoot())));
+            dialog.setTitle("Get from market");
+            dialog.setResizable(false);
+            Platform.runLater(() -> Transition.setDialogStage(dialog));
+            Platform.runLater(Transition::showDialog);
         }
     }
 
@@ -140,15 +123,13 @@ public class GUI extends Application implements View {
         if(actionDone){
             Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
         } else {
-            Platform.runLater(() -> {
-                DevDecksScene devDecksScene = new DevDecksScene(this);
-                Stage dialog = new Stage();
-                dialog.setScene(new Scene(devDecksScene.getRoot()));
-                dialog.setTitle("Buy development card");
-                dialog.setResizable(false);
-                Transition.setDialogStage(dialog);
-                Transition.showDialog();
-            });
+            DevDecksScene devDecksScene = new DevDecksScene(this);
+            Stage dialog = new Stage();
+            Platform.runLater(() -> dialog.setScene(new Scene(devDecksScene.getRoot())));
+            dialog.setTitle("Buy development card");
+            dialog.setResizable(false);
+            Platform.runLater(() -> Transition.setDialogStage(dialog));
+            Platform.runLater(Transition::showDialog);
         }
 
     }
@@ -157,44 +138,38 @@ public class GUI extends Application implements View {
         if(actionDone){
             Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
         } else {
-            Platform.runLater(() -> {
-                ProductionScene productionScene = new ProductionScene();
-                productionScene.addObserver(this);
-                productionScene.initialise();
-                Stage dialog = new Stage();
-                dialog.setScene(new Scene(productionScene.getRoot()));
-                dialog.setTitle("Activate production");
-                dialog.setResizable(false);
-                Transition.setDialogStage(dialog);
-                Transition.showDialog();
-            });
+            ProductionScene productionScene = new ProductionScene();
+            productionScene.addObserver(this);
+            productionScene.initialise();
+            Stage dialog = new Stage();
+            dialog.setTitle("Activate production");
+            dialog.setResizable(false);
+            Platform.runLater(() -> dialog.setScene(new Scene(productionScene.getRoot())));
+            Platform.runLater(() -> Transition.setDialogStage(dialog));
+            Platform.runLater(Transition::showDialog);
         }
     }
 
     public void showDeposits(){
-        Platform.runLater(() -> {
-            ContainersScene containersScene = new ContainersScene();
-            containersScene.addObserver(this);
-            containersScene.initialise();
-            Stage dialog = new Stage();
-            dialog.setScene(new Scene(containersScene.getRoot()));
-            dialog.setTitle("Your deposits");
-            dialog.setResizable(false);
-            Transition.setDialogStage(dialog);
-            Transition.showDialog();
-        });
+        ContainersScene containersScene = new ContainersScene();
+        containersScene.addObserver(this);
+        containersScene.initialise();
+        Stage dialog = new Stage();
+        dialog.setTitle("Your deposits");
+        dialog.setResizable(false);
+        Platform.runLater(() -> dialog.setScene(new Scene(containersScene.getRoot())));
+        Platform.runLater(() -> Transition.setDialogStage(dialog));
+        Platform.runLater(Transition::showDialog);
     }
 
     @Override
     public void updatePositions(int playerId, int pos) {
         if(playerId == model.getLocalPlayerId()) toDoneState();
-        Platform.runLater(() -> {
-            if(model.getNumberOfPlayers() == 1){
-                Platform.runLater(() -> Transition.updatePosition(playerId != model.getLocalPlayerId(), pos));
-            } else {
-                Platform.runLater(() -> Transition.updatePosition(model.getPlayerIndex(playerId), pos));
-            }
-        });
+        if(model.getNumberOfPlayers() == 1){
+            Platform.runLater(() -> Transition.updatePosition(playerId != model.getLocalPlayerId(), pos));
+        } else {
+            Platform.runLater(() -> Transition.updatePosition(model.getPlayerIndex(playerId), pos));
+        }
     }
 
     @Override
@@ -274,18 +249,16 @@ public class GUI extends Application implements View {
             toDoneState();
         }
 
-        Platform.runLater(() -> {
-            int[] singleSlot = model.getPlayerFromId(playerId).getDevSlots()[slot - 1];
-            if(model.getNumberOfPlayers() == 1){
-                if(singleSlot[1] == 0) Transition.addCardInSlot(cardId, slot, 1);
-                else if(singleSlot[2] == 0) Transition.addCardInSlot(cardId, slot, 2);
-                else Transition.addCardInSlot(cardId, slot, 3);
-            } else {
-                if(singleSlot[1] == 0) Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 1);
-                else if(singleSlot[2] == 0) Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 2);
-                else Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 3);
-            }
-        });
+        int[] singleSlot = model.getPlayerFromId(playerId).getDevSlots()[slot - 1];
+        if(model.getNumberOfPlayers() == 1){
+            if(singleSlot[1] == 0) Platform.runLater(() -> Transition.addCardInSlot(cardId, slot, 1));
+            else if(singleSlot[2] == 0) Platform.runLater(() -> Transition.addCardInSlot(cardId, slot, 2));
+            else Platform.runLater(() -> Transition.addCardInSlot(cardId, slot, 3));
+        } else {
+            if(singleSlot[1] == 0) Platform.runLater(() -> Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 1));
+            else if(singleSlot[2] == 0) Platform.runLater(() -> Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 2));
+            else Platform.runLater(() -> Transition.addCardInSlot(model.getPlayerIndex(playerId), cardId, slot, 3));
+        }
     }
 
     @Override
@@ -297,18 +270,14 @@ public class GUI extends Application implements View {
 
     @Override
     public void showWinner(String username) {
-        Platform.runLater(() -> {
-            Transition.setWinnerScene(new WinnerScene(username));
-            Transition.toWinnerScene();
-        });
+        Platform.runLater(() -> Transition.setWinnerScene(new WinnerScene(username)));
+        Platform.runLater(Transition::toWinnerScene);
     }
 
     @Override
     public void showErrorMessage(String message) {
-        Platform.runLater(() -> {
-            Transition.showErrorMessage(message);
-            currentState.goBack();
-        });
+        Platform.runLater(() -> Transition.showErrorMessage(message));
+        Platform.runLater(() -> currentState.goBack());
     }
 
     @Override

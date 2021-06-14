@@ -35,4 +35,13 @@ public class TransmutationMessage extends InGameMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"Transmutation\", " +
+                "\"serial1\":"+ serial1 +", "  +
+                "\"serial1\":"+ serial2 +", "  +
+                "\"quantity1\":"+ quantity1 +", "  +
+                "\"quantity2\":"+ quantity2 +"}";
+    }
 }

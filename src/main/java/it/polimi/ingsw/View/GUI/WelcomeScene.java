@@ -2,6 +2,7 @@ package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Network.Client.LocalMessageManager;
 import it.polimi.ingsw.Network.Client.MessageToServerManager;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -23,15 +24,15 @@ public class WelcomeScene extends ObservableByGUI{
             observer.setMessageManager(new MessageToServerManager(observer));
             UsernameScene usernameScene = new UsernameScene();
             usernameScene.addObserver(this.observer);
-            Transition.setUsernameScene(usernameScene);
-            Transition.toUsernameScene();
+            Platform.runLater(() -> Transition.setUsernameScene(usernameScene));
+            Platform.runLater(Transition::toUsernameScene);
         });
 
         Button offlineButton = (Button) root.lookup("#startOffline");
         offlineButton.setOnAction(event -> {
             observer.setMessageManager(new LocalMessageManager(observer));
-            Transition.setLoadingScene(new LoadingScene());
-            Transition.toLoadingScene();
+            Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
+            Platform.runLater(Transition::toLoadingScene);
         });
     }
 

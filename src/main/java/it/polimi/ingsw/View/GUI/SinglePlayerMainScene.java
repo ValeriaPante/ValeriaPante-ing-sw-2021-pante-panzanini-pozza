@@ -74,28 +74,28 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         Button activate1 = (Button) root.lookup("#activate1");
         activate1.setId(lc.get(0).toString());
         activate1.setOnAction(actionEvent -> {
-            sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
+            new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false))).start();
             actionEvent.consume();
         });
         activate1.setId("activate"+lc.get(0));
         Button discard1 = (Button) root.lookup("#discard1");
         discard1.setId(lc.get(0).toString());
         discard1.setOnAction(actionEvent -> {
-            sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
+            new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true))).start();
             actionEvent.consume();
         });
         discard1.setId("discard"+lc.get(0));
         Button activate2 = (Button) root.lookup("#activate2");
         activate2.setId(lc.get(1).toString());
         activate2.setOnAction(actionEvent -> {
-            sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false));
+            new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),false))).start();
             actionEvent.consume();
         });
         activate2.setId("activate"+lc.get(1));
         Button discard2 = (Button) root.lookup("#discard2");
         discard2.setId(lc.get(1).toString());
         discard2.setOnAction(actionEvent -> {
-            sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true));
+            new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId()),true))).start();
             actionEvent.consume();
         });
         discard2.setId("discard"+lc.get(1));
@@ -106,7 +106,7 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         menu.getItems().get(1).setOnAction(actionEvent -> observer.showDevDecks());
         menu.getItems().get(2).setOnAction(actionEvent -> observer.activateProduction());
         menu.getItems().get(3).setOnAction(actionEvent -> observer.showDeposits());
-        menu.getItems().get(4).setOnAction(actionEvent -> sendMessage(new EndTurnMessage()));
+        menu.getItems().get(4).setOnAction(actionEvent -> new Thread(() -> sendMessage(new EndTurnMessage())).start());
     }
 
     public Pane getRoot() {

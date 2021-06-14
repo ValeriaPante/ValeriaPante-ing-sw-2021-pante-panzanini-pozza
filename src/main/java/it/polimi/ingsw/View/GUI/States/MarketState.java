@@ -4,6 +4,7 @@ import it.polimi.ingsw.View.GUI.ContainersScene;
 import it.polimi.ingsw.View.GUI.GUI;
 import it.polimi.ingsw.View.GUI.Transition;
 import it.polimi.ingsw.View.GUI.TransmutationScene;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 
@@ -38,12 +39,12 @@ public class MarketState extends State{
         }
         toDo.add(0, done.get(0));
         done.remove(0);
-        Transition.setDialogScene(toDo.get(0).getRoot());
+        Platform.runLater(() -> Transition.setDialogScene(toDo.get(0).getRoot()));
     }
 
     @Override
     public void refresh() {
         done.get(0).initialise();
-        Transition.setDialogScene(toDo.get(0).getRoot());
+        Platform.runLater(() -> Transition.setDialogScene(toDo.get(0).getRoot()));
     }
 }

@@ -3,6 +3,7 @@ package it.polimi.ingsw.View.GUI;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.SelectResourceMessage;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
@@ -80,7 +81,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                sendMessage(new SelectResourceMessage(1, Resource.valueOf(db.getString())));
+                new Thread(() -> sendMessage(new SelectResourceMessage(1, Resource.valueOf(db.getString())))).start();
                 count++;
                 success = true;
             }
@@ -90,7 +91,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             }
             dragEvent.setDropCompleted(success);
             dragEvent.consume();
-            if(count == toChoose) Transition.toLoadingScene();
+            if(count == toChoose) Platform.runLater(Transition::toLoadingScene);
         });
 
 
@@ -106,7 +107,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                sendMessage(new SelectResourceMessage(2, Resource.valueOf(db.getString())));
+                new Thread(() -> sendMessage(new SelectResourceMessage(2, Resource.valueOf(db.getString())))).start();
                 count++;
                 success = true;
             }
@@ -116,7 +117,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             }
             dragEvent.setDropCompleted(success);
             dragEvent.consume();
-            if(count == toChoose) Transition.toLoadingScene();
+            if(count == toChoose) Platform.runLater(() -> Transition.toLoadingScene());
         });
 
 
@@ -132,7 +133,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                sendMessage(new SelectResourceMessage(3, Resource.valueOf(db.getString())));
+                new Thread(() -> sendMessage(new SelectResourceMessage(3, Resource.valueOf(db.getString())))).start();
                 count++;
                 success = true;
             }
@@ -142,7 +143,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             }
             dragEvent.setDropCompleted(success);
             dragEvent.consume();
-            if(count == toChoose) Transition.toLoadingScene();
+            if(count == toChoose) Platform.runLater(() -> Transition.toLoadingScene());
         });
 
     }

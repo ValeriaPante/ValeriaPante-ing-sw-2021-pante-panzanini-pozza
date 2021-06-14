@@ -14,4 +14,8 @@ public abstract class PreGameMessage {
     }
 
     public abstract void readThrough(PreGameControllerSwitch preGameControllerSwitch);
+
+    public String toJson(){
+        return null;
+    }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.View.GUI.States;
 
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.View.GUI.*;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,13 +29,13 @@ public class ProductionState extends State{
     @Override
     public void next(){
         if(toDo.size() == 0 || supportContainer.entrySet().isEmpty()){
-            Transition.hideDialog();
+            Platform.runLater(Transition::hideDialog);
         } else {
             toDo.get(0).initialise();
-            Transition.setDialogScene(toDo.get(0).getRoot());
+            Platform.runLater(() -> Transition.setDialogScene(toDo.get(0).getRoot()));
             done.add(0, toDo.get(0));
             toDo.remove(0);
-            Transition.reshowDialog();
+            Platform.runLater(Transition::reshowDialog);
         }
     }
 

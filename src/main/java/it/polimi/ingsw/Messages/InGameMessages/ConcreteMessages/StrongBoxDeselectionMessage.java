@@ -12,4 +12,11 @@ public class StrongBoxDeselectionMessage extends ResourceIntMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"StrongBoxDeselection\", " +
+                "\"integer\":"+ this.getInteger() +", "  +
+                "\"resource\":"+ this.getResource().toString() +"}";
+    }
 }

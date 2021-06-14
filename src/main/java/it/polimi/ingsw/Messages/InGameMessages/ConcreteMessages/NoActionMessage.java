@@ -8,4 +8,9 @@ public class NoActionMessage extends InGameMessage{
     public void readThrough(InGameControllerSwitch inGameControllerSwitch) {
         return;
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"NoAction\"}";
+    }
 }

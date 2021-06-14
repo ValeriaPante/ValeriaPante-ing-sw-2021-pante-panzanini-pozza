@@ -11,4 +11,10 @@ public class ChooseDevCardMessage extends IntMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"ChooseDevCard\", " +
+                "\"integer\":"+ this.getInteger() +"}";
+    }
 }

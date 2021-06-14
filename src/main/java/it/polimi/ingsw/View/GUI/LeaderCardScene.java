@@ -1,7 +1,7 @@
 package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.LeaderDiscardMessage;
-import it.polimi.ingsw.Network.Client.MessageToServerCreator;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -35,12 +35,12 @@ public class LeaderCardScene extends ObservableByGUI{
             image.setId(String.valueOf(i));
             image.setOnMouseClicked(mouseEvent -> {
                 int index = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
-                sendMessage(new LeaderDiscardMessage(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().get(index)));
+                new Thread(() -> sendMessage(new LeaderDiscardMessage(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().get(index)))).start();
                 Transition.updateLeaderCards(Math.max(index - count, 0));
                 count++;
                 if (count == 2){
                     observer.setGamePhase(1);
-                    Transition.toLoadingScene();
+                    Platform.runLater(Transition::toLoadingScene);
                 }
             });
             gridPane.addColumn(i, image);

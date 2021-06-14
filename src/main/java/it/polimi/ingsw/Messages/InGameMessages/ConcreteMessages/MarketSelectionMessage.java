@@ -11,4 +11,11 @@ public class MarketSelectionMessage extends BooleanIntMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"MarketSelection\", " +
+                "\"integer\":"+ this.getInteger() +", "  +
+                "\"aBoolean\":"+ this.isaBoolean() +"}";
+    }
 }

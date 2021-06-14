@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -23,11 +24,12 @@ public class UsernameScene extends ObservableByGUI {
             TextField ip = (TextField) root.lookup("#ipAddress");
             TextField port = (TextField) root.lookup("#port");
             TextField username = (TextField) root.lookup("#usernameBox");
-            this.connect(ip.getText(), port.getText(), username.getText());
-            Transition.setDisconnectOnClose(this.observer.getMessageManager());
+            Platform.runLater(() -> Transition.setDisconnectOnClose(this.observer.getMessageManager()));
             LobbiesScene lobbiesScene = new LobbiesScene(this.observer);
-            Transition.setLobbiesScene(lobbiesScene);
-            Transition.toLobbiesScene();
+            Platform.runLater(() -> Transition.setLobbiesScene(lobbiesScene));
+            Platform.runLater(() -> Transition.toLobbiesScene());
+            new Thread(() -> this.connect(ip.getText(), port.getText(), username.getText())).start();
+
         });
 
     }

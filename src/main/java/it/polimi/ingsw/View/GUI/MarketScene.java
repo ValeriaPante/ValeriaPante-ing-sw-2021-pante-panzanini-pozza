@@ -2,7 +2,8 @@ package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.MarketSelectionMessage;
-import it.polimi.ingsw.Network.Client.MessageToServerCreator;
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.TakeFromMarketMessage;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
@@ -36,9 +37,9 @@ public class MarketScene extends ObservableByGUI{
 
         Button sendButton = (Button) root.lookup("#buyButton");
         sendButton.setOnAction(event -> {
-            //sendMessageToServer(MessageToServerCreator.createTakeFromMarketMessage());
+            new Thread(() -> sendMessage(new TakeFromMarketMessage())).start();
             observer.toMarketState();
-            Transition.hideDialog();
+            Platform.runLater(Transition::hideDialog);
         });
 
         root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());
@@ -54,8 +55,8 @@ public class MarketScene extends ObservableByGUI{
                 deselectAll();
                 int index = Integer.parseInt(((Region) mouseEvent.getSource()).getId());
                 rowsAndColumns.get(index).setVisible(true);
-                if(index < 3) sendMessage(new MarketSelectionMessage(index, true));
-                else sendMessage(new MarketSelectionMessage(index-3, false));
+                if(index < 3) new Thread(() -> sendMessage(new MarketSelectionMessage(index, true))).start();
+                else new Thread(() -> sendMessage(new MarketSelectionMessage(index-3, false))).start();
                 mouseEvent.consume();
             });
         }

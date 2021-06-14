@@ -1,7 +1,9 @@
 package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.BuyDevCardMessage;
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.ChooseDevCardMessage;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -46,7 +48,7 @@ public class DevDecksScene extends ObservableByGUI{
                         deselectAll();
                         int cardId = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
                         selection.get(cardId).setVisible(true);
-                        //sendMessageToServer(MessageToServerCreator.createChooseDevCardMessage(cardId));
+                        new Thread(() -> sendMessage(new ChooseDevCardMessage(cardId))).start();
                         mouseEvent.consume();
                     });
                     grid.add(image, j, i);
@@ -56,9 +58,9 @@ public class DevDecksScene extends ObservableByGUI{
 
         Button sendButton = (Button) root.lookup("#buyButton");
         sendButton.setOnAction(event -> {
-            sendMessage(new BuyDevCardMessage());
+            new Thread(() -> sendMessage(new BuyDevCardMessage())).start();
             observer.toBuyDevCardState();
-            Transition.hideDialog();
+            Platform.runLater(() -> Transition.hideDialog());
         });
 
         root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());

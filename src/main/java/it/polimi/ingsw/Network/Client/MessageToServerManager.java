@@ -146,15 +146,14 @@ public class MessageToServerManager implements Runnable, MessageManager{
 
     @Override
     public void update(InGameMessage message) {
-        toServer.send(MessageToJsonConverter.create(message));
+        toServer.send(message.toJson());
     }
 
     @Override
     public void update(PreGameMessage message) {
-        toServer.send(MessageToJsonConverter.create(message));
+        toServer.send(message.toJson());
     }
 
-    //to remove
     public void update(String inputLine) {
         toServer.send(inputLine);
     }

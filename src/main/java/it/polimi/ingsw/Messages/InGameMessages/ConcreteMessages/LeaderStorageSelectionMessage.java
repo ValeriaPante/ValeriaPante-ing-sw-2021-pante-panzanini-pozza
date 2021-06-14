@@ -30,4 +30,12 @@ public class LeaderStorageSelectionMessage extends InGameMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"LeaderStorageSelection\", " +
+                "\"id\":"+ this.id +", "  +
+                "\"resPosition\":"+ this.resPosition +", "  +
+                "\"resource\":"+ this.resource.toString() +"}";
+    }
 }

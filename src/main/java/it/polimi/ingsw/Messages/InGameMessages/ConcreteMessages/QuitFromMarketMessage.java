@@ -7,4 +7,9 @@ public class QuitFromMarketMessage extends InGameMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"QuitFromMarket\"}";
+    }
 }

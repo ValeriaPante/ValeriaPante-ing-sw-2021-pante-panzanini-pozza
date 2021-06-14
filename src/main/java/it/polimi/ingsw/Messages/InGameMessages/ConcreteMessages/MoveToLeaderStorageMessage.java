@@ -11,4 +11,10 @@ public class MoveToLeaderStorageMessage extends IntMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"MoveToLeaderStorage\", " +
+                "\"integer\":"+ this.getInteger() +"}";
+    }
 }

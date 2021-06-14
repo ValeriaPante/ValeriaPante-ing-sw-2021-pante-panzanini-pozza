@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View.GUI.States;
 
 import it.polimi.ingsw.View.GUI.*;
+import javafx.application.Platform;
 
 import java.util.ArrayList;
 
@@ -39,12 +40,12 @@ public class BuyDevCardState extends State {
         }
         toDo.add(0, done.get(0));
         done.remove(0);
-        Transition.setDialogScene(toDo.get(0).getRoot());
+        Platform.runLater(() -> Transition.setDialogScene(toDo.get(0).getRoot()));
     }
 
     @Override
     public void refresh() {
         done.get(0).initialise();
-        Transition.setDialogScene(toDo.get(0).getRoot());
+        Platform.runLater(() -> Transition.setDialogScene(toDo.get(0).getRoot()));
     }
 }

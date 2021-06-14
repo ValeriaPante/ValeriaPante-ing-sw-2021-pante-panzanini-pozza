@@ -6,6 +6,7 @@ import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.DisconnectMessa
 import it.polimi.ingsw.Network.Client.MessageManager;
 import it.polimi.ingsw.Network.Client.MessageToServerManager;
 import it.polimi.ingsw.Network.Client.MessageToServerCreator;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;

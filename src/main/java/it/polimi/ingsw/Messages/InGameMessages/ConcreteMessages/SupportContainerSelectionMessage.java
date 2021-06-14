@@ -12,4 +12,11 @@ public class SupportContainerSelectionMessage extends ResourceIntMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"SupportContainerSelection\", " +
+                "\"integer\":"+ this.getInteger() +", "  +
+                "\"resource\":"+ this.getResource().toString() +"}";
+    }
 }

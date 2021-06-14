@@ -8,4 +8,9 @@ public class NoActionMessage extends PreGameMessage{
     public void readThrough(PreGameControllerSwitch preGameControllerSwitch) {
         return;
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"NoAction\"}";
+    }
 }

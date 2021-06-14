@@ -7,4 +7,9 @@ public class TakeFromMarketMessage extends InGameMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"TakeFromMarket\"}";
+    }
 }

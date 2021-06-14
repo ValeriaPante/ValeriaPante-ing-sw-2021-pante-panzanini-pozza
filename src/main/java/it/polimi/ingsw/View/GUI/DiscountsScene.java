@@ -1,7 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.DiscountAbilityMessage;
-import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -47,7 +46,7 @@ public class DiscountsScene extends Initializable{
             image1.setPreserveRatio(true);
             image1.setOnMouseClicked(mouseEvent -> {
                 root.getChildren().get(5).setVisible(true);
-                sendMessage(new DiscountAbilityMessage(discountLC.get(0)));
+                new Thread(() -> sendMessage(new DiscountAbilityMessage(discountLC.get(0)))).start();
             });
             card1.getChildren().add(image1);
 
@@ -59,7 +58,7 @@ public class DiscountsScene extends Initializable{
             image2.setPreserveRatio(true);
             image2.setOnMouseClicked(mouseEvent -> {
                 root.getChildren().get(6).setVisible(true);
-                sendMessage(new DiscountAbilityMessage(discountLC.get(1)));
+                new Thread(() -> sendMessage(new DiscountAbilityMessage(discountLC.get(1)))).start();
             });
             card2.getChildren().add(image2);
 
@@ -72,7 +71,7 @@ public class DiscountsScene extends Initializable{
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
                 root.getChildren().get(7).setVisible(true);
-                sendMessage(new DiscountAbilityMessage(discountLC.get(0)));
+                new Thread(() -> sendMessage(new DiscountAbilityMessage(discountLC.get(0)))).start();
             });
             card.getChildren().add(image);
 

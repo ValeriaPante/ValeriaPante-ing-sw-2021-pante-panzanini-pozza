@@ -27,28 +27,28 @@ public class ChooseOutputScene extends Initializable{
         updateCounter();
 
         root.lookup("#coin").setOnMouseClicked(mouseEvent -> {
-            sendMessage(new AnySelectionMessage(Resource.COIN));
+            new Thread(() -> sendMessage(new AnySelectionMessage(Resource.COIN))).start();
             chosen++;
             updateCounter();
             if(chosen == toChoose) disableClick();
         });
 
         root.lookup("#shield").setOnMouseClicked(mouseEvent -> {
-            sendMessage(new AnySelectionMessage(Resource.SHIELD));
+            new Thread(() -> sendMessage(new AnySelectionMessage(Resource.SHIELD))).start();
             chosen++;
             updateCounter();
             if(chosen == toChoose) disableClick();
         });
 
         root.lookup("#stone").setOnMouseClicked(mouseEvent -> {
-            sendMessage(new AnySelectionMessage(Resource.STONE));
+            new Thread(() -> sendMessage(new AnySelectionMessage(Resource.STONE))).start();
             chosen++;
             updateCounter();
             if(chosen == toChoose) disableClick();
         });
 
         root.lookup("#servant").setOnMouseClicked(mouseEvent -> {
-            sendMessage(new AnySelectionMessage(Resource.SERVANT));
+            new Thread(() -> sendMessage(new AnySelectionMessage(Resource.SERVANT))).start();
             chosen++;
             updateCounter();
             if(chosen == toChoose) disableClick();

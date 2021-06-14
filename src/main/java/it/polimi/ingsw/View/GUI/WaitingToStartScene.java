@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -30,13 +31,13 @@ public class WaitingToStartScene extends ObservableByGUI{
 
         Button startButton = (Button) root.lookup("#startButton");
         startButton.setOnAction(event -> {
-            Transition.setLoadingScene(new LoadingScene());
-            Transition.toLoadingScene();
+            Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
+            Platform.runLater(Transition::toLoadingScene);
         });
 
         root.lookup("#back").setOnMouseClicked(mouseEvent -> {
             ready = false;
-            Transition.toLobbiesScene();
+            Platform.runLater(Transition::toLobbiesScene);
         });
     }
 

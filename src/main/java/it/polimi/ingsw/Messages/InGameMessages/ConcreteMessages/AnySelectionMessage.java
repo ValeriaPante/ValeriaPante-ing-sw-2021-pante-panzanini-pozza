@@ -18,4 +18,10 @@ public class AnySelectionMessage extends InGameMessage {
     public void readThrough(InGameControllerSwitch inGameControllerSwitch){
         inGameControllerSwitch.actionOnMessage(this);
     }
+
+    @Override
+    public String toJson(){
+        return "{ \"type\": \"AnySelection\", " +
+                "\"resource\":"+ this.resource.toString() +"}";
+    }
 }
