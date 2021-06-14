@@ -49,7 +49,10 @@ public class Transition {
     }
 
     public static void setDisconnectOnClose(MessageManager connectionHandler){
-        primaryStage.setOnCloseRequest(windowEvent -> connectionHandler.update(new DisconnectMessage()));
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            connectionHandler.update(new DisconnectMessage());
+            System.exit(1);
+        });
 
     }
 
