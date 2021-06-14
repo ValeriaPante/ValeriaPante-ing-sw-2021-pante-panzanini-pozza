@@ -23,7 +23,7 @@ public class RemotePreGameModel implements PreGameModel{
     private void notifyUserAllLobbies(User user){
         this.lobbies.forEach(lobby -> user.send(JsonToClientPreGame.changedLobbyMessage(lobby, false)));
 
-        user.send("{\"players\":[\"Daniel\",\"Vale\",\"Alberto\"],\"itsYou\":false,\"type\":\"changedLobby\",\"id\":1}"); //debug
+        //user.send("{\"players\":[\"Daniel\",\"Vale\",\"Alberto\"],\"itsYou\":false,\"type\":\"changedLobby\",\"id\":1}"); //debug
     }
 
     private void notifyAllUsers(String message, int userId, String messageToSpecificUser){
@@ -102,9 +102,11 @@ public class RemotePreGameModel implements PreGameModel{
             for (User user : lobby.getUsers()){
                 if (user.getId() == userId){
                     lobby.removeUser(user);
-
+                    this.notDecidedYet.add(user);
                     //notifico il cambiamento di lobby a tutti
                     this.notifyAllUsers(JsonToClientPreGame.changedLobbyMessage(lobby, false));
+                    //so che è in not decided yet
+                    this.getAndRemoveUser(userId);
 
                     //cancello la lobby se una volta rimosso un giocatore questa è vuota
                     //è una cosa che dovrebbe fare il controller ma mi sembra stupido passarlo sopra
