@@ -2,7 +2,6 @@ package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.CardProductionSelectionMessage;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.ProductionActivationMessage;
-import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;

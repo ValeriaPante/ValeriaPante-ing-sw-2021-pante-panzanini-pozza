@@ -2,8 +2,9 @@ package it.polimi.ingsw.View.CLI;
 
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Network.Client.Client;
-import it.polimi.ingsw.Network.Client.MessageToServerCreator;
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.LeaderDiscardMessage;
+import it.polimi.ingsw.Network.Client.MessageManager;
+import it.polimi.ingsw.Network.Client.MessageToServerManager;
 import it.polimi.ingsw.View.ClientModel.Game;
 import it.polimi.ingsw.View.Observable;
 import it.polimi.ingsw.View.View;
@@ -12,7 +13,7 @@ import java.util.Scanner;
 
 public class CLI extends Observable implements View, Runnable{
     private final Game model;
-    private final Client client;
+    private final MessageManager client;
     private final Scanner input;
 
     private boolean someoneIsWaitingForInput;
@@ -28,7 +29,10 @@ public class CLI extends Observable implements View, Runnable{
 
     public CLI(){
         this.model = new Game();
-        this.client = new Client(this);
+        // da Vale: se la partita è online l'istruzione seguente è corretta,
+        // altrimenti l'oggetto da creare è LocalMessageManager, non MessageToServerManager.
+        // vedi tu quando è il momento giusto per instanziare l'oggetto giusto
+        this.client = new MessageToServerManager(this);
         this.input = new Scanner(System.in);
         this.leaderCardPrinter = new LeaderCardPrinter();
         this.devCardPrinter = new DevCardPrinter();
@@ -152,7 +156,7 @@ public class CLI extends Observable implements View, Runnable{
             while (discardedCards < 2){
                 int id = Integer.parseInt(getInput());
                 if (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().contains(id)) {
-                    client.update(MessageToServerCreator.createLeaderDiscardMessage(id));
+                    client.update(new LeaderDiscardMessage(id));
                     discardedCards++;
                 }
                 else

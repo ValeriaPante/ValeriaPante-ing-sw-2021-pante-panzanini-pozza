@@ -2,7 +2,6 @@ package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.SelectResourceMessage;
-import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;

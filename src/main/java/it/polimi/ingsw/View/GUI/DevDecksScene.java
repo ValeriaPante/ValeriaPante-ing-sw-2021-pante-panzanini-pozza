@@ -2,7 +2,6 @@ package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.BuyDevCardMessage;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.ChooseDevCardMessage;
-import it.polimi.ingsw.Network.Client.MessageToServerCreator;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
