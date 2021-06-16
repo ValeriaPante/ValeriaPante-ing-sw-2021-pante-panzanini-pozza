@@ -11,6 +11,6 @@ public class NoActionMessage extends InGameMessage{
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"NoAction\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

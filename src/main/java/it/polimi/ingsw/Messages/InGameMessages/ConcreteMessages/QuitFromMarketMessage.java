@@ -10,6 +10,6 @@ public class QuitFromMarketMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"QuitFromMarket\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

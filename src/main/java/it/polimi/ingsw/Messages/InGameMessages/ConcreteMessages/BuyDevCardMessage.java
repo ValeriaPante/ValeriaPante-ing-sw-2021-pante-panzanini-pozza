@@ -10,6 +10,6 @@ public class BuyDevCardMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"BuyDevCard\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

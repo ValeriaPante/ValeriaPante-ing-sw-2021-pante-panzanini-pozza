@@ -10,6 +10,6 @@ public class ProductionActivationMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"ProductionActivation\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

@@ -10,6 +10,6 @@ public class TakeFromMarketMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"TakeFromMarket\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

@@ -10,6 +10,6 @@ public class EndTurnMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"EndTurn\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

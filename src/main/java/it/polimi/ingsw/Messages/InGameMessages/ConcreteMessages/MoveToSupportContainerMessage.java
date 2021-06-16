@@ -10,6 +10,6 @@ public class MoveToSupportContainerMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"MoveToSupportContainer\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

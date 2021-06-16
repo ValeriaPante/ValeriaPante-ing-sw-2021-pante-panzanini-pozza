@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages;
 
 import it.polimi.ingsw.Controller.InGameControllerSwitch;
+import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
 import it.polimi.ingsw.Messages.InGameMessages.IntMessage;
 
 public class MoveToShelfMessage extends IntMessage {
@@ -14,7 +15,6 @@ public class MoveToShelfMessage extends IntMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"MoveToShelf\", " +
-                "\"integer\":"+ this.getInteger() +"}";
+        return InGameMessage.convertToJson(this);
     }
 }

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages;
 
 import it.polimi.ingsw.Controller.InGameControllerSwitch;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
 import it.polimi.ingsw.Messages.InGameMessages.ResourceIntMessage;
 
 public class ShelfSelectionMessage extends ResourceIntMessage {
@@ -15,8 +16,6 @@ public class ShelfSelectionMessage extends ResourceIntMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"ShelfSelection\", " +
-                "\"integer\":"+ this.getInteger() +", "  +
-                "\"resource\":"+ this.getResource().toString() +"}";
+        return InGameMessage.convertToJson(this);
     }
 }

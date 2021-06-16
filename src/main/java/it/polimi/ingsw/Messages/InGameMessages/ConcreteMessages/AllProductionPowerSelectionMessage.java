@@ -10,6 +10,6 @@ public class AllProductionPowerSelectionMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"AllProductionPowerSelection\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

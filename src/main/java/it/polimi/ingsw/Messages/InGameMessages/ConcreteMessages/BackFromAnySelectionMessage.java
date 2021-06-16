@@ -10,6 +10,6 @@ public class BackFromAnySelectionMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"BackFromAnySelection\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

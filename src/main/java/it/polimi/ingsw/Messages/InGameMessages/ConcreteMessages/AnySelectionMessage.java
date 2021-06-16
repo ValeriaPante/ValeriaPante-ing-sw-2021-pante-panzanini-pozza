@@ -21,7 +21,6 @@ public class AnySelectionMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"AnySelection\", " +
-                "\"resource\":"+ this.resource.toString() +"}";
+        return InGameMessage.convertToJson(this);
     }
 }

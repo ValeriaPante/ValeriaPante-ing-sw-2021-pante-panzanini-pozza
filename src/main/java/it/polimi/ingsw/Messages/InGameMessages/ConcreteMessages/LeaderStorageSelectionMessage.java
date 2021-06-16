@@ -33,9 +33,6 @@ public class LeaderStorageSelectionMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"LeaderStorageSelection\", " +
-                "\"id\":"+ this.id +", "  +
-                "\"resPosition\":"+ this.resPosition +", "  +
-                "\"resource\":"+ this.resource.toString() +"}";
+        return InGameMessage.convertToJson(this);
     }
 }

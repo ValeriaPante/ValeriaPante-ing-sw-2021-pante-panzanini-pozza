@@ -2,6 +2,7 @@ package it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages;
 
 import it.polimi.ingsw.Controller.InGameControllerSwitch;
 import it.polimi.ingsw.Messages.InGameMessages.BooleanIntMessage;
+import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
 
 public class LeaderCardActionMessage extends BooleanIntMessage {
     public LeaderCardActionMessage(int integer, boolean aBoolean) {
@@ -14,8 +15,6 @@ public class LeaderCardActionMessage extends BooleanIntMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"LeaderCardAction\", " +
-                "\"integer\":"+ this.getInteger() +", " +
-                "\"aBoolean\":"+ this.isaBoolean() +"}";
+        return InGameMessage.convertToJson(this);
     }
 }

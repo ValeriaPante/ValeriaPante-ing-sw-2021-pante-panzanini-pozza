@@ -10,6 +10,6 @@ public class ExchangeMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"Exchange\"}";
+        return InGameMessage.convertToJson(this);
     }
 }

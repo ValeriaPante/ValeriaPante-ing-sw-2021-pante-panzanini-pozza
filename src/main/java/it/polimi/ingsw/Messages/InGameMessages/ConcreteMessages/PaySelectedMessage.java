@@ -10,6 +10,6 @@ public class PaySelectedMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return "{ \"type\": \"PaySelected\"}";
+        return InGameMessage.convertToJson(this);
     }
 }
