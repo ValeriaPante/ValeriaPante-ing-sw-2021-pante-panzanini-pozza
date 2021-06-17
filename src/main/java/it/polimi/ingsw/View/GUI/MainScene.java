@@ -47,7 +47,7 @@ public class MainScene extends ObservableByGUI{
                     e.printStackTrace();
                 }
 
-                AnchorPane background = (AnchorPane) root.lookup("#background");
+                AnchorPane background = (AnchorPane) player.lookup("#background");
                 ImageView backgroundImage = new ImageView();
                 try {
                     File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
@@ -67,12 +67,17 @@ public class MainScene extends ObservableByGUI{
                 Pane grid = (Pane) player.lookup("#pane");
                 AnchorPane card1 = (AnchorPane) grid.lookup("#card1");
                 AnchorPane card2 = (AnchorPane) grid.lookup("#card2");
-                InputStream in1 = getClass().getResourceAsStream("/accessible/assets/imgs/" +lc.get(0)+".png");
-                InputStream in2 = getClass().getResourceAsStream("/accessible/assets/imgs/" +lc.get(1)+".png");
                 ImageView image1 = new ImageView();
                 ImageView image2 = new ImageView();
-                image1.setImage(new Image(in1));
-                image2.setImage(new Image(in2));
+                try {
+                    File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                    FileInputStream fileInputStream1 = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\"+lc.get(0)+".png");
+                    image1.setImage(new Image(fileInputStream1));
+                    FileInputStream fileInputStream2 = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\"+lc.get(1)+".png");
+                    image2.setImage(new Image(fileInputStream2));
+
+                } catch(Exception e) {
+                }
                 image1.setFitWidth(85);
                 image2.setFitWidth(85);
                 image1.setPreserveRatio(true);
@@ -116,7 +121,7 @@ public class MainScene extends ObservableByGUI{
                 discard2.setId("discard"+lc.get(1));
 
                 for (int k = 1; k < 4; k++){
-                    InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/pope" +k+".png");
+                    InputStream in = getClass().getResourceAsStream("/constantAssets/pope" +k+".png");
                     ImageView image = new ImageView();
                     image.setImage(new Image(in));
                     image.setFitWidth(31);
@@ -146,7 +151,7 @@ public class MainScene extends ObservableByGUI{
                     e.printStackTrace();
                 }
 
-                AnchorPane background = (AnchorPane) root.lookup("#background");
+                AnchorPane background = (AnchorPane) player.lookup("#background");
                 ImageView backgroundImage = new ImageView();
                 try {
                     File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
@@ -178,7 +183,7 @@ public class MainScene extends ObservableByGUI{
                 card2.getChildren().add(image4);
 
                 for (int k = 1; k < 4; k++){
-                    InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/pope" +k+".png");
+                    InputStream in = getClass().getResourceAsStream("/constantAssets/pope" +k+".png");
                     ImageView image = new ImageView();
                     image.setImage(new Image(in));
                     image.setFitWidth(31);

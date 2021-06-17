@@ -245,10 +245,6 @@ public class Transition {
             else if(playerPane.lookup("#lc1") != null) playerPane.lookup("#lc1").setVisible(false);
             else playerPane.lookup("#lc2").setVisible(false);
         }
-        if(playerPane.lookup("#"+cardId) == null){
-            playerPane.lookup("#lc"+cardId+"1").setVisible(false);
-            playerPane.lookup("#lc"+cardId+"2").setVisible(false);
-        }
     }
 
     public static void discardLeaderCard(int cardId){
