@@ -48,7 +48,7 @@ public class DevDecksScene extends ObservableByGUI{
                     }
                     image.setFitWidth(120);
                     image.setPreserveRatio(true);
-                    image.setId(String.valueOf(i+j));
+                    image.setId(String.valueOf(1+j+i*4));
                     image.setOnMouseClicked(mouseEvent -> {
                         deselectAll();
                         int deckNumber = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
