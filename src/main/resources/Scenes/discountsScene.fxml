@@ -25,17 +25,17 @@
       </Label>
       <ImageView fitHeight="56.0" fitWidth="47.0" layoutX="137.0" layoutY="450.0">
          <image>
-            <Image url="@../accessible/assets/imgs/check.png" />
+            <Image url="@../constantAssets/check.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="56.0" fitWidth="47.0" layoutX="415.0" layoutY="450.0">
          <image>
-            <Image url="@../accessible/assets/imgs/check.png" />
+            <Image url="@../constantAssets/check.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="56.0" fitWidth="47.0" layoutX="276.0" layoutY="450.0">
          <image>
-            <Image url="@../accessible/assets/imgs/check.png" />
+            <Image url="@../constantAssets/check.png" />
          </image>
       </ImageView>
    </children>

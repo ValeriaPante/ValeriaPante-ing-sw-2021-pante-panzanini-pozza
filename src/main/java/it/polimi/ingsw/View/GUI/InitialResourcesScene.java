@@ -116,7 +116,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             }
             dragEvent.setDropCompleted(success);
             dragEvent.consume();
-            if(count == toChoose) Platform.runLater(() -> Transition.toLoadingScene());
+            if(count == toChoose) Platform.runLater(Transition::toLoadingScene);
         });
 
 
@@ -142,13 +142,13 @@ public class InitialResourcesScene extends ObservableByGUI{
             }
             dragEvent.setDropCompleted(success);
             dragEvent.consume();
-            if(count == toChoose) Platform.runLater(() -> Transition.toLoadingScene());
+            if(count == toChoose) Platform.runLater(Transition::toLoadingScene);
         });
 
     }
 
     private ImageView getImageFromResource(String resource){
-        InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +resource.toLowerCase()+".png");
+        InputStream in = getClass().getResourceAsStream("/constantAssets/" +resource.toLowerCase()+".png");
         ImageView image = new ImageView();
         image.setImage(new Image(in));
         image.setFitWidth(70);

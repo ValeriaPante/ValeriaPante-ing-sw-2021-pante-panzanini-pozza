@@ -11,22 +11,22 @@
    <children>
       <ImageView fitHeight="48.0" fitWidth="54.0" layoutX="8.0" layoutY="17.0">
          <image>
-            <Image url="@../accessible/assets/imgs/coin.png" />
+            <Image url="@../constantAssets/coin.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="59.0" fitWidth="54.0" layoutX="122.0" layoutY="69.0">
          <image>
-            <Image url="@../accessible/assets/imgs/servant.png" />
+            <Image url="@../constantAssets/servant.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="48.0" fitWidth="45.0" layoutX="126.0" layoutY="17.0">
          <image>
-            <Image url="@../accessible/assets/imgs/shield.png" />
+            <Image url="@../constantAssets/shield.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="59.0" fitWidth="54.0" layoutX="8.0" layoutY="69.0">
          <image>
-            <Image url="@../accessible/assets/imgs/stone.png" />
+            <Image url="@../constantAssets/stone.png" />
          </image>
       </ImageView>
       <Label id="coin" layoutX="62.0" layoutY="23.0" text="0" textFill="WHITE">

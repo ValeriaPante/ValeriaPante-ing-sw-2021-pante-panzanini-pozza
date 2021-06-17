@@ -18,12 +18,12 @@
       </Button>
       <ImageView fitHeight="252.0" fitWidth="329.0" layoutX="132.0" layoutY="65.0">
          <image>
-            <Image url="@../accessible/assets/imgs/market.png" />
+            <Image url="@../constantAssets/market.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="556.0" fitWidth="463.0" layoutX="69.0">
          <image>
-            <Image url="@../accessible/assets/imgs/plancia.png" />
+            <Image url="@../constantAssets/plancia.png" />
          </image>
       </ImageView>
       <Circle fill="DODGERBLUE" layoutX="234.0" layoutY="147.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
@@ -55,7 +55,7 @@
       <Region id="column4" layoutX="360.0" layoutY="118.0" prefHeight="156.0" prefWidth="58.0" style="-fx-border-color: #ffd60a; -fx-border-width: 3;" />
       <ImageView id="quit" fitHeight="35.0" fitWidth="38.0" layoutX="14.0" layoutY="556.0">
          <image>
-            <Image url="@../accessible/assets/imgs/goback.png" />
+            <Image url="@../constantAssets/goback.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

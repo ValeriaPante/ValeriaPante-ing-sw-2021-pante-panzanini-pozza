@@ -11,6 +11,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,6 +41,20 @@ public class SinglePlayerMainScene extends ObservableByGUI{
             e.printStackTrace();
         }
 
+
+        AnchorPane background = (AnchorPane) root.lookup("#background");
+        ImageView backgroundImage = new ImageView();
+        try {
+            File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\colored.jpg");
+            backgroundImage.setImage(new Image(fileInputStream));
+
+        } catch(Exception e) {
+        }
+        backgroundImage.setFitWidth(1006.0);
+        backgroundImage.setFitHeight(654.0);
+        backgroundImage.setVisible(true);
+        background.getChildren().add(backgroundImage);
 
         ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
         AnchorPane card1 = (AnchorPane) root.lookup("#card1");

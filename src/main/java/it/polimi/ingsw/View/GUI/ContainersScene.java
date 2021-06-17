@@ -13,6 +13,8 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -130,7 +132,7 @@ public class ContainersScene extends Initializable{
             if(!shelf.isEmpty()){
                 for(Map.Entry<Resource, Integer> entry: shelf.entrySet()){
                     for(int i = 0; i < entry.getValue(); i++){
-                        InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +entry.getKey().toString().toLowerCase()+".png");
+                        InputStream in = Transition.class.getResourceAsStream("/constantAssets/" +entry.getKey().toString().toLowerCase()+".png");
                         ImageView image = new ImageView();
                         image.setImage(new Image(in));
                         image.setFitWidth(50);
@@ -191,9 +193,15 @@ public class ContainersScene extends Initializable{
         int availableSpace = 1;
         for (Map.Entry<Integer, Resource[]> storage: lc.entrySet()) {
             AnchorPane leaderCard = (AnchorPane) root.lookup("#lc"+availableSpace);
-            InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +storage.getKey()+".png");
             ImageView image = new ImageView();
-            image.setImage(new Image(in));
+
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\"+storage.getKey()+".png");
+                image.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image.setFitWidth(200);
             image.setPreserveRatio(true);
             leaderCard.getChildren().add(image);
@@ -221,7 +229,7 @@ public class ContainersScene extends Initializable{
                 });
                 if(resources != null){
                     for(int j = 0; j < resources.length; j++){
-                        InputStream input = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +resources[j].toString().toLowerCase()+".png");
+                        InputStream input = Transition.class.getResourceAsStream("/constantAssets/" +resources[j].toString().toLowerCase()+".png");
                         ImageView resourceImage = new ImageView();
                         resourceImage.setImage(new Image(input));
                         resourceImage.setFitWidth(60);

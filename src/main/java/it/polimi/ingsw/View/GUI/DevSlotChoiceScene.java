@@ -6,8 +6,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 public class DevSlotChoiceScene extends Initializable{
 
@@ -39,9 +40,14 @@ public class DevSlotChoiceScene extends Initializable{
             for (int j = 0; j < devCards[i].length; j++){
                 if(devCards[i][j] != 0){
                     AnchorPane card = (AnchorPane) root.lookup("#card"+(j+3*i));
-                    InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCards[i][j]+".png");
                     ImageView image = new ImageView();
-                    image.setImage(new Image(in));
+                    try {
+                        File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                        FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCards[i][j]+".png");
+                        image.setImage(new Image(fileInputStream));
+
+                    } catch(Exception e) {
+                    }
                     image.setFitWidth(150);
                     image.setPreserveRatio(true);
                     card.getChildren().add(image);

@@ -10,11 +10,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="309.0" fitWidth="464.0" layoutX="-3.0" layoutY="-2.0">
-         <image>
-            <Image url="@../accessible/assets/imgs/colored.jpg" />
-         </image>
-      </ImageView>
+      <AnchorPane id="background" layoutX="-3.0" layoutY="-2.0" prefHeight="309.0" prefWidth="464.0" />
       <AnchorPane id="slot1" layoutX="176.0" layoutY="130.0" prefHeight="167.0" prefWidth="79.0">
          <children>
             <AnchorPane id="card1" layoutX="15.0" layoutY="84.0" prefHeight="76.0" prefWidth="50.0" />
@@ -38,14 +34,14 @@
       </AnchorPane>
       <ImageView id="faith" fitHeight="29.0" fitWidth="25.0" layoutX="12.0" layoutY="54.0">
          <image>
-            <Image url="@../accessible/assets/imgs/faith.png" />
+            <Image url="@../constantAssets/faith.png" />
          </image>
       </ImageView>
       <AnchorPane id="lc1" layoutX="463.0" layoutY="4.0" prefHeight="142.0" prefWidth="100.0" />
       <AnchorPane id="lc2" layoutX="463.0" layoutY="160.0" prefHeight="149.0" prefWidth="100.0" />
       <ImageView id="calamaio" fitHeight="29.0" fitWidth="25.0" layoutX="2.0" layoutY="2.0">
          <image>
-            <Image url="@../accessible/assets/imgs/calamaio.png" />
+            <Image url="@../constantAssets/calamaio.png" />
          </image>
       </ImageView>
       <Region id="strongbox" layoutX="12.0" layoutY="231.0" prefHeight="53.0" prefWidth="79.0" />

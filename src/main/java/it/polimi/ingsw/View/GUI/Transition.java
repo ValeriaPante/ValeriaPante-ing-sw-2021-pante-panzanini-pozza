@@ -275,7 +275,7 @@ public class Transition {
                 case FACEDOWN:
                     break;
                 case FACEUP:
-                    InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/check.png");
+                    InputStream in = Transition.class.getResourceAsStream("/constantAssets/check.png");
                     ImageView image = new ImageView();
                     image.setImage(new Image(in));
                     image.setFitWidth(31);

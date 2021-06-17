@@ -17,7 +17,7 @@
       </Label>
       <ImageView fitHeight="482.0" fitWidth="686.0" layoutY="117.0">
          <image>
-            <Image url="@../accessible/assets/imgs/slots.jpg" />
+            <Image url="@../constantAssets/slots.jpg" />
          </image>
       </ImageView>
       <AnchorPane id="card0" layoutX="50.0" layoutY="292.0" prefHeight="211.0" prefWidth="150.0" />

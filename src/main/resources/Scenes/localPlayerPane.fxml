@@ -11,11 +11,7 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <ImageView fitHeight="302.0" fitWidth="464.0">
-         <image>
-            <Image url="@../accessible/assets/imgs/colored.jpg" />
-         </image>
-      </ImageView>
+      <AnchorPane id="background" prefHeight="302.0" prefWidth="464.0" />
       <Pane id="pane" layoutX="463.0" prefHeight="308.0" prefWidth="103.0">
          <children>
             <Button id="activate2" layoutY="154.0" mnemonicParsing="false" prefHeight="14.0" prefWidth="49.0" text="Activate">
@@ -65,12 +61,12 @@
       </AnchorPane>
       <ImageView id="faith" fitHeight="29.0" fitWidth="25.0" layoutX="12.0" layoutY="54.0">
          <image>
-            <Image url="@../accessible/assets/imgs/faith.png" />
+            <Image url="@../constantAssets/faith.png" />
          </image>
       </ImageView>
       <ImageView id="calamaio" fitHeight="29.0" fitWidth="25.0" layoutX="2.0" layoutY="2.0">
          <image>
-            <Image url="@../accessible/assets/imgs/calamaio.png" />
+            <Image url="@../constantAssets/calamaio.png" />
          </image>
       </ImageView>
       <Region id="strongbox" layoutX="14.0" layoutY="225.0" prefHeight="54.0" prefWidth="79.0" />

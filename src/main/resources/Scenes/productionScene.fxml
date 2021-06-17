@@ -13,22 +13,22 @@
    <children>
       <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="673.0" layoutY="39.0">
          <image>
-            <Image url="@../accessible/assets/imgs/coin.png" />
+            <Image url="@../constantAssets/coin.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="673.0" layoutY="103.0">
          <image>
-            <Image url="@../accessible/assets/imgs/shield.png" />
+            <Image url="@../constantAssets/shield.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="673.0" layoutY="168.0">
          <image>
-            <Image url="@../accessible/assets/imgs/servant.png" />
+            <Image url="@../constantAssets/servant.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="673.0" layoutY="239.0">
          <image>
-            <Image url="@../accessible/assets/imgs/stone.png" />
+            <Image url="@../constantAssets/stone.png" />
          </image>
       </ImageView>
       <Label id="count0" layoutX="769.0" layoutY="50.0" text="0" textFill="WHITE">
@@ -53,22 +53,22 @@
       </Label>
       <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="834.0" layoutY="44.0">
          <image>
-            <Image url="@../accessible/assets/imgs/coin.png" />
+            <Image url="@../constantAssets/coin.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="834.0" layoutY="108.0">
          <image>
-            <Image url="@../accessible/assets/imgs/shield.png" />
+            <Image url="@../constantAssets/shield.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="834.0" layoutY="173.0">
          <image>
-            <Image url="@../accessible/assets/imgs/servant.png" />
+            <Image url="@../constantAssets/servant.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="834.0" layoutY="244.0">
          <image>
-            <Image url="@../accessible/assets/imgs/stone.png" />
+            <Image url="@../constantAssets/stone.png" />
          </image>
       </ImageView>
       <Label id="count4" layoutX="930.0" layoutY="55.0" text="0" textFill="WHITE">
@@ -93,22 +93,22 @@
       </Label>
       <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="673.0" layoutY="331.0">
          <image>
-            <Image url="@../accessible/assets/imgs/coin.png" />
+            <Image url="@../constantAssets/coin.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="673.0" layoutY="395.0">
          <image>
-            <Image url="@../accessible/assets/imgs/shield.png" />
+            <Image url="@../constantAssets/shield.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="673.0" layoutY="460.0">
          <image>
-            <Image url="@../accessible/assets/imgs/servant.png" />
+            <Image url="@../constantAssets/servant.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="673.0" layoutY="531.0">
          <image>
-            <Image url="@../accessible/assets/imgs/stone.png" />
+            <Image url="@../constantAssets/stone.png" />
          </image>
       </ImageView>
       <Label id="count8" layoutX="769.0" layoutY="344.0" text="0" textFill="WHITE">
@@ -150,7 +150,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -159,7 +159,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -168,7 +168,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -177,7 +177,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -186,7 +186,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -195,7 +195,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -204,7 +204,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -213,7 +213,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -222,7 +222,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -231,7 +231,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -240,7 +240,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -249,7 +249,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -258,7 +258,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -267,7 +267,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -276,7 +276,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -285,7 +285,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -294,7 +294,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -303,7 +303,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -312,7 +312,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -321,7 +321,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -330,7 +330,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -339,7 +339,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -348,7 +348,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -357,29 +357,29 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
       <ImageView fitHeight="43.0" fitWidth="52.0" layoutX="834.0" layoutY="331.0">
          <image>
-            <Image url="@../accessible/assets/imgs/coin.png" />
+            <Image url="@../constantAssets/coin.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="834.0" layoutY="395.0">
          <image>
-            <Image url="@../accessible/assets/imgs/shield.png" />
+            <Image url="@../constantAssets/shield.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="834.0" layoutY="460.0">
          <image>
-            <Image url="@../accessible/assets/imgs/servant.png" />
+            <Image url="@../constantAssets/servant.png" />
          </image>
       </ImageView>
       <ImageView fitHeight="51.0" fitWidth="52.0" layoutX="834.0" layoutY="531.0">
          <image>
-            <Image url="@../accessible/assets/imgs/stone.png" />
+            <Image url="@../constantAssets/stone.png" />
          </image>
       </ImageView>
       <Label id="count8" layoutX="929.0" layoutY="344.0" text="0" textFill="WHITE">
@@ -411,7 +411,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -420,7 +420,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -429,7 +429,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -438,7 +438,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/plus.png" />
+                  <Image url="@../constantAssets/plus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -447,7 +447,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -456,7 +456,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -465,7 +465,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -474,7 +474,7 @@
          <graphic>
             <ImageView fitHeight="30.0" fitWidth="30.0">
                <image>
-                  <Image url="@../accessible/assets/imgs/minus.png" />
+                  <Image url="@../constantAssets/minus.png" />
                </image>
             </ImageView>
          </graphic>
@@ -491,27 +491,27 @@
       </Label>
       <ImageView id="tick1" fitHeight="56.0" fitWidth="47.0" layoutX="92.0" layoutY="254.0">
          <image>
-            <Image url="@../accessible/assets/imgs/check.png" />
+            <Image url="@../constantAssets/check.png" />
          </image>
       </ImageView>
       <ImageView id="tick2" fitHeight="56.0" fitWidth="47.0" layoutX="272.0" layoutY="255.0">
          <image>
-            <Image url="@../accessible/assets/imgs/check.png" />
+            <Image url="@../constantAssets/check.png" />
          </image>
       </ImageView>
       <ImageView id="tick3" fitHeight="56.0" fitWidth="47.0" layoutX="472.0" layoutY="255.0">
          <image>
-            <Image url="@../accessible/assets/imgs/check.png" />
+            <Image url="@../constantAssets/check.png" />
          </image>
       </ImageView>
       <ImageView id="tick4" fitHeight="56.0" fitWidth="47.0" layoutX="272.0" layoutY="517.0">
          <image>
-            <Image url="@../accessible/assets/imgs/check.png" />
+            <Image url="@../constantAssets/check.png" />
          </image>
       </ImageView>
       <ImageView id="tick5" fitHeight="56.0" fitWidth="47.0" layoutX="478.0" layoutY="509.0">
          <image>
-            <Image url="@../accessible/assets/imgs/check.png" />
+            <Image url="@../constantAssets/check.png" />
          </image>
       </ImageView>
       <Button id="continue" layoutX="446.0" layoutY="594.0" mnemonicParsing="false" text="Continue">
@@ -521,17 +521,17 @@
       </Button>
       <ImageView id="basic" fitHeight="136.0" fitWidth="142.0" layoutX="45.0" layoutY="400.0">
          <image>
-            <Image url="@../accessible/assets/imgs/pergamena.PNG" />
+            <Image url="@../constantAssets/pergamena.PNG" />
          </image>
       </ImageView>
       <ImageView id="tick6" fitHeight="56.0" fitWidth="47.0" layoutX="92.0" layoutY="520.0">
          <image>
-            <Image url="@../accessible/assets/imgs/check.png" />
+            <Image url="@../constantAssets/check.png" />
          </image>
       </ImageView>
       <ImageView id="quit" fitHeight="35.0" fitWidth="38.0" layoutX="7.0" layoutY="594.0">
          <image>
-            <Image url="@../accessible/assets/imgs/goback.png" />
+            <Image url="@../constantAssets/goback.png" />
          </image>
          <cursor>
             <Cursor fx:constant="HAND" />

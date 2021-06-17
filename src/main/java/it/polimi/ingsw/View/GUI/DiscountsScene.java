@@ -7,8 +7,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class DiscountsScene extends Initializable{
@@ -39,9 +40,14 @@ public class DiscountsScene extends Initializable{
 
         if(discountLC.size() == 2){
             AnchorPane card1 = (AnchorPane) root.getChildren().get(1);
-            InputStream in1 = getClass().getResourceAsStream("/accessible/assets/imgs/" +discountLC.get(0)+".png");
             ImageView image1 = new ImageView();
-            image1.setImage(new Image(in1));
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +discountLC.get(0)+".png");
+                image1.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image1.setFitWidth(255);
             image1.setPreserveRatio(true);
             image1.setOnMouseClicked(mouseEvent -> {
@@ -51,9 +57,14 @@ public class DiscountsScene extends Initializable{
             card1.getChildren().add(image1);
 
             AnchorPane card2 = (AnchorPane) root.getChildren().get(2);
-            InputStream in2 = getClass().getResourceAsStream("/accessible/assets/imgs/" +discountLC.get(1)+".png");
             ImageView image2 = new ImageView();
-            image2.setImage(new Image(in2));
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +discountLC.get(1)+".png");
+                image2.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image2.setFitWidth(255);
             image2.setPreserveRatio(true);
             image2.setOnMouseClicked(mouseEvent -> {
@@ -64,9 +75,14 @@ public class DiscountsScene extends Initializable{
 
         } else {
             AnchorPane card = (AnchorPane) root.getChildren().get(3);
-            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +discountLC.get(0)+".png");
             ImageView image = new ImageView();
-            image.setImage(new Image(in));
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +discountLC.get(0)+".png");
+                image.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image.setFitWidth(255);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {

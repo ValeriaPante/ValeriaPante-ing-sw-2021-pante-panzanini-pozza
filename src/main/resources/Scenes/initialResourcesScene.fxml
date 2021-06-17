@@ -12,7 +12,7 @@
    <children>
       <ImageView fitHeight="462.0" fitWidth="396.0" layoutX="276.0">
          <image>
-            <Image url="@../accessible/assets/imgs/shelf.png" />
+            <Image url="@../constantAssets/shelf.png" />
          </image>
       </ImageView>
       <Label layoutX="37.0" layoutY="41.0" prefHeight="37.0" prefWidth="320.0" text="Choose your initial resources" textFill="WHITE">
@@ -22,22 +22,22 @@
       </Label>
       <ImageView id="coin" fitHeight="71.0" fitWidth="82.0" layoutX="62.0" layoutY="96.0">
          <image>
-            <Image url="@../accessible/assets/imgs/coin.png" />
+            <Image url="@../constantAssets/coin.png" />
          </image>
       </ImageView>
       <ImageView id="shield" fitHeight="71.0" fitWidth="71.0" layoutX="67.0" layoutY="196.0">
          <image>
-            <Image url="@../accessible/assets/imgs/shield.png" />
+            <Image url="@../constantAssets/shield.png" />
          </image>
       </ImageView>
       <ImageView id="stone" fitHeight="71.0" fitWidth="82.0" layoutX="61.0" layoutY="288.0">
          <image>
-            <Image url="@../accessible/assets/imgs/stone.png" />
+            <Image url="@../constantAssets/stone.png" />
          </image>
       </ImageView>
       <ImageView id="servant" fitHeight="71.0" fitWidth="82.0" layoutX="61.0" layoutY="377.0">
          <image>
-            <Image url="@../accessible/assets/imgs/servant.png" />
+            <Image url="@../constantAssets/servant.png" />
          </image>
       </ImageView>
       <AnchorPane id="resource1" layoutX="483.0" layoutY="111.0" prefHeight="71.0" prefWidth="71.0" />

@@ -11,7 +11,7 @@
          <children>
             <ImageView>
                <image>
-                  <Image url="@../accessible/assets/imgs/Immagine.jpg" />
+                  <Image url="@../constantAssets/Immagine.jpg" />
                </image>
             </ImageView>
             <Button id="startOffline" layoutX="618.0" layoutY="479.0" mnemonicParsing="false" prefHeight="44.0" prefWidth="138.0" text="Offline">

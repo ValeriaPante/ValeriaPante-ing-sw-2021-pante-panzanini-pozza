@@ -11,8 +11,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,17 +38,22 @@ public class DevDecksScene extends ObservableByGUI{
                     Region region = (Region) root.getChildren().get(2+i*4+j);
                     region.setVisible(false);
                     selection.put(devDecks[i][j], region);
-                    InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devDecks[i][j]+".png");
                     ImageView image = new ImageView();
-                    image.setImage(new Image(in));
+                    try {
+                        File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                        FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devDecks[i][j]+".png");
+                        image.setImage(new Image(fileInputStream));
+
+                    } catch(Exception e) {
+                    }
                     image.setFitWidth(120);
                     image.setPreserveRatio(true);
-                    image.setId(String.valueOf(devDecks[i][j]));
+                    image.setId(String.valueOf(i+j));
                     image.setOnMouseClicked(mouseEvent -> {
                         deselectAll();
-                        int cardId = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
-                        selection.get(cardId).setVisible(true);
-                        new Thread(() -> sendMessage(new ChooseDevCardMessage(cardId))).start();
+                        int deckNumber = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
+                        selection.get(deckNumber).setVisible(true);
+                        new Thread(() -> sendMessage(new ChooseDevCardMessage(deckNumber))).start();
                         mouseEvent.consume();
                     });
                     grid.add(image, j, i);
@@ -59,7 +65,7 @@ public class DevDecksScene extends ObservableByGUI{
         sendButton.setOnAction(event -> {
             new Thread(() -> sendMessage(new BuyDevCardMessage())).start();
             observer.toBuyDevCardState();
-            Platform.runLater(() -> Transition.hideDialog());
+            Platform.runLater(Transition::hideDialog);
         });
 
         root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());

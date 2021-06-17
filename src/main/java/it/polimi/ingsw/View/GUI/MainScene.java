@@ -11,6 +11,8 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -44,6 +46,21 @@ public class MainScene extends ObservableByGUI{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                AnchorPane background = (AnchorPane) root.lookup("#background");
+                ImageView backgroundImage = new ImageView();
+                try {
+                    File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                    FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\colored.jpg");
+                    backgroundImage.setImage(new Image(fileInputStream));
+
+                } catch(Exception e) {
+                }
+                backgroundImage.setFitWidth(464.0);
+                backgroundImage.setFitHeight(302.0);
+                backgroundImage.setVisible(true);
+                background.getChildren().add(backgroundImage);
+
                 if(i > 0) player.lookup("#calamaio").setVisible(false);
                 ((Label) player.lookup("#username")).setText(usernames.get(i)+"(you)");
                 ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
@@ -128,12 +145,27 @@ public class MainScene extends ObservableByGUI{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                AnchorPane background = (AnchorPane) root.lookup("#background");
+                ImageView backgroundImage = new ImageView();
+                try {
+                    File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                    FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\colored.jpg");
+                    backgroundImage.setImage(new Image(fileInputStream));
+
+                } catch(Exception e) {
+                }
+                backgroundImage.setFitWidth(464.0);
+                backgroundImage.setFitHeight(309.0);
+                backgroundImage.setVisible(true);
+                background.getChildren().add(backgroundImage);
+
                 if(i > 0) player.lookup("#calamaio").setVisible(false);
                 ((Label) player.lookup("#username")).setText(usernames.get(i));
                 AnchorPane card1 = (AnchorPane) player.lookup("#lc1");
                 AnchorPane card2 = (AnchorPane) player.lookup("#lc2");
-                InputStream in3 = getClass().getResourceAsStream("/accessible/assets/imgs/retro.jpg");
-                InputStream in4 = getClass().getResourceAsStream("/accessible/assets/imgs/retro.jpg");
+                InputStream in3 = getClass().getResourceAsStream("/constantAssets/retro.jpg");
+                InputStream in4 = getClass().getResourceAsStream("/constantAssets/retro.jpg");
                 ImageView image3 = new ImageView();
                 ImageView image4 = new ImageView();
                 image3.setImage(new Image(in3));

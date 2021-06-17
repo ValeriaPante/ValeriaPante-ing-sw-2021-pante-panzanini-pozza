@@ -10,8 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class TransmutationScene extends Initializable{
@@ -27,23 +28,22 @@ public class TransmutationScene extends Initializable{
     @Override
     public void initialise(){
 
-        AnchorPane card1 = (AnchorPane) root.getChildren().get(1);
-        AnchorPane card2 = (AnchorPane) root.getChildren().get(2);
         ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
 
-        InputStream in1 = getClass().getResourceAsStream("/accessible/assets/imgs/" +lc.get(0)+".png");
-        ImageView image1 = new ImageView();
-        image1.setImage(new Image(in1));
-        image1.setFitWidth(255);
-        image1.setPreserveRatio(true);
-        card1.getChildren().add(image1);
+        for(int i = 0; i < 2; i++){
+            AnchorPane card = (AnchorPane) root.getChildren().get(i);
+            ImageView image = new ImageView();
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +lc.get(i)+".png");
+                image.setImage(new Image(fileInputStream));
 
-        InputStream in2 = getClass().getResourceAsStream("/accessible/assets/imgs/" +lc.get(1)+".png");
-        ImageView image2 = new ImageView();
-        image2.setImage(new Image(in2));
-        image2.setFitWidth(255);
-        image2.setPreserveRatio(true);
-        card2.getChildren().add(image2);
+            } catch(Exception e) {
+            }
+            image.setFitWidth(255);
+            image.setPreserveRatio(true);
+            card.getChildren().add(image);
+        }
 
         Spinner<Integer> spinner1 = (Spinner<Integer>) root.getChildren().get(3);
         Spinner<Integer> spinner2 = (Spinner<Integer>) root.getChildren().get(4);

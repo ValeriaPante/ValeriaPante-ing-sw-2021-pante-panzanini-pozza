@@ -9,8 +9,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class ProductionScene extends PaymentScene{
@@ -39,9 +40,14 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card1 = (AnchorPane) root.lookup("#card1");
         root.lookup("#tick1").setVisible(false);
         if(devCardOnTop[0] != 0){
-            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[0]+".png");
             ImageView image = new ImageView();
-            image.setImage(new Image(in));
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[0]+".png");
+                image.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
@@ -55,9 +61,14 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card2 = (AnchorPane) root.lookup("#card2");
         root.lookup("#tick2").setVisible(false);
         if(devCardOnTop[1] != 0){
-            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[1]+".png");
             ImageView image = new ImageView();
-            image.setImage(new Image(in));
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[1]+".png");
+                image.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
@@ -71,9 +82,14 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card3 = (AnchorPane) root.lookup("#card3");
         root.lookup("#tick3").setVisible(false);
         if(devCardOnTop[2] != 0){
-            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[2]+".png");
             ImageView image = new ImageView();
-            image.setImage(new Image(in));
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[2]+".png");
+                image.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
@@ -96,9 +112,14 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card4 = (AnchorPane) root.lookup("#card4");
         root.lookup("#tick4").setVisible(false);
         if(devCardOnTop[3] != 0){
-            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[3]+".png");
             ImageView image = new ImageView();
-            image.setImage(new Image(in));
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[3]+".png");
+                image.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
@@ -112,9 +133,14 @@ public class ProductionScene extends PaymentScene{
         AnchorPane card5 = (AnchorPane) root.lookup("#card5");
         root.lookup("#tick5").setVisible(false);
         if(devCardOnTop[4] != 0){
-            InputStream in = getClass().getResourceAsStream("/accessible/assets/imgs/" +devCardOnTop[4]+".png");
             ImageView image = new ImageView();
-            image.setImage(new Image(in));
+            try {
+                File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[4]+".png");
+                image.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
             image.setOnMouseClicked(mouseEvent -> {
