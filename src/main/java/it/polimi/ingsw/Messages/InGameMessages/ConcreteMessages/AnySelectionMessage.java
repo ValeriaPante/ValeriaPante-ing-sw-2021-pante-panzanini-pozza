@@ -3,6 +3,7 @@ package it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages;
 import it.polimi.ingsw.Controller.InGameControllerSwitch;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+import it.polimi.ingsw.Messages.InGameMessages.MessageConverterToJSON;
 
 public class AnySelectionMessage extends InGameMessage {
     private final Resource resource;
@@ -21,6 +22,6 @@ public class AnySelectionMessage extends InGameMessage {
 
     @Override
     public String toJson(){
-        return InGameMessage.convertToJson(this);
+        return MessageConverterToJSON.convertToJson(this);
     }
 }

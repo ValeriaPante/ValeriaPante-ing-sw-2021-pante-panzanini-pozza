@@ -3,6 +3,7 @@ package it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages;
 import it.polimi.ingsw.Controller.InGameControllerSwitch;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+import it.polimi.ingsw.Messages.InGameMessages.MessageConverterToJSON;
 import it.polimi.ingsw.Messages.InGameMessages.ResourceIntMessage;
 
 public class StrongBoxDeselectionMessage extends ResourceIntMessage {
@@ -16,6 +17,6 @@ public class StrongBoxDeselectionMessage extends ResourceIntMessage {
 
     @Override
     public String toJson(){
-        return InGameMessage.convertToJson(this);
+        return MessageConverterToJSON.convertToJson(this);
     }
 }

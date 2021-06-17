@@ -35,6 +35,8 @@ public class InputManager{
         return false;
     }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private InGameMessage moveResources(String input) throws IllegalArgumentException{
         if (input.startsWith("SC"))
             return new MoveToSupportContainerMessage();
@@ -48,7 +50,7 @@ public class InputManager{
         return new MoveToLeaderStorageMessage(leaderCardID);
     }
 
-    private InGameMessage selectDeselectResources(String input, boolean selection) throws IllegalArgumentException{
+    private InGameMessage resourceSelectionDeselection(String input, boolean selection) throws IllegalArgumentException{
         String[] inputParts = input.split(",");
         Resource resource = Resource.fromAlias(inputParts[1]);
 
@@ -69,6 +71,60 @@ public class InputManager{
         return selection? new SupportContainerSelectionMessage(positionOrQuantity, resource) : new SupportContainerDeselectionMessage(positionOrQuantity, resource);
     }
 
+    //(SELECT:(LC\d\d|DC\d\d|BASIC PRODUCTION POWER|ALL PRODUCTION POWERS|DS[0-2]|DD,LEVEL[1-3],COLOR:(GREEN|YELLOW|BLUE|PURPLE)))
+    private InGameMessage objectSelection(String input) throws IllegalArgumentException{
+        if (input.startsWith("BASIC"))
+            return new CardProductionSelectionMessage(0);
+
+        if (input.startsWith("ALL"))
+            return new AllProductionPowerSelectionMessage();
+
+        if (input.startsWith("LC")){
+            int leaderCardID = Integer.parseInt(input.replace("LC", ""));
+            if (!possesLeaderCard(leaderCardID))
+                throw new IllegalArgumentException("You do not own a leader card with that id! Please, retry...");
+            return new CardProductionSelectionMessage(leaderCardID);
+        }
+
+        if (input.startsWith("DC")){
+            int devCardID = Integer.parseInt(input.replace("DC", ""));
+            if (!possesDevCard(devCardID))
+                throw new IllegalArgumentException("You cannot select the development card with that id! Please, retry...");
+            return new CardProductionSelectionMessage(devCardID);
+        }
+
+        if (input.startsWith("DS"))
+            return new ChooseDevSlotMessage(Integer.parseInt("" + input.charAt(2)));
+
+        String[] inputContent = input.split(",");
+        int devDecPosition;
+        switch(inputContent[2].replace("COLOR:", "")){
+            case "GREEN":
+                devDecPosition = 0;
+                break;
+            case "YELLOW":
+                devDecPosition = 1;
+                break;
+            case "BLUE":
+                devDecPosition = 2;
+                break;
+            default:
+                devDecPosition = 3;
+                break;
+        }
+        switch(Integer.parseInt(inputContent[1].replace("LEVEL",""))){
+            case 2 :
+                devDecPosition +=4;
+                break;
+            case 3 :
+                devDecPosition +=8;
+                break;
+            default:
+                break;
+        }
+        return new ChooseDevCardMessage(devDecPosition);
+    }
+
     private InGameMessage selectInMarket(String input) throws IllegalArgumentException{
         String[] inputContent = input.split(",");
         int number = Integer.parseInt(inputContent[1]);
@@ -78,6 +134,41 @@ public class InputManager{
 
         return new MarketSelectionMessage(number, false);
     }
+
+    private InGameMessage actionOnLC (String input){
+        String[] inputParts = input.split(":");
+        int leaderCardID = Integer.parseInt(inputParts[1].replace("LC", ""));
+        if (!possesLeaderCard(leaderCardID))
+            throw new IllegalArgumentException("You do not own a leader card with that id! Please, retry...");
+        return new LeaderCardActionMessage(leaderCardID, !input.startsWith("PLAY"));
+    }
+
+    private InGameMessage leaderCardAbility(String input) throws IllegalArgumentException{
+        if (input.startsWith("TRANSMUTE:")){
+            String[] inputParts = input.replace("TRANSMUTE:","").split(",");
+            String[] internalParts = inputParts[0].split("x");
+            int leaderCardID1 = Integer.parseInt(internalParts[0].replace("LC",""));
+            int quantity1 = Integer.parseInt(internalParts[1]);
+            internalParts = inputParts[1].split("x");
+            int leaderCardID2 = Integer.parseInt(internalParts[0].replace("LC",""));
+            int quantity2 = Integer.parseInt(internalParts[1]);
+
+            if (!possesLeaderCard(leaderCardID1))
+                throw new IllegalArgumentException("You do not own a leader card with the first id you wrote! Please, retry...");
+            if (!possesLeaderCard(leaderCardID2))
+                throw new IllegalArgumentException("You do not own a leader card with the second id you wrote! Please, retry...");
+
+            return new TransmutationMessage(leaderCardID1, leaderCardID2, quantity1, quantity2);
+        }
+
+        //case DISCOUNT
+        int leaderCardID = Integer.parseInt(input.replace("DISCOUNT:LC",""));
+        if (!possesLeaderCard(leaderCardID))
+            throw new IllegalArgumentException("You do not own that leader card! Please, retry...");
+        return new DiscountAbilityMessage(leaderCardID);
+    }
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public PreGameMessage preGameInput(String input) throws IllegalArgumentException{
         String toBeChecked = preprocess(input);
@@ -129,20 +220,38 @@ public class InputManager{
 
     public InGameMessage beforeChoseTurnInput(String input) throws IllegalArgumentException{
         String toBeChecked = preprocess(input);
+        if (toBeChecked.equals("END TURN"))
+            return new EndTurnMessage();
+
+        if (toBeChecked.equals("BUY CARD"))
+            return new BuyDevCardMessage();
+
+        if (toBeChecked.equals("ACTIVATE PRODUCTION POWER"))
+            return new ProductionActivationMessage();
+
+        if(toBeChecked.matches("DISCOUNT:(LC\\d\\d)"))
+            return leaderCardAbility(toBeChecked);
+
+        if (toBeChecked.matches("((PLAY|DISCARD):(LC\\d\\d))"))
+            return actionOnLC(toBeChecked);
+
         if(toBeChecked.matches("(SELECT FROM MARKET:(ROW,[0-2]|COLUMN,[0-3]))"))
             return selectInMarket(toBeChecked.replace("SELECT FROM MARKET:", ""));
 
-        if (toBeChecked.matches("(SELECT:(((LC\\d\\d|SB),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONES|SERVANT|SHIELD))))"))
-            return selectDeselectResources(toBeChecked.replace("SELECT:", ""), true);
+        if (toBeChecked.matches("(SELECT:(((LC\\d\\d|SB),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD))))"))
+            return resourceSelectionDeselection(toBeChecked.replace("SELECT:", ""), true);
 
-        if(toBeChecked.matches("(DESELECT:(((LC\\d\\d|SB),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONES|SERVANT|SHIELD))))"))
-            return selectDeselectResources(toBeChecked.replace("DESELECT:", ""), false);
+        if(toBeChecked.matches("(DESELECT:(((LC\\d\\d|SB),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD))))"))
+            return resourceSelectionDeselection(toBeChecked.replace("DESELECT:", ""), false);
 
         throw new IllegalArgumentException("Syntax error: what you wrote was not correct, please, retry...");
     }
 
     public InGameMessage marketTurnInput(String input) throws IllegalArgumentException{
         String toBeChecked = preprocess(input);
+        if (toBeChecked.equals("TAKE FROM MARKET"))
+            return new TakeFromMarketMessage();
+
         if (toBeChecked.equals("EXCHANGE"))
             return new ExchangeMessage();
 
@@ -155,11 +264,33 @@ public class InputManager{
         if (toBeChecked.matches("(MOVE TO:(SC|(LC\\d\\d)|(SH[1-3])))"))
             return moveResources(toBeChecked.replace("MOVE TO:", ""));
 
-        if (toBeChecked.matches("(SELECT:(((LC\\d\\d|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONES|SERVANT|SHIELD))))"))
-            return selectDeselectResources(toBeChecked.replace("SELECT:", ""), true);
+        if (toBeChecked.matches("(SELECT:(((LC\\d\\d|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD))))"))
+            return resourceSelectionDeselection(toBeChecked.replace("SELECT:", ""), true);
 
-        if(toBeChecked.matches("(DESELECT:(((LC\\d\\d|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONES|SERVANT|SHIELD))))"))
-            return selectDeselectResources(toBeChecked.replace("DESELECT:", ""), false);
+        if(toBeChecked.matches("(DESELECT:(((LC\\d\\d|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD))))"))
+            return resourceSelectionDeselection(toBeChecked.replace("DESELECT:", ""), false);
+
+        if(toBeChecked.matches("(TRANSMUTE:(LC\\d\\d)x(\\d)+,(LC\\d\\d)x(\\d)+)"))
+            return leaderCardAbility(toBeChecked);
+
+        throw new IllegalArgumentException("Syntax error: what you wrote was not correct, please, retry...");
+    }
+
+    public InGameMessage productionTurnInput(String input) throws IllegalArgumentException{
+        String toBeChecked = preprocess(input);
+        if (toBeChecked.equals("CLEAR ANY SELECTION"))
+            return new BackFromAnySelectionMessage();
+
+        if (toBeChecked.matches("(ANY SELECTION:(COIN|STONE|SERVANT|SHIELD))"))
+            return new AnySelectionMessage(Resource.fromAlias(toBeChecked.replace("ANY SELECTION:","")));
+
+        throw new IllegalArgumentException("Syntax error: what you wrote was not correct, please, retry...");
+    }
+
+    public InGameMessage buyDevCardTurnInput(String input) throws IllegalArgumentException{
+        String toBeChecked = preprocess(input);
+        if(toBeChecked.matches("CHECKOUT"))
+            return new PaySelectedMessage();
 
         throw new IllegalArgumentException("Syntax error: what you wrote was not correct, please, retry...");
     }

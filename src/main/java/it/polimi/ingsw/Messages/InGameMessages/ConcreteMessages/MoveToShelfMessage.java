@@ -3,6 +3,7 @@ package it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages;
 import it.polimi.ingsw.Controller.InGameControllerSwitch;
 import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
 import it.polimi.ingsw.Messages.InGameMessages.IntMessage;
+import it.polimi.ingsw.Messages.InGameMessages.MessageConverterToJSON;
 
 public class MoveToShelfMessage extends IntMessage {
     public MoveToShelfMessage(int integer) {
@@ -15,6 +16,6 @@ public class MoveToShelfMessage extends IntMessage {
 
     @Override
     public String toJson(){
-        return InGameMessage.convertToJson(this);
+        return MessageConverterToJSON.convertToJson(this);
     }
 }
