@@ -11,21 +11,21 @@ public class Color {
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
 
-    public static String colourText(String text, String color){
-        switch (color.toUpperCase()){
-            case BLACK:
+    public static String colourText(String text, String inputColor){
+        switch (inputColor.toUpperCase()){
+            case "BLACK":
                 return BLACK + text + RESET;
-            case RED:
+            case "RED":
                 return RED + text + RESET;
-            case GREEN:
+            case "GREEN":
                 return GREEN + text + RESET;
-            case BLUE:
+            case "BLUE":
                 return BLUE + text + RESET;
-            case PURPLE:
+            case "PURPLE":
                 return PURPLE + text + RESET;
-            case CYAN:
+            case "CYAN":
                 return CYAN + text + RESET;
-            case WHITE:
+            case "WHITE":
                 return WHITE + text + RESET;
             default:
                 return YELLOW + text + RESET;

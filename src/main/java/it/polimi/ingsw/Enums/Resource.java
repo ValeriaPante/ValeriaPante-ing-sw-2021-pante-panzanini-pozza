@@ -1,5 +1,7 @@
 package it.polimi.ingsw.Enums;
 
+import it.polimi.ingsw.View.CLI.Color;
+
 public enum Resource {
     COIN, STONE, SERVANT, SHIELD, FAITH, WHITE, ANY;
 
@@ -24,7 +26,7 @@ public enum Resource {
         }
     }
 
-    public static String toAlias(Resource resource){
+    public static String toAliasFull(Resource resource){
         switch (resource){
             case COIN:
                 return "COIN";
@@ -42,6 +44,21 @@ public enum Resource {
                 return "ANY";
             default:
                 return null;
+        }
+    }
+
+    public static String toAliasCompact(Resource resource){
+        switch (resource){
+            case COIN:
+                return Color.colourText("COI", "YELLOW");
+            case STONE:
+                return Color.colourText("STO", "CYAN");
+            case SERVANT:
+                return Color.colourText("SER", "PURPLE");
+            case SHIELD:
+                return Color.colourText("SHI", "BLUE");
+            default:
+                return "";
         }
     }
 }

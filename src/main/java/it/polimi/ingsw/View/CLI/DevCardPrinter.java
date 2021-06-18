@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class DevCardPrinter extends mapPrinter{
-    Gson gson;
-    JsonObject devCards;
-    int level;
-    String color;
+    private Gson gson;
+    private JsonObject devCards;
+    private int level;
+    private String color;
 
     public DevCardPrinter(){
         InputStream in = getClass().getResourceAsStream("/accessible/JSONs/DevCardsConfig.json");
@@ -38,17 +38,17 @@ public class DevCardPrinter extends mapPrinter{
                 "     |                  |\n" +
                 "     |                ID: "+ Color.colourInt(id, "YELLOW") + "\n" +
                 "     |              COST: " );
-        printMap(gson.fromJson(card.get("cost"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+        printMapCompact(gson.fromJson(card.get("cost"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
         System.out.print(
                 "     |    VICTORY POINTS: " + card.get("victoryPoints").getAsInt() +"\n" +
                 "     |             COLOR: "+ color + "\n" +
                 "     |             LEVEL: "+ level + "\n" +
                 "     |             INPUT: ");
         JsonObject power = card.get("prodpower").getAsJsonObject();
-        printMap(gson.fromJson(power.get("input"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+        printMapCompact(gson.fromJson(power.get("input"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
         System.out.print(
                 "     |            OUTPUT: ");
-        printMap(gson.fromJson(power.get("output"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+        printMapCompact(gson.fromJson(power.get("output"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
         System.out.println(
                 "     |__________________|" + "\n");
     }
@@ -85,5 +85,54 @@ public class DevCardPrinter extends mapPrinter{
         }
 
         return null;
+    }
+
+    public void printDevSlots(int[][] devSlots, boolean topCardOnly){
+        for(int i=0; i < 3; i++){
+            System.out.println("Development slot number " + (i+1) + ":");
+            printSingleDevSlot(devSlots[i], topCardOnly);
+        }
+    }
+
+    public void printSingleDevSlot(int[] singleDevSlot, boolean topCardOnly){
+        if(singleDevSlot[0] == 0){
+            printEmptySlot();
+        } else {
+            for (int i=2; i>=0; i--){
+                if (singleDevSlot[i] != 0) {
+                    printFromID(singleDevSlot[i]);
+                    if (topCardOnly)
+                        return;
+                }
+            }
+        }
+    }
+
+    private void printEmptySlot(){
+        System.out.println("\n" +
+                "     + - + - + - + - + -\n" +
+                "     -                 +\n" +
+                "     +                 -\n" +
+                "     -      EMPTY      +\n" +
+                "     +                 -\n" +
+                "     -                 +\n" +
+                "     +      SLOT       - \n" +
+                "     -                 +\n" +
+                "     +                 -\n" +
+                "     - + - + - + - + - +\n");
+    }
+
+    public void printDevDecks(int[][] devDecks){
+        System.out.println("\n" + Color.colourText("HERE ARE THE DEVELOPMENT CARDS PLACED ON THE TABLE!", "YELLOW"));
+        for (int i=0; i <= 2; i++){
+            System.out.println("\n" + "Level " + (i+1) + " development cards:");
+            for (int j=0; j <= 3; j++){
+                if (devDecks[i][j] == 0){
+                    printEmptySlot();
+                } else {
+                    printFromID(devDecks[i][j]);
+                }
+            }
+        }
     }
 }

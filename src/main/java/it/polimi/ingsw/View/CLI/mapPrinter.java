@@ -5,7 +5,7 @@ import it.polimi.ingsw.Enums.Resource;
 import java.util.Map;
 
 public abstract class mapPrinter {
-    protected void printMap(Map<Resource, Integer> map){
+    protected void printMapCompact(Map<Resource, Integer> map){
         boolean commaNeeded = false;
         if (map.isEmpty()){
             System.out.println("nothing");

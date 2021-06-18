@@ -74,24 +74,24 @@ public class LeaderCardPrinter extends mapPrinter {
         switch (leaderCardType){
             case "DISCOUNT":
                 System.out.print("     |       PAY LESS: ");
-                printMap(gson.fromJson(currentCard.get("discount"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                printMapCompact(gson.fromJson(currentCard.get("discount"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
                 break;
 
             case "PRODPOWER":
                 System.out.print("     |          INPUT: ");
-                printMap(gson.fromJson(currentCard.get("prodpower"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                printMapCompact(gson.fromJson(currentCard.get("prodpower"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
                 System.out.print("     |         OUTPUT: ");
-                printMap(gson.fromJson(currentCard.get("prodpower"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                printMapCompact(gson.fromJson(currentCard.get("prodpower"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
                 break;
 
             case "TRANSMUTATION":
                 System.out.print("     |TURN WHITE INTO: ");
-                printMap(gson.fromJson(currentCard.get("transmutation"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                printMapCompact(gson.fromJson(currentCard.get("transmutation"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
                 break;
 
             case "STORAGE":
                 System.out.print("     |       CAPACITY: ");
-                printMap(gson.fromJson(currentCard.get("storage"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                printMapCompact(gson.fromJson(currentCard.get("storage"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
                 System.out.print("     |        CONTENT: ");
                 if (content == null || content.length == 0)
                     System.out.println("nothing");
@@ -100,7 +100,7 @@ public class LeaderCardPrinter extends mapPrinter {
                     for (Resource r: content){
                         mapContent.put(r, mapContent.getOrDefault(r, 0) + 1);
                     }
-                    printMap(mapContent);
+                    printMapCompact(mapContent);
                 }
                 break;
         }
@@ -109,7 +109,7 @@ public class LeaderCardPrinter extends mapPrinter {
     private void printCost(){
         Map<Resource, Integer> cost = gson.fromJson(currentCard.get("resourceReq"), new TypeToken<HashMap<Resource, Integer>>(){}.getType());
         if (!cost.isEmpty()){
-            printMap(cost);
+            printMapCompact(cost);
             return;
         }
 
