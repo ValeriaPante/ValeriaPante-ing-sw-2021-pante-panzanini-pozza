@@ -96,4 +96,11 @@ public class Game {
     public void removeLobby(int lobbyId) {
         lobbies.remove(lobbyId);
     }
+
+    public ArrayList<Integer> getPLayersID(){
+        ArrayList<Integer> playersID = new ArrayList<>();
+        for(Map.Entry<Integer, SimplifiedPlayer> player: players.entrySet())
+            playersID.add(player.getKey());
+        return playersID;
+    }
 }
