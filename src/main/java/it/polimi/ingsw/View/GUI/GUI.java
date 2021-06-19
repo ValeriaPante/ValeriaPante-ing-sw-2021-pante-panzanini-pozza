@@ -2,19 +2,15 @@ package it.polimi.ingsw.View.GUI;
 
 
 import it.polimi.ingsw.Enums.PopeFavorCardState;
-import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Network.Client.MessageManager;
 import it.polimi.ingsw.Network.Client.MessageToServerManager;
 import it.polimi.ingsw.View.ClientModel.Game;
-import it.polimi.ingsw.View.ClientModel.SimplifiedPlayer;
 import it.polimi.ingsw.View.GUI.States.*;
 import it.polimi.ingsw.View.View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
-import java.util.HashMap;
 
 public class GUI extends Application implements View {
     private Game model;

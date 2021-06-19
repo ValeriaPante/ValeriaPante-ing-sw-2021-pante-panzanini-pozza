@@ -18,6 +18,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -162,9 +164,14 @@ public class Transition {
     }
 
     public static void addCardInSlot(int playerIndex, int cardId, int slot, int row){
-        InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +cardId+".png");
         ImageView image = new ImageView();
-        image.setImage(new Image(in));
+        try {
+            File fullPath = new File(Transition.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +cardId+".png");
+            image.setImage(new Image(fileInputStream));
+
+        } catch(Exception e) {
+        }
         image.setFitWidth(50);
         image.setPreserveRatio(true);
         GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
@@ -173,9 +180,14 @@ public class Transition {
     }
 
     public static void addCardInSlot( int cardId, int slot, int row){
-        InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +cardId+".png");
         ImageView image = new ImageView();
-        image.setImage(new Image(in));
+        try {
+            File fullPath = new File(Transition.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +cardId+".png");
+            image.setImage(new Image(fileInputStream));
+
+        } catch(Exception e) {
+        }
         image.setFitWidth(150);
         image.setPreserveRatio(true);
         AnchorPane card = (AnchorPane) mainScene.getRoot().lookup("#slot"+slot).lookup("#card"+row);
@@ -207,9 +219,14 @@ public class Transition {
         if(isLocalPlayer){
             playerPane.lookup("#activate"+cardId).setDisable(true);
         } else {
-            InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +cardId+".png");
             ImageView image = new ImageView();
-            image.setImage(new Image(in));
+            try {
+                File fullPath = new File(Transition.class.getProtectionDomain().getCodeSource().getLocation().toURI());
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +cardId+".png");
+                image.setImage(new Image(fileInputStream));
+
+            } catch(Exception e) {
+            }
             image.setFitWidth(100);
             image.setPreserveRatio(true);
 
@@ -293,7 +310,7 @@ public class Transition {
                 case FACEDOWN:
                     break;
                 case FACEUP:
-                    InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/tick.png");
+                    InputStream in = Transition.class.getResourceAsStream("/constantAssets/check.png");
                     ImageView image = new ImageView();
                     image.setImage(new Image(in));
                     image.setFitWidth(31);
@@ -333,7 +350,7 @@ public class Transition {
     private static void insertImagesOnShelf(AnchorPane container, int i, int occupied, Resource resource){
         if(container.getChildren().size() > 0) container.getChildren().remove(0);
         if( i <= occupied){
-            InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +resource.toString().toLowerCase()+".png");
+            InputStream in = Transition.class.getResourceAsStream("/constantAssets/" +resource.toString().toLowerCase()+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
             image.setFitWidth(18);
@@ -377,7 +394,7 @@ public class Transition {
             AnchorPane container = (AnchorPane) player.lookup("#lc"+(cardId)+(i));
             if(container.getChildren().size() > 0) container.getChildren().remove(0);
             if(resources.length >= i){
-                InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +resources[i - 1].toString().toLowerCase()+".png");
+                InputStream in = Transition.class.getResourceAsStream("/constantAssets/" +resources[i - 1].toString().toLowerCase()+".png");
                 ImageView image = new ImageView();
                 image.setImage(new Image(in));
                 image.setFitWidth(34);
@@ -392,7 +409,7 @@ public class Transition {
             AnchorPane container = (AnchorPane) mainScene.getRoot().lookup("#lc"+(cardId)+(i));
             if(container.getChildren().size() > 0) container.getChildren().remove(0);
             if(resources.length >= i){
-                InputStream in = Transition.class.getResourceAsStream("/accessible/assets/imgs/" +resources[i - 1].toString().toLowerCase()+".png");
+                InputStream in = Transition.class.getResourceAsStream("/constantAssets/" +resources[i - 1].toString().toLowerCase()+".png");
                 ImageView image = new ImageView();
                 image.setImage(new Image(in));
                 image.setFitWidth(86);
