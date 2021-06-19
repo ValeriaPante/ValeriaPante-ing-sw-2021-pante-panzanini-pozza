@@ -4,6 +4,7 @@ import it.polimi.ingsw.Enums.Resource;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class Game {
@@ -11,7 +12,7 @@ public class Game {
     private Resource slide;
     private int[][] devDecks;
     private int localPlayerId;
-    private HashMap<Integer, SimplifiedPlayer> players = new HashMap<>();
+    private LinkedHashMap<Integer, SimplifiedPlayer> players = new LinkedHashMap<>();
     private  HashMap<Integer, String[]> lobbies = new HashMap<>();
     private int localPlayerLobbyId;
 

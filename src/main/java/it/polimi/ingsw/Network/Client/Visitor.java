@@ -17,7 +17,7 @@ public class Visitor {
 
     public void updateModel(ActionOnLeaderCardMessage m){
         if(m.isDiscard()){
-            model.getPlayerFromId(m.getId()).getLeaderCards().remove(Integer.valueOf(m.getCardId()));
+            if(m.getId() == model.getLocalPlayerId() || model.getPlayerFromId(m.getId()).getLeaderCards().contains(m.getCardId())) model.getPlayerFromId(m.getId()).getLeaderCards().remove(Integer.valueOf(m.getCardId()));
             view.discardLeaderCard(m.getId(), m.getCardId());
         }
         else{
