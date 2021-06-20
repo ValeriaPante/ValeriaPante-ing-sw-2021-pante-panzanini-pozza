@@ -5,6 +5,8 @@ import it.polimi.ingsw.Controller.PreGameControllerSwitch;
 import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
 import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
 import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
+import it.polimi.ingsw.PreGameModel.Lobby;
+import it.polimi.ingsw.PreGameModel.User;
 import it.polimi.ingsw.View.View;
 
 import java.util.ArrayList;
@@ -16,7 +18,8 @@ public class LocalMessageManager implements MessageManager{
 
     public LocalMessageManager(View view) {
         this.visitor = new Visitor(view);
-        this.inGameControllerSwitch = new InGameControllerSwitch(new ArrayList<>(){{add("local");}}, true);
+        Lobby lobby = new Lobby(0);
+        this.inGameControllerSwitch = new InGameControllerSwitch(lobby, true);
     }
 
     @Override
