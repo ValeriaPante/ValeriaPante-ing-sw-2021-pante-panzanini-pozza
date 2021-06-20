@@ -1,13 +1,8 @@
 package it.polimi.ingsw.View.CLI;
 
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Model.Deposit.Market;
-import it.polimi.ingsw.View.ClientModel.Game;
+import it.polimi.ingsw.View.CLI.Printers.ShelvesPrinter;
 import it.polimi.ingsw.View.ClientModel.SimplifiedPlayer;
-
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
 
 public class printerMoR {
     public static void main(String[] args) {
@@ -84,17 +79,30 @@ public class printerMoR {
 //        strongBoxPrinter.printSupportContainer(map);
 
 
-        ShelvesPrinter shelvesPrinter = new ShelvesPrinter();
-        SimplifiedPlayer player = new SimplifiedPlayer();
-        player.setShelf(Resource.COIN, 1, 0);
-        shelvesPrinter.printShelves(player.getShelf(0), player.getShelf(1), player.getShelf(2));
-        System.out.println("\n\n\n\n_____________________________________________________________________\n\n\n");
-        player.setShelf(Resource.COIN, 1, 0);
-        player.setShelf(Resource.STONE, 2, 1);
-        player.setShelf(Resource.SERVANT, 3, 2);
-        shelvesPrinter.printShelves(player.getShelf(0), player.getShelf(1), player.getShelf(2));
+//        ShelvesPrinter shelvesPrinter = new ShelvesPrinter();
+//        SimplifiedPlayer player = new SimplifiedPlayer();
+//        player.setShelf(Resource.COIN, 1, 0);
+//        shelvesPrinter.printShelves(player.getShelf(0), player.getShelf(1), player.getShelf(2));
+//        System.out.println("\n\n\n\n_____________________________________________________________________\n\n\n");
+//        player.setShelf(Resource.COIN, 1, 0);
+//        player.setShelf(Resource.STONE, 2, 1);
+//        player.setShelf(Resource.SERVANT, 3, 2);
+//        shelvesPrinter.printShelves(player.getShelf(0), player.getShelf(1), player.getShelf(2));
+
+        String request = "ee ee e e e e e @a@@@@";
+        String[] requestParts = request.split("@");
+        String usernameRequested = requestParts[1];
+        for (int i=2; i<requestParts.length; i++)
+            usernameRequested = usernameRequested + "@" + requestParts[i];
+        System.out.println(request);
+        System.out.println(usernameRequested);
 
 
+
+        int at = '@';
+        int usernameStartPosition = request.indexOf(at) + 1;
+        usernameRequested = request.substring(usernameStartPosition);
+        System.out.println(usernameRequested);
     }
 
 

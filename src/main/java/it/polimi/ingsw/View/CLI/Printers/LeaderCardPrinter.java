@@ -1,8 +1,9 @@
-package it.polimi.ingsw.View.CLI;
+package it.polimi.ingsw.View.CLI.Printers;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.View.CLI.Color;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

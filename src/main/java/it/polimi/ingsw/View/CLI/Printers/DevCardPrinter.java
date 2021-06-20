@@ -1,8 +1,9 @@
-package it.polimi.ingsw.View.CLI;
+package it.polimi.ingsw.View.CLI.Printers;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.View.CLI.Color;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -10,9 +11,9 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class DevCardPrinter extends mapPrinter{
-    private Gson gson;
-    private JsonObject devCards;
+public class DevCardPrinter extends mapPrinter {
+    private final Gson gson;
+    private final JsonObject devCards;
     private int level;
     private String color;
 

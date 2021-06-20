@@ -2,6 +2,7 @@ package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.*;
+import it.polimi.ingsw.PreGameModel.Lobby;
 
 import java.util.List;
 
@@ -12,8 +13,8 @@ public class InGameControllerSwitch {
     private final MarketController marketController;
     private final ProductionController productionController;
 
-    public InGameControllerSwitch(List<String> players, boolean bool){
-        gameController = new GameController(players, bool);
+    public InGameControllerSwitch(Lobby lobby, boolean bool){
+        gameController = new GameController(lobby, bool);
         buyDevCardController = new BuyDevCardController(gameController.getFaithTrackController());
         productionController = new ProductionController(gameController.getFaithTrackController());
         marketController = new MarketController(gameController.getFaithTrackController());

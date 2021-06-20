@@ -1,4 +1,4 @@
-package it.polimi.ingsw.View.CLI;
+package it.polimi.ingsw.View.CLI.Printers;
 
 import it.polimi.ingsw.Enums.Resource;
 
@@ -48,7 +48,7 @@ public class ShelvesPrinter {
         for (Map.Entry<Resource, Integer> entry : shelf.entrySet())
             return entry.getKey();
 
-        //never returned since the map is never null or empty
+        //never used
         return null;
     }
 }

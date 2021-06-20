@@ -9,22 +9,24 @@ import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Model.Game.Table;
 import it.polimi.ingsw.Model.Player.*;
 import it.polimi.ingsw.Model.Cards.*;
+import it.polimi.ingsw.PreGameModel.Lobby;
+import it.polimi.ingsw.PreGameModel.User;
 
 import java.util.*;
 
 public class GameController extends CertifiedResourceUsage{
     private Table table;
     private FaithTrackController faithTrackController;
-    private final List<String> players;
+    private final List<User> players;
 
-    public GameController(List<String> players, boolean dealingCardsAllInOne) throws NullPointerException, IndexOutOfBoundsException{
-        if (players == null)
+    public GameController(Lobby lobby, boolean dealingCardsAllInOne) throws NullPointerException, IndexOutOfBoundsException{
+        if (lobby == null)
             throw new NullPointerException();
 
-        if ((players.size() > 4)||(players.isEmpty()))
+        if ((lobby.getUsers().size() > 4)||(lobby.getUsers().isEmpty()))
             throw new IndexOutOfBoundsException();
 
-        this.players = new ArrayList<>();
+        this.players = lobby.getUsers();
         startGame(dealingCardsAllInOne);
     }
 
@@ -35,8 +37,8 @@ public class GameController extends CertifiedResourceUsage{
 
         //Players' playing order is random
         Collections.shuffle(players);
-        for (String nickName : players)
-            table.addPlayer(new RealPlayer(nickName));
+        for (User player : players)
+            table.addPlayer(new RealPlayer(player));
 
         LeaderDeck leaderDeck = new LeaderDeck();
         leaderDeck.shuffle();

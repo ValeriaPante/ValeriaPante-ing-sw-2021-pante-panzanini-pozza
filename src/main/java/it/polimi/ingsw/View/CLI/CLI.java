@@ -1,306 +1,245 @@
 package it.polimi.ingsw.View.CLI;
 
 import it.polimi.ingsw.Enums.PopeFavorCardState;
-import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.LeaderDiscardMessage;
+import it.polimi.ingsw.Exceptions.PrintWithoutMessageCreationException;
+import it.polimi.ingsw.Exceptions.SuppressNotificationsException;
+import it.polimi.ingsw.Network.Client.LocalMessageManager;
 import it.polimi.ingsw.Network.Client.MessageManager;
 import it.polimi.ingsw.Network.Client.MessageToServerManager;
+import it.polimi.ingsw.View.CLI.Printers.Printer;
 import it.polimi.ingsw.View.ClientModel.Game;
 import it.polimi.ingsw.View.Observable;
 import it.polimi.ingsw.View.View;
 
 import java.util.Scanner;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class CLI extends Observable implements View, Runnable{
+    private MessageManager client;
     private final Game model;
-    private final MessageManager client;
+
     private final Scanner input;
-
-    private boolean someoneIsWaitingForInput;
-    private boolean newInputStringReady;
-    private String inputString;
-    private boolean showNotifications;
-    private boolean gameInitialized;
-
-    private final LeaderCardPrinter leaderCardPrinter;
-    private final DevCardPrinter devCardPrinter;
-    private final FaithTrackPrinter faithTrackPrinter;
+    private final Printer printer;
     private final InputManager inputManager;
+    private ThreadPoolExecutor executor;
+
+    //Turn state is an integer used to represent the state of the game, here are the meaning of the values:
+    // 0: pre game
+    // 1: initialisation of the game
+    // 2: player's turn
+    // 3: another player's turn
+    private int turnState;
+
+    private boolean showNotifications;
+
+
 
     public CLI(){
         this.model = new Game();
-        // da Vale: se la partita è online l'istruzione seguente è corretta,
-        // altrimenti l'oggetto da creare è LocalMessageManager, non MessageToServerManager.
-        // vedi tu quando è il momento giusto per instanziare l'oggetto giusto
-        this.client = new MessageToServerManager(this);
         this.input = new Scanner(System.in);
-        this.leaderCardPrinter = new LeaderCardPrinter();
-        this.devCardPrinter = new DevCardPrinter();
-        this.faithTrackPrinter = new FaithTrackPrinter();
+        this.printer = new Printer(model);
         this.inputManager = new InputManager(model);
         this.showNotifications = true;
     }
 
     @Override
     public void run() {
-        System.out.println("\n" +
-                Color.colourText("        ▄▄▄▄███▄▄▄▄      ▄████████    ▄████████     ███        ▄████████    ▄████████    ▄████████       ▄██████▄     ▄████████ \n","YELLOW") +
-                Color.colourText("      ▄██▀▀▀███▀▀▀██▄   ███    ███   ███    ███ ▀█████████▄   ███    ███   ███    ███   ███    ███      ███    ███   ███    ███ \n", "YELLOW") +
-                Color.colourText("      ███   ███   ███   ███    ███   ███    █▀     ▀███▀▀██   ███    █▀    ███    ███   ███    █▀       ███    ███   ███    █▀  \n", "YELLOW") +
-                Color.colourText("      ███   ███   ███   ███    ███   ███            ███   ▀  ▄███▄▄▄      ▄███▄▄▄▄██▀   ███             ███    ███  ▄███▄▄▄     \n", "YELLOW") +
-                Color.colourText("      ███   ███   ███ ▀███████████ ▀███████████     ███     ▀▀███▀▀▀     ▀▀███▀▀▀▀▀   ▀███████████      ███    ███ ▀▀███▀▀▀     \n", "YELLOW") +
-                Color.colourText("      ███   ███   ███   ███    ███          ███     ███       ███    █▄  ▀███████████          ███      ███    ███   ███        \n", "YELLOW") +
-                Color.colourText("      ███   ███   ███   ███    ███    ▄█    ███     ███       ███    ███   ███    ███    ▄█    ███      ███    ███   ███        \n", "YELLOW") +
-                Color.colourText("       ▀█   ███   █▀    ███    █▀   ▄████████▀     ▄████▀     ██████████   ███    ███  ▄████████▀        ▀██████▀    ███        \n", "YELLOW") +
-                Color.colourText("                                                                           ███    ███                                           \n", "YELLOW") +
-                Color.colourText("    ▄████████    ▄████████ ███▄▄▄▄      ▄████████  ▄█     ▄████████    ▄████████    ▄████████ ███▄▄▄▄    ▄████████    ▄████████ \n", "YELLOW") +
-                Color.colourText("   ███    ███   ███    ███ ███▀▀▀██▄   ███    ███ ███   ███    ███   ███    ███   ███    ███ ███▀▀▀██▄ ███    ███   ███    ███ \n", "YELLOW") +
-                Color.colourText("   ███    ███   ███    █▀  ███   ███   ███    ███ ███▌   ███    █▀    ███    █▀    ███    ███ ███   ███ ███    █▀    ███    █▀  \n", "YELLOW") +
-                Color.colourText("  ▄███▄▄▄▄██▀  ▄███▄▄▄     ███   ███   ███    ███ ███▌   ███          ███          ███    ███ ███   ███ ███         ▄███▄▄▄     \n", "YELLOW") +
-                Color.colourText(" ▀▀███▀▀▀▀▀   ▀▀███▀▀▀     ███   ███ ▀███████████ ███▌ ▀███████████ ▀███████████ ▀███████████ ███   ███ ███        ▀▀███▀▀▀     \n", "YELLOW") +
-                Color.colourText(" ▀███████████   ███    █▄  ███   ███   ███    ███ ███           ███          ███   ███    ███ ███   ███ ███    █▄    ███    █▄  \n", "YELLOW") +
-                Color.colourText("   ███    ███   ███    ███ ███   ███   ███    ███ ███     ▄█    ███    ▄█    ███   ███    ███ ███   ███ ███    ███   ███    ███ \n", "YELLOW") +
-                Color.colourText("   ███    ███   ██████████  ▀█   █▀    ███    █▀  █▀    ▄████████▀   ▄████████▀    ███    █▀   ▀█   █▀  ████████▀    ██████████ \n", "YELLOW") +
-                Color.colourText("   ███    ███                                                                                                                   \n", "YELLOW"));
+        printTitle();
 
-        System.out.println("\n" + "\n" + "\n" + "Write down the IP address of the server you want to connect:");
-        String ip = input.nextLine();
-        System.out.println("Write down the port number of the server you want to connect:");
-        String port = input.nextLine();
-        System.out.println("Now, please, enter the username you want to play with:");
-        String username = input.nextLine();
-        new Thread(() -> client.connect(ip, port, username)).start();
+        System.out.println("\n\n" + "Would you like to play:\n"+
+                "\t+ " + Color.colourText("online","YELLOW") + " (write down \"" + Color.colourText("ONLINE", "YELLOW") + "\") \n" +
+                "\t+ " + Color.colourText("offline","YELLOW") + " (write down \"" + Color.colourText("OFFLINE", "YELLOW") + "\")");
+        String onlineOfflineDecision = input.nextLine().trim().toUpperCase();
+
+        while (!onlineOfflineDecision.equals("ONLINE") && !onlineOfflineDecision.equals("OFFLINE")){
+            System.out.println("Your input was not correct! Please, retry...");
+            onlineOfflineDecision = input.nextLine().trim().toUpperCase();
+        }
+
+        if (onlineOfflineDecision.equals("ONLINE")){
+            this.client = new MessageToServerManager(this);
+            System.out.println("\n" + "Write down the IP address of the server you want to connect:");
+            String ip = input.nextLine().trim();
+            System.out.println("Write down the port number of the server you want to connect:");
+            String port = input.nextLine().trim();
+            System.out.println("Now, please, enter the username you want to play with:");
+            String username = input.nextLine();
+            new Thread(() -> client.connect(ip, port, username)).start();
+            turnState = 0;
+        } else {
+            this.client = new LocalMessageManager(this);
+            //manca la parte per partita offline
+            turnState = 1;
+        }
+
+        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
         waitForInput();
     }
 
-    private void waitForInput(){
-        while (true){
-            if (input.hasNext()){
-                if (someoneIsWaitingForInput) {
-                    inputString = input.nextLine().trim();
-                    newInputStringReady = true;
-                    synchronized (this) {
-                        notifyAll();
-                    }
-                }
-                else {
-                    System.out.println("Please, wait! You cannot do anything right now");
-                }
-            }
-        }
+    public void printTitle(){
+        System.out.println("\n" +
+                Color.colourText(
+                "        ▄▄▄▄███▄▄▄▄      ▄████████    ▄████████     ███        ▄████████    ▄████████    ▄████████       ▄██████▄     ▄████████ \n"+
+                    "      ▄██▀▀▀███▀▀▀██▄   ███    ███   ███    ███ ▀█████████▄   ███    ███   ███    ███   ███    ███      ███    ███   ███    ███ \n"+
+                    "      ███   ███   ███   ███    ███   ███    █▀     ▀███▀▀██   ███    █▀    ███    ███   ███    █▀       ███    ███   ███    █▀  \n"+
+                    "      ███   ███   ███   ███    ███   ███            ███   ▀  ▄███▄▄▄      ▄███▄▄▄▄██▀   ███             ███    ███  ▄███▄▄▄     \n"+
+                    "      ███   ███   ███ ▀███████████ ▀███████████     ███     ▀▀███▀▀▀     ▀▀███▀▀▀▀▀   ▀███████████      ███    ███ ▀▀███▀▀▀     \n"+
+                    "      ███   ███   ███   ███    ███          ███     ███       ███    █▄  ▀███████████          ███      ███    ███   ███        \n"+
+                    "      ███   ███   ███   ███    ███    ▄█    ███     ███       ███    ███   ███    ███    ▄█    ███      ███    ███   ███        \n"+
+                    "       ▀█   ███   █▀    ███    █▀   ▄████████▀     ▄████▀     ██████████   ███    ███  ▄████████▀        ▀██████▀    ███        \n"+
+                    "                                                                           ███    ███                                           \n"+
+                    "    ▄████████    ▄████████ ███▄▄▄▄      ▄████████  ▄█     ▄████████    ▄████████    ▄████████ ███▄▄▄▄    ▄████████    ▄████████ \n"+
+                    "   ███    ███   ███    ███ ███▀▀▀██▄   ███    ███ ███   ███    ███   ███    ███   ███    ███ ███▀▀▀██▄ ███    ███   ███    ███ \n"+
+                    "   ███    ███   ███    █▀  ███   ███   ███    ███ ███▌   ███    █▀    ███    █▀    ███    ███ ███   ███ ███    █▀    ███    █▀  \n"+
+                    "  ▄███▄▄▄▄██▀  ▄███▄▄▄     ███   ███   ███    ███ ███▌   ███          ███          ███    ███ ███   ███ ███         ▄███▄▄▄     \n"+
+                    " ▀▀███▀▀▀▀▀   ▀▀███▀▀▀     ███   ███ ▀███████████ ███▌ ▀███████████ ▀███████████ ▀███████████ ███   ███ ███        ▀▀███▀▀▀     \n"+
+                    " ▀███████████   ███    █▄  ███   ███   ███    ███ ███           ███          ███   ███    ███ ███   ███ ███    █▄    ███    █▄  \n"+
+                    "   ███    ███   ███    ███ ███   ███   ███    ███ ███     ▄█    ███    ▄█    ███   ███    ███ ███   ███ ███    ███   ███    ███ \n"+
+                    "   ███    ███   ██████████  ▀█   █▀    ███    █▀  █▀    ▄████████▀   ▄████████▀    ███    █▀   ▀█   █▀  ████████▀    ██████████ \n"+
+                    "   ███    ███                                                                                                                   \n", "YELLOW"));
     }
 
-    private String getInput() {
-        someoneIsWaitingForInput = true;
-        synchronized (this) {
-            while (!newInputStringReady) {
-                try {
-                    wait();
-                } catch (InterruptedException ignored) {}
+    private void waitForInput(){
+        String inputFromPlayer;
+        while (true){
+            inputFromPlayer = input.nextLine();
+            try{
+                if (turnState == 0) {
+                    inputManager.preGameInput(inputFromPlayer);
+                } else if (turnState == 1) {
+                    inputManager.initializationInput(inputFromPlayer);
+                } else if (turnState == 2){
+                    inputManager.inTurnInput(inputFromPlayer);
+                } else {
+                    inputManager.NOTinTurnInput(inputFromPlayer);
+                }
+            } catch (IllegalArgumentException error) {
+                printer.printError(error.getMessage());
+            } catch (PrintWithoutMessageCreationException request) {
+                if (turnState == 0)
+                    printer.preGamePrintRequest(request.getMessage());
+                else
+                    printer.inGamePrintRequest(request.getMessage());
+            } catch (SuppressNotificationsException toggleNotificationState){
+                showNotifications = !showNotifications;
+                printer.printNotificationState(showNotifications);
             }
         }
-        newInputStringReady = false;
-        someoneIsWaitingForInput = false;
-        return inputString;
     }
 
     @Override
     public void updateLobbyState(int lobbyId) {
-        if (showNotifications){
-            if (lobbyId == model.getLocalPlayerLobbyId()){
-                System.out.println("\nYour lobby has "+ Color.colourText("changed", "YELLOW") + " this way:");
-            } else {
-                System.out.println("\nThere is something new with lobby number "+ Color.colourInt(lobbyId, "YELLOW") + ": ");
-            }
-            System.out.println(
-                    " __________________\n" +
-                    "|                  |\n" +
-                    "|          LOBBY ID: " + lobbyId + "\n" +
-                    "|    PLAYERS INSIDE: ");
-
-            String[] players = model.getLobbies().get(lobbyId);
-            for(int i=0; i<players.length; i++){
-                if (i > 0)
-                    System.out.print(", ");
-                System.out.print(Color.colourText(players[i], "YELLOW"));
-            }
-
-            System.out.println("\n" +
-                    "|                  |\n" +
-                    " ¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯ ");
-        }
+        if (showNotifications)
+            executor.execute(() -> printer.notifyLobbyChange(lobbyId));
     }
 
     @Override
     public void removeLobby(int lobbyId) {
-        if (showNotifications){
-            System.out.println("Lobby number " + lobbyId + " has been removed so it is no longer available");
-        }
-    }
-
-    @Override
-    public void chooseLobby(int lobbyId){
-        //mostro lobby che ha scelto
+        if (showNotifications)
+            executor.execute(() -> printer.notifyLobbyRemoval(lobbyId));
     }
 
     @Override
     public void chooseLeaderCards() {
-        Thread thread = new Thread(() -> {
-            System.out.println("You have just received your four leader cards! Here they are:");
-            for (Integer i : model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards())
-                leaderCardPrinter.printFromID(i, null);
-            System.out.println("Pick and discard two of them before starting. \n " +
-                    "Write down their ids, one by one:");
-            int discardedCards = 0;
-            while (discardedCards < 2){
-                int id = Integer.parseInt(getInput());
-                if (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().contains(id)) {
-                    client.update(new LeaderDiscardMessage(id));
-                    discardedCards++;
-                }
-                else
-                    System.out.println("Your input is not correct, please, enter the id of a card you own! Retry:");
-            }
-            if (model.getLocalPlayerIndex() == 0)
-                gameInitialized = true;
-        });
-
-        thread.start();
+        executor.execute(printer::notifyChooseLeaderCards);
     }
 
     @Override
     public void nextTurn(int playerId) {
-        if (playerId == model.getLocalPlayerId()){
-            System.out.println("========= " + Color.colourText("Now it's your turn!", "RED")+" =========");
-        } else {
-            System.out.println("========= " + Color.colourText("Now it's " + model.getPlayerFromId(playerId).getUsername() + " turn!", "RED")+ " =========");
-        }
+        executor.execute(() -> {
+            if (turnState == 0)
+                turnState = 1;
 
-        if (gameInitialized){
-            //scegliere le varie azioni disponibili prima di scegliere definitivamente il tipo di turno che si vuole giocare
-        } else {
-            System.out.println("Please wait until " + Color.colourText(model.getPlayerFromId(playerId).getUsername(), "YELLOW") + " decides!");
-        }
+            if (turnState == 2)
+                turnState =3;
 
+            if (turnState == 3 && playerId == model.getLocalPlayerId())
+                turnState = 2;
+
+            if (turnState == 1 && playerId != model.getLocalPlayerId()){
+                printer.waitingInitialisation(playerId);
+                return;
+            }
+
+            printer.notifyTurnChanged(playerId);
+        });
     }
 
     @Override
     public void chooseInitialResources() {
-        Thread thread = new Thread(() -> {
-            int resRequired;
-            System.out.println("Setting up is almost done, you only have to choose ");
-            if (model.getLocalPlayerIndex() == 3){
-                resRequired = 2;
-                System.out.print(resRequired + " resources ");
-            } else {
-                resRequired = 1;
-                System.out.print(resRequired + " resource ");
-            }
-            System.out.print("(between " + stringLegalResources() + ") and decide in which shelf you want to put them. \n" +
-                    "Please list them one by one with their full name:");
-            int resWritten = 0;
-            while (resWritten < resRequired){
-
-            }
-            gameInitialized = true;
-        });
-
-      thread.start();
-    }
-
-    private String stringLegalResources(){
-        boolean printedOne = false;
-        StringBuilder listResources = new StringBuilder();
-        for (Resource r : Resource.values()) {
-            if (r != Resource.ANY && r != Resource.FAITH && r != Resource.WHITE) {
-                if (printedOne)
-                    listResources.append(", ");
-                else
-                    printedOne = true;
-                listResources.append(r.toString());
-            }
-        }
-        return listResources.toString();
+        executor.execute(printer::notifyChooseInitialRes);
     }
 
     @Override
     public void startGame() {
-
-    }
-
-    @Override
-    public void showMarket() {
-        //mostro il market al player
-    }
-
-    @Override
-    public void showDevDecks() {
-
+        executor.execute(() -> {
+            turnState = model.getPLayersID().get(0) == model.getLocalPlayerId() ? 2 : 3;
+            printer.gameStarted();
+        });
     }
 
     @Override
     public void updatePositions(int playerId, int pos) {
-
+        //modifico modellino faith track e notifico cambiamento
     }
 
     @Override
     public void updatePopeFavourCard(int playerId, PopeFavorCardState[] states) {
-
+        //modifico modellino faith track e notifico cambiamento
     }
 
     @Override
     public void updateStrongbox(int playerId) {
-
+        if (playerId != model.getLocalPlayerId() && showNotifications)
+            executor.execute(() -> printer.notifyStrongBoxChange(playerId));
     }
 
     @Override
     public void updateShelves(int playerId, int numShelf) {
-
+        if (playerId != model.getLocalPlayerId() && showNotifications)
+            executor.execute(() -> printer.notifyShelvesChange(playerId, numShelf));
     }
 
     @Override
     public void updateSupportContainer(int playerId) {
-
+        if (playerId != model.getLocalPlayerId() && showNotifications)
+            executor.execute(() -> printer.notifySupportContainerChange(playerId));
     }
 
     @Override
     public void updateLeaderStorage(int playerId, int cardId) {
-        System.out.println(Color.colourText(model.getPlayerFromId(playerId).getUsername(), "YELLOW")+
-                " has moved some resources, now his leader card (with id number " +
-                Color.colourInt(cardId, "YELLOW") + ") contains the following:");
-
+        if (playerId != model.getLocalPlayerId() && showNotifications)
+            executor.execute(() -> printer.notifyChangeInLCStorage(playerId, cardId));
     }
 
     @Override
     public void activateLeaderCard(int playerId, int cardId) {
-
+        if (playerId != model.getLocalPlayerId() && showNotifications)
+            executor.execute(() -> printer.notifyLeaderCardActivation(playerId, cardId));
     }
 
     @Override
     public void discardLeaderCard(int playerId, int cardId) {
-        if (playerId == model.getLocalPlayerId()){
-            System.out.println(Color.colourText(model.getPlayerFromId(playerId).getUsername(), "YELLOW") +
-                    "has successfully discarded the leader card:");
-            leaderCardPrinter.printFromID(cardId, null);
-        } else {
-            System.out.println("Leader card (with id "+ cardId +") discarded successfully! ");
-        }
+        if (playerId != model.getLocalPlayerId() && showNotifications)
+            executor.execute(() -> printer.notifyLeaderCardDiscard(playerId, cardId));
     }
 
     @Override
     public void addDevCardInSlot(int playerId, int cardId, int slot) {
-
+        if (playerId != model.getLocalPlayerId() && showNotifications)
+            executor.execute(() -> printer.notifyDevCardPurchase(playerId, cardId, slot));
     }
 
     @Override
-    public void showWinner(String username) {
-
+    public void showWinner(int winnerId) {
+        executor.execute(() -> printer.printWinner(winnerId));
     }
 
     @Override
     public void showErrorMessage(String message) {
-
+        executor.execute(() -> printer.printError(message));
     }
 
     @Override
