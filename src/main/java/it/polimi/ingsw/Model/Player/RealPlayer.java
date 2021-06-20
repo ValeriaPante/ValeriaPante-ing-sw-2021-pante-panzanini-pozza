@@ -10,6 +10,7 @@ import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
+import it.polimi.ingsw.PreGameModel.User;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import java.util.LinkedList;
 
 public class RealPlayer extends Player{
 
+    private User connection;
     private DevSlot[] devSlots;
     private Shelf[] shelves;
     private StrongBox strongBox;
@@ -53,8 +55,9 @@ public class RealPlayer extends Player{
     }
 
     //---Constructor---
-    public RealPlayer(String nickname){
-       super(nickname);
+    public RealPlayer(User user){
+       super(user.getUsername());
+       this.connection = user;
        this.initialiseDevSlots();
        this.initialiseShelves();
        this.strongBox = new StrongBox();
@@ -64,6 +67,7 @@ public class RealPlayer extends Player{
        this.turnType = new TurnType();
        this.supportContainer = new StrongBox();
        this.errorMessage = null;
+
     }
     //--------
 
