@@ -16,164 +16,164 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SelectionControllerTest {
     SelectionController selectionController;
 
-    @Test
-    @DisplayName("leaderCardFromIdTest")
-    public void testLCFID(){
-        //singlePLayer
-        RealPlayer player = new RealPlayer("nickPlayer1");
-        Table table = new Table(1);
-        table.addPlayer(player);
-        LeaderCard lc = new LeaderCard(
-                2,
-                new EnumMap<>(Resource.class),
-                new HashMap<>(),
-                LeaderCardType.PRODPOWER,
-                new EnumMap<Resource, Integer>(Resource.class),
-                new EnumMap<>(Resource.class),
-                9999
-                );
-        player.addLeaderCard(lc);
-        selectionController = new SelectionController(new FaithTrackController(table));
-
-        assertEquals(table.turnOf(), player);
-        assertEquals(lc, selectionController.leaderCardFromID(9999));
-        assertNull(player.getErrorMessage());
-        assertNull(selectionController.leaderCardFromID(3));
-        assertEquals("Not own leader card", player.getErrorMessage());
-
-        //multiplayer
-        RealPlayer player2 = new RealPlayer("nickPlayer2");
-        table = new Table(2);
-        table.addPlayer(player);
-        table.addPlayer(player2);
-        LeaderCard lc2 = new LeaderCard(
-                2,
-                new EnumMap<>(Resource.class),
-                new HashMap<>(),
-                LeaderCardType.PRODPOWER,
-                new EnumMap<>(Resource.class),
-                new EnumMap<>(Resource.class),
-                9998
-        );
-        player2.addLeaderCard(lc2);
-        selectionController = new SelectionController(new FaithTrackController(table));
-
-        assertEquals(table.turnOf(), player);
-        assertNotEquals(table.turnOf(), player2);
-        assertEquals(lc, selectionController.leaderCardFromID(9999));
-        assertNull(selectionController.leaderCardFromID(9998));
-        assertEquals("Not own leader card", player.getErrorMessage());
-        assertNull(selectionController.leaderCardFromID(5));
-        assertEquals("Not own leader card", player.getErrorMessage());
-
-        table.nextTurn();
-
-        assertEquals(table.turnOf(), player2);
-        assertNotEquals(table.turnOf(), player);
-        assertEquals(lc2, selectionController.leaderCardFromID(9998));
-        assertNull(player2.getErrorMessage());
-        assertNull(selectionController.leaderCardFromID(9999));
-        assertEquals("Not own leader card", player2.getErrorMessage());
-        assertNull(selectionController.leaderCardFromID(5));
-        assertEquals("Not own leader card", player2.getErrorMessage());
-    }
-
-    @Test
-    @DisplayName("getUsableLeaderCardTest")
-    public void testGULC(){
-        //singlePLayer
-        RealPlayer player = new RealPlayer("nickPlayer1");
-        Table table = new Table(1);
-        table.addPlayer(player);
-        LeaderCard lc = new LeaderCard(
-                2,
-                new EnumMap<>(Resource.class),
-                new HashMap<>(),
-                LeaderCardType.PRODPOWER,
-                new EnumMap<>(Resource.class),
-                new EnumMap<>(Resource.class),
-                9999
-        );
-        player.addLeaderCard(lc);
-        LeaderCard lc1 = new LeaderCard(
-                2,
-                new EnumMap<>(Resource.class),
-                new HashMap<>(),
-                LeaderCardType.PRODPOWER,
-                new EnumMap<>(Resource.class),
-                new EnumMap<>(Resource.class),
-                9997
-        );
-        player.addLeaderCard(lc1);
-        lc1.play();
-        selectionController = new SelectionController(new FaithTrackController(table));
-
-        assertEquals(table.turnOf(), player);
-        assertNull(player.getErrorMessage());
-        assertNull(selectionController.getUsableLeaderCard(9999));
-        assertEquals("Card not played", player.getErrorMessage());
-        assertNull(selectionController.leaderCardFromID(3));
-        assertEquals("Not own leader card", player.getErrorMessage());
-        assertEquals(lc1, selectionController.getUsableLeaderCard(9997));
-
-        lc.play();
-        assertEquals(lc, selectionController.getUsableLeaderCard(9999));
-
-        //multiplayer
-        RealPlayer player2 = new RealPlayer("nickPlayer2");
-        table = new Table(2);
-        table.addPlayer(player);
-        table.addPlayer(player2);
-        LeaderCard lc2 = new LeaderCard(
-                2,
-                new EnumMap<>(Resource.class),
-                new HashMap<>(),
-                LeaderCardType.PRODPOWER,
-                new EnumMap<>(Resource.class),
-                new EnumMap<>(Resource.class),
-                9998
-        );
-        player2.addLeaderCard(lc2);
-        LeaderCard lc3 = new LeaderCard(
-                2,
-                new EnumMap<>(Resource.class),
-                new HashMap<>(),
-                LeaderCardType.PRODPOWER,
-                new EnumMap<>(Resource.class),
-                new EnumMap<>(Resource.class),
-                9996
-        );
-        player2.addLeaderCard(lc3);
-        selectionController = new SelectionController(new FaithTrackController(table));
-
-        assertEquals(table.turnOf(), player);
-        assertNotEquals(table.turnOf(), player2);
-        assertEquals(lc, selectionController.getUsableLeaderCard(9999));
-        assertNull(selectionController.getUsableLeaderCard(9998));
-        assertEquals("Not own leader card", player.getErrorMessage());
-        assertNull(selectionController.leaderCardFromID(5));
-        assertEquals("Not own leader card", player.getErrorMessage());
-
-        table.nextTurn();
-
-        assertEquals(table.turnOf(), player2);
-        assertNotEquals(table.turnOf(), player);
-        assertNull(selectionController.getUsableLeaderCard(9998));
-        assertEquals("Card not played", player2.getErrorMessage());
-        assertNull(selectionController.leaderCardFromID(9999));
-        assertEquals("Not own leader card", player2.getErrorMessage());
-        assertNull(selectionController.getUsableLeaderCard(9996));
-        assertEquals("Card not played", player2.getErrorMessage());
-
-        lc2.play();
-
-        assertEquals(lc2, selectionController.getUsableLeaderCard(9998));
-
-        player2.discardLeaderCard(lc3);
-
-        assertNull(selectionController.getUsableLeaderCard(9996));
-        assertEquals("Not own leader card", player2.getErrorMessage());
-    }
+//    @Test
+//    @DisplayName("leaderCardFromIdTest")
+//    public void testLCFID(){
+//        //singlePLayer
+//        RealPlayer player = new RealPlayer("nickPlayer1");
+//        Table table = new Table(1);
+//        table.addPlayer(player);
+//        LeaderCard lc = new LeaderCard(
+//                2,
+//                new EnumMap<>(Resource.class),
+//                new HashMap<>(),
+//                LeaderCardType.PRODPOWER,
+//                new EnumMap<Resource, Integer>(Resource.class),
+//                new EnumMap<>(Resource.class),
+//                9999
+//                );
+//        player.addLeaderCard(lc);
+//        selectionController = new SelectionController(new FaithTrackController(table));
+//
+//        assertEquals(table.turnOf(), player);
+//        assertEquals(lc, selectionController.leaderCardFromID(9999));
+//        assertNull(player.getErrorMessage());
+//        assertNull(selectionController.leaderCardFromID(3));
+//        assertEquals("Not own leader card", player.getErrorMessage());
+//
+//        //multiplayer
+//        RealPlayer player2 = new RealPlayer("nickPlayer2");
+//        table = new Table(2);
+//        table.addPlayer(player);
+//        table.addPlayer(player2);
+//        LeaderCard lc2 = new LeaderCard(
+//                2,
+//                new EnumMap<>(Resource.class),
+//                new HashMap<>(),
+//                LeaderCardType.PRODPOWER,
+//                new EnumMap<>(Resource.class),
+//                new EnumMap<>(Resource.class),
+//                9998
+//        );
+//        player2.addLeaderCard(lc2);
+//        selectionController = new SelectionController(new FaithTrackController(table));
+//
+//        assertEquals(table.turnOf(), player);
+//        assertNotEquals(table.turnOf(), player2);
+//        assertEquals(lc, selectionController.leaderCardFromID(9999));
+//        assertNull(selectionController.leaderCardFromID(9998));
+//        assertEquals("Not own leader card", player.getErrorMessage());
+//        assertNull(selectionController.leaderCardFromID(5));
+//        assertEquals("Not own leader card", player.getErrorMessage());
+//
+//        table.nextTurn();
+//
+//        assertEquals(table.turnOf(), player2);
+//        assertNotEquals(table.turnOf(), player);
+//        assertEquals(lc2, selectionController.leaderCardFromID(9998));
+//        assertNull(player2.getErrorMessage());
+//        assertNull(selectionController.leaderCardFromID(9999));
+//        assertEquals("Not own leader card", player2.getErrorMessage());
+//        assertNull(selectionController.leaderCardFromID(5));
+//        assertEquals("Not own leader card", player2.getErrorMessage());
+//    }
+//
+//    @Test
+//    @DisplayName("getUsableLeaderCardTest")
+//    public void testGULC(){
+//        //singlePLayer
+//        RealPlayer player = new RealPlayer("nickPlayer1");
+//        Table table = new Table(1);
+//        table.addPlayer(player);
+//        LeaderCard lc = new LeaderCard(
+//                2,
+//                new EnumMap<>(Resource.class),
+//                new HashMap<>(),
+//                LeaderCardType.PRODPOWER,
+//                new EnumMap<>(Resource.class),
+//                new EnumMap<>(Resource.class),
+//                9999
+//        );
+//        player.addLeaderCard(lc);
+//        LeaderCard lc1 = new LeaderCard(
+//                2,
+//                new EnumMap<>(Resource.class),
+//                new HashMap<>(),
+//                LeaderCardType.PRODPOWER,
+//                new EnumMap<>(Resource.class),
+//                new EnumMap<>(Resource.class),
+//                9997
+//        );
+//        player.addLeaderCard(lc1);
+//        lc1.play();
+//        selectionController = new SelectionController(new FaithTrackController(table));
+//
+//        assertEquals(table.turnOf(), player);
+//        assertNull(player.getErrorMessage());
+//        assertNull(selectionController.getUsableLeaderCard(9999));
+//        assertEquals("Card not played", player.getErrorMessage());
+//        assertNull(selectionController.leaderCardFromID(3));
+//        assertEquals("Not own leader card", player.getErrorMessage());
+//        assertEquals(lc1, selectionController.getUsableLeaderCard(9997));
+//
+//        lc.play();
+//        assertEquals(lc, selectionController.getUsableLeaderCard(9999));
+//
+//        //multiplayer
+//        RealPlayer player2 = new RealPlayer("nickPlayer2");
+//        table = new Table(2);
+//        table.addPlayer(player);
+//        table.addPlayer(player2);
+//        LeaderCard lc2 = new LeaderCard(
+//                2,
+//                new EnumMap<>(Resource.class),
+//                new HashMap<>(),
+//                LeaderCardType.PRODPOWER,
+//                new EnumMap<>(Resource.class),
+//                new EnumMap<>(Resource.class),
+//                9998
+//        );
+//        player2.addLeaderCard(lc2);
+//        LeaderCard lc3 = new LeaderCard(
+//                2,
+//                new EnumMap<>(Resource.class),
+//                new HashMap<>(),
+//                LeaderCardType.PRODPOWER,
+//                new EnumMap<>(Resource.class),
+//                new EnumMap<>(Resource.class),
+//                9996
+//        );
+//        player2.addLeaderCard(lc3);
+//        selectionController = new SelectionController(new FaithTrackController(table));
+//
+//        assertEquals(table.turnOf(), player);
+//        assertNotEquals(table.turnOf(), player2);
+//        assertEquals(lc, selectionController.getUsableLeaderCard(9999));
+//        assertNull(selectionController.getUsableLeaderCard(9998));
+//        assertEquals("Not own leader card", player.getErrorMessage());
+//        assertNull(selectionController.leaderCardFromID(5));
+//        assertEquals("Not own leader card", player.getErrorMessage());
+//
+//        table.nextTurn();
+//
+//        assertEquals(table.turnOf(), player2);
+//        assertNotEquals(table.turnOf(), player);
+//        assertNull(selectionController.getUsableLeaderCard(9998));
+//        assertEquals("Card not played", player2.getErrorMessage());
+//        assertNull(selectionController.leaderCardFromID(9999));
+//        assertEquals("Not own leader card", player2.getErrorMessage());
+//        assertNull(selectionController.getUsableLeaderCard(9996));
+//        assertEquals("Card not played", player2.getErrorMessage());
+//
+//        lc2.play();
+//
+//        assertEquals(lc2, selectionController.getUsableLeaderCard(9998));
+//
+//        player2.discardLeaderCard(lc3);
+//
+//        assertNull(selectionController.getUsableLeaderCard(9996));
+//        assertEquals("Not own leader card", player2.getErrorMessage());
+//    }
 
     @Test
     @DisplayName("leader cards test")
