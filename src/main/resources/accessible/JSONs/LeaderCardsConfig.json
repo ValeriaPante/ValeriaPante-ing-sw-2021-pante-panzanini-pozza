@@ -278,7 +278,8 @@
 				"SHIELD": 1
 			},
 			"output": {
-
+				"ANY": 1,
+				"FAITH": 1
 			}
 		}
 	},
@@ -302,7 +303,8 @@
 				"SERVANT": 1
 			},
 			"output": {
-
+				"ANY": 1,
+				"FAITH": 1
 			}
 		}
 	},
@@ -326,7 +328,8 @@
 				"STONE": 1
 			},
 			"output": {
-
+				"ANY": 1,
+				"FAITH": 1
 			}
 		}
 	},
@@ -350,7 +353,8 @@
 				"COIN": 1
 			},
 			"output": {
-
+				"ANY": 1,
+				"FAITH": 1
 			}
 		}
 	}
