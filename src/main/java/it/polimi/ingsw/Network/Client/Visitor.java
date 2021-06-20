@@ -104,7 +104,7 @@ public class Visitor {
     }
 
     public void updateModel(WinnerMessage m){
-        view.showWinner(model.getPlayerFromId(m.getId()).getUsername());
+        view.showWinner(m.getId());
     }
 
     public void updateModel(ErrorMessage m){

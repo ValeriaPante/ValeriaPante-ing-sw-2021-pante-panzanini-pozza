@@ -66,11 +66,6 @@ public class GUI extends Application implements View {
     }
 
     @Override
-    public void chooseLobby(int lobbyId){
-
-    }
-
-    @Override
     public void chooseLeaderCards() {
         LeaderCardScene leaderCardScene = new LeaderCardScene(this);
         Platform.runLater(() -> Transition.setLeaderCardsScene(leaderCardScene));
@@ -104,7 +99,6 @@ public class GUI extends Application implements View {
 
     }
 
-    @Override
     public void showMarket() {
         if(actionDone){
             Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
@@ -119,7 +113,6 @@ public class GUI extends Application implements View {
         }
     }
 
-    @Override
     public void showDevDecks() {
         if(actionDone){
             Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
@@ -270,8 +263,8 @@ public class GUI extends Application implements View {
     }
 
     @Override
-    public void showWinner(String username) {
-        Platform.runLater(() -> Transition.setWinnerScene(new WinnerScene(username)));
+    public void showWinner(int winnerId) {
+        Platform.runLater(() -> Transition.setWinnerScene(new WinnerScene(model.getPlayerFromId(winnerId).getUsername()+" (id: "+winnerId+")")));
         Platform.runLater(Transition::toWinnerScene);
     }
 

@@ -8,14 +8,9 @@ public interface View {
     void updateLobbyState(int lobbyId);
     void removeLobby(int lobbyId);
 
-    void chooseLobby(int lobbyId);
-
     void chooseLeaderCards();
     void chooseInitialResources();
     void startGame();
-
-    void showMarket();
-    void showDevDecks();
 
     void updatePositions(int playerId, int pos);
 
@@ -33,7 +28,7 @@ public interface View {
 
     void nextTurn(int playerId);
 
-    void showWinner(String username);
+    void showWinner(int winnerId);
 
     void showErrorMessage(String message);
 
