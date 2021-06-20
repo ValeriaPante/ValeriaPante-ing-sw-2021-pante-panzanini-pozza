@@ -13,11 +13,11 @@ import java.util.*;
 
 public class PaymentScene extends Initializable{
     private HashMap<Resource, Integer> leaderStorages1;
-    private final EnumMap<Resource, Integer> nextPosition1 = new EnumMap(Resource.class);
-    private final EnumMap<Resource, Integer> previousPosition1 = new EnumMap(Resource.class);
+    private final EnumMap<Resource, Integer> nextPosition1;
+    private final EnumMap<Resource, Integer> previousPosition1;
     private HashMap<Resource, Integer> leaderStorages2;
-    private final EnumMap<Resource, Integer> nextPosition2 = new EnumMap(Resource.class);
-    private final EnumMap<Resource, Integer> previousPosition2 = new EnumMap(Resource.class);
+    private final EnumMap<Resource, Integer> nextPosition2;
+    private final EnumMap<Resource, Integer> previousPosition2;
     private HashMap<Resource, Integer> strongbox;
     private HashMap<Resource, Integer> shelves;
 
@@ -35,6 +35,11 @@ public class PaymentScene extends Initializable{
             new Thread(() -> sendMessage(new PaySelectedMessage())).start();
             observer.getCurrentState().next();
         });
+
+        nextPosition1 = new EnumMap<>(Resource.class);
+        previousPosition1 = new EnumMap<>(Resource.class);
+        nextPosition2 = new EnumMap<>(Resource.class);
+        previousPosition2 = new EnumMap<>(Resource.class);
     }
 
     @Override
