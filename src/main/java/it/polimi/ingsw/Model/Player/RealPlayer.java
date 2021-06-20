@@ -69,30 +69,13 @@ public class RealPlayer extends Player{
        this.errorMessage = null;
 
     }
-    //--------
-
-    //---Leader Cards Section ---
     public void addLeaderCard(LeaderCard leaderCard){
         this.leaderCards.add(leaderCard);
     }
     public void discardLeaderCard(LeaderCard leaderCard){
         this.leaderCards.remove(leaderCard);
     }
-    //-----
 
-    //--- Selection Section ---
-    //public void paySelected(){
-    //    for (Payable toPay : this.selected.keySet()){
-    //        toPay.pay(this.selected.get(toPay));
-    //    }
-    //}
-    //public void swipeSelected(){
-    //    this.selected.clear();
-    //}
-    //public void addSelection(Payable container, EnumMap<Resource, Integer> amount){
-    //    this.selected.put(container, amount);
-    //}
-    //------
 
     //---Getters---
     public BasicProductionPower getBasicProductionPower(){
@@ -165,11 +148,6 @@ public class RealPlayer extends Player{
         }
         return (allResources.content() == null) ? new EnumMap<>(Resource.class) : allResources.content();
     }
-
-    //it can be used to know if the player owns any Resource
-    //public boolean isBroken(){
-    //    return (this.resourcesOwned() == null);
-    //}
 
     //Returns all the production powers that the player has
     private LinkedList<ProductionPower> calculateAllProductionPowers(){

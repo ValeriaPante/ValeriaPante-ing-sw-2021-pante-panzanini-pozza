@@ -11,13 +11,11 @@ import java.util.ArrayList;
 
 public class LocalMessageManager implements MessageManager{
 
-    private final PreGameControllerSwitch preGameControllerSwitch;
     private final InGameControllerSwitch inGameControllerSwitch;
     private final Visitor visitor;
 
     public LocalMessageManager(View view) {
         this.visitor = new Visitor(view);
-        this.preGameControllerSwitch = new PreGameControllerSwitch(true);
         this.inGameControllerSwitch = new InGameControllerSwitch(new ArrayList<>(){{add("local");}}, true);
     }
 
@@ -28,7 +26,6 @@ public class LocalMessageManager implements MessageManager{
 
     @Override
     public void update(PreGameMessage message) {
-        message.readThrough(preGameControllerSwitch);
     }
 
     @Override

@@ -31,6 +31,10 @@ public class Table {
 
     private DevDeck[] devDecks;
 
+    private void notifyAllPlayer(){
+
+    }
+
     private void initialiseDevDecks(){
         this.devDecks = new DevDeck[]{
                 new DevDeck(new DevCardType(1, Colour.GREEN)), new DevDeck(new DevCardType(1, Colour.YELLOW)), new DevDeck(new DevCardType(1,Colour.BLUE)), new DevDeck(new DevCardType(1, Colour.PURPLE)),
@@ -54,6 +58,21 @@ public class Table {
         this.initialiseDevDecks();
         this.broadcastMessage = null;
     }
+
+    /*
+    Qualcuno ha comprato una dev card->
+
+    for (player){
+        metodoNewOgetto(DevCard[]) -> void
+    }
+
+    metodoNewOgetto void(Oggetti del model){
+        cosrstruisce il messaggio
+        send
+    }
+    * */
+
+
 
     public void setLastLap(){
         this.isLastLap = true;

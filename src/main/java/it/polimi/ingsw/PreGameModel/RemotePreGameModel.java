@@ -5,7 +5,7 @@ import it.polimi.ingsw.Network.JsonToClient.JsonToClientPreGame;
 import java.util.LinkedList;
 import java.util.List;
 
-public class RemotePreGameModel implements PreGameModel{
+public class RemotePreGameModel{
     //in sostanza tutti i players sono observer delle lobbies
     private final LinkedList<Lobby> lobbies;
     private final LinkedList<User> notDecidedYet;

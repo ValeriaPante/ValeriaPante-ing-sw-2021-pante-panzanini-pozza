@@ -1,17 +1,18 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.*;
+import it.polimi.ingsw.Network.RequestHandlers.InGameRequestHandler;
 import it.polimi.ingsw.PreGameModel.*;
 
 import java.util.Random;
 
 public class PreGameControllerSwitch {
 
-    private final PreGameModel preGameModel;
+    private final RemotePreGameModel preGameModel;
     private final Random random;
 
-    public PreGameControllerSwitch(boolean isLocal){
-        this.preGameModel = (isLocal) ? new LocalPreGameModel() : new RemotePreGameModel();
+    public PreGameControllerSwitch(){
+        this.preGameModel = new RemotePreGameModel();
         this.random = new Random();
     }
 
@@ -62,6 +63,10 @@ public class PreGameControllerSwitch {
         }
 
         new Thread(() ->{
+            InGameRequestHandler inGameRequestHandler = new InGameRequestHandler(lobby);
+            for (User user: lobby.getUsers()){
+                user.setRequestHandler(inGameRequestHandler);
+            }
             //a questo punto di faccio un po quello che voglio,
             //lo passo a chi di dovere che gestisce l'inizio della partita
             System.out.println("Partita iniziata");
