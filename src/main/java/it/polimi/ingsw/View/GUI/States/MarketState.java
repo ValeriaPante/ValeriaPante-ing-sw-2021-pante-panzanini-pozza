@@ -11,9 +11,6 @@ import java.util.ArrayList;
 public class MarketState extends State{
 
     public MarketState(GUI gui){
-        toDo = new ArrayList<>();
-        done = new ArrayList<>();
-
         ArrayList<Integer> lc = gui.getModel().getPlayerFromId(gui.getModel().getLocalPlayerId()).getLeaderCards();
         int count = 0;
         for(int i = 0; i < lc.size(); i++){
@@ -29,6 +26,12 @@ public class MarketState extends State{
         ContainersScene containersScene = new ContainersScene();
         containersScene.addObserver(gui);
         toDo.add(containersScene);
+    }
+
+    @Override
+    public void next(){
+        super.next();
+        if(toDo.size() == 0) Transition.setOnContainersScene(true);
     }
 
     @Override

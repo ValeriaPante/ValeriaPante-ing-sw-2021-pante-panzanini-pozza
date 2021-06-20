@@ -33,7 +33,10 @@ public class ContainersScene extends Initializable{
 
     @Override
     public void initialise(){
-        root.lookup("#back").setOnMouseClicked(mouseEvent -> Transition.hideDialog());
+        root.lookup("#back").setOnMouseClicked(mouseEvent -> {
+            Transition.hideDialog();
+            Transition.setOnContainersScene(false);
+        });
 
 
         // drag and drop from and to support container

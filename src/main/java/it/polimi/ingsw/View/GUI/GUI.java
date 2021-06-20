@@ -200,9 +200,12 @@ public class GUI extends Application implements View {
 
     @Override
     public void updateSupportContainer(int playerId) {
-        if(playerId == model.getLocalPlayerId()){
-            Platform.runLater(() -> currentState.next());
-            this.actionDone = true;
+        if(Transition.isOnContainersScene()) this.showDeposits();
+        else {
+            if(playerId == model.getLocalPlayerId()){
+                Platform.runLater(() -> currentState.next());
+                this.actionDone = true;
+            }
         }
     }
 

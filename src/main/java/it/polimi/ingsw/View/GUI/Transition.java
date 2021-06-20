@@ -157,6 +157,10 @@ public class Transition {
         Transition.onContainersScene = onContainersScene;
     }
 
+    public static boolean isOnContainersScene(){
+        return Transition.onContainersScene;
+    }
+
     public static void updateLeaderCards(int index){
         GridPane gridPane = (GridPane) leaderCardsScene.getRoot().lookup("#gridPane");
         gridPane.getChildren().remove(index);
