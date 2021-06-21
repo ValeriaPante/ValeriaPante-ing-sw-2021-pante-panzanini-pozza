@@ -22,4 +22,6 @@ public abstract class CustomScenes {
         //this.mainStage.getOnCloseRequest().handle(new WindowEvent(mainStage, WindowEvent.WINDOW_CLOSE_REQUEST));
         this.mainStage.close();
     }
+
+    abstract Scene getScene();
 }

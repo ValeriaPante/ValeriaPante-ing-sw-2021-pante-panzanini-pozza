@@ -1,19 +1,21 @@
 package it.polimi.ingsw.PreGameModel;
 
+import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
 import it.polimi.ingsw.Network.RequestHandlers.RequestHandler;
 import it.polimi.ingsw.Network.Server.ConnectionHandler;
+import it.polimi.ingsw.Network.Server.MessageSenderInterface;
 
 public class User {
 
     private final String username;
-    private final ConnectionHandler connectionHandler;
+    private final MessageSenderInterface connectionHandler;
 
-    public User(String username, ConnectionHandler connectionHandler){
+    public User(String username, MessageSenderInterface connectionHandler){
         this.username = username;
         this.connectionHandler = connectionHandler;
     }
 
-    public void send(String message){
+    public void send(FromServerMessage message){
         this.connectionHandler.send(message);
     }
 

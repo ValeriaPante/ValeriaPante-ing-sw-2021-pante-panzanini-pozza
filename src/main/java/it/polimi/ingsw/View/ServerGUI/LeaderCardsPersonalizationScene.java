@@ -267,7 +267,7 @@ public class LeaderCardsPersonalizationScene extends CustomScenes{
     private void finish(){
         String serverPath = null;
         try {
-            serverPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getPath();
+            serverPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
         }catch (URISyntaxException e){
             //pass
         }

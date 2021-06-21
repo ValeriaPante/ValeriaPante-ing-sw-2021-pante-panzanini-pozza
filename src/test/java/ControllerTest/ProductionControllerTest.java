@@ -9,6 +9,7 @@ import it.polimi.ingsw.Controller.ProductionController;
 import it.polimi.ingsw.Enums.*;
 import it.polimi.ingsw.Model.Game.Table;
 import it.polimi.ingsw.Model.Player.RealPlayer;
+import it.polimi.ingsw.PreGameModel.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,10 +28,10 @@ public class ProductionControllerTest {
     @DisplayName("Setup")
     private void init(){
         this.table = new Table(4){{
-            addPlayer(new RealPlayer("A"));
-            addPlayer(new RealPlayer("B"));
-            addPlayer(new RealPlayer("C"));
-            addPlayer(new RealPlayer("D"));
+            addPlayer(new RealPlayer(new User("A", null)));
+            addPlayer(new RealPlayer(new User("B", null)));
+            addPlayer(new RealPlayer(new User("C", null)));
+            addPlayer(new RealPlayer(new User("D", null)));
         }};
 
         FaithTrackController faithTrackController = new FaithTrackController(table);

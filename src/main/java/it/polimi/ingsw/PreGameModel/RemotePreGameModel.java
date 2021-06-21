@@ -1,5 +1,7 @@
 package it.polimi.ingsw.PreGameModel;
 
+import it.polimi.ingsw.Network.Client.Messages.ChangedLobbyMessage;
+import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
 import it.polimi.ingsw.Network.JsonToClient.JsonToClientPreGame;
 
 import java.util.LinkedList;
@@ -15,18 +17,24 @@ public class RemotePreGameModel{
         this.notDecidedYet = new LinkedList<>();
     }
 
-    private void notifyAllUsers(String message){
+    private ChangedLobbyMessage messageBuilder(Lobby lobby, boolean bool){
+        String[] usernames = lobby.getUsers().stream().map(User::getUsername).toArray(String[]::new);
+        return new ChangedLobbyMessage(lobby.getId(), usernames, bool);
+    }
+
+    private void notifyAllUsers(FromServerMessage message){
         this.notDecidedYet.forEach(user -> user.send(message));
         this.lobbies.forEach(lobby -> lobby.getUsers().forEach(user -> user.send(message)));
     }
 
     private void notifyUserAllLobbies(User user){
-        this.lobbies.forEach(lobby -> user.send(JsonToClientPreGame.changedLobbyMessage(lobby, false)));
-
+        this.lobbies.forEach(lobby -> {
+            user.send(this.messageBuilder(lobby, false));
+        });
         //user.send("{\"players\":[\"Daniel\",\"Vale\",\"Alberto\"],\"itsYou\":false,\"type\":\"changedLobby\",\"id\":1}"); //debug
     }
 
-    private void notifyAllUsers(String message, int userId, String messageToSpecificUser){
+    private void notifyAllUsers(FromServerMessage message, int userId, FromServerMessage messageToSpecificUser){
         this.notDecidedYet.forEach(user -> user.send(message));
         this.lobbies.forEach(lobby -> lobby.getUsers().forEach(user -> {
             if (user.getId() == userId){
@@ -80,7 +88,7 @@ public class RemotePreGameModel{
             if (lobby.getId() == lobbyId){
                 this.lobbies.remove(lobby);
                 //notifico a tutti che questa lobby è vuota
-                this.notifyAllUsers(JsonToClientPreGame.changedLobbyMessage(new Lobby(lobbyId), false));
+                this.notifyAllUsers(this.messageBuilder(lobby, false));
                 return lobby;
             }
         }
@@ -104,7 +112,7 @@ public class RemotePreGameModel{
                     lobby.removeUser(user);
                     this.notDecidedYet.add(user);
                     //notifico il cambiamento di lobby a tutti
-                    this.notifyAllUsers(JsonToClientPreGame.changedLobbyMessage(lobby, false));
+                    this.notifyAllUsers(this.messageBuilder(lobby, false));
                     //so che è in not decided yet
                     this.getAndRemoveUser(userId);
 
@@ -135,7 +143,7 @@ public class RemotePreGameModel{
         for(Lobby lobby : this.lobbies){
             if (lobby.getId() == lobbyId){
                 lobby.addUser(user);
-                this.notifyAllUsers(JsonToClientPreGame.changedLobbyMessage(lobby, false), user.getId(), JsonToClientPreGame.changedLobbyMessage(lobby, true));
+                this.notifyAllUsers(this.messageBuilder(lobby, false), user.getId(), this.messageBuilder(lobby, true));
                 return;
             }
         }

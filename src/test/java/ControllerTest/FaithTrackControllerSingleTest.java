@@ -5,6 +5,7 @@ import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Model.Game.Table;
 import it.polimi.ingsw.Model.Player.RealPlayer;
+import it.polimi.ingsw.PreGameModel.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +22,7 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("Setup")
     public void init(){
         this.table = new Table(1){{
-            addPlayer(new RealPlayer("A"));
+            addPlayer(new RealPlayer(new User("A", null)));
         }};
         this.faithTrackController = new FaithTrackController(this.table);
     }

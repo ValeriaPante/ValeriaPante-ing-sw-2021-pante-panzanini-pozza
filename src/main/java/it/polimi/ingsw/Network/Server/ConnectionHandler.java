@@ -1,9 +1,7 @@
 package it.polimi.ingsw.Network.Server;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
+import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
 import it.polimi.ingsw.Network.Receiver;
 import it.polimi.ingsw.Network.RequestHandlers.RequestHandler;
 import it.polimi.ingsw.Network.Sender;
@@ -16,14 +14,16 @@ import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-public class ConnectionHandler implements Runnable{
+public class ConnectionHandler implements Runnable, MessageSenderInterface{
 
+    private Gson messageToJson;
     private int id;
     private final Receiver fromClient;
     private final Sender toClient;
     private RequestHandler requestHandler;
 
     public ConnectionHandler(Socket socket, RequestHandler requestHandler) throws IOException {
+        this.messageToJson = new Gson();
         this.fromClient = new Receiver(socket.getInputStream());
         this.toClient = new Sender(socket.getOutputStream());
         this.requestHandler = requestHandler;
@@ -197,8 +197,10 @@ public class ConnectionHandler implements Runnable{
         return nickname;
     }
 
-    public void send(String message){
-        this.toClient.send(message);
+    //accetto messaggio
+    public void send(FromServerMessage message){
+        //parso il messaggio
+        this.toClient.send(this.messageToJson.toJson(message));
     }
 
     public void setId(int id){

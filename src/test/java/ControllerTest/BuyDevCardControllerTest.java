@@ -10,6 +10,7 @@ import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Model.Game.Table;
 import it.polimi.ingsw.Model.Player.RealPlayer;
+import it.polimi.ingsw.PreGameModel.User;
 import org.junit.jupiter.api.Test;
 
 import java.util.EnumMap;
@@ -23,8 +24,8 @@ public class BuyDevCardControllerTest {
     @Test
     public void validBuying(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer("user1"));
-        table.addPlayer(new RealPlayer("user2"));
+        table.addPlayer(new RealPlayer(new User("user1", null)));
+        table.addPlayer(new RealPlayer(new User("user1", null)));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
@@ -56,8 +57,8 @@ public class BuyDevCardControllerTest {
     @Test
     public void invalidBuying(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer("user1"));
-        table.addPlayer(new RealPlayer("user2"));
+        table.addPlayer(new RealPlayer(new User("user1", null)));
+        table.addPlayer(new RealPlayer(new User("user1", null)));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
@@ -96,8 +97,8 @@ public class BuyDevCardControllerTest {
     @Test
     public void invalidPlacing(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer("user1"));
-        table.addPlayer(new RealPlayer("user2"));
+        table.addPlayer(new RealPlayer(new User("user1", null)));
+        table.addPlayer(new RealPlayer(new User("user1", null)));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
@@ -149,8 +150,8 @@ public class BuyDevCardControllerTest {
     @Test
     public void discountUsage(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer("user1"));
-        table.addPlayer(new RealPlayer("user2"));
+        table.addPlayer(new RealPlayer(new User("user1", null)));
+        table.addPlayer(new RealPlayer(new User("user1", null)));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);

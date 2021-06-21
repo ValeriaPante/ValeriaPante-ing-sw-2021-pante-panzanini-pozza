@@ -24,7 +24,8 @@ public class ServerGUI extends Application {
                 startServer = false;
             }
         });
-        Scene leaderScene = new LeaderCardsPersonalizationScene(myStage).getScene();
+        //Scene leaderScene = new LeaderCardsPersonalizationScene(myStage).getScene();
+        Scene leaderScene = new DevCardPersonalizationScene(myStage).getScene();
         myStage.setResizable(false);
         myStage.setScene(leaderScene);
         myStage.showAndWait();

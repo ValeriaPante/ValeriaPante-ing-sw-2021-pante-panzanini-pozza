@@ -8,6 +8,7 @@ import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Model.Game.Table;
 import it.polimi.ingsw.Model.Player.RealPlayer;
+import it.polimi.ingsw.PreGameModel.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +31,7 @@ public class CardActionControllerTest {
     @BeforeEach
     public void init(){
         this.table = new Table(2);
-        RealPlayer player1 = new RealPlayer("player1");
+        RealPlayer player1 = new RealPlayer(new User("player1", null));
         player1.getStrongBox().addEnumMap(new EnumMap<>(Resource.class){{
             put(Resource.SERVANT, 3);
             put(Resource.COIN, 6);
