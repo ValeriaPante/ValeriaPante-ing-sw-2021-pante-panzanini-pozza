@@ -10,6 +10,8 @@ import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
+import it.polimi.ingsw.Network.Client.Messages.ErrorMessage;
+import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
 import it.polimi.ingsw.PreGameModel.User;
 
 import java.util.ArrayList;
@@ -182,9 +184,14 @@ public class RealPlayer extends Player{
         return this.supportContainer;
     }
 
+    public void sendMessage(FromServerMessage message){
+        this.connection.send(message);
+    }
+
     public void setErrorMessage(String newErrorMessage) {
         this.errorMessage = newErrorMessage;
-        //notify to client
+        ErrorMessage errorMessage = new ErrorMessage(this.errorMessage);
+        this.connection.send(errorMessage);
     }
 
     public String getErrorMessage() {

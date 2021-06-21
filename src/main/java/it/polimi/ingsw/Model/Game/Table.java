@@ -3,6 +3,7 @@ package it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Model.Cards.DevCard;
 import it.polimi.ingsw.Model.Cards.DevCardType;
 import it.polimi.ingsw.Model.Decks.DevDeck;
+import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import it.polimi.ingsw.Model.Deposit.Market;
 import it.polimi.ingsw.Enums.Colour;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
@@ -10,6 +11,7 @@ import it.polimi.ingsw.Model.FaithTrack.FaithTrack;
 import it.polimi.ingsw.Model.Player.LorenzoIlMagnifico;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Player.RealPlayer;
+import it.polimi.ingsw.Network.Client.Messages.InitMessage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -135,6 +137,17 @@ public class Table {
         else{
             this.isLorenzoTurn = !this.isLorenzoTurn;
         }
+    }
+
+    public void initLeaderCards(){
+        LeaderDeck leaderDeck = new LeaderDeck();
+        leaderDeck.shuffle();
+
+        for (int i = 0; i < 4; i++)
+            for (RealPlayer player : this.players)
+                player.addLeaderCard(leaderDeck.draw());
+
+        //players.stream().forEach(player -> player.sendMessage(new InitMessage()));
     }
 
     //idee sul set winner??? questo non mi piace molto

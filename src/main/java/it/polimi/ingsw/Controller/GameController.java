@@ -40,18 +40,7 @@ public class GameController extends CertifiedResourceUsage{
         for (User player : players)
             table.addPlayer(new RealPlayer(player));
 
-        LeaderDeck leaderDeck = new LeaderDeck();
-        leaderDeck.shuffle();
-
-        if (allInOne){
-            for (RealPlayer player : table.getPlayers())
-                for (int i = 0; i < 4; i++)
-                    player.addLeaderCard(leaderDeck.draw());
-        } else {
-            for (int i = 0; i < 4; i++)
-                for (RealPlayer player : table.getPlayers())
-                    player.addLeaderCard(leaderDeck.draw());
-        }
+        table.initLeaderCards();
     }
 
     public Table getTable(){

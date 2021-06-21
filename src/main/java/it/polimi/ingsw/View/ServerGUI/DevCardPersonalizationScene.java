@@ -1,8 +1,10 @@
 package it.polimi.ingsw.View.ServerGUI;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import it.polimi.ingsw.Enums.Colour;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -38,6 +40,8 @@ public class DevCardPersonalizationScene extends CustomScenes{
     private Image anyImage;
 
     private JsonObject devCardsJson;
+    private int devCardLv;
+    private int devCardType;
     private int devCardPos;
     private JsonObject modifiedDevCards;
     private JsonArray pathNewCards;
@@ -72,7 +76,11 @@ public class DevCardPersonalizationScene extends CustomScenes{
     }
 
     private void modifyScene(){
-
+        System.out.println(devCardLv+this.order[this.devCardType]);
+        JsonArray cards = this.devCardsJson.getAsJsonArray(this.devCardLv+this.order[this.devCardType]);
+        JsonObject card = cards.get(this.devCardPos).getAsJsonObject();
+        this.imageSlot.setImage(new Image(this.getClass().getResourceAsStream("/accessible/assets/imgs/" + card.get("id").getAsInt() + ".png")));
+        this.victoryPointsNum.setText(card.get("victoryPoints").getAsString());
     }
 
     private void update(){
@@ -80,7 +88,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
     }
 
     private void finish(){
-
+        System.out.println("Finito");
     }
 
 
@@ -100,12 +108,23 @@ public class DevCardPersonalizationScene extends CustomScenes{
                 if (allCorrect()) {
                     update();
                     devCardPos++;
-                    //if (leaderCardPos >= leaderCardsJson.size()) {
-                    if (false){
+                    //System.out.println(devCardsJson.getAsJsonArray(devCardLv + order[devCardType]));
+                    if (devCardPos >= devCardsJson.getAsJsonArray(devCardLv + order[devCardType]).size()){
+                        devCardPos = 0;
+                        devCardType ++;
+                        if (devCardType >= order.length){
+                            devCardType = 0;
+                            devCardLv ++;
+                        }
+                    }
+
+                    if (devCardsJson.get(devCardLv + order[devCardType]) == null){
                         finish();
-                    } else {
+                    }
+                    else{
                         modifyScene();
                     }
+                    //if (leaderCardPos >= leaderCardsJson.size())
                 }
             }
         });
@@ -250,17 +269,15 @@ public class DevCardPersonalizationScene extends CustomScenes{
         InputStream inputStream = this.getClass().getResourceAsStream("/accessible/JSONs/DevCardsConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         this.devCardsJson = parser.parse(reader.lines().collect(Collectors.joining())).getAsJsonObject();
+        this.devCardLv = 1;
+        this.devCardType = 0;
         this.devCardPos = 0;
     }
 
     public DevCardPersonalizationScene(Stage stage) {
         super(stage);
-        this.order = new String[]{
-                "GREEN",
-                "YELLOW",
-                "BLUE",
-                "PURPLE",
-        };
+        this.order = Arrays.stream(Colour.values()).map(Enum::toString).toArray(String[]::new);
+        this.readJson();
         this.loadImages();
         this.buildGraphic();
         this.positionGraphic();
