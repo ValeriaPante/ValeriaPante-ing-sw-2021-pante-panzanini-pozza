@@ -22,7 +22,6 @@ public class GUI extends Application implements View {
     @Override
     public void start(Stage stage) throws Exception{
         model = new Game();
-        messageManager = new MessageToServerManager(this);
 
         stage.setTitle("Masters of Renaissance ");
         Platform.runLater(() -> Transition.setPrimaryStage(stage));
