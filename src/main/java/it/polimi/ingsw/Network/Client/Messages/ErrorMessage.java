@@ -6,7 +6,7 @@ public class ErrorMessage extends FromServerMessage{
 
     private final String error;
 
-    public ErrorMessage(int playerId, String error) {
+    public ErrorMessage(String error) {
         this.error = error;
     }
 

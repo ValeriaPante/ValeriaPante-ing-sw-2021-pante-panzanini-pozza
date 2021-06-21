@@ -17,7 +17,6 @@ import java.net.Socket;
 import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -111,7 +110,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
                             result = (new WinnerMessage(toEvaluate.get("id").getAsInt()));
                             break;
                         case "error":
-                            result = (new ErrorMessage(toEvaluate.get("playerId").getAsInt(), toEvaluate.get("error").getAsString()));
+                            result = (new ErrorMessage(toEvaluate.get("error").getAsString()));
                             break;
                         default:
                             break;
