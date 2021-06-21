@@ -45,12 +45,19 @@ public class TransmutationScene extends Initializable{
             card.getChildren().add(image);
         }
 
-        Spinner<Integer> spinner1 = (Spinner<Integer>) root.getChildren().get(3);
-        Spinner<Integer> spinner2 = (Spinner<Integer>) root.getChildren().get(4);
+        Spinner<Integer> spinner1 = new Spinner<>();
+        spinner1.setLayoutX(86.0);
+        spinner1.setLayoutY(500.0);
+        Spinner<Integer> spinner2 = new Spinner<>();
+        spinner2.setLayoutX(364.0);
+        spinner2.setLayoutY(500.0);
         SpinnerValueFactory<Integer> spinnerValueFactory1 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,12);
         spinner1.setValueFactory(spinnerValueFactory1);
         SpinnerValueFactory<Integer> spinnerValueFactory2 = new SpinnerValueFactory.IntegerSpinnerValueFactory(0,12);
         spinner2.setValueFactory(spinnerValueFactory2);
+
+        root.getChildren().add(spinner1);
+        root.getChildren().add(spinner2);
 
         Button sendButton = (Button) root.lookup("#buyButton");
         sendButton.setOnAction(event -> {
