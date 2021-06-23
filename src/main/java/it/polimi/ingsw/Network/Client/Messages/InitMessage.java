@@ -37,7 +37,7 @@ public class InitMessage extends WithIntMessage{
 
     public int[][] getDevDecks() {
         int[][] devDecks = new int[3][4];
-        for(int i = 0; i < devDecks.length; i++)
+        for(int i = 0; i < 12; i++)
            devDecks[i/4][i%4] = this.devDecks[i];
         return devDecks;
     }

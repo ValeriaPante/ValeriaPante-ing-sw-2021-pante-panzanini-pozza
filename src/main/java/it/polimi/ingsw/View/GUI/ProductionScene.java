@@ -104,15 +104,6 @@ public class ProductionScene extends PaymentScene{
             card3.getChildren().add(image);
         }
 
-        ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
-        int availableSpace = 3;
-        for (Integer integer : lc) {
-            if (integer > 60 && integer < 65) {
-                devCardOnTop[availableSpace] = integer;
-                availableSpace++;
-            }
-        }
-
         AnchorPane card4 = (AnchorPane) root.lookup("#card4");
         ticks[3] = root.lookup("#tick4");
         root.lookup("#tick4").setVisible(false);
@@ -168,6 +159,18 @@ public class ProductionScene extends PaymentScene{
 
     public static void setDevCardOnTop(int devSlot, int cardId){
         devCardOnTop[devSlot] = cardId;
+    }
+
+    public static void setActiveLeaderCard(int cardId){
+        if (cardId > 60 && cardId < 65) {
+            if (devCardOnTop[3] == 0) devCardOnTop[3] = cardId;
+            else devCardOnTop[4] = cardId;
+        }
+    }
+
+    public static void removeDiscardedLeaderCard(int cardId){
+        if(devCardOnTop[3] == cardId) devCardOnTop[3] = 0;
+        else if (devCardOnTop[4] == cardId) devCardOnTop[4] = 0;
     }
 
     public static void deselectIfSelected(int cardId){

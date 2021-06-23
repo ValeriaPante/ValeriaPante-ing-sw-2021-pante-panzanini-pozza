@@ -220,6 +220,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void activateLeaderCard(int playerId, int cardId) {
+        if(playerId == model.getLocalPlayerId()) ProductionScene.setActiveLeaderCard(cardId);
         if(model.getNumberOfPlayers() > 1){
             Platform.runLater(() -> Transition.activateLeaderCard(model.getPlayerIndex(playerId), cardId, playerId == model.getLocalPlayerId()));
         } else {
@@ -229,6 +230,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void discardLeaderCard(int playerId, int cardId) {
+        if(playerId == model.getLocalPlayerId()) ProductionScene.removeDiscardedLeaderCard(cardId);
         if(model.getNumberOfPlayers() > 1){
             Platform.runLater(() -> Transition.discardLeaderCard(model.getPlayerIndex(playerId), cardId, playerId == model.getLocalPlayerId()));
         } else {

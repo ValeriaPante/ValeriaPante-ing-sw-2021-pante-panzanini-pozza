@@ -3,13 +3,12 @@ package it.polimi.ingsw.View.GUI;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.EndTurnMessage;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.LeaderCardActionMessage;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Button;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -119,6 +118,21 @@ public class SinglePlayerMainScene extends ObservableByGUI{
             actionEvent.consume();
         });
         discard2.setId("discard"+lc.get(1));
+
+        Region strongbox = (Region) root.lookup("#strongbox");
+        Tooltip inside = new Tooltip();
+        Pane tooltip = null;
+        try {
+            tooltip = FXMLLoader.load(getClass().getResource("/Scenes/strongboxPane.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        ((Label)tooltip.lookup("#coin")).setText("0");
+        ((Label)tooltip.lookup("#shield")).setText("0");
+        ((Label)tooltip.lookup("#stone")).setText("0");
+        ((Label)tooltip.lookup("#servant")).setText("0");
+        inside.setGraphic(tooltip);
+        Tooltip.install(strongbox, inside);
 
         MenuBar menuBar = (MenuBar) root.getChildren().get(0);
         Menu menu = menuBar.getMenus().get(0);
