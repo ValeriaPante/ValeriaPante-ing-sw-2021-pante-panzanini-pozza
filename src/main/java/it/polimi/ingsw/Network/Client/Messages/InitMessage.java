@@ -12,12 +12,10 @@ public class InitMessage extends WithIntMessage{
     private final String[] playersUsernames;
     private final int[] localPlayerLeaderCards;
 
-    public InitMessage(int clientId, Resource[] market, Resource slide, int[] devDecks, int[] playersId, String[] playersUsernames, int[] playersLeaderCards) {
+    public InitMessage(int clientId, Resource[][] market, Resource slide, int[] devDecks, int[] playersId, String[] playersUsernames, int[] playersLeaderCards) {
         this.id = clientId;
 
-        this.market = new Resource[3][4];
-        for(int i = 0; i < market.length; i++)
-            this.market[i/4][i%4] = market[i];
+        this.market = market;
 
         this.slide = slide;
 

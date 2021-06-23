@@ -59,19 +59,19 @@ public class MessageToServerManager implements Runnable, MessageManager{
                             result = new ChangedLobbyMessage(toEvaluate.get("id").getAsInt(), gson.fromJson(toEvaluate.get("players"), String[].class), toEvaluate.get("itsYou").getAsBoolean());
                             break;
                         case "init":
-                            JsonArray playersInfo = toEvaluate.get("players").getAsJsonArray();
-                            int[] playersId = new int[playersInfo.size()];
-                            String[] playersUsernames = new String[playersInfo.size()];
+                            JsonArray playersId= toEvaluate.get("playersId").getAsJsonArray();
+                            JsonArray playersUsernames = toEvaluate.get("playersUsernames").getAsJsonArray();
+                            int[] ids = new int[playersId.size()];
+                            String[] usernames = new String[playersUsernames.size()];
 
-                            for(int j = 0; j < playersInfo.size(); j++){
-                                JsonObject player = playersInfo.get(j).getAsJsonObject();
-                                playersId[j] = player.get("userId").getAsInt();
-                                playersUsernames[j] = player.get("username").getAsString();
+                            for(int j = 0; j < playersId.size(); j++){
+                                ids[j] = playersId.get(j).getAsInt();
+                                usernames[j] = playersUsernames.get(j).getAsString();
                             }
 
                             int[] clientLeaderCards = gson.fromJson(toEvaluate.get("initialLeaderCards"), int[].class);
 
-                            result = new InitMessage(toEvaluate.get("id").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, clientLeaderCards);
+                            result = new InitMessage(toEvaluate.get("id").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[][].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), ids, usernames, clientLeaderCards);
                             break;
                         case "start":
                             result = (new StartMessage());
