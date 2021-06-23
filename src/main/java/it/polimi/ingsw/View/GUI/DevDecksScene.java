@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class DevDecksScene extends ObservableByGUI{
     private Pane root;
-    private static HashMap<Integer, Region> selection;
+    private static HashMap<Integer, Region> selection = new HashMap<>();
 
     public DevDecksScene(GUI gui){
         addObserver(gui);
