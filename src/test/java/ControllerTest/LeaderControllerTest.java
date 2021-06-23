@@ -10,6 +10,9 @@ import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Model.Game.Table;
 import it.polimi.ingsw.Model.Player.RealPlayer;
+import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
+import it.polimi.ingsw.Network.RequestHandlers.RequestHandler;
+import it.polimi.ingsw.Network.Server.MessageSenderInterface;
 import it.polimi.ingsw.PreGameModel.User;
 import org.junit.jupiter.api.Test;
 
@@ -21,11 +24,12 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LeaderControllerTest {
 
+
     @Test
     public void discarding(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", null)));
-        table.addPlayer(new RealPlayer(new User("user2", null)));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
@@ -49,8 +53,8 @@ public class LeaderControllerTest {
     @Test
     public void activateCardWithoutDevTypeRequirements(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", null)));
-        table.addPlayer(new RealPlayer(new User("user2", null)));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
@@ -72,8 +76,8 @@ public class LeaderControllerTest {
     @Test
     public void activateCardWithoutResourceRequirements(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", null)));
-        table.addPlayer(new RealPlayer(new User("user2", null)));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
@@ -95,8 +99,8 @@ public class LeaderControllerTest {
     @Test
     public void activateCard(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", null)));
-        table.addPlayer(new RealPlayer(new User("user2", null)));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);

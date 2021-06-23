@@ -5,6 +5,9 @@ import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Model.Game.Table;
 import it.polimi.ingsw.Model.Player.RealPlayer;
+import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
+import it.polimi.ingsw.Network.RequestHandlers.RequestHandler;
+import it.polimi.ingsw.Network.Server.MessageSenderInterface;
 import it.polimi.ingsw.PreGameModel.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,11 +20,34 @@ import static org.junit.jupiter.api.Assertions.*;
 public class SelectionControllerTest {
     SelectionController selectionController;
 
+    public class FakeConnectionHandler implements MessageSenderInterface {
+
+        @Override
+        public void send(FromServerMessage message) {
+            System.out.println("Sending message...");
+        }
+
+        @Override
+        public int getId() {
+            return 0;
+        }
+
+        @Override
+        public void setId(int id) {
+
+        }
+
+        @Override
+        public void setRequestHandler(RequestHandler requestHandler) {
+
+        }
+    }
+
     @Test
     @DisplayName("leaderCardFromIdTest")
     public void testLCFID(){
         //singlePLayer
-        RealPlayer player = new RealPlayer(new User("nickPlayer1", null));
+        RealPlayer player = new RealPlayer(new User("nickPlayer1", new FakeConnectionHandler()));
         Table table = new Table(1);
         table.addPlayer(player);
         LeaderCard lc = new LeaderCard(
@@ -43,7 +69,7 @@ public class SelectionControllerTest {
         assertEquals("Not own leader card", player.getErrorMessage());
 
         //multiplayer
-        RealPlayer player2 = new RealPlayer(new User("nickPlayer2", null));
+        RealPlayer player2 = new RealPlayer(new User("nickPlayer2", new FakeConnectionHandler()));
         table = new Table(2);
         table.addPlayer(player);
         table.addPlayer(player2);
@@ -83,7 +109,7 @@ public class SelectionControllerTest {
     @DisplayName("getUsableLeaderCardTest")
     public void testGULC(){
         //singlePLayer
-        RealPlayer player = new RealPlayer(new User("nickPlayer1", null));
+        RealPlayer player = new RealPlayer(new User("nickPlayer1", new FakeConnectionHandler()));
         Table table = new Table(1);
         table.addPlayer(player);
         LeaderCard lc = new LeaderCard(
@@ -121,7 +147,7 @@ public class SelectionControllerTest {
         assertEquals(lc, selectionController.getUsableLeaderCard(9999));
 
         //multiplayer
-        RealPlayer player2 = new RealPlayer(new User("nickPlayer2", null));
+        RealPlayer player2 = new RealPlayer(new User("nickPlayer2", new FakeConnectionHandler()));
         table = new Table(2);
         table.addPlayer(player);
         table.addPlayer(player2);

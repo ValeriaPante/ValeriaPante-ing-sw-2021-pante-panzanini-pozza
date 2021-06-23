@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.GUI;
 
+import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.StartGameMessage;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
@@ -31,6 +32,7 @@ public class WaitingToStartScene extends ObservableByGUI{
 
         Button startButton = (Button) root.lookup("#startButton");
         startButton.setOnAction(event -> {
+            new Thread(() -> this.sendMessage(new StartGameMessage())).start();
             Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
             Platform.runLater(Transition::toLoadingScene);
         });
