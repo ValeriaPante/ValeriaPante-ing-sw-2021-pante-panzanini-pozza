@@ -244,12 +244,12 @@ public class CLI extends Observable implements View, Runnable{
 
     @Override
     public void startInitialisation() {
-
+        executor.execute(printer::notifyInitializationStarted);
     }
 
     @Override
     public void showSelectionError(String message, int cardId) {
-
+        executor.execute(() -> printer.printSelectionError(message, cardId));
     }
 
     @Override

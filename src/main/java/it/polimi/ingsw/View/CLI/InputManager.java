@@ -212,10 +212,15 @@ public class InputManager{
 
         try {
             int id = Integer.parseInt(toBeChecked);
-            if (!possesLeaderCard(id))
+            if (!possesLeaderCard(id)){
                 throw new IllegalArgumentException("You do not own a leader card with that id! Please, retry...");
-            else
+            }
+            else if (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().size() > 2){
+                model.getPlayerFromId(model.getLocalPlayerId()).removeLeaderCard(id);
                 return new LeaderDiscardMessage(id);
+            } else{
+                throw new IllegalArgumentException("You have already discarded enough leader cards!");
+            }
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("Syntax error: what you wrote was not correct, please, retry...");
         }

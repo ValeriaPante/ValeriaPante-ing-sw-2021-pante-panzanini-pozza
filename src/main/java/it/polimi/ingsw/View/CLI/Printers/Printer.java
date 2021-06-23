@@ -285,6 +285,16 @@ public class Printer {
         System.out.println("Please wait, "+ Color.colourText(model.getPlayerFromId(playerId).getUsername(), "CYAN") + "is deciding!");
     }
 
+    public synchronized void notifyInitializationStarted(){
+        System.out.println(Color.colourText("Before starting the game let's set everything up! Please wait until it's your turn, now it is"
+                + model.getUsernames().get(0)+"'s...", "CYAN"));
+    }
+
+    public synchronized void printSelectionError(String error, int cardId){
+        printError(error);
+        System.out.println(Color.colourText("An error occurred while trying to select the card with id:" + cardId, "RED"));
+    }
+
     public synchronized void printWinner(int winnerId){
         if (model.getLocalPlayerId() == winnerId) {
             System.out.println(Color.colourText("\n" +

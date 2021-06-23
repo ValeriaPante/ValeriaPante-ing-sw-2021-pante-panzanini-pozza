@@ -9,6 +9,7 @@ import it.polimi.ingsw.Exceptions.*;
 import it.polimi.ingsw.Model.Game.Table;
 import it.polimi.ingsw.Model.Player.*;
 import it.polimi.ingsw.Model.Cards.*;
+import it.polimi.ingsw.Network.Client.Messages.StartMessage;
 import it.polimi.ingsw.PreGameModel.Lobby;
 import it.polimi.ingsw.PreGameModel.User;
 
@@ -81,8 +82,10 @@ public class GameController extends CertifiedResourceUsage{
             if (table.turnOf() == table.getPlayers()[0]){
                 table.turnOf().setMacroTurnType(MacroTurnType.NONE);
                 table.turnOf().setMicroTurnType(MicroTurnType.NONE);
-
-                table.nextTurn();
+                if (table.isSinglePlayer())
+                    table.turnOf().sendMessage(new StartMessage());
+                else
+                    table.nextTurn();
             }
         }
     }
@@ -93,8 +96,11 @@ public class GameController extends CertifiedResourceUsage{
             return;
         }
 
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES){
+            //Error message: "Invalid command"
             return;
+        }
+
 
         if ((capacityShelf1 > 3) || (capacityShelf1 < 1))
             //Error message: "Bad shelf selection"
@@ -135,6 +141,9 @@ public class GameController extends CertifiedResourceUsage{
                 table.turnOf().setMacroTurnType(MacroTurnType.NONE);
                 table.turnOf().setMicroTurnType(MicroTurnType.NONE);
 
+                for (RealPlayer player : table.getPlayers())
+                    player.sendMessage(new StartMessage());
+
                 table.nextTurn();
             }
         } else {
@@ -147,7 +156,12 @@ public class GameController extends CertifiedResourceUsage{
             table.turnOf().setMacroTurnType(MacroTurnType.NONE);
             table.turnOf().setMicroTurnType(MicroTurnType.NONE);
 
-            table.nextTurn();
+            if(table.getPlayers()[table.getPlayers().length - 1].equals(table.turnOf())){
+                for (RealPlayer player : table.getPlayers())
+                    player.sendMessage(new StartMessage());
+            }
+            else
+                table.nextTurn();
         }
     }
     
