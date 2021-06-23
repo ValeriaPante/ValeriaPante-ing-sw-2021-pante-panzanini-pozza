@@ -71,7 +71,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
 
                             int[] clientLeaderCards = gson.fromJson(toEvaluate.get("initialLeaderCards"), int[].class);
 
-                            result = new InitMessage(toEvaluate.get("clientId").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, clientLeaderCards);
+                            result = new InitMessage(toEvaluate.get("id").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), playersId, playersUsernames, clientLeaderCards);
                             break;
                         case "start":
                             result = (new StartMessage());
