@@ -126,6 +126,7 @@ public class Receiver {
 
     private String readMessage(int nbrToRead) throws IOException {
         byte[] byteArray = getByteArrayMessage(nbrToRead);
+        System.out.println("Arrived: " + new String(byteArray, 0, byteArray.length));
         return new String(byteArray,0,byteArray.length);
     }
 

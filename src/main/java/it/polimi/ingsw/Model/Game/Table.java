@@ -14,6 +14,7 @@ import it.polimi.ingsw.Model.Player.LorenzoIlMagnifico;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Player.RealPlayer;
 import it.polimi.ingsw.Network.Client.Messages.InitMessage;
+import it.polimi.ingsw.Network.Client.Messages.TurnOfMessage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -135,8 +136,12 @@ public class Table {
     public void nextTurn(){
         if (!this.singlePlayer){
             this.turnOf = this.turnOf+1 % this.players.size();
+            for (RealPlayer player : this.players){
+                player.sendMessage(new TurnOfMessage(this.turnOf+1));
+            }
         }
         else{
+
             this.isLorenzoTurn = !this.isLorenzoTurn;
         }
     }
@@ -150,20 +155,14 @@ public class Table {
                 player.addLeaderCard(leaderDeck.draw());
 
         int[] playersId = new int[this.players.size()];
-        for (int i=1; i<=this.players.size(); i++){
-            playersId[i] = i;
-        }
-        Resource[] market = new Resource[this.market.getState().length * this.market.getState()[0].length];
-        for (int i=0; i<this.market.getState().length; i++){
-            for (int j=0; j<this.market.getState()[i].length; j++){
-                market[j + j*i] = this.market.getState()[i][j];
-            }
+        for (int i=0; i<this.players.size(); i++){
+            playersId[i] = i+1;
         }
         int[] topDevCardsId = Arrays.stream(this.devDecks).mapToInt(devDeck -> devDeck.getTopCard().getId()).toArray();
-        for (int i=0; i<this.players.size()-1; i++){
+        for (int i=0; i<this.players.size(); i++){
             this.players.get(i).sendMessage(new InitMessage(
-                    i,
-                    market,
+                    i+1,
+                    this.market.getState(),
                     this.market.getSlide(),
                     topDevCardsId,
                     playersId,

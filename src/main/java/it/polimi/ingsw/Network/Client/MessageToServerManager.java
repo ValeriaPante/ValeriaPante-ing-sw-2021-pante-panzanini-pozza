@@ -69,7 +69,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
                                 usernames[j] = playersUsernames.get(j).getAsString();
                             }
 
-                            int[] clientLeaderCards = gson.fromJson(toEvaluate.get("initialLeaderCards"), int[].class);
+                            int[] clientLeaderCards = gson.fromJson(toEvaluate.get("localPlayerLeaderCards"), int[].class);
 
                             result = new InitMessage(toEvaluate.get("id").getAsInt(),gson.fromJson(toEvaluate.get("market"), Resource[][].class), gson.fromJson(toEvaluate.get("slide"), Resource.class),gson.fromJson(toEvaluate.get("devDecks"), int[].class), ids, usernames, clientLeaderCards);
                             break;
@@ -130,7 +130,6 @@ public class MessageToServerManager implements Runnable, MessageManager{
             while (true) {
                 try {
                     input = fromServer.readMessage();
-                    System.out.println(input); //DEBUG
                     if(convertInput(input))
                         break;
                 }catch (IOException e){

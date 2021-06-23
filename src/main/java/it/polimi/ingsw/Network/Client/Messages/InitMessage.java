@@ -5,9 +5,10 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public class InitMessage extends WithIntMessage{
 
+    private String type = "init";
     private final Resource[][] market;
     private final Resource slide;
-    private final int[][] devDecks;
+    private final int[] devDecks;
     private final int[] playersId;
     private final String[] playersUsernames;
     private final int[] localPlayerLeaderCards;
@@ -19,9 +20,7 @@ public class InitMessage extends WithIntMessage{
 
         this.slide = slide;
 
-        this.devDecks = new int[3][4];
-        for(int i = 0; i < devDecks.length; i++)
-            this.devDecks[i/4][i%4] = devDecks[i];
+        this.devDecks = devDecks;
 
         this.playersId = playersId;
         this.playersUsernames = playersUsernames;
@@ -37,6 +36,9 @@ public class InitMessage extends WithIntMessage{
     }
 
     public int[][] getDevDecks() {
+        int[][] devDecks = new int[3][4];
+        for(int i = 0; i < devDecks.length; i++)
+           devDecks[i/4][i%4] = this.devDecks[i];
         return devDecks;
     }
 

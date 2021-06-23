@@ -10,6 +10,7 @@ import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
+import it.polimi.ingsw.Network.Client.Messages.ActionOnLeaderCardMessage;
 import it.polimi.ingsw.Network.Client.Messages.ErrorMessage;
 import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
 import it.polimi.ingsw.PreGameModel.User;
@@ -75,6 +76,7 @@ public class RealPlayer extends Player{
         this.leaderCards.add(leaderCard);
     }
     public void discardLeaderCard(LeaderCard leaderCard){
+        //this.connection.send(new ActionOnLeaderCardMessage());
         this.leaderCards.remove(leaderCard);
     }
 
