@@ -5,15 +5,12 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public class NewMarketStateMessage extends FromServerMessage{
 
+    private String type = "newMarketState";
     private final Resource[][] grid;
     private Resource slide;
 
-    public NewMarketStateMessage(Resource[] grid, Resource slide) {
-        this.grid = new Resource[3][4];
-
-        for(int i = 0; i < grid.length; i++)
-            this.grid[i/4][i%4] = grid[i];
-
+    public NewMarketStateMessage(Resource[][] grid, Resource slide) {
+        this.grid = grid;
         this.slide = slide;
     }
 

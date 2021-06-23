@@ -5,6 +5,7 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public class PopeFavourCardStateMessage extends WithIntMessage{
 
+    private String type = "popeFavourCardState";
     private final PopeFavorCardState[] cards;
 
     public PopeFavourCardStateMessage(int playerId, PopeFavorCardState[] cards) {

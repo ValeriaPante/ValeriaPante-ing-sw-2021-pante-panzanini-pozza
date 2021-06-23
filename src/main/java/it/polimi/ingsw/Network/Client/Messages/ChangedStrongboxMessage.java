@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class ChangedStrongboxMessage extends WithIntMessage{
 
+    private String type = "changedStrongbox";
     private final HashMap<Resource, Integer> inside;
 
     public ChangedStrongboxMessage(int playerId, HashMap<Resource, Integer> inside) {

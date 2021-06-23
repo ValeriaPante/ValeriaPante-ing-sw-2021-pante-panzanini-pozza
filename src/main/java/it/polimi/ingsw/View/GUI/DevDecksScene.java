@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class DevDecksScene extends ObservableByGUI{
     private Pane root;
-    private final HashMap<Integer, Region> selection;
+    private static HashMap<Integer, Region> selection;
 
     public DevDecksScene(GUI gui){
         addObserver(gui);
@@ -71,9 +71,13 @@ public class DevDecksScene extends ObservableByGUI{
         root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());
     }
 
-    private void deselectAll(){
+    private static void deselectAll(){
         for(Map.Entry<Integer, Region> card: selection.entrySet())
             card.getValue().setVisible(false);
+    }
+
+    public static void deselectIfSelected(int cardId){
+        if(selection.containsKey(cardId) && selection.get(cardId).isVisible()) selection.get(cardId).setVisible(false);
     }
 
     public Pane getRoot() {

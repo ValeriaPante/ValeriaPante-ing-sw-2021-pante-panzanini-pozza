@@ -4,6 +4,7 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public class ErrorMessage extends FromServerMessage{
 
+    private String type ="error";
     private final String error;
 
     public ErrorMessage(String error) {

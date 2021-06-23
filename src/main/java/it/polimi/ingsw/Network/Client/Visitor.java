@@ -77,6 +77,8 @@ public class Visitor {
 
             model.addPlayer(m.getPlayersId()[i], p);
         }
+        if(model.getLocalPlayerId() == m.getPlayersId()[0]) view.chooseLeaderCards();
+        else view.startInitialisation();
     }
 
     public void updateModel(NewDevCardMessage m){
@@ -109,6 +111,10 @@ public class Visitor {
 
     public void updateModel(ErrorMessage m){
         view.showErrorMessage(m.getError());
+    }
+
+    public void updateModel(SelectionErrorMessage m){
+        view.showSelectionError(m.getError(), m.getId());
     }
 
 }

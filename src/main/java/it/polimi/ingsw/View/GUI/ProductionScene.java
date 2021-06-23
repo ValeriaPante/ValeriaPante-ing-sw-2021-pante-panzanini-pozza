@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class ProductionScene extends PaymentScene{
     private static final int[] devCardOnTop = new int[5];
+    private static Node[] ticks = new Node[5];
 
     public ProductionScene(){
         try {
@@ -38,6 +39,7 @@ public class ProductionScene extends PaymentScene{
 
         initialiseButtons();
         AnchorPane card1 = (AnchorPane) root.lookup("#card1");
+        ticks[0] = root.lookup("#tick1");
         root.lookup("#tick1").setVisible(false);
         if(devCardOnTop[0] != 0){
             ImageView image = new ImageView();
@@ -59,6 +61,7 @@ public class ProductionScene extends PaymentScene{
         }
 
         AnchorPane card2 = (AnchorPane) root.lookup("#card2");
+        ticks[1] = root.lookup("#tick2");
         root.lookup("#tick2").setVisible(false);
         if(devCardOnTop[1] != 0){
             ImageView image = new ImageView();
@@ -80,6 +83,7 @@ public class ProductionScene extends PaymentScene{
         }
 
         AnchorPane card3 = (AnchorPane) root.lookup("#card3");
+        ticks[2] = root.lookup("#tick3");
         root.lookup("#tick3").setVisible(false);
         if(devCardOnTop[2] != 0){
             ImageView image = new ImageView();
@@ -110,6 +114,7 @@ public class ProductionScene extends PaymentScene{
         }
 
         AnchorPane card4 = (AnchorPane) root.lookup("#card4");
+        ticks[3] = root.lookup("#tick4");
         root.lookup("#tick4").setVisible(false);
         if(devCardOnTop[3] != 0){
             ImageView image = new ImageView();
@@ -131,6 +136,7 @@ public class ProductionScene extends PaymentScene{
         }
 
         AnchorPane card5 = (AnchorPane) root.lookup("#card5");
+        ticks[4] = root.lookup("#tick5");
         root.lookup("#tick5").setVisible(false);
         if(devCardOnTop[4] != 0){
             ImageView image = new ImageView();
@@ -161,5 +167,13 @@ public class ProductionScene extends PaymentScene{
 
     public static void setDevCardOnTop(int devSlot, int cardId){
         devCardOnTop[devSlot] = cardId;
+    }
+
+    public static void deselectIfSelected(int cardId){
+        for(int i = 0; i < devCardOnTop.length; i++){
+            if(devCardOnTop[i] == cardId && ticks[i].isVisible()){
+                ticks[i].setVisible(false);
+            }
+        }
     }
 }

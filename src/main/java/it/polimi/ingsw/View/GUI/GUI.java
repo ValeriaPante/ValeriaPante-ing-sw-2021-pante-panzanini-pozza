@@ -3,7 +3,6 @@ package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Network.Client.MessageManager;
-import it.polimi.ingsw.Network.Client.MessageToServerManager;
 import it.polimi.ingsw.View.ClientModel.Game;
 import it.polimi.ingsw.View.GUI.States.*;
 import it.polimi.ingsw.View.View;
@@ -265,6 +264,11 @@ public class GUI extends Application implements View {
     }
 
     @Override
+    public void startInitialisation(){
+
+    }
+
+    @Override
     public void showWinner(int winnerId) {
         Platform.runLater(() -> Transition.setWinnerScene(new WinnerScene(model.getPlayerFromId(winnerId).getUsername()+" (id: "+winnerId+")")));
         Platform.runLater(Transition::toWinnerScene);
@@ -274,6 +278,12 @@ public class GUI extends Application implements View {
     public void showErrorMessage(String message) {
         Platform.runLater(() -> Transition.showErrorMessage(message));
         if(currentState != null) Platform.runLater(() -> currentState.goBack());
+    }
+
+    @Override
+    public void showSelectionError(String message, int cardId){
+        Platform.runLater(() -> Transition.showErrorMessage(message));
+        Platform.runLater(() -> Transition.deselectCardIfSelected(cardId));
     }
 
     @Override

@@ -28,9 +28,13 @@ public interface View {
 
     void nextTurn(int playerId);
 
+    void startInitialisation();
+
     void showWinner(int winnerId);
 
     void showErrorMessage(String message);
+
+    void showSelectionError(String message, int cardId);
 
     Game getModel();
 }

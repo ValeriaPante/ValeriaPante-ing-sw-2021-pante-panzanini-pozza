@@ -422,4 +422,9 @@ public class Transition {
             }
         }
     }
+
+    public static void deselectCardIfSelected(int cardId){
+        DevDecksScene.deselectIfSelected(cardId);
+        ProductionScene.deselectIfSelected(cardId);
+    }
 }

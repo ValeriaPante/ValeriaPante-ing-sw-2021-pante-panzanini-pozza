@@ -3,7 +3,7 @@ package it.polimi.ingsw.Network.Client.Messages;
 import it.polimi.ingsw.Network.Client.Visitor;
 
 public class NewDevCardMessage extends WithIntMessage{
-
+    private String type = "newDevCard";
     private final int cardId;
     private final int numberOfSlot;
 

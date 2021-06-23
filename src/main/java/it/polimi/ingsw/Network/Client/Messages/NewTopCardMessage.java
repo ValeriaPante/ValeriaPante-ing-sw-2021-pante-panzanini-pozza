@@ -3,6 +3,7 @@ package it.polimi.ingsw.Network.Client.Messages;
 import it.polimi.ingsw.Network.Client.Visitor;
 
 public class NewTopCardMessage extends WithIntMessage{
+    private String type = "newTopCard";
     private final int numberOfDeck;
 
     public NewTopCardMessage(int cardId, int numberOfDeck) {

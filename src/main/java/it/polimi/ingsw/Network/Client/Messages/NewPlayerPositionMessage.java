@@ -4,6 +4,7 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public class NewPlayerPositionMessage extends WithIntMessage{
 
+    private String type = "newPlayerPosition";
     private final int position;
 
     public NewPlayerPositionMessage(int playerId, int position) {

@@ -7,6 +7,7 @@ import java.util.HashMap;
 
 public class ChangedSupportContainerMessage extends WithIntMessage{
 
+    private String type = "changedSupportContainer";
     private final HashMap<Resource, Integer> inside;
 
     public ChangedSupportContainerMessage(int playerId, HashMap<Resource, Integer> inside) {

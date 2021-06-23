@@ -5,6 +5,7 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public class ChangedLeaderStorageMessage extends WithIntMessage{
 
+    private String type = "changedLeaderStorage";
     private final int cardId;
     private final Resource[] owned;
 
