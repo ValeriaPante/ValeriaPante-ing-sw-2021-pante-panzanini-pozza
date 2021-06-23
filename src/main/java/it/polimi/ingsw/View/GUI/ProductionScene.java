@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class ProductionScene extends PaymentScene{
     private static final int[] devCardOnTop = new int[5];
-    private static Node[] ticks = new Node[5];
+    private static Node[] ticks = new Node[6];
 
     public ProductionScene(){
         try {
@@ -157,6 +157,7 @@ public class ProductionScene extends PaymentScene{
             card5.getChildren().add(image);
         }
 
+        ticks[5] = root.lookup("#tick6");
         root.lookup("#tick6").setVisible(false);
         root.lookup("#basic").setOnMouseClicked(mouseEvent -> {
             new Thread(() -> sendMessage(new CardProductionSelectionMessage(0))).start();
@@ -170,7 +171,11 @@ public class ProductionScene extends PaymentScene{
     }
 
     public static void deselectIfSelected(int cardId){
-        for(int i = 0; i < devCardOnTop.length; i++){
+        if(cardId == 0 && ticks[5].isVisible()){
+            ticks[5].setVisible(false);
+            return;
+        }
+        for(int i = 0; i < devCardOnTop.length - 1; i++){
             if(devCardOnTop[i] == cardId && ticks[i].isVisible()){
                 ticks[i].setVisible(false);
             }

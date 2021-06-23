@@ -36,8 +36,8 @@ public class WelcomeScene extends ObservableByGUI{
         Button offlineButton = (Button) root.lookup("#startOffline");
         offlineButton.setOnAction(event -> {
             observer.setMessageManager(new LocalMessageManager(observer));
-            Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
-            Platform.runLater(Transition::toLoadingScene);
+            //Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
+            //Platform.runLater(Transition::toLoadingScene);
         });
     }
 

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class LeaderCardScene extends ObservableByGUI{
 
     private Pane root;
-    private int count;
+    private ArrayList<Integer> discarded = new ArrayList<>();
 
     public LeaderCardScene(GUI gui){
         addObserver(gui);
@@ -40,12 +40,15 @@ public class LeaderCardScene extends ObservableByGUI{
             image.setId(String.valueOf(i));
             image.setOnMouseClicked(mouseEvent -> {
                 int index = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
-                new Thread(() -> sendMessage(new LeaderDiscardMessage(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().get(index)))).start();
-                observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().remove(index);
-                Transition.updateLeaderCards(Math.max(index - count, 0));
-                count++;
-                if (count == 2){
+                int cardId = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().get(index);
+                new Thread(() -> sendMessage(new LeaderDiscardMessage(cardId))).start();
+                discarded.add(cardId);
+                Transition.updateLeaderCards(Math.max(index - discarded.size(), 0));
+                if (discarded.size() == 2){
+                    for(int card: discarded)
+                        observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().remove(Integer.valueOf(card));
                     observer.setGamePhase(1);
+                    Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
                     Platform.runLater(Transition::toLoadingScene);
                 }
             });
