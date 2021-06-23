@@ -46,7 +46,7 @@ public class LeaderCardScene extends ObservableByGUI{
                 Transition.updateLeaderCards(Math.max(index - discarded.size(), 0));
                 if (discarded.size() == 2){
                     for(int card: discarded)
-                        observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().remove(Integer.valueOf(card));
+                        observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).removeLeaderCard(card);
                     observer.setGamePhase(1);
                     Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
                     Platform.runLater(Transition::toLoadingScene);

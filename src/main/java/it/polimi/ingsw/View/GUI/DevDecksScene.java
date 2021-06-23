@@ -19,7 +19,7 @@ import java.util.Map;
 
 public class DevDecksScene extends ObservableByGUI{
     private Pane root;
-    private static HashMap<Integer, Region> selection = new HashMap<>();
+    private static HashMap<Integer, Region> selection;
 
     public DevDecksScene(GUI gui){
         addObserver(gui);
@@ -48,7 +48,7 @@ public class DevDecksScene extends ObservableByGUI{
                     }
                     image.setFitWidth(120);
                     image.setPreserveRatio(true);
-                    image.setId(String.valueOf(1+j+i*4));
+                    image.setId(String.valueOf(devDecks[i][j]));
                     image.setOnMouseClicked(mouseEvent -> {
                         deselectAll();
                         int deckNumber = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
@@ -77,7 +77,7 @@ public class DevDecksScene extends ObservableByGUI{
     }
 
     public static void deselectIfSelected(int cardId){
-        if(selection.containsKey(cardId) && selection.get(cardId).isVisible()) selection.get(cardId).setVisible(false);
+        if(selection != null && selection.containsKey(cardId) && selection.get(cardId).isVisible()) selection.get(cardId).setVisible(false);
     }
 
     public Pane getRoot() {

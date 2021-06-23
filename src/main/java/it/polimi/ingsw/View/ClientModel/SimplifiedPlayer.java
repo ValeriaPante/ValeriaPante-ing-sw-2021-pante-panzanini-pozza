@@ -71,7 +71,7 @@ public class SimplifiedPlayer {
     }
 
     public void removeLeaderCard(int cardId) {
-        this.leaderCards.remove(cardId);
+        this.leaderCards.remove(Integer.valueOf(cardId));
     }
 
     public int[][] getDevSlots() {
