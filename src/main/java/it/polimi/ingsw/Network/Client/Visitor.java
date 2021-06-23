@@ -82,6 +82,7 @@ public class Visitor {
     }
 
     public void updateModel(NewDevCardMessage m){
+        model.getPlayerFromId(m.getId()).addDevCardInSlot(m.getCardId(), m.getNumberOfSlot());
         view.addDevCardInSlot(m.getId(), m.getCardId(), m.getNumberOfSlot());
     }
 

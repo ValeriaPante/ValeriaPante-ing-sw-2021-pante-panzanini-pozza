@@ -78,10 +78,10 @@ public class SimplifiedPlayer {
         return devSlots;
     }
 
-    public void addDevCardInSlot(int cardId, int numeberOfSlot){
-        for (int j = 0; j < devSlots[numeberOfSlot - 1].length; j++){
-            if(devSlots[numeberOfSlot - 1][j] == 0){
-                devSlots[numeberOfSlot - 1][j] = cardId;
+    public void addDevCardInSlot(int cardId, int numberOfSlot){
+        for (int j = 0; j < devSlots[numberOfSlot - 1].length; j++){
+            if(devSlots[numberOfSlot - 1][j] == 0){
+                devSlots[numberOfSlot - 1][j] = cardId;
                 break;
             }
         }
