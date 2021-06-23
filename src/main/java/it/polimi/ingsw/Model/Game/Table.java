@@ -1,6 +1,6 @@
 package it.polimi.ingsw.Model.Game;
 
-import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Cards.DevCard;
 import it.polimi.ingsw.Model.Cards.DevCardType;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
@@ -8,7 +8,6 @@ import it.polimi.ingsw.Model.Decks.DevDeck;
 import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import it.polimi.ingsw.Model.Deposit.Market;
 import it.polimi.ingsw.Enums.Colour;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import it.polimi.ingsw.Model.FaithTrack.FaithTrack;
 import it.polimi.ingsw.Model.Player.LorenzoIlMagnifico;
 import it.polimi.ingsw.Model.Player.Player;
@@ -108,9 +107,9 @@ public class Table {
         return this.faithTrack;
     }
 
-    public void addPlayer(RealPlayer player) throws WeDontDoSuchThingsHere {
+    public void addPlayer(RealPlayer player) throws WrongLeaderCardType {
         if (player == null){
-            throw new WeDontDoSuchThingsHere();
+            throw new WrongLeaderCardType();
         }
         this.players.add(player);
     }

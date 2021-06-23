@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Controller;
 
 import it.polimi.ingsw.Model.Decks.DevDeck;
-import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import it.polimi.ingsw.Model.Deposit.Shelf;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Enums.*;
@@ -237,7 +236,7 @@ public class GameController extends CertifiedResourceUsage{
                 sum += card.getVictoryPoints();
                 try{
                     totalResources += card.getAbility().countAll();
-                } catch (WeDontDoSuchThingsHere e){
+                } catch (WrongLeaderCardType e){
 
                 }
             }

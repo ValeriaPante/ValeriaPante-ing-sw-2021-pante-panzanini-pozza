@@ -1,9 +1,9 @@
 package AbilitesTest;
 
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Abilities.Ability;
 import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -26,7 +26,7 @@ public class AbilityProductionTest {
 
     @Test
     public void discountsMethods(){
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getDiscount());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.getDiscount());
     }
 
     @Test
@@ -54,21 +54,21 @@ public class AbilityProductionTest {
 
     @Test
     public void storageAbilityMethod(){
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.add(Resource.ANY));
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.remove(Resource.ANY));
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.isEmpty());
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getContent());
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getCapacity());
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.contains(new EnumMap<>(Resource.class)));
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.pay());
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.select(Resource.ANY, 6));
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getSelected());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.add(Resource.ANY));
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.remove(Resource.ANY));
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.isEmpty());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.getContent());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.getCapacity());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.contains(new EnumMap<>(Resource.class)));
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.pay());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.select(Resource.ANY, 6));
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.getSelected());
         //manca la toString
     }
 
     @Test
     public void transmutationMethods(){
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getWhiteInto());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.getWhiteInto());
     }
 
 

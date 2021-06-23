@@ -1,11 +1,11 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Model.Deposit.Depot;
 import it.polimi.ingsw.Model.Deposit.Payable;
 import it.polimi.ingsw.Model.Deposit.Shelf;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import it.polimi.ingsw.Model.Player.RealPlayer;
 
 import java.util.ArrayList;
@@ -62,7 +62,7 @@ public class CardActionController extends SelectionController{
                         payableWithSelection.add(leaderCard.getAbility());
                     }
                 }
-                catch (WeDontDoSuchThingsHere e){
+                catch (WrongLeaderCardType e){
                     //non è una carta con potere di storage
                 }
             }

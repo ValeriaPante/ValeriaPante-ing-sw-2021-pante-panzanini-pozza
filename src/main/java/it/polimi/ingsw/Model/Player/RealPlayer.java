@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Player;
 
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Abilities.ProductionPower.ProductionPower;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Model.Cards.PopeFavorCard;
@@ -9,8 +10,6 @@ import it.polimi.ingsw.Model.Deposit.StrongBox;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
-import it.polimi.ingsw.Network.Client.Messages.ActionOnLeaderCardMessage;
 import it.polimi.ingsw.Network.Client.Messages.ErrorMessage;
 import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
 import it.polimi.ingsw.PreGameModel.User;
@@ -146,7 +145,7 @@ public class RealPlayer extends Player{
                 try {
                     if (!leaderCard.getAbility().isEmpty())
                         allResources.addEnumMap(leaderCard.getAbility().getContent());
-                } catch (WeDontDoSuchThingsHere e) {
+                } catch (WrongLeaderCardType e) {
                 }
             }
         }
@@ -174,7 +173,7 @@ public class RealPlayer extends Player{
                 try {
                     //no Exceptions -> the leaderCard type = ProdPower
                     allProductionPowers.add(leaderCard.getAbility().getProductionPower());
-                } catch (WeDontDoSuchThingsHere e) {
+                } catch (WrongLeaderCardType e) {
                     //pass
                 }
             }

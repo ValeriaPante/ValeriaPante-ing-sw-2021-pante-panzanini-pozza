@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Abilities.ProductionPower.ProductionPower;
 import it.polimi.ingsw.Model.Deposit.Depot;
 import it.polimi.ingsw.Model.Deposit.Payable;
@@ -7,7 +8,6 @@ import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Model.Deposit.Shelf;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import it.polimi.ingsw.Model.Player.DevSlot;
 import it.polimi.ingsw.Model.Player.RealPlayer;
 import it.polimi.ingsw.Enums.Resource;
@@ -16,10 +16,17 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
+/**
+ * Controller of the production phase in the game
+ */
 public class ProductionController extends CardActionController{
 
     private RealPlayer player;
 
+    /**
+     * Production Controller constructor
+     * @param ftc Faith Track Controller
+     */
     public ProductionController(FaithTrackController ftc) {
         super(ftc);
     }
@@ -43,7 +50,7 @@ public class ProductionController extends CardActionController{
                 try {
                     selectedProdPowers.add(leaderCard.getAbility().getProductionPower());
                 }
-                catch (WeDontDoSuchThingsHere e){
+                catch (WrongLeaderCardType e){
                     //non dovrebbe succedere di arrivare qui
                 }
             }
@@ -111,7 +118,7 @@ public class ProductionController extends CardActionController{
                     ProductionPower leaderProductionPower;
                     try {
                         leaderProductionPower = leaderCard.getAbility().getProductionPower();
-                    } catch (WeDontDoSuchThingsHere e) {
+                    } catch (WrongLeaderCardType e) {
                         //ha selezionato una carta che non è di tipo produzione
                         player.setErrorMessage("This is not a production LeaderCard");
                         return; //da eliminare
@@ -147,6 +154,11 @@ public class ProductionController extends CardActionController{
         }
     }
 
+    /**
+     * Select a card production if possible, if it's already selected deselects it
+     * If the card is not a production card doesn't get selected
+     * @param idCard the card id
+     */
     public void selectCardProduction(int idCard){
         if (!this.isTurnTypeValid()){
             return;
@@ -156,6 +168,10 @@ public class ProductionController extends CardActionController{
         this.checkResetCondition();
     }
 
+    /**
+     * Selects all production Cards if possible
+     * Those dont get selected if the player does not have enough resources to activate everything
+     */
     public void selectAllProductionPowers(){
         if (!this.isTurnTypeValid()){
             return;
@@ -189,7 +205,7 @@ public class ProductionController extends CardActionController{
                     try {
                         leaderCard.getAbility().getProductionPower();
                         leaderCard.select();
-                    } catch (WeDontDoSuchThingsHere e) {
+                    } catch (WrongLeaderCardType e) {
                         //non è una carta con poteri di produzione
                     }
                 }
@@ -200,6 +216,12 @@ public class ProductionController extends CardActionController{
         this.player.setMicroTurnType(MicroTurnType.SETTING_UP);
     }
 
+    /**
+     * Selects a resource in a shelf
+     * @param resource resource type
+     * @param numberOfShelf the target shelf
+     * @return true if i handled this selection
+     */
     public boolean selectionFromShelf(Resource resource, int numberOfShelf){
         if (!this.isTurnTypeValid()){
             return false;
@@ -209,6 +231,12 @@ public class ProductionController extends CardActionController{
         return true;
     }
 
+    /**
+     * Deselection a resource in a shelf
+     * @param resource resource type
+     * @param numberOfShelf the target shelf
+     * @return true if i handled this selection
+     */
     public boolean deselectionFromShelf(Resource resource, int numberOfShelf){
         if (!this.isTurnTypeValid()){
             return false;
@@ -218,6 +246,12 @@ public class ProductionController extends CardActionController{
         return true;
     }
 
+    /**
+     * Selects a resource type and amount in the strongbox
+     * @param resource resource type
+     * @param quantity resource amount
+     * @return true if i handled this selection
+     */
     public boolean selectionFromStrongBox(Resource resource, int quantity){
         if (!this.isTurnTypeValid()){
             return false;
@@ -227,6 +261,12 @@ public class ProductionController extends CardActionController{
         return true;
     }
 
+    /**
+     * Deselects a resource type and amount in the strongbox
+     * @param resource resource type
+     * @param quantity resource amount
+     * @return true if i handled this selection
+     */
     public boolean deselectionFromStrongBox(Resource resource, int quantity){
         if (!this.isTurnTypeValid()){
             return false;
@@ -236,6 +276,13 @@ public class ProductionController extends CardActionController{
         return true;
     }
 
+    /**
+     * Selects a resource in a storage type Leader card, if its already selected deselect it
+     * @param resource resource type
+     * @param idCard the card id
+     * @param resPosition the position of the resource in the storage
+     * @return true if i handled this selection
+     */
     public boolean selectionFromLeaderStorage(Resource resource, int idCard, int resPosition){
         if (!this.isTurnTypeValid()){
             return false;
@@ -260,6 +307,11 @@ public class ProductionController extends CardActionController{
         }
     }
 
+    /**
+     * Activate the production if possible
+     * The production doesn't start if the player has selected more o less resources that are needed
+     * Sets the turn to ANYDECISION if there is some any in output
+     */
     public void activateProduction(){
         this.player = super.table.turnOf();
 
@@ -296,7 +348,7 @@ public class ProductionController extends CardActionController{
                         resourceSelected.addEnumMap(leaderCard.getAbility().getSelected());
                     }
                 }
-                catch(WeDontDoSuchThingsHere e){
+                catch(WrongLeaderCardType e){
                     //non è una carta con poteri di produzione
                 }
             }
@@ -392,15 +444,17 @@ public class ProductionController extends CardActionController{
         //le risorse selezionate non dovrebebro più esserci
     }
 
+    /**
+     * Stores a resource that a any will be converted into
+     * @param resource A resource that a any will be converted into
+     */
     public void anySelection(Resource resource){
         RealPlayer player = super.table.turnOf();
         if (player.getMicroTurnType() != MicroTurnType.ANY_DECISION) {
-            //exception:
             player.setErrorMessage("You can't do this now");
             return;
         }
         if (resource == Resource.ANY || resource == Resource.WHITE || resource == Resource.FAITH){
-            //exception:
             player.setErrorMessage("Resource specified not allowed");
             return;
         }
@@ -421,6 +475,9 @@ public class ProductionController extends CardActionController{
         }
     }
 
+    /**
+     * Allows to go back to the selection of resources and cards from the selection of the Any as output
+     */
     public void backFromAnySelection(){
         this.player = super.table.turnOf();
         if (this.player.getMicroTurnType() != MicroTurnType.ANY_DECISION){

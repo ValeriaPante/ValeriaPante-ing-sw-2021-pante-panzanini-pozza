@@ -38,7 +38,11 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
         for (int i=0; i<smallPathsAmount; i++){
             this.smallPaths[i] = new TwoTextInput();
         }
-        //int vaticanRelationsAmount =
+        int vaticanRelationsAmount = this.faithTrackInfo.getAsJsonArray("vaticanRelations").size();
+        this.vaticanRelations = new ThreeTextInput[vaticanRelationsAmount];
+        for (int i=0; i<vaticanRelationsAmount; i++){
+            this.vaticanRelations[i] = new ThreeTextInput();
+        }
     }
 
     public FaithTrackPersonalizationScene(Stage stage) {

@@ -10,7 +10,7 @@ import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.CantPutThisHere;
 import it.polimi.ingsw.Exceptions.GameOver;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Deposit.StrongBox;
 
 import java.util.ArrayList;
@@ -110,7 +110,7 @@ public class BuyDevCardController extends CardActionController{
                         table.turnOf().getSupportContainer().addEnumMap(toBePaid);
                     }
 
-                } catch (WeDontDoSuchThingsHere e){
+                } catch (WrongLeaderCardType e){
                     table.turnOf().setErrorMessage("This Leader Card has not a discount ability. ");
                 }
             }
@@ -197,7 +197,7 @@ public class BuyDevCardController extends CardActionController{
             if(table.turnOf().getLeaderCards()[i].hasBeenPlayed()){
                 try {
                     temp.addEnumMap(table.turnOf().getLeaderCards()[i].getAbility().getSelected());
-                } catch (WeDontDoSuchThingsHere e) {
+                } catch (WrongLeaderCardType e) {
 
                 }
             }

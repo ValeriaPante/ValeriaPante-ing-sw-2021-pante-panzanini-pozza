@@ -24,7 +24,7 @@ public class MarketControllerTest {
 //                card.getAbility().getCapacity();
 //                player.addLeaderCard(card);
 //                numOfCards++;
-//            } catch (WeDontDoSuchThingsHere ignored){}
+//            } catch (WrongLeaderCardType ignored){}
 //        }
 //
 //        Shelf[] arrayOfShelves = new Shelf[3];
@@ -87,7 +87,7 @@ public class MarketControllerTest {
 //            card = deck.draw();
 //            try{
 //                card.getAbility().getCapacity();
-//            } catch (WeDontDoSuchThingsHere e){
+//            } catch (WrongLeaderCardType e){
 //                player.addLeaderCard(card);
 //                numOfCards++;
 //            }
@@ -140,7 +140,7 @@ public class MarketControllerTest {
 //                    player.addLeaderCard(card);
 //                    numOfLeaderCards++;
 //                }
-//            } catch (WeDontDoSuchThingsHere e){
+//            } catch (WrongLeaderCardType e){
 //                if (numOfCards == 0) {
 //                    player.addLeaderCard(card);
 //                    numOfCards++;

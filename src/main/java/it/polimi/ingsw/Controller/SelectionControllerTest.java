@@ -224,7 +224,7 @@ public class SelectionControllerTest {
 //                    arrayOfLC[storageLC] = pickedCard;
 //                    storageLC ++;
 //                }
-//            } catch (WeDontDoSuchThingsHere e) {
+//            } catch (WrongLeaderCardType e) {
 //                if (notStorageLC < 2){
 //                    arrayOfLC[notStorageLC + 2] = pickedCard;
 //                    notStorageLC ++;

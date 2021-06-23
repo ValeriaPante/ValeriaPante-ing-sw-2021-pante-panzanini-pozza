@@ -1,25 +1,40 @@
 package it.polimi.ingsw.Model.FaithTrack;
 
 //rappresenta una porzione del percorso fede
+
+/**
+ * Represent a little segment of the FaithTrack
+ */
 class SmallPath {
     private final int posStart;
     private final int posEnd;
     private final int victoryPoints;
 
-    //costruttore, victory points associati a questo particolare paercorso
-    SmallPath(int posStart, int posEnd, int victoryPoints){
+    /**
+     * SmallPath constructor
+     * @param posStart start position (inclusive)
+     * @param posEnd end position (inclusive)
+     * @param victoryPoints victory points associates to this SmallPath
+     */
+    public SmallPath(int posStart, int posEnd, int victoryPoints){
         this.posStart = posStart;
         this.posEnd = posEnd;
         this.victoryPoints = victoryPoints;
     }
 
-    //ritorna true sse l'intero che rappresenta la posizione passato come parametro
-    // è interno a questo percorso
+    /**
+     * Evaluator of a position
+     * @param pos position to evaluate
+     * @return true if inside this SmallPath
+     */
     boolean isIn(int pos){
         return posStart<=pos && pos<=posEnd;
     }
 
-    //getter di victory points
+    /**
+     * Getter
+     * @return the victory points associates to this SmallPath
+     */
     int getVictoryPoints(){
         return this.victoryPoints;
     }

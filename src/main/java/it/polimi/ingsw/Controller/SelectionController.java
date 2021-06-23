@@ -1,10 +1,10 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Model.Deposit.Shelf;
 import it.polimi.ingsw.Model.Deposit.StrongBox;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import it.polimi.ingsw.Model.Game.Table;
 
 import java.util.EnumMap;
@@ -103,7 +103,7 @@ public class SelectionController extends CertifiedResourceUsage{
                 //Error message: "Not selectable"
                 return;
             }
-        } catch (WeDontDoSuchThingsHere e){
+        } catch (WrongLeaderCardType e){
             //Error message: "Wrong leader card"
         }
     }
@@ -190,7 +190,7 @@ public class SelectionController extends CertifiedResourceUsage{
         for (LeaderCard lc : table.turnOf().getLeaderCards()){
             try{
                 lc.getAbility().deselectAll();
-            } catch (WeDontDoSuchThingsHere | NullPointerException ignored) {}
+            } catch (WrongLeaderCardType | NullPointerException ignored) {}
         }
     }
 

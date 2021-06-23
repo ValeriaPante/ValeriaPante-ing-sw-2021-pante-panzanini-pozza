@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Controller;
 
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Abilities.Ability;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Model.Deposit.Depot;
@@ -8,7 +9,6 @@ import it.polimi.ingsw.Model.Deposit.StrongBox;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import it.polimi.ingsw.Model.Player.RealPlayer;
 
 import java.util.ArrayList;
@@ -75,7 +75,7 @@ public class MarketController extends SelectionController{
                 supportContainer.addEnumMap(lc.getAbility().getSelected());
                 lc.getAbility().pay();
             }
-            catch (WeDontDoSuchThingsHere | NullPointerException ignored){}
+            catch (WrongLeaderCardType | NullPointerException ignored){}
         }
     }
 
@@ -165,7 +165,7 @@ public class MarketController extends SelectionController{
                     numOfContainersSelected++;
                     leaderCardsSelected.add(lc);
                 }
-            } catch (WeDontDoSuchThingsHere ignored) {}
+            } catch (WrongLeaderCardType ignored) {}
         }
 //        if (numOfContainersSelected == 0)
 //            //Error message: "Less than two selections"
@@ -320,7 +320,7 @@ public class MarketController extends SelectionController{
                 //Error message: "LeaderCard cannot contain that quantity"
                 return false;
             }
-        } catch (WeDontDoSuchThingsHere e){
+        } catch (WrongLeaderCardType e){
             //Error message: "Wrong leader card"
             return false;
         }
@@ -383,7 +383,7 @@ public class MarketController extends SelectionController{
                         numOfTransmutationAbilities++;
                         transmutationAbility = lc.getAbility();
                     }
-                } catch (WeDontDoSuchThingsHere ignored) {}
+                } catch (WrongLeaderCardType ignored) {}
             }
 
             if (numOfTransmutationAbilities == 0){
@@ -467,7 +467,7 @@ public class MarketController extends SelectionController{
             return ability.getWhiteInto();
         } catch (NullPointerException e) {
             return null;
-        } catch (WeDontDoSuchThingsHere e) {
+        } catch (WrongLeaderCardType e) {
             //Error message: "The selected leader card cannot transmute"
             return null;
         }

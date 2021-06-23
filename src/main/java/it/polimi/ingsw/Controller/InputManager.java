@@ -303,7 +303,7 @@ public class InputManager {
                     catalyst.add(toAdd);
 
                 }
-                catch (WeDontDoSuchThingsHere e){
+                catch (WrongLeaderCardType e){
                     //significa che in questo punto quando ho provato a fare le robe dentro catalyst
                     //è partito un errore perchè evidentemente l'abilitè non era di tipo storage
                 }

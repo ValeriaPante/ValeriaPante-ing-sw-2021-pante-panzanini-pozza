@@ -1,9 +1,9 @@
 package AbilitesTest;
 
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Abilities.Ability;
 import it.polimi.ingsw.Enums.LeaderCardType;
 import it.polimi.ingsw.Enums.Resource;
-import it.polimi.ingsw.Exceptions.WeDontDoSuchThingsHere;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,12 +26,12 @@ public class AbilityStorageTest {
 
     @Test
     public void discountsMethods(){
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getDiscount());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.getDiscount());
     }
 
     @Test
     public void productionPowerMethods(){
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getProductionPower());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.getProductionPower());
     }
 
     @Test
@@ -192,6 +192,6 @@ public class AbilityStorageTest {
 
     @Test
     public void transmutationMethods(){
-        assertThrows(WeDontDoSuchThingsHere.class, () -> this.ability.getWhiteInto());
+        assertThrows(WrongLeaderCardType.class, () -> this.ability.getWhiteInto());
     }
 }
