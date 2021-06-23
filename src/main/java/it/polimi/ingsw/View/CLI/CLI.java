@@ -91,7 +91,7 @@ public class CLI extends Observable implements View, Runnable{
                     "       ▀█   ███   █▀    ███    █▀   ▄████████▀     ▄████▀     ██████████   ███    ███  ▄████████▀        ▀██████▀    ███        \n"+
                     "                                                                           ███    ███                                           \n"+
                     "    ▄████████    ▄████████ ███▄▄▄▄      ▄████████  ▄█     ▄████████    ▄████████    ▄████████ ███▄▄▄▄    ▄████████    ▄████████ \n"+
-                    "   ███    ███   ███    ███ ███▀▀▀██▄   ███    ███ ███   ███    ███   ███    ███   ███    ███ ███▀▀▀██▄ ███    ███   ███    ███ \n"+
+                    "   ███    ███   ███    ███ ███▀▀▀██▄   ███    ███ ███    ███    ███   ███    ███   ███    ███ ███▀▀▀██▄ ███    ███   ███    ███ \n"+
                     "   ███    ███   ███    █▀  ███   ███   ███    ███ ███▌   ███    █▀    ███    █▀    ███    ███ ███   ███ ███    █▀    ███    █▀  \n"+
                     "  ▄███▄▄▄▄██▀  ▄███▄▄▄     ███   ███   ███    ███ ███▌   ███          ███          ███    ███ ███   ███ ███         ▄███▄▄▄     \n"+
                     " ▀▀███▀▀▀▀▀   ▀▀███▀▀▀     ███   ███ ▀███████████ ███▌ ▀███████████ ▀███████████ ▀███████████ ███   ███ ███        ▀▀███▀▀▀     \n"+
@@ -240,6 +240,16 @@ public class CLI extends Observable implements View, Runnable{
     @Override
     public void showErrorMessage(String message) {
         executor.execute(() -> printer.printError(message));
+    }
+
+    @Override
+    public void startInitialisation() {
+
+    }
+
+    @Override
+    public void showSelectionError(String message, int cardId) {
+
     }
 
     @Override
