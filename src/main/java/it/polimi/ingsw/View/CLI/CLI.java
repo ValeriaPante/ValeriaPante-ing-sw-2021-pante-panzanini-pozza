@@ -107,11 +107,11 @@ public class CLI extends Observable implements View, Runnable{
             inputFromPlayer = input.nextLine();
             try{
                 if (turnState == 0) {
-                    inputManager.preGameInput(inputFromPlayer);
+                    client.update(inputManager.preGameInput(inputFromPlayer));
                 } else if (turnState == 1) {
-                    inputManager.initializationInput(inputFromPlayer);
+                    client.update(inputManager.initializationInput(inputFromPlayer));
                 } else if (turnState == 2){
-                    inputManager.inTurnInput(inputFromPlayer);
+                    client.update(inputManager.inTurnInput(inputFromPlayer));
                 } else {
                     inputManager.NOTinTurnInput(inputFromPlayer);
                 }
