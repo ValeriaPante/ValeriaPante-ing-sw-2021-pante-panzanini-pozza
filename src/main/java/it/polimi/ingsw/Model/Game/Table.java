@@ -1,7 +1,9 @@
 package it.polimi.ingsw.Model.Game;
 
+import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Model.Cards.DevCard;
 import it.polimi.ingsw.Model.Cards.DevCardType;
+import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Model.Decks.DevDeck;
 import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import it.polimi.ingsw.Model.Deposit.Market;
@@ -147,7 +149,28 @@ public class Table {
             for (RealPlayer player : this.players)
                 player.addLeaderCard(leaderDeck.draw());
 
-        //players.stream().forEach(player -> player.sendMessage(new InitMessage()));
+        int[] playersId = new int[this.players.size()];
+        for (int i=1; i<=this.players.size(); i++){
+            playersId[i] = i;
+        }
+        Resource[] market = new Resource[this.market.getState().length * this.market.getState()[0].length];
+        for (int i=0; i<this.market.getState().length; i++){
+            for (int j=0; j<this.market.getState()[i].length; j++){
+                market[j + j*i] = this.market.getState()[i][j];
+            }
+        }
+        int[] topDevCardsId = Arrays.stream(this.devDecks).mapToInt(devDeck -> devDeck.getTopCard().getId()).toArray();
+        for (int i=0; i<this.players.size()-1; i++){
+            this.players.get(i).sendMessage(new InitMessage(
+                    i,
+                    market,
+                    this.market.getSlide(),
+                    topDevCardsId,
+                    playersId,
+                    this.players.stream().map(Player::getNickname).toArray(String[]::new),
+                    Arrays.stream(this.players.get(i).getLeaderCards()).mapToInt(LeaderCard::getId).toArray()
+            ));
+        }
     }
 
     //idee sul set winner??? questo non mi piace molto
