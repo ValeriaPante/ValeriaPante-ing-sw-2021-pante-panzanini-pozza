@@ -317,7 +317,7 @@ public class LeaderCardsPersonalizationScene extends CustomScenes{
             //sincero bho
         }
 
-        super.closeStage();
+        super.setNextScene(new DevCardPersonalizationScene(super.mainStage).getScene());
     }
 
     private boolean allCorrect(){
@@ -585,6 +585,11 @@ public class LeaderCardsPersonalizationScene extends CustomScenes{
         InputStream inputStream = this.getClass().getResourceAsStream("/accessible/JSONs/LeaderCardsConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         this.leaderCardsJson = parser.parse(reader.lines().collect(Collectors.joining())).getAsJsonArray();
+        try{
+            reader.close();
+        }catch (IOException e){
+            //
+        }
         this.leaderCardPos = 0;
     }
 
@@ -615,6 +620,7 @@ public class LeaderCardsPersonalizationScene extends CustomScenes{
         this.modifyScene();
     }
 
+    @Override
     public Scene getScene(){
         return this.leaderCardsPersonalizationScene;
     }

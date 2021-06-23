@@ -1,10 +1,8 @@
 package it.polimi.ingsw.View.ServerGUI;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import it.polimi.ingsw.Enums.Colour;
+import it.polimi.ingsw.Enums.Resource;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -19,17 +17,18 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DevCardPersonalizationScene extends CustomScenes{
 
-    String[] order;
+    private final String[] order;
+    private final Resource[] resourcesOrder;
     private String pathImageCard;
 
     private Image coinImage;
@@ -43,7 +42,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
     private int devCardLv;
     private int devCardType;
     private int devCardPos;
-    private JsonObject modifiedDevCards;
+    private LinkedHashMap<String, JsonArray> modifiedDevCards;
     private JsonArray pathNewCards;
 
     private Scene devCardPersonalizationScene;
@@ -53,7 +52,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
     private Text victoryPoints;
     private TextField victoryPointsNum;
     private Text resourceRequired;
-    private ImageDescription[] resourceReq;
+    private ImageDescription[] cost;
 
     private Text productionPower;
     private Text inputText;
@@ -75,22 +74,127 @@ public class DevCardPersonalizationScene extends CustomScenes{
         }
     }
 
+    private void modifyCost(JsonObject card){
+        JsonObject resourcesReq = card.get("cost").getAsJsonObject();
+        JsonElement amount;
+        for (int i=0; i<this.cost.length; i++){
+            amount = resourcesReq.get(this.resourcesOrder[i].toString());
+            this.cost[i].setText((amount == null) ? "0" : amount.getAsString());
+        }
+    }
+
+    private void modifyInOut(JsonObject input, ImageDescription[] descriptors){
+        JsonElement amount;
+        for (int i=0; i<descriptors.length; i++){
+            amount = input.get(this.resourcesOrder[i].toString());
+            descriptors[i].setText((amount == null) ? "0" : amount.getAsString());
+        }
+    }
+
     private void modifyScene(){
-        System.out.println(devCardLv+this.order[this.devCardType]);
+        this.pathImageCard = "default";
         JsonArray cards = this.devCardsJson.getAsJsonArray(this.devCardLv+this.order[this.devCardType]);
         JsonObject card = cards.get(this.devCardPos).getAsJsonObject();
         this.imageSlot.setImage(new Image(this.getClass().getResourceAsStream("/accessible/assets/imgs/" + card.get("id").getAsInt() + ".png")));
         this.victoryPointsNum.setText(card.get("victoryPoints").getAsString());
+        this.modifyCost(card);
+        this.modifyInOut(card.get("prodpower").getAsJsonObject().get("input").getAsJsonObject(), this.input);
+        this.modifyInOut(card.get("prodpower").getAsJsonObject().get("output").getAsJsonObject(), this.output);
+    }
+
+    private JsonObject enumMapExtractor(ImageDescription[] descriptions, Enum[] map){
+        JsonObject enumMap = new JsonObject();
+        int amount;
+        for (int i=0; i<descriptions.length; i++){
+            amount = Integer.parseInt(descriptions[i].getText());
+            if (amount>0){
+                enumMap.add(map[i].toString(), new JsonPrimitive(amount));
+            }
+        }
+        return enumMap;
     }
 
     private void update(){
+        String deckType = this.devCardLv + this.order[devCardType];
+        int cardId = this.devCardsJson.getAsJsonArray(deckType).get(this.devCardPos).getAsJsonObject().get("id").getAsInt();
+        JsonObject pathDescriptor = new JsonObject();
+        pathDescriptor.add("name", new JsonPrimitive(cardId+".png"));
+        pathDescriptor.add("path", new JsonPrimitive(this.pathImageCard));
+        this.pathNewCards.add(pathDescriptor);
 
+        //building json object for card
+        JsonObject card = new JsonObject();
+        card.add("id", new JsonPrimitive(cardId));
+        card.add("victoryPoints", new JsonPrimitive(Integer.parseInt(this.victoryPointsNum.getCharacters().toString())));
+        card.add("cost", this.enumMapExtractor(this.cost, this.resourcesOrder));
+        JsonObject prodPower = new JsonObject();
+        prodPower.add("input", this.enumMapExtractor(this.input, this.resourcesOrder));
+        prodPower.add("output", this.enumMapExtractor(this.input, this.resourcesOrder));
+        card.add("prodpower", prodPower);
+
+        JsonArray cards = this.modifiedDevCards.get(deckType);
+        if (cards == null){
+            cards = new JsonArray();
+        }
+        cards.add(card);
+        this.modifiedDevCards.put(deckType, cards);
     }
 
     private void finish(){
-        System.out.println("Finito");
-    }
+        String serverPath = null;
+        try {
+            serverPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
+        }catch (URISyntaxException e){
+            //pass
+        }
 
+        for (int i=0; i<this.pathNewCards.size(); i++){
+            String relativePath = "\\accessible\\assets\\imgs\\";
+            File dir = new File(serverPath + relativePath);
+            if (!dir.exists()){
+                dir.mkdirs();
+            }
+            JsonObject pathDescriptor = this.pathNewCards.get(i).getAsJsonObject();
+            String name = pathDescriptor.get("name").getAsString();
+            String path = pathDescriptor.get("path").getAsString();
+            byte[] buffer = new byte[1024];
+            InputStream imageStream;
+            int count;
+            try {
+                if ("default".equals(path)) {
+                    imageStream = this.getClass().getResourceAsStream("/accessible/assets/imgs/" + name);
+                } else {
+                    imageStream = new FileInputStream(path);
+                }
+                FileOutputStream fileOutputStream = new FileOutputStream(serverPath + relativePath + name);
+                while ((count = imageStream.read(buffer)) != -1) {
+                    fileOutputStream.write(buffer, 0, count);
+                }
+                fileOutputStream.close();
+                imageStream.close();
+            }catch (IOException e){
+                //sincero bho
+                e.printStackTrace();
+            }
+        }
+
+        //copiare il json
+        Gson prettyPrinting = new GsonBuilder().setPrettyPrinting().create();
+        String output = prettyPrinting.toJson(this.modifiedDevCards);
+        File outputDir = new File(serverPath + "\\accessible\\JSONs\\");
+        if (!outputDir.exists()){
+            outputDir.mkdirs();
+        }
+        try {
+            FileOutputStream jsonFile = new FileOutputStream(serverPath + "\\accessible\\JSONs\\DevCardsConfig.json");
+            jsonFile.write(output.getBytes());
+            jsonFile.close();
+        }catch (IOException e){
+            //sincero bho
+        }
+
+        super.closeStage();
+    }
 
     private boolean allCorrect(){
         try {
@@ -102,6 +206,10 @@ public class DevCardPersonalizationScene extends CustomScenes{
     }
 
     private void setOnActions() {
+        Arrays.stream(this.cost).forEach(ImageDescription::setDefaultOnClickHandler);
+        Arrays.stream(this.input).forEach(ImageDescription::setDefaultOnClickHandler);
+        Arrays.stream(this.output).forEach(ImageDescription::setDefaultOnClickHandler);
+
         this.nextButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -124,7 +232,6 @@ public class DevCardPersonalizationScene extends CustomScenes{
                     else{
                         modifyScene();
                     }
-                    //if (leaderCardPos >= leaderCardsJson.size())
                 }
             }
         });
@@ -173,16 +280,16 @@ public class DevCardPersonalizationScene extends CustomScenes{
         this.resourceRequired.setX(this.imageSlot.getX() + this.imageSlot.getFitWidth() + 30);
         this.resourceRequired.setY(this.victoryPoints.getY()+this.resourceRequired.getLayoutBounds().getHeight() + 10);
 
-        Arrays.stream(this.resourceReq).forEach(imageDescription -> {
+        Arrays.stream(this.cost).forEach(imageDescription -> {
             imageDescription.setImageFitSize(50,50);
             imageDescription.setPreservedRatio(true);
             imageDescription.setTextFontSize(17);
         });
-        this.positionImageDescription(this.resourceReq, this.resourceRequired.getX(), this.resourceRequired.getY(), 10, 20);
+        this.positionImageDescription(this.cost, this.resourceRequired.getX(), this.resourceRequired.getY(), 10, 20);
 
         this.productionPower.setFont(new Font(19));
-        this.productionPower.setX(this.resourceReq[0].getImageX());
-        this.productionPower.setY(this.resourceReq[0].getTextY() + 2*this.resourceReq[0].getTextFontSize());
+        this.productionPower.setX(this.cost[0].getImageX());
+        this.productionPower.setY(this.cost[0].getTextY() + 2*this.cost[0].getTextFontSize());
 
         this.inputText.setFont(new Font(19));
         this.inputText.setX(this.productionPower.getX());
@@ -218,11 +325,11 @@ public class DevCardPersonalizationScene extends CustomScenes{
         this.changeImage = new Button("Change Image");
         this.resourceRequired = new Text("Resources Required:");
 
-        this.resourceReq = new ImageDescription[4];
-        this.resourceReq[0] = new ImageDescription(this.coinImage);
-        this.resourceReq[1] = new ImageDescription(this.servantImage);
-        this.resourceReq[2] = new ImageDescription(this.stoneImage);
-        this.resourceReq[3] = new ImageDescription(this.shieldImage);
+        this.cost = new ImageDescription[4];
+        this.cost[0] = new ImageDescription(this.coinImage);
+        this.cost[1] = new ImageDescription(this.servantImage);
+        this.cost[2] = new ImageDescription(this.stoneImage);
+        this.cost[3] = new ImageDescription(this.shieldImage);
 
         this.productionPower = new Text("Production Power:");
         this.inputText = new Text("Input:");
@@ -245,7 +352,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
         this.nextButton = new Button("Next");
 
         this.root.getChildren().addAll(this.imageSlot, this.changeImage, this.victoryPoints, this.victoryPointsNum, this.resourceRequired);
-        Arrays.stream(this.resourceReq).forEach(imageDescription -> imageDescription.addToPane(this.root));
+        Arrays.stream(this.cost).forEach(imageDescription -> imageDescription.addToPane(this.root));
         this.root.getChildren().addAll(this.productionPower, this.inputText, this.outputText);
         Arrays.stream(this.input).forEach(imageDescription -> imageDescription.addToPane(this.root));
         Arrays.stream(this.output).forEach(imageDescription -> imageDescription.addToPane(this.root));
@@ -264,11 +371,16 @@ public class DevCardPersonalizationScene extends CustomScenes{
 
     private void readJson(){
         JsonParser parser = new JsonParser();
-        this.modifiedDevCards = new JsonObject();
+        this.modifiedDevCards = new LinkedHashMap<>();
         this.pathNewCards = new JsonArray();
         InputStream inputStream = this.getClass().getResourceAsStream("/accessible/JSONs/DevCardsConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         this.devCardsJson = parser.parse(reader.lines().collect(Collectors.joining())).getAsJsonObject();
+        try{
+            reader.close();
+        }catch (IOException e){
+            //
+        }
         this.devCardLv = 1;
         this.devCardType = 0;
         this.devCardPos = 0;
@@ -277,6 +389,14 @@ public class DevCardPersonalizationScene extends CustomScenes{
     public DevCardPersonalizationScene(Stage stage) {
         super(stage);
         this.order = Arrays.stream(Colour.values()).map(Enum::toString).toArray(String[]::new);
+        this.resourcesOrder = new Resource[]{
+                Resource.COIN,
+                Resource.SERVANT,
+                Resource.STONE,
+                Resource.SHIELD,
+                Resource.FAITH,
+                Resource.ANY
+        };
         this.readJson();
         this.loadImages();
         this.buildGraphic();
@@ -285,6 +405,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
         this.modifyScene();
     }
 
+    @Override
     public Scene getScene(){
         return this.devCardPersonalizationScene;
     }
