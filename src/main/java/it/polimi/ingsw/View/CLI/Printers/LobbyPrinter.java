@@ -5,8 +5,8 @@ import java.util.Map;
 
 public class LobbyPrinter {
     public void printLobby(int id, String[] players){
-        System.out.print("\n" +
-                "__________________\n" +
+        System.out.print(
+                " __________________\n" +
                 "|                  |\n" +
                 "|          LOBBY ID: " + id + "\n" +
                 "|    PLAYERS INSIDE: ");

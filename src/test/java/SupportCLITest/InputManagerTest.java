@@ -1,4 +1,4 @@
-package InputManagerTest;
+package SupportCLITest;
 
 import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.CreationLobbyMessage;
 import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.MoveToLobbyMessage;

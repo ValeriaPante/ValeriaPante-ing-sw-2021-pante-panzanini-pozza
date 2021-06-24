@@ -80,9 +80,9 @@ public class LeaderCardPrinter extends mapPrinter {
 
             case "PRODPOWER":
                 System.out.print("     |          INPUT: ");
-                printMapCompact(gson.fromJson(currentCard.get("prodpower"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                printMapCompact(gson.fromJson(currentCard.get("prodpower").getAsJsonObject().get("input"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
                 System.out.print("     |         OUTPUT: ");
-                printMapCompact(gson.fromJson(currentCard.get("prodpower"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
+                printMapCompact(gson.fromJson(currentCard.get("prodpower").getAsJsonObject().get("output"), new TypeToken<HashMap<Resource, Integer>>(){}.getType()));
                 break;
 
             case "TRANSMUTATION":

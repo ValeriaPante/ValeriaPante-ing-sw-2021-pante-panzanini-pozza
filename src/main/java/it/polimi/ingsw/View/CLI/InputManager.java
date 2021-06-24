@@ -177,7 +177,7 @@ public class InputManager{
             throw new SuppressNotificationsException();
 
         if (toBeChecked.matches("(PRINT: (MY LOBBY|ALL LOBBIES))"))
-            throw new PrintWithoutMessageCreationException(toBeChecked);
+            throw new PrintWithoutMessageCreationException(toBeChecked.replace("PRINT: ",""));
 
         if (toBeChecked.startsWith("MOVE TO LOBBY ")){
             toBeChecked = toBeChecked.replace("MOVE TO LOBBY ", "");
@@ -194,6 +194,8 @@ public class InputManager{
             case "DISCONNECT":
                 return new DisconnectMessage();
             case "START GAME":
+                if (model.getLocalPlayerLobbyId() == 0)
+                    throw new IllegalArgumentException("You are not inside a lobby yet, please pick one");
                 return new StartGameMessage();
             default:
                 throw new IllegalArgumentException("Your input was not correct! Please, retry...");
