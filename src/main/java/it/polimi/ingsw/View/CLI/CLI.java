@@ -18,11 +18,14 @@ import java.util.concurrent.ThreadPoolExecutor;
 public class CLI extends Observable implements View, Runnable{
     private MessageManager client;
     private final Game model;
+    private final SimplifiedFaithTrack simplifiedFaithTrack;
 
     private final Scanner input;
     private final Printer printer;
     private final InputManager inputManager;
     private ThreadPoolExecutor executor;
+
+    private boolean showNotifications;
 
     //Turn state is an integer used to represent the state of the game, here are the meaning of the values:
     // 0: pre game
@@ -31,14 +34,11 @@ public class CLI extends Observable implements View, Runnable{
     // 3: another player's turn
     private int turnState;
 
-    private boolean showNotifications;
-
-
-
     public CLI(){
         this.model = new Game();
+        this.simplifiedFaithTrack = new SimplifiedFaithTrack(model.getPLayersID());
         this.input = new Scanner(System.in);
-        this.printer = new Printer(model);
+        this.printer = new Printer(model, simplifiedFaithTrack);
         this.inputManager = new InputManager(model);
         this.showNotifications = true;
     }
@@ -65,8 +65,8 @@ public class CLI extends Observable implements View, Runnable{
             String port = input.nextLine().trim();
             System.out.println("Now, please, enter the username you want to play with:");
             String username = input.nextLine();
-            new Thread(() -> client.connect(ip, port, username)).start();
             turnState = 0;
+            new Thread(() -> client.connect(ip, port, username)).start();
         } else {
             this.client = new LocalMessageManager(this);
             //manca la parte per partita offline
@@ -143,17 +143,17 @@ public class CLI extends Observable implements View, Runnable{
 
     @Override
     public void chooseLeaderCards() {
-        executor.execute(printer::notifyChooseLeaderCards);
+        executor.execute(() -> {
+            turnState = 1;
+            printer.notifyChooseLeaderCards();
+        });
     }
 
     @Override
     public void nextTurn(int playerId) {
         executor.execute(() -> {
-            if (turnState == 0)
-                turnState = 1;
-
             if (turnState == 2)
-                turnState =3;
+                turnState = 3;
 
             if (turnState == 3 && playerId == model.getLocalPlayerId())
                 turnState = 2;
@@ -175,19 +175,27 @@ public class CLI extends Observable implements View, Runnable{
     @Override
     public void startGame() {
         executor.execute(() -> {
-            turnState = model.getPLayersID().get(0) == model.getLocalPlayerId() ? 2 : 3;
+            turnState = (model.getPLayersID().get(0) == model.getLocalPlayerId() ? 2 : 3);
             printer.gameStarted();
         });
     }
 
     @Override
     public void updatePositions(int playerId, int pos) {
-        //modifico modellino faith track e notifico cambiamento
+        executor.execute(() -> {
+            simplifiedFaithTrack.changePosition(playerId, pos);
+            if (showNotifications)
+                printer.notifyFaithTrackPositionChange(playerId);
+        });
     }
 
     @Override
     public void updatePopeFavourCard(int playerId, PopeFavorCardState[] states) {
-        //modifico modellino faith track e notifico cambiamento
+        executor.execute(() -> {
+            simplifiedFaithTrack.changeState(playerId, states);
+            if (showNotifications)
+                printer.notifyPopeFavorCardChange(playerId);
+        });
     }
 
     @Override
@@ -244,7 +252,10 @@ public class CLI extends Observable implements View, Runnable{
 
     @Override
     public void startInitialisation() {
-        executor.execute(printer::notifyInitializationStarted);
+        executor.execute(() -> {
+            turnState = 1;
+            printer.notifyInitializationStarted();
+    });
     }
 
     @Override

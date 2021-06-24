@@ -1,7 +1,9 @@
 package it.polimi.ingsw.View.CLI;
 
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.View.CLI.Printers.FaithTrackPrinter;
 import it.polimi.ingsw.View.CLI.Printers.ShelvesPrinter;
+import it.polimi.ingsw.View.ClientModel.Game;
 import it.polimi.ingsw.View.ClientModel.SimplifiedPlayer;
 
 public class printerMoR {
@@ -89,20 +91,40 @@ public class printerMoR {
 //        player.setShelf(Resource.SERVANT, 3, 2);
 //        shelvesPrinter.printShelves(player.getShelf(0), player.getShelf(1), player.getShelf(2));
 
-        String request = "ee ee e e e e e @a@@@@";
-        String[] requestParts = request.split("@");
-        String usernameRequested = requestParts[1];
-        for (int i=2; i<requestParts.length; i++)
-            usernameRequested = usernameRequested + "@" + requestParts[i];
-        System.out.println(request);
-        System.out.println(usernameRequested);
+//        String request = "ee ee e e e e e @a@@@@";
+//        String[] requestParts = request.split("@");
+//        String usernameRequested = requestParts[1];
+//        for (int i=2; i<requestParts.length; i++)
+//            usernameRequested = usernameRequested + "@" + requestParts[i];
+//        System.out.println(request);
+//        System.out.println(usernameRequested);
+//
+//
+//
+//        int at = '@';
+//        int usernameStartPosition = request.indexOf(at) + 1;
+//        usernameRequested = request.substring(usernameStartPosition);
+//        System.out.println(usernameRequested);
+        Game model = new Game();
+        FaithTrackPrinter faithTrackPrinter = new FaithTrackPrinter();
+        model.addPlayer(0, new SimplifiedPlayer(){{
+            setUsername("UserName1");
+        }});
+        SimplifiedFaithTrack simplifiedFaithTrack = new SimplifiedFaithTrack(model.getPLayersID());
+        faithTrackPrinter.printTrack(model.getPLayersID(), model.getUsernames(), simplifiedFaithTrack);
+        faithTrackPrinter.printVaticanRelations(model.getPLayersID(), model.getUsernames(), simplifiedFaithTrack);
 
+        System.out.println("*************************************************************");
 
-
-        int at = '@';
-        int usernameStartPosition = request.indexOf(at) + 1;
-        usernameRequested = request.substring(usernameStartPosition);
-        System.out.println(usernameRequested);
+        model.addPlayer(1, new SimplifiedPlayer(){{
+            setUsername("UserName2");
+        }});
+        model.addPlayer(2, new SimplifiedPlayer(){{
+            setUsername("UserName3");
+        }});
+        simplifiedFaithTrack = new SimplifiedFaithTrack(model.getPLayersID());
+        faithTrackPrinter.printTrack(model.getPLayersID(), model.getUsernames(), simplifiedFaithTrack);
+        faithTrackPrinter.printVaticanRelations(model.getPLayersID(), model.getUsernames(), simplifiedFaithTrack);
     }
 
 
