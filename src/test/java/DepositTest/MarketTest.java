@@ -20,9 +20,9 @@ public class MarketTest {
         EnumMap<Resource, Integer> marketContent = new EnumMap<>(Resource.class);
         for(int i=0; i<3; i++)
             for (int j=0; j<4; j++)
-                marketContent.put(marketMatrix[i][j], 1 + (marketContent.get(marketMatrix[i][j]) == null ? 0 : marketContent.get(marketMatrix[i][j]) ) );
+                marketContent.put(marketMatrix[i][j], 1 + marketContent.getOrDefault(marketMatrix[i][j], 0));
 
-        marketContent.put(market.getSlide(), 1+ (marketContent.get(market.getSlide()) == null ? 0 : marketContent.get(market.getSlide())));
+        marketContent.put(market.getSlide(), 1 + marketContent.getOrDefault(market.getSlide(),0));
 
         assertEquals(marketContent, new EnumMap<Resource, Integer>(Resource.class) {{
             put(Resource.WHITE, 4);
@@ -121,7 +121,7 @@ public class MarketTest {
 
         EnumMap<Resource, Integer> columnContent = new EnumMap<>(Resource.class);
         for (int i=0; i<3; i++)
-            columnContent.put(marketMatrix[i][0], 1 + (columnContent.get(marketMatrix[i][0]) == null ? 0 : columnContent.get(marketMatrix[i][0])));
+            columnContent.put(marketMatrix[i][0], 1 + columnContent.getOrDefault(marketMatrix[i][0], 0));
 
         assertEquals(market.takeSelection(), columnContent);
         Resource newSlide = market.getSlide();
@@ -145,7 +145,7 @@ public class MarketTest {
             for (int j=0; j<4; j++)
                 marketContent.put(newMarketMatrix[i][j], 1 + marketContent.getOrDefault(newMarketMatrix[i][j], 0));
 
-        marketContent.put(market.getSlide(), 1+ (marketContent.get(market.getSlide()) == null ? 0 : marketContent.get(market.getSlide())));
+        marketContent.put(market.getSlide(), 1 + marketContent.getOrDefault(market.getSlide(), 0));
 
         assertEquals(marketContent, new EnumMap<Resource, Integer>(Resource.class) {{
             put(Resource.WHITE, 4);
@@ -172,7 +172,7 @@ public class MarketTest {
         oldSlide = newSlide;
         EnumMap<Resource, Integer> rowContent = new EnumMap<>(Resource.class);
         for (int i=0; i<4; i++)
-            rowContent.put(marketMatrix[1][i], 1 + (rowContent.get(marketMatrix[1][i]) == null ? 0 : 1));
+            rowContent.put(marketMatrix[1][i], 1 + rowContent.getOrDefault(marketMatrix[1][i], 0));
         assertEquals(market.takeSelection(), rowContent);
         newMarketMatrix = market.getState();
         newSlide = market.getSlide();
@@ -195,7 +195,7 @@ public class MarketTest {
             for (int j=0; j<4; j++)
                 marketContent.put(newMarketMatrix[i][j], 1 + marketContent.getOrDefault(newMarketMatrix[i][j], 0) );
 
-        marketContent.put(market.getSlide(), 1+ (marketContent.get(market.getSlide()) == null ? 0 : marketContent.get(market.getSlide())));
+        marketContent.put(market.getSlide(), 1 + marketContent.getOrDefault(market.getSlide(), 0));
 
         assertEquals(marketContent, new EnumMap<Resource, Integer>(Resource.class) {{
             put(Resource.WHITE, 4);

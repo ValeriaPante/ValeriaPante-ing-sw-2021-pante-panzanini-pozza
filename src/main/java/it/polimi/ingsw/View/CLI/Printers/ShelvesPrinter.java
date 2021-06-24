@@ -34,13 +34,13 @@ public class ShelvesPrinter {
                 return shelf == null || shelf.isEmpty() ?
                         "|     | |     |" :
                         "| "+ Resource.toAliasCompact(getTheOnlyEntry(shelf)) +" | "
-                                + "| "+ (shelf.get(getTheOnlyEntry(shelf)) > 2 ? Resource.toAliasCompact(getTheOnlyEntry(shelf)) : "   ") +" | ";
+                                + "| "+ (shelf.get(getTheOnlyEntry(shelf)) > 1 ? Resource.toAliasCompact(getTheOnlyEntry(shelf)) : "   ") +" | ";
             default:
                 return shelf == null || shelf.isEmpty() ?
                         "|     | |     | |     |" :
                         "| "+ Resource.toAliasCompact(getTheOnlyEntry(shelf)) +" | "
-                                + "| "+ (shelf.get(getTheOnlyEntry(shelf)) > 2 ? Resource.toAliasCompact(getTheOnlyEntry(shelf)) : "   ") +" | "
-                                + "| "+ (shelf.get(getTheOnlyEntry(shelf)) > 3 ? Resource.toAliasCompact(getTheOnlyEntry(shelf)) : "   ") +" | ";
+                                + "| "+ (shelf.get(getTheOnlyEntry(shelf)) > 1 ? Resource.toAliasCompact(getTheOnlyEntry(shelf)) : "   ") +" | "
+                                + "| "+ (shelf.get(getTheOnlyEntry(shelf)) > 2 ? Resource.toAliasCompact(getTheOnlyEntry(shelf)) : "   ") +" | ";
         }
     }
 

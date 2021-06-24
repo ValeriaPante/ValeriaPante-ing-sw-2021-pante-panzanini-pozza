@@ -147,10 +147,10 @@ public class InputManager{
     private InGameMessage leaderCardAbility(String input) throws IllegalArgumentException{
         if (input.startsWith("TRANSMUTE:")){
             String[] inputParts = input.replace("TRANSMUTE:","").split(",");
-            String[] internalParts = inputParts[0].split("x");
+            String[] internalParts = inputParts[0].split("X");
             int leaderCardID1 = Integer.parseInt(internalParts[0].replace("LC",""));
             int quantity1 = Integer.parseInt(internalParts[1]);
-            internalParts = inputParts[1].split("x");
+            internalParts = inputParts[1].split("X");
             int leaderCardID2 = Integer.parseInt(internalParts[0].replace("LC",""));
             int quantity2 = Integer.parseInt(internalParts[1]);
 
@@ -263,28 +263,28 @@ public class InputManager{
         if(toBeChecked.matches("DISCOUNT:(LC\\d\\d)"))
             return leaderCardAbility(toBeChecked);
 
-        if (toBeChecked.matches("((PLAY|DISCARD):(LC\\d\\d))"))
+        if (toBeChecked.matches("(PLAY|DISCARD):LC\\d\\d"))
             return actionOnLC(toBeChecked);
 
-        if(toBeChecked.matches("(SELECT FROM MARKET:(ROW,[0-2]|COLUMN,[0-3]))"))
+        if(toBeChecked.matches("SELECT FROM MARKET:(ROW,[0-2]|COLUMN,[0-3])"))
             return selectInMarket(toBeChecked.replace("SELECT FROM MARKET:", ""));
 
-        if (toBeChecked.matches("(SELECT:(((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD))))"))
+        if (toBeChecked.matches("SELECT:(((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))"))
             return resourceSelectionDeselection(toBeChecked.replace("SELECT:", ""), true);
 
-        if(toBeChecked.matches("(DESELECT:(((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD))))"))
+        if(toBeChecked.matches("DESELECT:(((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))"))
             return resourceSelectionDeselection(toBeChecked.replace("DESELECT:", ""), false);
 
-        if (toBeChecked.matches("(MOVE TO:(SC|(LC\\d\\d)|(SH[1-3])))"))
+        if (toBeChecked.matches("MOVE TO:(SC|(LC\\d\\d)|(SH[1-3]))"))
             return moveResources(toBeChecked.replace("MOVE TO:", ""));
 
-        if (toBeChecked.matches("(ANY SELECTION:(COIN|STONE|SERVANT|SHIELD))"))
+        if (toBeChecked.matches("ANY SELECTION:(COIN|STONE|SERVANT|SHIELD)"))
             return new AnySelectionMessage(Resource.fromAlias(toBeChecked.replace("ANY SELECTION:","")));
 
-        if(toBeChecked.matches("(TRANSMUTE:(LC\\d\\d)x(\\d)+,(LC\\d\\d)x(\\d)+)"))
+        if(toBeChecked.matches("TRANSMUTE:(LC\\d\\d)X((\\d)+),(LC\\d\\d)X((\\d)+)"))
             return leaderCardAbility(toBeChecked);
 
-        if (toBeChecked.matches("(SELECT:(LC\\d\\d|DC\\d\\d|BASIC PRODUCTION POWER|ALL PRODUCTION POWERS|DS[0-2]|DD,LEVEL[1-3],COLOR:(GREEN|YELLOW|BLUE|PURPLE)))"))
+        if (toBeChecked.matches("SELECT: (LC\\d\\d|DC\\d\\d|BASIC PRODUCTION POWER|ALL PRODUCTION POWERS|DS[0-2]|DD,LEVEL[1-3],COLOR:(GREEN|YELLOW|BLUE|PURPLE))"))
             return objectSelection(toBeChecked.replace("SELECT: ",""));
 
         throw new IllegalArgumentException("Syntax error: what you wrote was not correct, please, retry...");

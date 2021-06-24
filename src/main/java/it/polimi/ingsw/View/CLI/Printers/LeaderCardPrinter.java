@@ -33,10 +33,6 @@ public class LeaderCardPrinter extends mapPrinter {
         currentCard = null;
     }
 
-    public void printFromID(int id){
-            printFromID(id, null);
-    }
-
     public void printFromID(int id, Resource[] content){
         for (int i=0; i < array.size(); i++) {
             JsonObject card = array.get(i).getAsJsonObject();

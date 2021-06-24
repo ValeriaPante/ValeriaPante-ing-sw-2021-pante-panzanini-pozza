@@ -132,8 +132,8 @@ public class PrinterTest {
         //things owned by local player
         printer.inGamePrintRequest("SHELVES");
         model.getPlayerFromId(0).setShelf(Resource.SERVANT, 1, 0);
-        model.getPlayerFromId(0).setShelf(Resource.STONE, 2, 1);
-        model.getPlayerFromId(0).setShelf(Resource.COIN, 3, 2);
+        model.getPlayerFromId(0).setShelf(Resource.STONE, 1, 1);
+        model.getPlayerFromId(0).setShelf(Resource.COIN, 2, 2);
         printer.inGamePrintRequest("SHELVES");
         System.out.println("\n-----------------------------------------------------");
 
@@ -294,10 +294,10 @@ public class PrinterTest {
         System.out.println("\n-----------------------------------------------------");
 
 
-        model.getPlayerFromId(0).addLeaderCard(51);
+        model.getPlayerFromId(0).addLeaderCard(57);
         model.getPlayerFromId(0).addLeaderCard(53);
         printer.inGamePrintRequest("LEADER CARDS @0");
-        model.getPlayerFromId(0).removeLeaderCard(51);
+        model.getPlayerFromId(0).removeLeaderCard(57);
         printer.inGamePrintRequest("LEADER CARDS @0");
         Resource[] leaderCardContent = new Resource[2];
         leaderCardContent[0] = Resource.STONE;
