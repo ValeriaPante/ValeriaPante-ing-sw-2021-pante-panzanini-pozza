@@ -2,6 +2,9 @@ package it.polimi.ingsw.Model.Abilities.ProductionPower;
 import java.util.EnumMap;
 import it.polimi.ingsw.Enums.Resource;
 
+/**
+ * Representation of a production Power
+ */
 public class ProductionPower {
     private final String toString;
     private final EnumMap<Resource,Integer> input;
@@ -19,6 +22,10 @@ public class ProductionPower {
 
     //@ signals (IllegalArgumentException e)    (resourcesTypeInput == null || resourceAmountInput == null || resourcesTypeOutput == null || resourcesAmountOutput == null) ||
     //                                          (resourcesTypeInput.length != resourceAmountInput.length || resourcesTypeOutput.length != resourcesAmountOutput.length)
+
+    /**
+     * Alternative and bad Constructor
+     */
     public ProductionPower(Resource[] resourcesTypeInput, int[] resourceAmountInput, Resource[] resourcesTypeOutput, int[] resourcesAmountOutput) throws IllegalArgumentException{
         if (resourcesTypeInput == null || resourceAmountInput == null || resourcesTypeOutput == null || resourcesAmountOutput == null){
             throw new IllegalArgumentException();
@@ -38,7 +45,12 @@ public class ProductionPower {
         this.toString = initialiseToStringParam(this.input) + " -> " + initialiseToStringParam(this.output);
     }
 
-    //@ signals (IllegalArgumentException e)    (input == null || output == null)
+    /**
+     * Constructor
+     * @param input resources required for this production power
+     * @param output output of production
+     * @throws IllegalArgumentException if input or output are null
+     */
     public ProductionPower(EnumMap<Resource,Integer> input, EnumMap<Resource,Integer> output) throws IllegalArgumentException{
         if (input == null || output == null){
             throw new IllegalArgumentException();
@@ -48,14 +60,27 @@ public class ProductionPower {
         this.toString = initialiseToStringParam(this.input) + " -> " + initialiseToStringParam(this.output);
     }
 
+    /**
+     * Getter
+     * @return resources required for this production power
+     */
     public EnumMap<Resource,Integer> getInput(){
         return this.input.clone();
     }
 
+    /**
+     * Getter
+     * @return output of this production power
+     */
     public EnumMap<Resource, Integer> getOutput() {
         return this.output.clone();
     }
 
+    /**
+     * ProductionPower evaluator
+     * @param prodPower ProductionPower to evaluate
+     * @return true if this and the param are equals
+     */
     public boolean equals(ProductionPower prodPower){
         return this.input.equals(prodPower.getInput()) && this.output.equals(prodPower.getOutput());
     }

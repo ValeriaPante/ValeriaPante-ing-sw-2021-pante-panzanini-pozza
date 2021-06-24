@@ -5,6 +5,9 @@ import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 
 import java.util.EnumMap;
 
+/**
+ * Implementation of the non Ability Storage Behaviour of LeaderCards
+ */
 public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
 
     @Override
@@ -37,22 +40,17 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
         throw new WrongLeaderCardType();
     }
 
+    @Override
     public boolean contains(EnumMap<Resource, Integer> checkMap) {
         throw new WrongLeaderCardType();
     }
 
+    @Override
     public void removeSelected() {
         throw new WrongLeaderCardType();
     }
 
-    public void select(Resource resource){
-        throw new WrongLeaderCardType();
-    }
-
-    public void deselect(Resource resource) {
-        throw new WrongLeaderCardType();
-    }
-
+    @Override
     public EnumMap<Resource, Integer> getSelected(){
         throw new WrongLeaderCardType();
     }

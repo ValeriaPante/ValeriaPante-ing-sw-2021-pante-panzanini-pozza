@@ -4,6 +4,9 @@ import it.polimi.ingsw.Enums.Resource;
 
 import java.util.EnumMap;
 
+/**
+ * Representation of the Ability Storage of LeaderCards
+ */
 public interface StorageAbilityBehavior{
     void singleAdd (Resource toBeAdded);
     void singleRemove (Resource toBeRemoved);
@@ -17,6 +20,5 @@ public interface StorageAbilityBehavior{
     void deselectAll();
     int countAll();
     String toString();
-    //per sapere se è il primo o il secondo
     String toString(int number);
 }

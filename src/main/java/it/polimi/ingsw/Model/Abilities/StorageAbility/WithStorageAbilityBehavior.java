@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Model.Abilities.StorageAbility;
 
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Deposit.Depot;
 
 import java.util.ArrayList;
@@ -14,6 +15,11 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
 
     private final EnumMap<Resource, State[]> contentState;
 
+    /**
+     * Evaluate the storage emptiness
+     * @return true if this storage is empty
+     */
+    @Override
     public boolean isEmpty(){
         for (Resource resource : contentState.keySet()){
             for (State state : this.contentState.get(resource)){
@@ -25,6 +31,10 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         return true;
     }
 
+    /**
+     * Removes the resource selected
+     */
+    @Override
     public void removeSelected() {
         State[] elements;
         for (Resource resource : this.contentState.keySet()){
@@ -35,15 +45,27 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
                 }
             }
         }
-        //rimuovi tute le risorse selezionate
     }
 
+    /**
+     * Map evaluator
+     * @param checkMap map to evaluate
+     * @return true if the resources inside the storage contains the map
+     */
+    @Override
     public boolean contains(EnumMap<Resource, Integer> checkMap){
         Depot content = new Depot();
         content.addEnumMap(this.content());
         return content.contains(checkMap);
     }
 
+    /**
+     * Single resource selection
+     * @param toSelect resource type
+     * @param position position of the resource
+     * @throws WrongLeaderCardType if called on an ability that is not Storage type
+     */
+    @Override
     public void select(Resource toSelect, int position){
         State[] elements = this.contentState.get(toSelect);
         position -= 1;
@@ -59,6 +81,11 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         }
     }
 
+    /**
+     * Getter
+     * @return the content of this storage LeaderCard
+     */
+    @Override
     public EnumMap<Resource, Integer> content(){
         EnumMap<Resource, Integer> result = new EnumMap<>(Resource.class);
         int amount;
@@ -76,6 +103,11 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         return result;
     }
 
+    /**
+     * Getter
+     * @return the capacity of this storage LeaderCard
+     */
+    @Override
     public EnumMap<Resource, Integer> getCapacity(){
         EnumMap<Resource, Integer> result = new EnumMap<>(Resource.class);
         for (Resource resource : this.contentState.keySet()){
@@ -84,6 +116,11 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         return result;
     }
 
+    /**
+     * Add a resource to this storage LeaderCard
+     * @param toAdd resource to add
+     */
+    @Override
     public void singleAdd(Resource toAdd){
         State[] elements = this.contentState.get(toAdd);
         if (elements!=null){
@@ -96,6 +133,11 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         }
     }
 
+    /**
+     * Remove a resource to this storage LeaderCard
+     * @param toRemove resource to remove
+     */
+    @Override
     public void singleRemove(Resource toRemove){
         State[] elements = this.contentState.get(toRemove);
         if (elements != null){
@@ -109,6 +151,10 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         }
     }
 
+    /**
+     * Getter selected
+     * @return Map that contains all the resources selected
+     */
     public EnumMap<Resource, Integer> getSelected(){
         EnumMap<Resource, Integer> result = new EnumMap<>(Resource.class);
         int amount;
@@ -126,6 +172,10 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         return result;
     }
 
+    /**
+     * Deselects all the selected resources
+     */
+    @Override
     public void deselectAll(){
         for (State[] states : this.contentState.values()){
             for (int i=0; i<states.length; i++){
@@ -136,6 +186,10 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         }
     }
 
+    /**
+     * Getter number of resources
+     * @return the number af oll the resources inside
+     */
     public int countAll(){
         int amount = 0;
         for (State[] state : this.contentState.values()){
@@ -156,6 +210,10 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         return this.toString()+x;
     }
 
+    /**
+     * Constructor
+     * @param capacity map represent max capacity for each resource
+     */
     public WithStorageAbilityBehavior(EnumMap<Resource, Integer> capacity){
         this.contentState = new EnumMap<>(Resource.class);
         ArrayList<State> state = new ArrayList<>();
