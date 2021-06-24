@@ -18,8 +18,11 @@ public class CardActionController extends SelectionController{
         super(ftc);
     }
 
-    //ritorna true se esite una possibile conbinazione per la quale il giocatore può permettersi la checkMap
-    //tiene in considerazione anche la possibilità di any in checkmap
+    /**
+     * Map evaluator
+     * @param checkMap map to evaluate
+     * @return return true if the player of turn has more or equal resources than the map to check
+     */
     protected boolean isAffordableSomehow(EnumMap<Resource, Integer> checkMap) {
         Depot allResources = new Depot() {{
             addEnumMap(table.turnOf().getResourcesOwned());
@@ -40,7 +43,10 @@ public class CardActionController extends SelectionController{
         return (allResources.contains(copy) && allResources.countAll() >= otherResourcesAmount + anyAmount);
     }
 
-    //return a List<Payable> with selection on those Payable
+    /**
+     *
+     * @return a List of Payable with at least one selection on each
+     */
     protected List<Payable> getPayableWithSelection(){
         RealPlayer player = this.table.turnOf();
         ArrayList<Payable> payableWithSelection = new ArrayList<>();
