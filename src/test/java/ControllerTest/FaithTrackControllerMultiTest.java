@@ -20,10 +20,10 @@ public class FaithTrackControllerMultiTest {
     @DisplayName("Setup")
     public void init(){
         this.table = new Table(4){{
-            addPlayer(new RealPlayer(new User("A", null)));
-            addPlayer(new RealPlayer(new User("B", null)));
-            addPlayer(new RealPlayer(new User("C", null)));
-            addPlayer(new RealPlayer(new User("D", null)));
+            addPlayer(new RealPlayer(new User("A", new FakeConnectionHandler())));
+            addPlayer(new RealPlayer(new User("B", new FakeConnectionHandler())));
+            addPlayer(new RealPlayer(new User("C", new FakeConnectionHandler())));
+            addPlayer(new RealPlayer(new User("D", new FakeConnectionHandler())));
         }};
         this.faithTrackController = new FaithTrackController(this.table);
     }
