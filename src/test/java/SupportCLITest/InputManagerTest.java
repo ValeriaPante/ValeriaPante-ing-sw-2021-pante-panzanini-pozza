@@ -130,16 +130,16 @@ public class InputManagerTest {
         }
 
 
-        assertInstanceOf(SelectResourceMessage.class, inputManager.initializationInput("SH1:COIN"));
-        assertEquals(1, ((SelectResourceMessage) inputManager.initializationInput("SH1:COIN")).getInteger());
-        assertEquals(Resource.COIN, ((SelectResourceMessage) inputManager.initializationInput("SH1:COIN")).getResource());
-        assertInstanceOf(SelectResourceMessage.class, inputManager.initializationInput("SH2:STONE"));
-        assertEquals(2, ((SelectResourceMessage) inputManager.initializationInput("SH2:STONE")).getInteger());
-        assertEquals(Resource.STONE, ((SelectResourceMessage) inputManager.initializationInput("SH2:STONE")).getResource());
-        assertInstanceOf(SelectResourceMessage.class, inputManager.initializationInput("SH2:SHIELD"));
-        assertEquals(Resource.SHIELD, ((SelectResourceMessage) inputManager.initializationInput("SH2:SHIELD")).getResource());
-        assertInstanceOf(SelectResourceMessage.class, inputManager.initializationInput("SH2:SERVANT"));
-        assertEquals(Resource.SERVANT, ((SelectResourceMessage) inputManager.initializationInput("SH2:SERVANT")).getResource());
+        assertInstanceOf(SelectResourceMessage.class, inputManager.initializationInput("SH1: COIN"));
+        assertEquals(1, ((SelectResourceMessage) inputManager.initializationInput("SH1: COIN")).getInteger());
+        assertEquals(Resource.COIN, ((SelectResourceMessage) inputManager.initializationInput("SH1: COIN")).getResource());
+        assertInstanceOf(SelectResourceMessage.class, inputManager.initializationInput("SH2: STONE"));
+        assertEquals(2, ((SelectResourceMessage) inputManager.initializationInput("SH2: STONE")).getInteger());
+        assertEquals(Resource.STONE, ((SelectResourceMessage) inputManager.initializationInput("SH2: STONE")).getResource());
+        assertInstanceOf(SelectResourceMessage.class, inputManager.initializationInput("SH2: SHIELD"));
+        assertEquals(Resource.SHIELD, ((SelectResourceMessage) inputManager.initializationInput("SH2: SHIELD")).getResource());
+        assertInstanceOf(SelectResourceMessage.class, inputManager.initializationInput("SH2: SERVANT"));
+        assertEquals(Resource.SERVANT, ((SelectResourceMessage) inputManager.initializationInput("SH2: SERVANT")).getResource());
 
         model.addPlayer(0, new SimplifiedPlayer());
         model.setLocalPlayerId(0);
@@ -494,140 +494,140 @@ public class InputManagerTest {
         //DISCOUNT:(LC\d\d)
         model.addPlayer(0, new SimplifiedPlayer());
         model.getPlayerFromId(0).addLeaderCard(56);
-        assertInstanceOf(DiscountAbilityMessage.class, inputManager.inTurnInput("DiscouNT:Lc56"));
-        assertEquals(56, ((DiscountAbilityMessage) inputManager.inTurnInput("DiscouNT:Lc56")).getInteger());
-        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("DiscouNT:Lc45"));
+        assertInstanceOf(DiscountAbilityMessage.class, inputManager.inTurnInput("DiscouNT: Lc56"));
+        assertEquals(56, ((DiscountAbilityMessage) inputManager.inTurnInput("DiscouNT: Lc56")).getInteger());
+        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("DiscouNT: Lc45"));
         try{
-            inputManager.inTurnInput("DiscouNT:Lc45");
+            inputManager.inTurnInput("DiscouNT: Lc45");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "You do not own that leader card! Please, retry...");
         }
 
 
         //(PLAY|DISCARD):LC\d\d
-        assertInstanceOf(LeaderCardActionMessage.class, inputManager.inTurnInput("PLAY:LC56"));
-        assertEquals(56, ((LeaderCardActionMessage) inputManager.inTurnInput("PLAY:LC56")).getInteger());
-        assertFalse(((LeaderCardActionMessage) inputManager.inTurnInput("PLAY:LC56")).isaBoolean());
-        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("Play:Lc45"));
+        assertInstanceOf(LeaderCardActionMessage.class, inputManager.inTurnInput("PLAY: LC56"));
+        assertEquals(56, ((LeaderCardActionMessage) inputManager.inTurnInput("PLAY: LC56")).getInteger());
+        assertFalse(((LeaderCardActionMessage) inputManager.inTurnInput("PLAY: LC56")).isaBoolean());
+        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("Play: Lc45"));
         try{
-            inputManager.inTurnInput("Play:Lc45");
+            inputManager.inTurnInput("Play: Lc45");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "You do not own a leader card with that id! Please, retry...");
         }
-        assertInstanceOf(LeaderCardActionMessage.class, inputManager.inTurnInput("DiscARd:LC56"));
-        assertEquals(56, ((LeaderCardActionMessage) inputManager.inTurnInput("DiscARd:LC56")).getInteger());
-        assertTrue(((LeaderCardActionMessage) inputManager.inTurnInput("DiscARd:LC56")).isaBoolean());
-        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("DIScarD:Lc45"));
+        assertInstanceOf(LeaderCardActionMessage.class, inputManager.inTurnInput("DiscARd: LC56"));
+        assertEquals(56, ((LeaderCardActionMessage) inputManager.inTurnInput("DiscARd: LC56")).getInteger());
+        assertTrue(((LeaderCardActionMessage) inputManager.inTurnInput("DiscARd: LC56")).isaBoolean());
+        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("DIScarD: Lc45"));
         try{
-            inputManager.inTurnInput("DIScarD:Lc45");
+            inputManager.inTurnInput("DIScarD: Lc45");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "You do not own a leader card with that id! Please, retry...");
         }
 
 
         //SELECT FROM MARKET:(ROW,[0-2]|COLUMN,[0-3])
-        assertInstanceOf(MarketSelectionMessage.class, inputManager.inTurnInput("SelECt FrOM MarKet:Row,2"));
-        assertEquals(2, ((MarketSelectionMessage) inputManager.inTurnInput("SelECt FrOM MarKet:Row,2")).getInteger());
-        assertTrue(((MarketSelectionMessage) inputManager.inTurnInput("SelECt FrOM MarKet:Row,2")).isaBoolean());
-        assertInstanceOf(MarketSelectionMessage.class, inputManager.inTurnInput("SelECt FrOM MarKet:CoLumN,1"));
-        assertEquals(1, ((MarketSelectionMessage) inputManager.inTurnInput("SelECt FrOM MarKet:CoLumN,1")).getInteger());
-        assertFalse(((MarketSelectionMessage) inputManager.inTurnInput("SelECt FrOM MarKet:CoLumN,1")).isaBoolean());
+        assertInstanceOf(MarketSelectionMessage.class, inputManager.inTurnInput("SelECt FrOM MarKet: Row,2"));
+        assertEquals(2, ((MarketSelectionMessage) inputManager.inTurnInput("SelECt FrOM MarKet: Row,2")).getInteger());
+        assertTrue(((MarketSelectionMessage) inputManager.inTurnInput("SelECt FrOM MarKet: Row,2")).isaBoolean());
+        assertInstanceOf(MarketSelectionMessage.class, inputManager.inTurnInput("SelECt FrOM MarKet: CoLumN,1"));
+        assertEquals(1, ((MarketSelectionMessage) inputManager.inTurnInput("SelECt FrOM MarKet: CoLumN,1")).getInteger());
+        assertFalse(((MarketSelectionMessage) inputManager.inTurnInput("SelECt FrOM MarKet: CoLumN,1")).isaBoolean());
 
 
         //SELECT:(((LC\d\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))
-        assertInstanceOf(ShelfSelectionMessage.class, inputManager.inTurnInput("SELECT:SH1,STONE"));
-        assertEquals(1, ((ShelfSelectionMessage) inputManager.inTurnInput("SELECT:SH1,STONE")).getInteger());
-        assertEquals(Resource.STONE, ((ShelfSelectionMessage) inputManager.inTurnInput("SELECT:SH1,STONE")).getResource());
+        assertInstanceOf(ShelfSelectionMessage.class, inputManager.inTurnInput("SELECT: SH1,STONE"));
+        assertEquals(1, ((ShelfSelectionMessage) inputManager.inTurnInput("SELECT: SH1,STONE")).getInteger());
+        assertEquals(Resource.STONE, ((ShelfSelectionMessage) inputManager.inTurnInput("SELECT: SH1,STONE")).getResource());
 
-        assertInstanceOf(LeaderStorageSelectionMessage.class, inputManager.inTurnInput("SELECT:LC56,STONE,6"));
-        assertEquals(56, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("SELECT:LC56,STONE,6")).getId());
-        assertEquals(Resource.STONE, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("SELECT:LC56,STONE,6")).getResource());
-        assertEquals(6, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("SELECT:LC56,STONE,6")).getResPosition());
-        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("SELECT:LC40,STONE,6"));
+        assertInstanceOf(LeaderStorageSelectionMessage.class, inputManager.inTurnInput("SELECT: LC56,STONE,6"));
+        assertEquals(56, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("SELECT: LC56,STONE,6")).getId());
+        assertEquals(Resource.STONE, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("SELECT: LC56,STONE,6")).getResource());
+        assertEquals(6, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("SELECT: LC56,STONE,6")).getResPosition());
+        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("SELECT: LC40,STONE,6"));
         try{
-            inputManager.inTurnInput("SELECT:LC40,STONE,6");
+            inputManager.inTurnInput("SELECT: LC40,STONE,6");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "You do not own a leader card with that id! Please, retry...");
         }
 
-        assertInstanceOf(SupportContainerSelectionMessage.class, inputManager.inTurnInput("SELECT:SC,STONE,6"));
-        assertEquals(6, ((SupportContainerSelectionMessage) inputManager.inTurnInput("SELECT:SC,STONE,6")).getInteger());
-        assertEquals(Resource.STONE, ((SupportContainerSelectionMessage) inputManager.inTurnInput("SELECT:SC,STONE,6")).getResource());
+        assertInstanceOf(SupportContainerSelectionMessage.class, inputManager.inTurnInput("SELECT: SC,STONE,6"));
+        assertEquals(6, ((SupportContainerSelectionMessage) inputManager.inTurnInput("SELECT: SC,STONE,6")).getInteger());
+        assertEquals(Resource.STONE, ((SupportContainerSelectionMessage) inputManager.inTurnInput("SELECT: SC,STONE,6")).getResource());
 
-        assertInstanceOf(StrongBoxSelectionMessage.class, inputManager.inTurnInput("SELECT:SB,STONE,6"));
-        assertEquals(6, ((StrongBoxSelectionMessage) inputManager.inTurnInput("SELECT:SB,STONE,6")).getInteger());
-        assertEquals(Resource.STONE, ((StrongBoxSelectionMessage) inputManager.inTurnInput("SELECT:SB,STONE,6")).getResource());
+        assertInstanceOf(StrongBoxSelectionMessage.class, inputManager.inTurnInput("SELECT: SB,STONE,6"));
+        assertEquals(6, ((StrongBoxSelectionMessage) inputManager.inTurnInput("SELECT: SB,STONE,6")).getInteger());
+        assertEquals(Resource.STONE, ((StrongBoxSelectionMessage) inputManager.inTurnInput("SELECT: SB,STONE,6")).getResource());
 
 
         //DESELECT:(((LC\d\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))
-        assertInstanceOf(ShelfDeselectionMessage.class, inputManager.inTurnInput("DESELECT:SH1,STONE"));
-        assertEquals(1, ((ShelfDeselectionMessage) inputManager.inTurnInput("DESELECT:SH1,STONE")).getInteger());
-        assertEquals(Resource.STONE, ((ShelfDeselectionMessage) inputManager.inTurnInput("DESELECT:SH1,STONE")).getResource());
+        assertInstanceOf(ShelfDeselectionMessage.class, inputManager.inTurnInput("DESELECT: SH1,STONE"));
+        assertEquals(1, ((ShelfDeselectionMessage) inputManager.inTurnInput("DESELECT: SH1,STONE")).getInteger());
+        assertEquals(Resource.STONE, ((ShelfDeselectionMessage) inputManager.inTurnInput("DESELECT: SH1,STONE")).getResource());
 
-        assertInstanceOf(LeaderStorageSelectionMessage.class, inputManager.inTurnInput("DESELECT:LC56,STONE,6"));
-        assertEquals(56, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("DESELECT:LC56,STONE,6")).getId());
-        assertEquals(Resource.STONE, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("DESELECT:LC56,STONE,6")).getResource());
-        assertEquals(6, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("DESELECT:LC56,STONE,6")).getResPosition());
-        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("DESELECT:LC40,STONE,6"));
+        assertInstanceOf(LeaderStorageSelectionMessage.class, inputManager.inTurnInput("DESELECT: LC56,STONE,6"));
+        assertEquals(56, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("DESELECT: LC56,STONE,6")).getId());
+        assertEquals(Resource.STONE, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("DESELECT: LC56,STONE,6")).getResource());
+        assertEquals(6, ((LeaderStorageSelectionMessage) inputManager.inTurnInput("DESELECT: LC56,STONE,6")).getResPosition());
+        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("DESELECT: LC40,STONE,6"));
         try{
-            inputManager.inTurnInput("DESELECT:LC40,STONE,6");
+            inputManager.inTurnInput("DESELECT: LC40,STONE,6");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "You do not own a leader card with that id! Please, retry...");
         }
 
-        assertInstanceOf(SupportContainerDeselectionMessage.class, inputManager.inTurnInput("DESELECT:SC,STONE,6"));
-        assertEquals(6, ((SupportContainerDeselectionMessage) inputManager.inTurnInput("DESELECT:SC,STONE,6")).getInteger());
-        assertEquals(Resource.STONE, ((SupportContainerDeselectionMessage) inputManager.inTurnInput("DESELECT:SC,STONE,6")).getResource());
+        assertInstanceOf(SupportContainerDeselectionMessage.class, inputManager.inTurnInput("DESELECT: SC,STONE,6"));
+        assertEquals(6, ((SupportContainerDeselectionMessage) inputManager.inTurnInput("DESELECT: SC,STONE,6")).getInteger());
+        assertEquals(Resource.STONE, ((SupportContainerDeselectionMessage) inputManager.inTurnInput("DESELECT: SC,STONE,6")).getResource());
 
-        assertInstanceOf(StrongBoxDeselectionMessage.class, inputManager.inTurnInput("deSELECT:SB,STONE,6"));
-        assertEquals(6, ((StrongBoxDeselectionMessage) inputManager.inTurnInput("deSELECT:SB,STONE,6")).getInteger());
-        assertEquals(Resource.STONE, ((StrongBoxDeselectionMessage) inputManager.inTurnInput("deSELECT:SB,STONE,6")).getResource());
+        assertInstanceOf(StrongBoxDeselectionMessage.class, inputManager.inTurnInput("deSELECT: SB,STONE,6"));
+        assertEquals(6, ((StrongBoxDeselectionMessage) inputManager.inTurnInput("deSELECT: SB,STONE,6")).getInteger());
+        assertEquals(Resource.STONE, ((StrongBoxDeselectionMessage) inputManager.inTurnInput("deSELECT: SB,STONE,6")).getResource());
 
 
         //MOVE TO:(SC|(LC\d\d)|(SH[1-3]))
-        assertInstanceOf(MoveToSupportContainerMessage.class, inputManager.inTurnInput("MOVE TO:SC"));
-        assertInstanceOf(MoveToLeaderStorageMessage.class, inputManager.inTurnInput("MOVE TO:LC56"));
-        assertEquals(56, ((MoveToLeaderStorageMessage) inputManager.inTurnInput("MOVE TO:LC56")).getInteger());
-        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("MOVE TO:LC40"));
+        assertInstanceOf(MoveToSupportContainerMessage.class, inputManager.inTurnInput("MOVE TO: SC"));
+        assertInstanceOf(MoveToLeaderStorageMessage.class, inputManager.inTurnInput("MOVE TO: LC56"));
+        assertEquals(56, ((MoveToLeaderStorageMessage) inputManager.inTurnInput("MOVE TO: LC56")).getInteger());
+        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("MOVE TO: LC40"));
         try{
-            inputManager.inTurnInput("MOVE TO:LC40");
+            inputManager.inTurnInput("MOVE TO: LC40");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "You do not own a leader card with that id! Please, retry...");
         }
-        assertInstanceOf(MoveToShelfMessage.class, inputManager.inTurnInput("MOVE TO:SH2"));
-        assertEquals(2, ((MoveToShelfMessage) inputManager.inTurnInput("MOVE TO:SH2")).getInteger());
+        assertInstanceOf(MoveToShelfMessage.class, inputManager.inTurnInput("MOVE TO: SH2"));
+        assertEquals(2, ((MoveToShelfMessage) inputManager.inTurnInput("MOVE TO: SH2")).getInteger());
 
 
         //ANY SELECTION:(COIN|STONE|SERVANT|SHIELD)
-        assertInstanceOf(AnySelectionMessage.class, inputManager.inTurnInput("ANY SELECTION:COIN"));
-        assertEquals(Resource.COIN, ((AnySelectionMessage) inputManager.inTurnInput("ANY SELECTION:COIN")).getResource());
-        assertInstanceOf(AnySelectionMessage.class, inputManager.inTurnInput("ANY SELECTION:SERVANT"));
-        assertEquals(Resource.SERVANT, ((AnySelectionMessage) inputManager.inTurnInput("ANY SELECTION:SERVANT")).getResource());
-        assertInstanceOf(AnySelectionMessage.class, inputManager.inTurnInput("ANY SELECTION:SHIELD"));
-        assertEquals(Resource.SHIELD, ((AnySelectionMessage) inputManager.inTurnInput("ANY SELECTION:SHIELD")).getResource());
-        assertInstanceOf(AnySelectionMessage.class, inputManager.inTurnInput("ANY SELECTION:STONE"));
-        assertEquals(Resource.STONE, ((AnySelectionMessage) inputManager.inTurnInput("ANY SELECTION:STONE")).getResource());
+        assertInstanceOf(AnySelectionMessage.class, inputManager.inTurnInput("ANY SELECTION: COIN"));
+        assertEquals(Resource.COIN, ((AnySelectionMessage) inputManager.inTurnInput("ANY SELECTION: COIN")).getResource());
+        assertInstanceOf(AnySelectionMessage.class, inputManager.inTurnInput("ANY SELECTION: SERVANT"));
+        assertEquals(Resource.SERVANT, ((AnySelectionMessage) inputManager.inTurnInput("ANY SELECTION: SERVANT")).getResource());
+        assertInstanceOf(AnySelectionMessage.class, inputManager.inTurnInput("ANY SELECTION: SHIELD"));
+        assertEquals(Resource.SHIELD, ((AnySelectionMessage) inputManager.inTurnInput("ANY SELECTION: SHIELD")).getResource());
+        assertInstanceOf(AnySelectionMessage.class, inputManager.inTurnInput("ANY SELECTION: STONE"));
+        assertEquals(Resource.STONE, ((AnySelectionMessage) inputManager.inTurnInput("ANY SELECTION: STONE")).getResource());
 
 
         //TRANSMUTE:(LC\d\d)X((\d)+),(LC\d\d)X((\d)+)
-        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("TRANSMUTE:LC56x3,LC40x2"));
+        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("TRANSMUTE: LC56x3,LC40x2"));
         try{
-            inputManager.inTurnInput("TRANSMUTE:LC56x3,LC40x2");
+            inputManager.inTurnInput("TRANSMUTE: LC56x3,LC40x2");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "You do not own a leader card with the second id you wrote! Please, retry...");
         }
-        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("TRANSMUTE:LC40x2,LC56x3"));
+        assertThrows(IllegalArgumentException.class,() -> inputManager.inTurnInput("TRANSMUTE: LC40x2,LC56x3"));
         try{
-            inputManager.inTurnInput("TRANSMUTE:LC40x2,LC56x3");
+            inputManager.inTurnInput("TRANSMUTE: LC40x2,LC56x3");
         } catch (IllegalArgumentException e) {
             assertEquals(e.getMessage(), "You do not own a leader card with the first id you wrote! Please, retry...");
         }
         model.getPlayerFromId(0).addLeaderCard(51);
-        assertInstanceOf(TransmutationMessage.class, inputManager.inTurnInput("TRANSMUTE:LC56x3,LC51x2"));
-        assertEquals(56, ((TransmutationMessage) inputManager.inTurnInput("TRANSMUTE:LC56x3,LC51x2")).getSerial1());
-        assertEquals(51, ((TransmutationMessage) inputManager.inTurnInput("TRANSMUTE:LC56x3,LC51x2")).getSerial2());
-        assertEquals(3, ((TransmutationMessage) inputManager.inTurnInput("TRANSMUTE:LC56x3,LC51x2")).getQuantity1());
-        assertEquals(2, ((TransmutationMessage) inputManager.inTurnInput("TRANSMUTE:LC56x3,LC51x2")).getQuantity2());
+        assertInstanceOf(TransmutationMessage.class, inputManager.inTurnInput("TRANSMUTE: LC56x3,LC51x2"));
+        assertEquals(56, ((TransmutationMessage) inputManager.inTurnInput("TRANSMUTE: LC56x3,LC51x2")).getSerial1());
+        assertEquals(51, ((TransmutationMessage) inputManager.inTurnInput("TRANSMUTE: LC56x3,LC51x2")).getSerial2());
+        assertEquals(3, ((TransmutationMessage) inputManager.inTurnInput("TRANSMUTE: LC56x3,LC51x2")).getQuantity1());
+        assertEquals(2, ((TransmutationMessage) inputManager.inTurnInput("TRANSMUTE: LC56x3,LC51x2")).getQuantity2());
 
 
         //SELECT: (LC\d\d|DC\d\d|BASIC PRODUCTION POWER|ALL PRODUCTION POWERS|DS[0-2]|DD,LEVEL[1-3],COLOR:(GREEN|YELLOW|BLUE|PURPLE))
@@ -655,8 +655,8 @@ public class InputManagerTest {
             assertEquals(e.getMessage(), "You cannot select the development card with that id! Please, retry...");
         }
 
-        assertInstanceOf(ChooseDevSlotMessage.class, inputManager.inTurnInput("SELECT: DS0"));
-        assertEquals(0, ((ChooseDevSlotMessage) inputManager.inTurnInput("SELECT: DS0")).getInteger());
+        assertInstanceOf(ChooseDevSlotMessage.class, inputManager.inTurnInput("SELECT: DS1"));
+        assertEquals(0, ((ChooseDevSlotMessage) inputManager.inTurnInput("SELECT: DS1")).getInteger());
 
         assertInstanceOf(ChooseDevCardMessage.class, inputManager.inTurnInput("SELECT: DD,LEVEL1,COLOR:GREEN"));
         assertEquals(0, ((ChooseDevCardMessage) inputManager.inTurnInput("SELECT: DD,LEVEL1,COLOR:GREEN")).getInteger());

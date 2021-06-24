@@ -37,8 +37,6 @@ public class InputManager{
         return false;
     }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     private InGameMessage moveResources(String input) throws IllegalArgumentException{
         if (input.startsWith("SC"))
             return new MoveToSupportContainerMessage();
@@ -95,7 +93,7 @@ public class InputManager{
         }
 
         if (input.startsWith("DS"))
-            return new ChooseDevSlotMessage(Integer.parseInt("" + input.charAt(2)));
+            return new ChooseDevSlotMessage(Integer.parseInt("" + input.charAt(2))-1);
 
         String[] inputContent = input.split(",");
         int devDecPosition;
@@ -138,15 +136,15 @@ public class InputManager{
 
     private InGameMessage actionOnLC (String input){
         String[] inputParts = input.split(":");
-        int leaderCardID = Integer.parseInt(inputParts[1].replace("LC", ""));
+        int leaderCardID = Integer.parseInt(inputParts[1].replace(" LC", ""));
         if (!possesLeaderCard(leaderCardID))
             throw new IllegalArgumentException("You do not own a leader card with that id! Please, retry...");
         return new LeaderCardActionMessage(leaderCardID, !input.startsWith("PLAY"));
     }
 
     private InGameMessage leaderCardAbility(String input) throws IllegalArgumentException{
-        if (input.startsWith("TRANSMUTE:")){
-            String[] inputParts = input.replace("TRANSMUTE:","").split(",");
+        if (input.startsWith("TRANSMUTE: ")){
+            String[] inputParts = input.replace("TRANSMUTE: ","").split(",");
             String[] internalParts = inputParts[0].split("X");
             int leaderCardID1 = Integer.parseInt(internalParts[0].replace("LC",""));
             int quantity1 = Integer.parseInt(internalParts[1]);
@@ -163,14 +161,21 @@ public class InputManager{
         }
 
         //case DISCOUNT
-        int leaderCardID = Integer.parseInt(input.replace("DISCOUNT:LC",""));
+        int leaderCardID = Integer.parseInt(input.replace("DISCOUNT: LC",""));
         if (!possesLeaderCard(leaderCardID))
             throw new IllegalArgumentException("You do not own that leader card! Please, retry...");
         return new DiscountAbilityMessage(leaderCardID);
     }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+    /**
+     * Process the input in the pre game phase (when the player is surfing in the lobbies).
+     * All the exceptions contain a String with the message to be displayed or to be analysed
+     * @param input the input from the player
+     * @return a message that has to be send to the server
+     * @throws IllegalArgumentException the input is not correct
+     * @throws PrintWithoutMessageCreationException the input is a request to print
+     * @throws SuppressNotificationsException the player want to show or hide notifications
+    */
     public PreGameMessage preGameInput(String input) throws IllegalArgumentException, PrintWithoutMessageCreationException, SuppressNotificationsException{
         String toBeChecked = preprocess(input);
         if (toBeChecked.equals("NOTIFICATIONS"))
@@ -202,13 +207,20 @@ public class InputManager{
         }
     }
 
+    /**
+     * Process the input in the initialization phase (when the players have to decide abbout leader cards and resources, eventually).
+     * The exception contains a String with the message to be displayed
+     * @param input the input from the player
+     * @return a message that has to be send to the server
+     * @throws IllegalArgumentException the input is not correct
+     */
     public InGameMessage initializationInput(String input) throws IllegalArgumentException{
         String toBeChecked = preprocess(input);
 
-        if(toBeChecked.matches("(SH[1-3]:(COIN|STONE|SERVANT|SHIELD))")){
+        if(toBeChecked.matches("(SH[1-3]: (COIN|STONE|SERVANT|SHIELD))")){
             String[] inputParts = toBeChecked.split(":");
             int capacity = Integer.parseInt(""+inputParts[0].charAt(2));
-            Resource resource = Resource.fromAlias(inputParts[1]);
+            Resource resource = Resource.fromAlias(inputParts[1].trim());
             return new SelectResourceMessage(capacity, resource);
         }
 
@@ -228,6 +240,15 @@ public class InputManager{
         }
     }
 
+    /**
+     * Process the input received during the turn of the local player (during the game).
+     * All the exceptions contain a String with the message to be displayed or to be analysed
+     * @param input the input from the player
+     * @return a message that has to be send to the server
+     * @throws IllegalArgumentException the input is not correct
+     * @throws PrintWithoutMessageCreationException the input is a request to print
+     * @throws SuppressNotificationsException the player want to show or hide notifications
+     */
     public InGameMessage inTurnInput(String input) throws IllegalArgumentException, PrintWithoutMessageCreationException, SuppressNotificationsException{
         String toBeChecked = preprocess(input);
         if (toBeChecked.equals("NOTIFICATIONS"))
@@ -260,36 +281,44 @@ public class InputManager{
         if(toBeChecked.equals("CHECKOUT"))
             return new PaySelectedMessage();
 
-        if(toBeChecked.matches("DISCOUNT:(LC\\d\\d)"))
+        if(toBeChecked.matches("DISCOUNT: (LC\\d\\d)"))
             return leaderCardAbility(toBeChecked);
 
-        if (toBeChecked.matches("(PLAY|DISCARD):LC\\d\\d"))
+        if (toBeChecked.matches("(PLAY|DISCARD): LC\\d\\d"))
             return actionOnLC(toBeChecked);
 
-        if(toBeChecked.matches("SELECT FROM MARKET:(ROW,[0-2]|COLUMN,[0-3])"))
-            return selectInMarket(toBeChecked.replace("SELECT FROM MARKET:", ""));
+        if(toBeChecked.matches("SELECT FROM MARKET: (ROW,[0-2]|COLUMN,[0-3])"))
+            return selectInMarket(toBeChecked.replace("SELECT FROM MARKET: ", ""));
 
-        if (toBeChecked.matches("SELECT:(((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))"))
-            return resourceSelectionDeselection(toBeChecked.replace("SELECT:", ""), true);
+        if (toBeChecked.matches("SELECT: (((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))"))
+            return resourceSelectionDeselection(toBeChecked.replace("SELECT: ", ""), true);
 
-        if(toBeChecked.matches("DESELECT:(((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))"))
-            return resourceSelectionDeselection(toBeChecked.replace("DESELECT:", ""), false);
+        if(toBeChecked.matches("DESELECT: (((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))"))
+            return resourceSelectionDeselection(toBeChecked.replace("DESELECT: ", ""), false);
 
-        if (toBeChecked.matches("MOVE TO:(SC|(LC\\d\\d)|(SH[1-3]))"))
-            return moveResources(toBeChecked.replace("MOVE TO:", ""));
+        if (toBeChecked.matches("MOVE TO: (SC|(LC\\d\\d)|(SH[1-3]))"))
+            return moveResources(toBeChecked.replace("MOVE TO: ", ""));
 
-        if (toBeChecked.matches("ANY SELECTION:(COIN|STONE|SERVANT|SHIELD)"))
-            return new AnySelectionMessage(Resource.fromAlias(toBeChecked.replace("ANY SELECTION:","")));
+        if (toBeChecked.matches("ANY SELECTION: (COIN|STONE|SERVANT|SHIELD)"))
+            return new AnySelectionMessage(Resource.fromAlias(toBeChecked.replace("ANY SELECTION: ","")));
 
-        if(toBeChecked.matches("TRANSMUTE:(LC\\d\\d)X((\\d)+),(LC\\d\\d)X((\\d)+)"))
+        if(toBeChecked.matches("TRANSMUTE: (LC\\d\\d)X((\\d)+),(LC\\d\\d)X((\\d)+)"))
             return leaderCardAbility(toBeChecked);
 
-        if (toBeChecked.matches("SELECT: (LC\\d\\d|DC\\d\\d|BASIC PRODUCTION POWER|ALL PRODUCTION POWERS|DS[0-2]|DD,LEVEL[1-3],COLOR:(GREEN|YELLOW|BLUE|PURPLE))"))
+        if (toBeChecked.matches("SELECT: (LC\\d\\d|DC\\d\\d|BASIC PRODUCTION POWER|ALL PRODUCTION POWERS|DS[1-3]|DD,LEVEL[1-3],COLOR:(GREEN|YELLOW|BLUE|PURPLE))"))
             return objectSelection(toBeChecked.replace("SELECT: ",""));
 
         throw new IllegalArgumentException("Syntax error: what you wrote was not correct, please, retry...");
     }
 
+    /**
+     * Process the input received during the turn of a player different from the local one (during the game).
+     * All the exceptions contain a String with the message to be displayed or to be analysed
+     * @param input the input from the player
+     * @throws IllegalArgumentException the input is not correct
+     * @throws PrintWithoutMessageCreationException the input is a request to print
+     * @throws SuppressNotificationsException the player want to show or hide notifications
+     */
     public void NOTinTurnInput(String input) throws IllegalArgumentException, PrintWithoutMessageCreationException, SuppressNotificationsException{
         String toBeChecked = preprocess(input);
         if (toBeChecked.equals("NOTIFICATIONS"))
