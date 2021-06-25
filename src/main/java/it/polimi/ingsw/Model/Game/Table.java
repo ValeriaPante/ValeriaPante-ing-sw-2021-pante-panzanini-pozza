@@ -134,7 +134,7 @@ public class Table {
 
     public void nextTurn(){
         if (!this.singlePlayer){
-            this.turnOf = this.turnOf+1 % this.players.size();
+            this.turnOf = (this.turnOf + 1) % this.players.size();
             for (RealPlayer player : this.players){
                 player.sendMessage(new TurnOfMessage(this.turnOf+1));
             }

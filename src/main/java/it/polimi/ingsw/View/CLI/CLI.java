@@ -167,14 +167,22 @@ public class CLI extends Observable implements View, Runnable{
                 return;
             }
 
+            if (turnState == 1 && playerId == model.getLocalPlayerId()){
+                if (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().size() == 2){
+                    printer.notifyChooseInitialRes();
+                    return;
+                } else {
+                    printer.notifyChooseLeaderCards();
+                    return;
+                }
+            }
+
             printer.notifyTurnChanged(playerId);
         });
     }
 
     @Override
-    public void chooseInitialResources() {
-        executor.execute(printer::notifyChooseInitialRes);
-    }
+    public void chooseInitialResources() {}
 
     @Override
     public void startGame() {
