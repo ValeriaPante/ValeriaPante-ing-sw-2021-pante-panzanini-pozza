@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View.CLI;
 
+import it.polimi.ingsw.Enums.ActionTokenType;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Exceptions.PrintWithoutMessageCreationException;
 import it.polimi.ingsw.Exceptions.SuppressNotificationsException;
@@ -260,6 +261,11 @@ public class CLI extends Observable implements View, Runnable{
     @Override
     public void showErrorMessage(String message) {
         executor.execute(() -> printer.printError(message));
+    }
+
+    @Override
+    public void showLorenzoTurn(ActionTokenType actionToken) {
+        executor.execute(() -> printer.notifyActionTokenDraw(actionToken));
     }
 
     @Override

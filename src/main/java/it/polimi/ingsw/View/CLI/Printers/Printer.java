@@ -1,6 +1,8 @@
 package it.polimi.ingsw.View.CLI.Printers;
 
+import it.polimi.ingsw.Enums.ActionTokenType;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Model.Cards.ActionToken;
 import it.polimi.ingsw.View.CLI.Color;
 import it.polimi.ingsw.View.CLI.SimplifiedFaithTrack;
 import it.polimi.ingsw.View.ClientModel.Game;
@@ -288,7 +290,7 @@ public class Printer {
             resRequired = 1;
             System.out.print(Color.colourText(resRequired + " resource ","YELLOW"));
         }
-        System.out.print("(between " + Color.colourText(stringLegalResources(), "YELLOW") + ") and decide in which shelf you want to put them. \n" +
+        System.out.println("(between " + Color.colourText(stringLegalResources(), "YELLOW") + ") and decide in which shelf you want to put them. \n" +
                 "Please list them one by one with their full name:");
     }
 
@@ -442,6 +444,10 @@ public class Printer {
     public synchronized void printSelectionError(String error, int cardId){
         printError(error);
         System.out.println(Color.colourText("An error occurred while trying to select the card with id number" + cardId, "RED"));
+    }
+
+    public synchronized void notifyActionTokenDraw(ActionTokenType actionTokenType){
+
     }
 
     /**

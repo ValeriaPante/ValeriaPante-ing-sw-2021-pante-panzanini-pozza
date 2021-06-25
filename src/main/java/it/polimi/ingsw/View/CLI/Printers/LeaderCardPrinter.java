@@ -104,11 +104,10 @@ public class LeaderCardPrinter extends mapPrinter {
                 if (content == null || content.length == 0)
                     System.out.println("nothing");
                 else{
-                    EnumMap<Resource, Integer> mapContent = new EnumMap<>(Resource.class);
-                    for (Resource r: content){
-                        mapContent.put(r, mapContent.getOrDefault(r, 0) + 1);
-                    }
-                    printMapCompact(mapContent);
+//                    for (int i=0; i< content.length; i++)
+//                        
+//                    System.out.println("")
+//                    printMapCompact(mapContent);
                 }
                 break;
         }
