@@ -41,6 +41,13 @@ public class SelectionControllerTest {
         public void setRequestHandler(RequestHandler requestHandler) {
 
         }
+
+        @Override
+        public void closeConnection() {
+
+        }
+
+
     }
 
     @Test

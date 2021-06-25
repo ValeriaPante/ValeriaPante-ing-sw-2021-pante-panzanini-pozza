@@ -136,8 +136,6 @@ public class RemotePreGameModel{
             }
         }
 
-        //qua non notifico nulla perchè so sicuramente che se chiamo questo metodo
-        //mi serve mettere l'user da qualche altra parte
         for (Lobby lobby : this.lobbies){
             for (User user : lobby.getUsers()){
                 if (user.getId() == userId){
@@ -145,15 +143,15 @@ public class RemotePreGameModel{
                     this.notDecidedYet.add(user);
                     //notifico il cambiamento di lobby a tutti
                     this.notifyAllUsers(this.messageBuilder(lobby, false));
-                    //so che è in not decided yet
-                    this.getAndRemoveUser(userId);
 
                     //cancello la lobby se una volta rimosso un giocatore questa è vuota
                     //è una cosa che dovrebbe fare il controller ma mi sembra stupido passarlo sopra
                     if (lobby.isEmpty()){
                         this.lobbies.remove(lobby);
                     }
-                    return user;
+
+                    //so che è in not decided yet
+                    return this.getAndRemoveUser(userId);
                 }
             }
         }

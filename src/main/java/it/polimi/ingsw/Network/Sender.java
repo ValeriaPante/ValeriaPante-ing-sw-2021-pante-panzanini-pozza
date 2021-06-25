@@ -109,8 +109,8 @@ public class Sender {
         ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
         try{
             //proviamo a sostituire la seguente con:
-            //byteArrayOutStream.write(this.buildAssetDescriptionHeader(path.replace("\\", "\\\\"), hashAlg, assetDesc.getBytes().length).getBytes());
-            byteArrayOutStream.write(this.buildAssetDescriptionHeader(path, hashAlg, assetDesc.getBytes().length).getBytes());       //<-----
+            byteArrayOutStream.write(this.buildAssetDescriptionHeader(path.replace("\\", "\\\\"), hashAlg, assetDesc.getBytes().length).getBytes());
+            //byteArrayOutStream.write(this.buildAssetDescriptionHeader(path, hashAlg, assetDesc.getBytes().length).getBytes());       //<-----
             byteArrayOutStream.write(assetDesc.getBytes());
             byteArrayOutStream.writeTo(this.outputStream);
             byteArrayOutStream.writeTo(System.out);//DEBUG

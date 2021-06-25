@@ -8,4 +8,5 @@ public interface MessageSenderInterface {
     int getId();
     void setId(int id);
     void setRequestHandler(RequestHandler requestHandler);
+    void closeConnection();
 }

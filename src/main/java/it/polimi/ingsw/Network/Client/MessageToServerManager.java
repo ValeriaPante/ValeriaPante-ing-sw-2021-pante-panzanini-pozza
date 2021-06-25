@@ -13,8 +13,10 @@ import it.polimi.ingsw.Network.Sender;
 import it.polimi.ingsw.View.View;
 
 import java.io.*;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.net.URISyntaxException;
+import java.rmi.ConnectIOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -154,10 +156,10 @@ public class MessageToServerManager implements Runnable, MessageManager{
                     if(convertInput(input))
                         break;
                 }catch (IOException e){
+                    //throw new RuntimeException();
                     //connessione caduta
                 }
             }
-
             fromServer.close();
             toServer.close();
         }
@@ -169,7 +171,9 @@ public class MessageToServerManager implements Runnable, MessageManager{
      */
     @Override
     public void update(InGameMessage message) {
-        toServer.send(message.toJson());
+        if (!this.toServer.send(message.toJson())){
+            throw new RuntimeException();
+        }
     }
 
     /**
@@ -178,7 +182,9 @@ public class MessageToServerManager implements Runnable, MessageManager{
      */
     @Override
     public void update(PreGameMessage message) {
-        toServer.send(message.toJson());
+        if (!this.toServer.send(message.toJson())){
+            throw new RuntimeException();
+        }
     }
 
     /**
@@ -186,7 +192,9 @@ public class MessageToServerManager implements Runnable, MessageManager{
      * @param inputLine sends a string to the server
      */
     public void update(String inputLine) {
-        toServer.send(inputLine);
+        if (!this.toServer.send(inputLine)){
+            throw new RuntimeException();
+        }
     }
 
     /**

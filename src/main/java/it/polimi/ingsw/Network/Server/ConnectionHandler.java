@@ -246,16 +246,11 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
                 request = fromClient.readMessage();
 
                 System.out.println(request); //
-                if (request.equals("quit")) {
-                    this.requestHandler.connectionClosed(this.id);
-                    break;
-                } else {
-                    this.requestHandler.requestEvaluator(this.id, request);
-                }
+                this.requestHandler.requestEvaluator(this.id, request);
             }
             catch (IOException e){
-                //vediamo un attimo insieme cosa fare
-                //break;
+                this.requestHandler.connectionClosed(this.id);
+                break;
             }
         }
     }
@@ -274,5 +269,10 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
      */
     public int getId(){
         return this.id;
+    }
+
+    public void closeConnection(){
+        this.fromClient.close();
+        this.toClient.close();
     }
 }

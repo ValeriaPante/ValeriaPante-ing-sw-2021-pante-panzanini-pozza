@@ -61,4 +61,8 @@ public class User {
     public String getUsername(){
         return this.username;
     }
+
+    public void closeConnection(){
+        this.connectionHandler.closeConnection();
+    }
 }

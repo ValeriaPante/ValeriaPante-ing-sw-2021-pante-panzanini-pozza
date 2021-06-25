@@ -31,4 +31,9 @@ public class LocalMessageSender implements MessageSenderInterface{
     public void setRequestHandler(RequestHandler requestHandler) {
 
     }
+
+    @Override
+    public void closeConnection() {
+
+    }
 }

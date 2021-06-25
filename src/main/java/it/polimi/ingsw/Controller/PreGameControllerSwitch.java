@@ -4,6 +4,7 @@ import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.*;
 import it.polimi.ingsw.Network.RequestHandlers.InGameRequestHandler;
 import it.polimi.ingsw.PreGameModel.*;
 
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -46,7 +47,10 @@ public class PreGameControllerSwitch {
      * @param disconnectMessage message to evaluate
      */
     public synchronized void actionOnMessage(DisconnectMessage disconnectMessage){
-        this.preGameModel.getAndRemoveUser(disconnectMessage.getSenderId());
+        User userDisconnected = this.preGameModel.getAndRemoveUser(disconnectMessage.getSenderId());
+        if (userDisconnected != null){
+            userDisconnected.closeConnection();
+        }
     }
 
     /**
