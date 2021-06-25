@@ -13,11 +13,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * This class is used to print on terminal the leader cards written down in the ".json" file named: "LeaderCardsConfig.json"
+ */
 public class LeaderCardPrinter extends mapPrinter {
     private final Gson gson;
     private final JsonArray array;
     private JsonObject currentCard;
 
+    /**
+     * Opens the ".json" file containing the leader cards
+     */
     public LeaderCardPrinter(){
         InputStream in = getClass().getResourceAsStream("/accessible/JSONs/LeaderCardsConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -33,6 +39,13 @@ public class LeaderCardPrinter extends mapPrinter {
         currentCard = null;
     }
 
+    /**
+     * Prints the leader card with the "id" specified as parameter
+     * @param id unique identifier of the leader card that has to be printed (it must be ranging from 49 to 64)
+     * @param content it is an array of the resources contained in the leader card:
+     *                so it is null if the leader card has not got a leader storage ability or
+     *                if it has got but it is empty. Otherwise, it is not null
+     */
     public void printFromID(int id, Resource[] content){
         for (int i=0; i < array.size(); i++) {
             JsonObject card = array.get(i).getAsJsonObject();
@@ -56,8 +69,6 @@ public class LeaderCardPrinter extends mapPrinter {
                         "     |_______________|");
 
                 currentCard = null;
-
-                //id is unique: there is no need to search a card with the same id since one was already found
                 break;
             }
         }

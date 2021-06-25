@@ -4,7 +4,18 @@ import it.polimi.ingsw.Enums.Resource;
 
 import java.util.Map;
 
+/**
+ * This class is used to print on terminal the shelves with the content specified
+ * as parameter in the public method "printShelves(...)"
+ */
 public class ShelvesPrinter {
+    /**
+     * Prints on terminal the shelves containing the resources with the quantities specified in the maps passed as parameters.
+     * Each map should contain at most one resource mapped to the quantity in that precise shelf
+     * @param shelf1 content of shelf with capacity one
+     * @param shelf2 content of shelf with capacity two
+     * @param shelf3 content of shelf with capacity three
+     */
     public void printShelves(Map<Resource, Integer> shelf1, Map<Resource, Integer> shelf2, Map<Resource, Integer> shelf3){
         System.out.println("\n" +
                 "+---------- SHELVES --------\n" +

@@ -10,6 +10,9 @@ import java.io.InputStreamReader;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * This class is used to print on the terminal the faith track and additional information
+ */
 public class FaithTrackPrinter {
     private final JsonArray smallPaths;
     private final JsonArray vaticanRelations;
@@ -27,6 +30,14 @@ public class FaithTrackPrinter {
         vaticanRelations = elements.getAsJsonObject().get("vaticanRelations").getAsJsonArray();
     }
 
+    /**
+     * Prints on terminal the faith tack and the positions of the players on it.
+     * For each player will be displayed both the username and the id
+     * so it will be clare tha position of each player even if two of them have the same username
+     * @param playersID a list of the ids of the players (the order is not important)
+     * @param playersUsernames a list of the usernames of the players (the order must be tha same used in "playersID" parameter)
+     * @param simplifiedFaithTrack is the simplified faith track used in the game
+     */
     public void printTrack(List<Integer> playersID, List<String> playersUsernames, SimplifiedFaithTrack simplifiedFaithTrack){
         System.out.println( "\n" +
                 " _____  ___  ___  ___  ___  ___  ___  ___  ___  ___  ____  ____  ____  ____  ____  ____  ____  ____  ____  ____  ____  ____  ____  ____  ____   \n" +
@@ -40,6 +51,10 @@ public class FaithTrackPrinter {
         }
     }
 
+    /**
+     * Prints on terminal the mapping of the points for the positions on the faith track
+     * used in this precise game
+     */
     public void printPointsForPosition(){
         System.out.println("\n" + "VICTORY POINTS: (not cumulative)");
         for (int i=0; i<smallPaths.size(); i++){
@@ -53,6 +68,13 @@ public class FaithTrackPrinter {
         System.out.print("\n");
     }
 
+    /**
+     * Prints on terminal the the mapping of the points for the vatican relations for this precise game
+     * and the state of the Pope favor card of each player, displaying both their usernames and their ids
+     * @param playersID a list of the ids of the players (the order is not important)
+     * @param playersUsernames a list of the usernames of the players (the order must be tha same used in "playersID" parameter)
+     *  @param simplifiedFaithTrack is the simplified faith track used in the game
+     */
     public void printVaticanRelations(List<Integer> playersID, List<String> playersUsernames, SimplifiedFaithTrack simplifiedFaithTrack){
         System.out.println("\n" + "VATICAN RELATIONS: ");
         for (int i=0; i<vaticanRelations.size(); i++){

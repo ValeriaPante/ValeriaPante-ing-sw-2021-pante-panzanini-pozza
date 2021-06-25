@@ -12,9 +12,18 @@ import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.StartGameMessag
 import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
 import it.polimi.ingsw.View.ClientModel.Game;
 
+/**
+ * This class is used to interpret the input from console and convert it into actions:
+ * creating the message specified, print what request oer even show or hide notifications from the server.
+ * All the exceptions are really important and each of them contains, as message, a custom string.
+ * To know exactly yhe use of each exception check the javadoc of each public method
+ */
 public class InputManager{
     private final Game model;
 
+    /**
+     * @param model is the model the input manager will refer its decision about the input
+     */
     public InputManager(Game model){
         this.model = model;
     }
@@ -160,7 +169,6 @@ public class InputManager{
             return new TransmutationMessage(leaderCardID1, leaderCardID2, quantity1, quantity2);
         }
 
-        //case DISCOUNT
         int leaderCardID = Integer.parseInt(input.replace("DISCOUNT: LC",""));
         if (!possesLeaderCard(leaderCardID))
             throw new IllegalArgumentException("You do not own that leader card! Please, retry...");
@@ -330,4 +338,3 @@ public class InputManager{
         throw new IllegalArgumentException("Syntax error: what you wrote was not correct, please, retry...");
     }
 }
-//(PRINT: (MY LOBBY|ALL LOBBIES|USERNAMES|(SHELVES|STRONGBOX|SUPPORT CONTAINER|(DEV SLOTS |DEV SLOT [1-3] )(CONTENT|TOP)|LEADER CARDS)( @(\d)+)?|MARKET( LEGEND)?|DEV CARDS ON TABLE|FAITH TRACK( POINTS| VATICAN RELATIONS)?))

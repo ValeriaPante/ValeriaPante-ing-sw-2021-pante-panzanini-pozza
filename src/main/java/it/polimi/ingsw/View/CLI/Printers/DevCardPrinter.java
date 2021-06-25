@@ -11,12 +11,20 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
+/**
+ * This class is used to print on terminal everything linked to development cards:
+ * development slots, the grill of development cards on the table and development cards themselves.
+ * The cards will be read from a ".json" file named "DevCardsConfig.json"
+ */
 public class DevCardPrinter extends mapPrinter {
     private final Gson gson;
     private final JsonObject devCards;
     private int level;
     private String color;
 
+    /**
+     * Opens the ".json" file containing the development cards
+     */
     public DevCardPrinter(){
         InputStream in = getClass().getResourceAsStream("/accessible/JSONs/DevCardsConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -31,6 +39,10 @@ public class DevCardPrinter extends mapPrinter {
         devCards = elements.getAsJsonObject();
     }
 
+    /**
+     * Prints on terminal the development card with "id" corresponding to "id"
+     * @param id unique identifier of the development card that has to be printed (it must be ranging from 1 to 48)
+     */
     public void printFromID(int id){
         JsonObject card = getCardFromID(id);
         System.out.print("\n" +
@@ -88,6 +100,15 @@ public class DevCardPrinter extends mapPrinter {
         return null;
     }
 
+    /**
+     * Prints on terminal the development slots passed as parameter
+     * @param devSlots it is a matrix 3x3: each row is referred to the content of a development slot
+     *                 (the ids of the development cards contained in it). The slots are considered
+     *                 having a positional number starting from zero and increasing from left to right
+     *                 on the player's dashboard
+     * @param topCardOnly if "true" this method will print only the top card, if present,
+     *                    for each development slot. If "false" it will print the whole content of each slot
+     */
     public void printDevSlots(int[][] devSlots, boolean topCardOnly){
         for(int i=0; i < 3; i++){
             System.out.println("Development slot number " + (i+1) + ":");
@@ -95,6 +116,12 @@ public class DevCardPrinter extends mapPrinter {
         }
     }
 
+    /**
+     * Prints on terminal only the development slot passed as parameter
+     * @param singleDevSlot it is an array of length equals to 3 containing the ids of the development cards contained in it
+     * @param topCardOnly if "true" this method will print only the top card, if present,
+     *                    for the development slot specified. If "false" it will print the whole content of the slot
+     */
     public void printSingleDevSlot(int[] singleDevSlot, boolean topCardOnly){
         if(singleDevSlot[0] == 0){
             printEmptySlot();
@@ -123,6 +150,11 @@ public class DevCardPrinter extends mapPrinter {
                 "     - + - + - + - + - +\n");
     }
 
+    /**
+     * Prints on terminal the decks of development cards placed n the table
+     * @param devDecks it is a 3x4 matrix containing the ids of the development cards
+     *                 as displayed on the table
+     */
     public void printDevDecks(int[][] devDecks){
         System.out.println("\n" + Color.colourText("HERE ARE THE DEVELOPMENT CARDS PLACED ON THE TABLE!", "YELLOW"));
         for (int i=0; i <= 2; i++){

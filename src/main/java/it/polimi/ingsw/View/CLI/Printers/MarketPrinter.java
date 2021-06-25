@@ -3,7 +3,17 @@ package it.polimi.ingsw.View.CLI.Printers;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.View.CLI.Color;
 
+/**
+ * This class is used to print on terminal the market (with the slide too) and the legend
+ * useful to interpret what was printed with the business logic of the game
+ */
 public class MarketPrinter {
+    /**
+     * Prints the market, with the slide too
+     * @param grill it is a 3x4 matrix representing the content of the market
+     *              (actually represents the resources correspondent to the marbles that are in the grill of market)
+     * @param slide it is the resource correspondent to the marble in the slide of the market
+     */
     public void printMarket(Resource[][] grill, Resource slide){
         System.out.print("\n" +
                 "|¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|\n" +
@@ -42,6 +52,10 @@ public class MarketPrinter {
         }
     }
 
+    /**
+     * Prints the legend to interpret the representation of the market printed with the command "printMarket(...)"
+     * with the business logic of the game
+     */
     public void printLegend(){
         System.out.println("\n"+ "MARBLE LEGEND:\n" +
                 "- " + Color.colourText("R", "RED") + " stands for " + Color.colourText("RED", "RED") + "\n" +

@@ -7,6 +7,9 @@ import it.polimi.ingsw.View.GUI.GUI;
 
 public class ClientMain
 {
+    /**
+    * @param args by writing "-cli" the CLI application will start, otherwise the GUI application will start
+    * */
     public static void main( String[] args )
     {
         if(args.length == 0) Application.launch(GUI.class);

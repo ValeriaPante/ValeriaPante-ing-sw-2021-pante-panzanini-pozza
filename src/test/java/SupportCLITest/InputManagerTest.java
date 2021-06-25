@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class InputManagerTest {
     @Test
-    @DisplayName("basic test")
+    @DisplayName("case sensitivity test")
     public void test() {
         Game model = new Game();
         InputManager inputManager = new InputManager(model);

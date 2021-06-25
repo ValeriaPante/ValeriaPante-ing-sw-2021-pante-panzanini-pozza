@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class PrinterTest {
     @Test
-    @DisplayName("content() test")
+    @DisplayName("notify test")
     public void testNotify() {
         Game model = new Game();
         model.addPlayer(0, new SimplifiedPlayer(){{
@@ -191,7 +191,7 @@ public class PrinterTest {
     }
 
     @Test
-    @DisplayName("content() test")
+    @DisplayName("multiplayer test")
     public void testMultiPlayer() {
         Game model = new Game();
         model.addPlayer(0, new SimplifiedPlayer(){{
