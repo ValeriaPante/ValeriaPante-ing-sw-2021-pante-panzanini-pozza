@@ -51,10 +51,11 @@ public class BuyDevCardController extends CardActionController{
         if(table.turnOf().getMacroTurnType() == MacroTurnType.NONE) {
             try {
                 if(!table.getDevDecks()[chosenDeck - 1].isEmpty()) {
+                    int cardId = table.getDevDecks()[chosenDeck-1].getTopCard().getId();
                     if (!atLeastOneDevSlotIsAvailable(table.getDevDecks()[chosenDeck - 1].getTopCard())) {
-                        table.turnOf().setErrorMessage("You can't buy this card, there is no slot to contain it. ");
+                        table.turnOf().setErrorMessage("You can't buy this card, there is no slot to contain it. ", cardId);
                     } else if(!isAffordableSomehow(table.getDevDecks()[chosenDeck - 1].getTopCard().getCost())){
-                        table.turnOf().setErrorMessage("You can't buy this card, you don't have enough resources. ");
+                        table.turnOf().setErrorMessage("You can't buy this card, you don't have enough resources. ", cardId);
                     }else {
                         for(DevDeck deck: table.getDevDecks()){
                             if(deck.getTopCard().isSelected())
@@ -109,9 +110,7 @@ public class BuyDevCardController extends CardActionController{
             table.turnOf().setMicroTurnType(MicroTurnType.SETTING_UP);
             for(DevDeck deck: table.getDevDecks()){
                 if(deck.getTopCard().isSelected()) {
-                    StrongBox temp = table.turnOf().getSupportContainer();
-                    temp.clear();
-                    temp.addEnumMap(deck.getTopCard().getCost());
+                    table.updatePlayerOfTurnSupportContainer(deck.getTopCard().getCost());
                     break;
                 }
             }

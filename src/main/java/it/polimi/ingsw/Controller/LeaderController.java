@@ -23,18 +23,19 @@ public class LeaderController extends SelectionController{
      */
     public void actionOnLeaderCard(int id, Boolean discard) {
         table.turnOf().clearErrorMessage();
-        table.clearBroadcastMessage();
         if(table.turnOf().getMacroTurnType() == MacroTurnType.NONE || table.turnOf().getMacroTurnType() == MacroTurnType.DONE){
             LeaderCard chosenCard = this.leaderCardFromID(id);
 
             if(chosenCard != null){
                 if (discard){
-                    table.turnOf().discardLeaderCard(chosenCard);
+                    table.actionOnLeaderCard(chosenCard, true);
                     this.faithTrackController.movePlayerOfTurn(1);
                 } else if (!chosenCard.hasBeenPlayed()){
                     if (!checkRequirements(chosenCard))
                         table.turnOf().setErrorMessage("You don't have the requirements needed. ");
-                    else chosenCard.play();
+                    else{
+                        table.actionOnLeaderCard(chosenCard, false);
+                    }
                 }
             }
         } else table.turnOf().setErrorMessage("You can't do this action");

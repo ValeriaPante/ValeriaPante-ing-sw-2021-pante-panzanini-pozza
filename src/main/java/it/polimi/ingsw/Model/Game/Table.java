@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Model.Game;
 
+import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Cards.DevCard;
 import it.polimi.ingsw.Model.Cards.DevCardType;
@@ -8,16 +9,14 @@ import it.polimi.ingsw.Model.Decks.DevDeck;
 import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import it.polimi.ingsw.Model.Deposit.Market;
 import it.polimi.ingsw.Enums.Colour;
+import it.polimi.ingsw.Model.Deposit.StrongBox;
 import it.polimi.ingsw.Model.FaithTrack.FaithTrack;
 import it.polimi.ingsw.Model.Player.LorenzoIlMagnifico;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Player.RealPlayer;
-import it.polimi.ingsw.Network.Client.Messages.InitMessage;
-import it.polimi.ingsw.Network.Client.Messages.TurnOfMessage;
+import it.polimi.ingsw.Network.Client.Messages.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Table {
     public static final int maxPlayers = 4;
@@ -35,8 +34,8 @@ public class Table {
 
     private DevDeck[] devDecks;
 
-    private void notifyAllPlayer(){
-
+    private void notifyAllPlayer(FromServerMessage message){
+        players.forEach(player -> player.sendMessage(message));
     }
 
     private void initialiseDevDecks(){
@@ -62,21 +61,6 @@ public class Table {
         this.initialiseDevDecks();
         this.broadcastMessage = null;
     }
-
-    /*
-    Qualcuno ha comprato una dev card->
-
-    for (player){
-        metodoNewOgetto(DevCard[]) -> void
-    }
-
-    metodoNewOgetto void(Oggetti del model){
-        cosrstruisce il messaggio
-        send
-    }
-    * */
-
-
 
     public void setLastLap(){
         this.isLastLap = true;
@@ -169,6 +153,24 @@ public class Table {
                     Arrays.stream(this.players.get(i).getLeaderCards()).mapToInt(LeaderCard::getId).toArray()
             ));
         }
+    }
+
+    public void actionOnLeaderCard(LeaderCard card, boolean discard){
+        if (discard) {
+            this.turnOf().discardLeaderCard(card);
+        } else{
+            card.play();
+        }
+        FromServerMessage message = new ActionOnLeaderCardMessage(this.turnOf + 1, discard, card.getId());
+        this.notifyAllPlayer(message);
+    }
+
+    public void updatePlayerOfTurnSupportContainer(EnumMap<Resource, Integer> cost){
+        StrongBox supportContainer = this.turnOf().getSupportContainer();
+        supportContainer.clear();
+        supportContainer.addEnumMap(cost);
+        ChangedSupportContainerMessage message = new ChangedSupportContainerMessage(this.turnOf+1, new HashMap<>(cost));
+        this.notifyAllPlayer(message);
     }
 
     //idee sul set winner??? questo non mi piace molto

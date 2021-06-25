@@ -12,6 +12,7 @@ import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Network.Client.Messages.ErrorMessage;
 import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
+import it.polimi.ingsw.Network.Client.Messages.SelectionErrorMessage;
 import it.polimi.ingsw.PreGameModel.User;
 
 import java.util.ArrayList;
@@ -192,6 +193,12 @@ public class RealPlayer extends Player{
     public void setErrorMessage(String newErrorMessage) {
         this.errorMessage = newErrorMessage;
         ErrorMessage errorMessage = new ErrorMessage(this.errorMessage);
+        this.connection.send(errorMessage);
+    }
+
+    public void setErrorMessage(String newErrorMessage, int wrongCardId){
+        this.errorMessage = newErrorMessage;
+        SelectionErrorMessage errorMessage = new SelectionErrorMessage(this.errorMessage, wrongCardId);
         this.connection.send(errorMessage);
     }
 
