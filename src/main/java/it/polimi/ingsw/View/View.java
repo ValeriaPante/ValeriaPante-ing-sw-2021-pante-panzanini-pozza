@@ -1,5 +1,6 @@
 package it.polimi.ingsw.View;
 
+import it.polimi.ingsw.Enums.ActionTokenType;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.View.ClientModel.Game;
 
@@ -38,6 +39,8 @@ public interface View {
     void showErrorMessage(String message);
 
     void showSelectionError(String message, int cardId);
+
+    void showLorenzoTurn(ActionTokenType actionToken);
 
     Game getModel();
 }

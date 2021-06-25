@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View.GUI;
 
 
+import it.polimi.ingsw.Enums.ActionTokenType;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Network.Client.MessageManager;
 import it.polimi.ingsw.View.ClientModel.Game;
@@ -389,6 +390,11 @@ public class GUI extends Application implements View {
     public void showSelectionError(String message, int cardId){
         Platform.runLater(() -> Transition.showErrorMessage(message));
         Platform.runLater(() -> Transition.deselectCardIfSelected(cardId));
+    }
+
+    @Override
+    public void showLorenzoTurn(ActionTokenType actionToken){
+        Platform.runLater(() -> Transition.showErrorMessage("Lorenzo drew a token, its effect is: "+ ActionTokenType.getEffectString(actionToken)));
     }
 
     @Override

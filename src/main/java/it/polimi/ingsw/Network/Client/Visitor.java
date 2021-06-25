@@ -121,4 +121,8 @@ public class Visitor {
         view.showSelectionError(m.getError(), m.getId());
     }
 
+    public void updateModel(LorenzoTurnMessage m) {
+        view.showLorenzoTurn(m.getActionToken());
+    }
+
 }
