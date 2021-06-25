@@ -1,6 +1,7 @@
 package it.polimi.ingsw.PreGameModel;
 
 import it.polimi.ingsw.Network.Client.Messages.ChangedLobbyMessage;
+import it.polimi.ingsw.Network.Client.Messages.ErrorMessage;
 import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
 
 import java.util.LinkedList;
@@ -184,6 +185,29 @@ public class RemotePreGameModel{
                 lobby.addUser(user);
                 this.notifyAllUsers(this.messageBuilder(lobby, false), user.getId(), this.messageBuilder(lobby, true));
                 return;
+            }
+        }
+    }
+
+    /**
+     * Send and error message to a specified user
+     * @param userToNotifyError the user id
+     * @param errorString the error
+     */
+    public void notifyError(int userToNotifyError, String errorString){
+        ErrorMessage errorMessage = new ErrorMessage(errorString);
+        for (User user : this.notDecidedYet){
+            if (user.getId() == userToNotifyError){
+                user.send(errorMessage);
+                return;
+            }
+        }
+        for (Lobby lobby : this.lobbies) {
+            for (User user : lobby.getUsers()) {
+                if (user.getId() == userToNotifyError) {
+                    user.send(errorMessage);
+                    return;
+                }
             }
         }
     }

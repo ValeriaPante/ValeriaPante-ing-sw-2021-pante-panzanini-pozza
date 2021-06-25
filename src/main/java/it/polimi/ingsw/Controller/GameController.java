@@ -158,9 +158,9 @@ public class GameController extends CertifiedResourceUsage{
             if(table.getPlayers()[table.getPlayers().length - 1].equals(table.turnOf())){
                 for (RealPlayer player : table.getPlayers())
                     player.sendMessage(new StartMessage());
-            }
-            else
+            } else {
                 table.nextTurn();
+            }
         }
     }
     

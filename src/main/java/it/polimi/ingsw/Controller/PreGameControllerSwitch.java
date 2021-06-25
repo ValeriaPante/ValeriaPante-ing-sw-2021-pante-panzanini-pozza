@@ -79,6 +79,7 @@ public class PreGameControllerSwitch {
         int lobbyId = this.preGameModel.getUserLobbyId(startGameMessage.getSenderId());
         if (lobbyId == 0){
             //notifica il player che ha provato a fare una cosa non permessa
+            this.preGameModel.notifyError(startGameMessage.getSenderId(), "You can't start the game, you are not the first");
             return;
         }
         Lobby lobby = this.preGameModel.getAndRemoveLobby(lobbyId);
