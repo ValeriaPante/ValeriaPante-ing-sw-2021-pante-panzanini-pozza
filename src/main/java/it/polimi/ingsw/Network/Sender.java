@@ -1,13 +1,18 @@
 package it.polimi.ingsw.Network;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.*;
 
+/**
+ * Utility class that write on a InputStream
+ */
 public class Sender {
 
-    OutputStream outputStream;
+    private final OutputStream outputStream;
 
+    /**
+     * Constructor
+     * @param outputStream to write to
+     */
     public Sender(OutputStream outputStream){
         this.outputStream = outputStream;
     }
@@ -45,6 +50,10 @@ public class Sender {
                 " }\n";
     }
 
+    /**
+     * Once every file is sent this notifies that no more files for that folder will arrive
+     * @return false if an error occurred sending the message
+     */
     public boolean sendMessageEndAssets(){
         String header = this.buildAssetFinishMessage();
         try {
@@ -56,6 +65,12 @@ public class Sender {
     }
 
     //only server
+    /**
+     * Writing a file to the outputStream
+     * @param fileInputStream the file to send
+     * @param name name of the file to send
+     * @return false if an error occurred sending the message
+     */
     public boolean send(FileInputStream fileInputStream, String name){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         int count;
@@ -83,10 +98,19 @@ public class Sender {
     }
 
     //client
-    public boolean sendAssetMessage(String assetDesc, String path, String shaAlg){
+    /**
+     * Builds and write a message with all the files hashes as a field, a relative path from the .jar file, and the hash algorithm used in the output stream
+     * @param assetDesc all the files hashes
+     * @param path the folder evaluated
+     * @param hashAlg algorithm used
+     * @return false if an error occurred sending the message
+     */
+    public boolean sendAssetMessage(String assetDesc, String path, String hashAlg){
         ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
         try{
-            byteArrayOutStream.write(this.buildAssetDescriptionHeader(path.replace("\\", "\\\\"), shaAlg, assetDesc.getBytes().length).getBytes());
+            //proviamo a sostituire la seguente con:
+            //byteArrayOutStream.write(this.buildAssetDescriptionHeader(path.replace("\\", "\\\\"), hashAlg, assetDesc.getBytes().length).getBytes());
+            byteArrayOutStream.write(this.buildAssetDescriptionHeader(path, hashAlg, assetDesc.getBytes().length).getBytes());       //<-----
             byteArrayOutStream.write(assetDesc.getBytes());
             byteArrayOutStream.writeTo(this.outputStream);
             byteArrayOutStream.writeTo(System.out);//DEBUG
@@ -100,6 +124,11 @@ public class Sender {
     }
 
     //server and client
+    /**
+     * Write the String in the output stream
+     * @param message message to send
+     * @return false if an error occurred sending the message
+     */
     public boolean send(String message){
         System.out.println("Sending: " + message);
         ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
@@ -117,6 +146,9 @@ public class Sender {
         return true;
     }
 
+    /**
+     * Closes the output stream
+     */
     public void close(){
         while (true){
             try{

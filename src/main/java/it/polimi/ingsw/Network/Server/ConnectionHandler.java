@@ -14,6 +14,9 @@ import java.net.URISyntaxException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
+/**
+ * Handler of the incoming connections server side
+ */
 public class ConnectionHandler implements Runnable, MessageSenderInterface{
 
     private Gson messageToJson;
@@ -22,6 +25,12 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
     private final Sender toClient;
     private RequestHandler requestHandler;
 
+    /**
+     *
+     * @param socket
+     * @param requestHandler
+     * @throws IOException
+     */
     public ConnectionHandler(Socket socket, RequestHandler requestHandler) throws IOException {
         this.messageToJson = new Gson();
         this.fromClient = new Receiver(socket.getInputStream());
@@ -29,6 +38,9 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         this.requestHandler = requestHandler;
     }
 
+    /**
+     * Runs the logic to update (send) all the missing assets (images, etc..)
+     */
     public void update(){
         String[] assetInfo;
         while ((assetInfo = this.waitForAssetsDescription())!=null){
@@ -40,7 +52,7 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         JsonParser jsonParser = new JsonParser();
         File mainDir;
         try {
-            mainDir = new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath() + "/accessible/" + assetInfo[1]); //non mi convince
+            mainDir = new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath() + File.separator + "accessible" + File.separator + assetInfo[1]); //non mi convince
         }catch (URISyntaxException e){
             return;
         }
@@ -160,6 +172,10 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         return strBuilder.toString();
     }
 
+    /**
+     * Convert the next message on the stream as String[3]
+     * @return the files infos or null if received an end message (client doesn't need more updates)
+     */
     public String[] waitForAssetsDescription(){
         String[] assetDescription;
         try {
@@ -183,6 +199,10 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         return assetDescription;
     }
 
+    /**
+     * Waits a string on the network
+     * @return the string read
+     */
     public String waitForNickname(){
         String nickname = "";
         while (nickname.isEmpty()){
@@ -198,15 +218,26 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
     }
 
     //accetto messaggio
+    /**
+     * Sending a message to client
+     * @param message message to send
+     */
     public void send(FromServerMessage message){
         //parso il messaggio
         this.toClient.send(this.messageToJson.toJson(message));
     }
 
+    /**
+     * Sets the if of this connection (must be unique)
+     * @param id the id this connection will be identified with
+     */
     public void setId(int id){
         this.id = id;
     }
 
+    /**
+     * Starts the loop to keep listening
+     */
     @Override
     public void run() {
         String request;
@@ -224,14 +255,23 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
             }
             catch (IOException e){
                 //vediamo un attimo insieme cosa fare
+                //break;
             }
         }
     }
 
+    /**
+     * Setter
+     * @param requestHandler the implementation of a RequestHandler that will handle the incoming requests
+     */
     public void setRequestHandler(RequestHandler requestHandler){
         this.requestHandler = requestHandler;
     }
 
+    /**
+     * Getter
+     * @return this connection id
+     */
     public int getId(){
         return this.id;
     }

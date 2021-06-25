@@ -2,26 +2,39 @@ package it.polimi.ingsw.Model.Cards;
 
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 
+/**
+ * Representation of a Pope Favour Card
+ */
 public class PopeFavorCard extends CardVP {
     private PopeFavorCardState state;
 
-    //costruttore, prende i punti di punti di quella particolare carta
+    /**
+     * Constructor
+     * @param points victory points of this specific pope favour card
+     */
     public PopeFavorCard(int points){
         super(points);
         this.state = PopeFavorCardState.FACEDOWN;
     }
 
-    //getter dello stato
+    /**
+     * Getter
+     * @return this card state
+     */
     public PopeFavorCardState getState(){
         return state;
     }
 
-    //cambia lo stato della carta in DISABLED
+    /**
+     * Setter: sets this cars to DISABLED
+     */
     public void discard(){
         this.state = PopeFavorCardState.DISABLED;
     }
 
-    //cambia lo stato della carta in FACEUP
+    /**
+     * Setter: sets this cars to FACEUP
+     */
     public void toFaceUp(){
         this.state = PopeFavorCardState.FACEUP;
     }

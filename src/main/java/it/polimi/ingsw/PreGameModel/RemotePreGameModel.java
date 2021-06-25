@@ -2,16 +2,23 @@ package it.polimi.ingsw.PreGameModel;
 
 import it.polimi.ingsw.Network.Client.Messages.ChangedLobbyMessage;
 import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
-import it.polimi.ingsw.Network.JsonToClient.JsonToClientPreGame;
 
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * Model of pre game grouped
+ * Every new user is not placed in a lobby
+ * Every player in a lobby can switch lobby
+ */
 public class RemotePreGameModel{
-    //in sostanza tutti i players sono observer delle lobbies
+    //basically evey user is observe of the lobbies
     private final LinkedList<Lobby> lobbies;
     private final LinkedList<User> notDecidedYet;
 
+    /**
+     * Constructor
+     */
     public RemotePreGameModel(){
         this.lobbies = new LinkedList<>();
         this.notDecidedYet = new LinkedList<>();
@@ -28,9 +35,7 @@ public class RemotePreGameModel{
     }
 
     private void notifyUserAllLobbies(User user){
-        this.lobbies.forEach(lobby -> {
-            user.send(this.messageBuilder(lobby, false));
-        });
+        this.lobbies.forEach(lobby -> user.send(this.messageBuilder(lobby, false)));
         //user.send("{\"players\":[\"Daniel\",\"Vale\",\"Alberto\"],\"itsYou\":false,\"type\":\"changedLobby\",\"id\":1}"); //debug
     }
 
@@ -46,6 +51,10 @@ public class RemotePreGameModel{
         }));
     }
 
+    /**
+     * Getter
+     * @return all the users ids
+     */
     public List<Integer> getAllUsersIds(){
         LinkedList<Integer> allIds = new LinkedList<>();
         for(Lobby lobby : this.lobbies){
@@ -60,6 +69,10 @@ public class RemotePreGameModel{
         return allIds;
     }
 
+    /**
+     * Getter
+     * @return all the lobbies id
+     */
     public List<Integer> getAllLobbiesId(){
         LinkedList<Integer> allIds = new LinkedList<>();
         for (Lobby lobby : this.lobbies){
@@ -69,10 +82,19 @@ public class RemotePreGameModel{
     }
 
     //non notifico nessuno perchè ci devo ancora mettere un giocatore (è vuota)
+    /**
+     * Creation of a lobby
+     * @param id the id of the new lobby
+     */
     public void createLobby(int id){
         this.lobbies.add(new Lobby(id));
     }
 
+    /**
+     * Asking if a user is the first user in a lobby
+     * @param userId the user id that we are searching
+     * @return the lobby id the user is the first in or 0 if no match are found
+     */
     public int getUserLobbyId(int userId){
         for (Lobby lobby : this.lobbies){
             if (lobby.getFirstUserId() == userId){
@@ -83,6 +105,11 @@ public class RemotePreGameModel{
         return 0;
     }
 
+    /**
+     * Removes a lobby
+     * @param lobbyId the id of the lobby to remove
+     * @return the lobby removed or null if there was no lobby with that id
+     */
     public Lobby getAndRemoveLobby(int lobbyId){
         for (Lobby lobby : this.lobbies){
             if (lobby.getId() == lobbyId){
@@ -96,6 +123,11 @@ public class RemotePreGameModel{
         return null;
     }
 
+    /**
+     * Removes a user
+     * @param userId the id of the user to remove
+     * @return the user removed or null if there was no user with that id
+     */
     public User getAndRemoveUser(int userId){
         for (User user : this.notDecidedYet){
             if (user.getId() == userId){
@@ -129,16 +161,25 @@ public class RemotePreGameModel{
         return null;
     }
 
+    /**
+     * Asking if a lobby is full
+     * @param lobbyId the lobby id that we are asking
+     * @return true if the lobby is full or if the lobby does not exist
+     */
     public boolean isLobbyFull(int lobbyId){
         for (Lobby lobby : this.lobbies){
             if (lobby.getId() == lobbyId){
                 return lobby.isFull();
             }
         }
-        //se la lobby non esiste la tratto come se fosse piena
         return true;
     }
 
+    /**
+     * Add a user to a lobby
+     * @param user user to add
+     * @param lobbyId the destination lobby
+     */
     public void addUserToLobby(User user, int lobbyId){
         for(Lobby lobby : this.lobbies){
             if (lobby.getId() == lobbyId){
@@ -149,6 +190,10 @@ public class RemotePreGameModel{
         }
     }
 
+    /**
+     * Adding a new user to the model: basically adding a new observer
+     * @param user user to add
+     */
     public void addNewUser(User user){
         this.notDecidedYet.add(user);
         this.notifyUserAllLobbies(user);

@@ -20,6 +20,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.Objects;
 
+/**
+ *
+ */
 public class MessageToServerManager implements Runnable, MessageManager{
 
     private Receiver fromServer;
@@ -28,6 +31,10 @@ public class MessageToServerManager implements Runnable, MessageManager{
     private final Gson gson;
     private final JsonParser parser;
 
+    /**
+     * Constructor
+     * @param view objects that implements View interface
+     */
     public MessageToServerManager(View view){
         this.visitor = new Visitor(view);
         this.gson = new Gson();
@@ -123,6 +130,10 @@ public class MessageToServerManager implements Runnable, MessageManager{
         return result;
     }
 
+    /**
+     * Loop for constant listening from the server
+     */
+    @Override
     public void run(){
         System.out.println("Starting run");
         if(fromServer != null && toServer != null) {
@@ -134,29 +145,46 @@ public class MessageToServerManager implements Runnable, MessageManager{
                     if(convertInput(input))
                         break;
                 }catch (IOException e){
-                    //bho
+                    //connessione caduta
                 }
             }
-
             fromServer.close();
             toServer.close();
         }
     }
 
+    /**
+     * Sends a InGameMessage message
+     * @param message message to send
+     */
     @Override
     public void update(InGameMessage message) {
         toServer.send(message.toJson());
     }
 
+    /**
+     * Sends a PreGameMessage to server
+     * @param message message to send
+     */
     @Override
     public void update(PreGameMessage message) {
         toServer.send(message.toJson());
     }
 
+    /**
+     * Sends the String to the server
+     * @param inputLine sends a string to the server
+     */
     public void update(String inputLine) {
         toServer.send(inputLine);
     }
 
+    /**
+     * Connects this client to the server and updates all the new assets
+     * @param ip ip to connect
+     * @param port port to connect
+     * @param username Username of the client
+     */
     @Override
     public void connect(String ip, String port, String username) {
         try {
@@ -187,7 +215,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
             }
         }
 
-        String[] paths = {"\\assets\\imgs\\", "\\JSONs\\"};
+        String[] paths = {File.separator + "assets" + File.separator + "imgs" + File.separator, File.separator + "JSONs" + File.separator};
         AssetDescriptor assetDesc;
         for (String relativePath : paths){
             String fullPath ;

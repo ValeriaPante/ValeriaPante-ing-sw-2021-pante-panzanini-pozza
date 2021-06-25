@@ -2,17 +2,22 @@ package it.polimi.ingsw.Network;
 
 import com.google.gson.*;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * Utility class that read on a InputStream
+ */
 public class Receiver {
 
-    InputStream inputStream;
+    private final InputStream inputStream;
 
+    /**
+     * Constructor
+     * @param inputStream to read on
+     */
     public Receiver(InputStream inputStream){
         this.inputStream = inputStream;
     }
@@ -125,12 +130,17 @@ public class Receiver {
     }
 
     private String readMessage(int nbrToRead) throws IOException {
-        byte[] byteArray = getByteArrayMessage(nbrToRead);
+        byte[] byteArray = this.getByteArrayMessage(nbrToRead);
         System.out.println("Arrived: " + new String(byteArray, 0, byteArray.length));
         return new String(byteArray,0,byteArray.length);
     }
 
     //sever side
+    /**
+     * Convert the next message on the stream as String[3]
+     * @return the files infos: (message received, folder evaluated client side, hash algorithm for hashing files client side)
+     * @throws IOException if there are problems reading on the stream or the header is not correct
+     */
     public String[] readAssetsDescription() throws IOException {
         JsonParser jsonParser = new JsonParser();
         String fromClient = this.getHeader();
@@ -154,6 +164,11 @@ public class Receiver {
         return new String[]{msg, folderPath, hashAlg};
     }
 
+    /**
+     * Convert the next message on the stream as string
+     * @return the next message arrived on the stream as String
+     * @throws IOException if there are problems reading on the stream or the header is not correct
+     */
     public String readMessage() throws IOException{
         JsonParser jsonParser = new JsonParser();
         String fromServer = this.getHeader();
@@ -164,6 +179,11 @@ public class Receiver {
         return this.readMessage(header.get("size").getAsInt());
     }
 
+    /**
+     * Convert the next message on the stream as AssetDescriptor
+     * @return the file information that i need inside a AssetDescriptor
+     * @throws IOException if there are problems reading on the stream or the header is not correct
+     */
     public AssetDescriptor getAssetDescriptor() throws IOException {
         JsonParser jsonParser = new JsonParser();
         String arrived = this.getHeader();
@@ -181,13 +201,16 @@ public class Receiver {
         return new AssetDescriptor(new ByteArrayInputStream(this.getByteArrayMessage(header.get("size").getAsInt())), header.get("name").getAsString());
     }
 
+    /**
+     * Closes the input stream
+     */
     public void close(){
         while (true){
             try{
                 this.inputStream.close();
                 break;
             }catch (IOException e){
-
+                //pass
             }
         }
     }
