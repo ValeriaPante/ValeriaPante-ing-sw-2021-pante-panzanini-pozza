@@ -7,6 +7,9 @@ import javafx.scene.control.Label;
 
 import java.io.IOException;
 
+/**
+ * Scene displaying the resource to choose from as an output of a production power
+ */
 public class ChooseOutputScene extends Initializable{
     private int chosen;
     private int toChoose;

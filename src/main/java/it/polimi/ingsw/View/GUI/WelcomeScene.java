@@ -14,6 +14,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Scene displaying game logo, where player can choose if to play online or offline
+ */
 public class WelcomeScene extends ObservableByGUI{
     private Pane root;
 

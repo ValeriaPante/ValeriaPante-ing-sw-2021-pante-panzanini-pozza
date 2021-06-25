@@ -8,6 +8,9 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 
+/**
+ * State indicating that the player chose to pick from market
+ */
 public class MarketState extends State{
 
     public MarketState(GUI gui){
@@ -28,12 +31,18 @@ public class MarketState extends State{
         toDo.add(containersScene);
     }
 
+    /**
+     * Moves to the next scene
+     */
     @Override
     public void next(){
         super.next();
         if(toDo.size() == 0) Transition.setOnContainersScene(true);
     }
 
+    /**
+     * Goes back to the previous scene
+     */
     @Override
     public void goBack(){
         if(done.size() == 0){
@@ -45,6 +54,9 @@ public class MarketState extends State{
         Platform.runLater(() -> Transition.setDialogScene(toDo.get(0).getRoot()));
     }
 
+    /**
+     * Updates the current scene
+     */
     @Override
     public void refresh() {
         done.get(0).initialise();

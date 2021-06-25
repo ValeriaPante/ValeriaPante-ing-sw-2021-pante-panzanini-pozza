@@ -3,6 +3,9 @@ package it.polimi.ingsw.View.GUI;
 import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
 import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
 
+/**
+ * Object that can provoke an action to be performed by GUI
+ */
 public abstract class ObservableByGUI {
     protected GUI observer;
 

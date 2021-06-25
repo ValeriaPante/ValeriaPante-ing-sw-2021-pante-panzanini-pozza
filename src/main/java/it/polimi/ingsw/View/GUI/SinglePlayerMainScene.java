@@ -16,6 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * Scene displaying the main panel with the board of the player (singleplayer case)
+ */
 public class SinglePlayerMainScene extends ObservableByGUI{
 
     private Pane root;

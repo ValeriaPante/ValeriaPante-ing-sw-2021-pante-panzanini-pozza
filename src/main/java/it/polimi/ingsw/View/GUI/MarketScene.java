@@ -14,6 +14,9 @@ import javafx.scene.shape.Circle;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Scene displaying the market
+ */
 public class MarketScene extends ObservableByGUI{
     private Pane root;
     private final ArrayList<Region> rowsAndColumns;

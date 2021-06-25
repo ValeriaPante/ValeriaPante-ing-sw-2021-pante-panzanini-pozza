@@ -10,6 +10,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+/**
+ * Scene that displays the slots from which player need to choose the one where he wants to put his development card
+ */
 public class DevSlotChoiceScene extends Initializable{
 
     public DevSlotChoiceScene(){

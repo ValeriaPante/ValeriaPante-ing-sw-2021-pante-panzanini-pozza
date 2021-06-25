@@ -5,6 +5,9 @@ import it.polimi.ingsw.View.ClientModel.SimplifiedPlayer;
 import it.polimi.ingsw.View.View;
 import it.polimi.ingsw.View.ClientModel.Game;
 
+/**
+ * Makes the right calls depending on the message received (visitor pattern)
+ */
 public class Visitor {
 
     private final View view;

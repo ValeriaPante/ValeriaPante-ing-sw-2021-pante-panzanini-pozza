@@ -10,7 +10,9 @@ import javafx.scene.layout.AnchorPane;
 import java.io.IOException;
 import java.util.*;
 
-
+/**
+ * Scenes displaying what he needs to pay and where he can select the resources for the payment
+ */
 public class PaymentScene extends Initializable{
     private HashMap<Resource, Integer> leaderStorages1;
     private final EnumMap<Resource, Integer> nextPosition1;

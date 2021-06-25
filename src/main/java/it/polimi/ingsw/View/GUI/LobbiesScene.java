@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Scene displaying all the lobbies that the player can enter
+ */
 public class LobbiesScene extends ObservableByGUI{
     private static final ArrayList<Integer> orderedLobbies = new ArrayList<>();
     private static Pane root;

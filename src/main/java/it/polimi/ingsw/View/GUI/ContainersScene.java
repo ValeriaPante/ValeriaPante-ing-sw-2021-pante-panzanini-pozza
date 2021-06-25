@@ -20,6 +20,9 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Scene displaying all the containers of resources from which is possible to move the resources
+ */
 public class ContainersScene extends Initializable{
 
     public ContainersScene(){

@@ -17,6 +17,9 @@ import javafx.scene.layout.Region;
 import java.io.IOException;
 import java.io.InputStream;
 
+/**
+ * Scenes displaying the resource to choose as initial resources
+ */
 public class InitialResourcesScene extends ObservableByGUI{
 
     private static int count;

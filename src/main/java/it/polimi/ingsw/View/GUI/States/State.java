@@ -6,12 +6,21 @@ import javafx.application.Platform;
 
 import java.util.ArrayList;
 
+/**
+ * Class that indicates the current state of the game
+ */
 public class State {
     protected ArrayList<Initializable> toDo;
     protected ArrayList<Initializable> done;
 
+    /**
+     * Goes back to the previous scene
+     */
     public void goBack(){ }
 
+    /**
+     * Moves to the next scene
+     */
     public void next(){
         if(toDo.size() == 0){
             Platform.runLater(Transition::hideDialog);
@@ -24,6 +33,9 @@ public class State {
         }
     }
 
+    /**
+     * Updates the current scene
+     */
     public void refresh(){ }
 
 }

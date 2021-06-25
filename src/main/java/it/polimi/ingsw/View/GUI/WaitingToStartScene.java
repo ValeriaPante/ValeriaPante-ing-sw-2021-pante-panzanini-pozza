@@ -9,6 +9,9 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
+/**
+ * Scene displaying the lobby the player is in and its updates
+ */
 public class WaitingToStartScene extends ObservableByGUI{
     private Pane root;
 

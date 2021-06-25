@@ -8,6 +8,9 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
+/**
+ * Scene where player needs to choose IP, port and username to start the game
+ */
 public class UsernameScene extends ObservableByGUI {
 
     private Pane root;

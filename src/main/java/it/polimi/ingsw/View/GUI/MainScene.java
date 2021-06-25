@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 
+/**
+ * Scene displaying the main panel with the boards of the players (multi-player case)
+ */
 public class MainScene extends ObservableByGUI{
     private Pane root;
     private static final double[][] positions = {

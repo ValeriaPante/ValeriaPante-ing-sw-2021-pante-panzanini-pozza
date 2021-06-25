@@ -5,6 +5,9 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
+/**
+ * Loading scene
+ */
 public class LoadingScene {
     private Pane root;
 

@@ -15,6 +15,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Scene where the player needs to choose how to transmute his white marbles
+ */
 public class TransmutationScene extends Initializable{
 
     public TransmutationScene(){

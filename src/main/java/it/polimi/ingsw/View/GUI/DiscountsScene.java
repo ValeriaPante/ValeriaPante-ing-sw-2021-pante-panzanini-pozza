@@ -12,6 +12,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Scene displaying leader cards of type discount, which can be chosen by the player to apply a discount
+ */
 public class DiscountsScene extends Initializable{
 
     public DiscountsScene(){

@@ -17,6 +17,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Scene displaying all the decks of development cards
+ */
 public class DevDecksScene extends ObservableByGUI{
     private Pane root;
     private static HashMap<Integer, Region> selection;

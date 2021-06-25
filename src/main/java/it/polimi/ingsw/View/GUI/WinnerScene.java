@@ -6,6 +6,9 @@ import javafx.scene.layout.Pane;
 
 import java.io.IOException;
 
+/**
+ * Scene displaying the winner of the game
+ */
 public class WinnerScene {
 
     private Pane root;

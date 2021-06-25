@@ -11,6 +11,9 @@ import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Graphic User Interface
+ */
 public class GUI extends Application implements View {
     private Game model;
     private MessageManager messageManager;
@@ -33,13 +36,26 @@ public class GUI extends Application implements View {
 
     }
 
+    /**
+     * Message Manager setter
+     * @param messageManager new message manager
+     */
     public void setMessageManager(MessageManager messageManager){
         this.messageManager = messageManager;
     }
+
+    /**
+     * Message Manager getter
+     * @return GUI Message Manager
+     */
     public MessageManager getMessageManager(){
         return this.messageManager;
     }
 
+    /**
+     * Updates the view of a lobby
+     * @param lobbyId number of lobby
+     */
     @Override
     public void updateLobbyState(int lobbyId) {
         Platform.runLater(() -> LobbiesScene.addLobby(lobbyId));
@@ -55,6 +71,10 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Removes a lobby from the list of lobbies
+     * @param lobbyId number of the lobby to remove
+     */
     @Override
     public void removeLobby(int lobbyId) {
         LobbiesScene.removeLobby(lobbyId);
@@ -63,6 +83,9 @@ public class GUI extends Application implements View {
         Platform.runLater(Transition::toLobbiesScene);
     }
 
+    /**
+     * Shows the scene displaying the leader cards to choose from at the start of the game
+     */
     @Override
     public void chooseLeaderCards() {
         LeaderCardScene leaderCardScene = new LeaderCardScene(this);
@@ -71,6 +94,9 @@ public class GUI extends Application implements View {
     }
 
 
+    /**
+     * Shows the scene displaying the choice of the initial resources
+     */
     @Override
     public void chooseInitialResources() {
         if(model.getLocalPlayerIndex() == 0){
@@ -83,6 +109,9 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Shows the main scene of the game
+     */
     @Override
     public void startGame() {
         gamePhase = 2;
@@ -97,6 +126,9 @@ public class GUI extends Application implements View {
 
     }
 
+    /**
+     * Shows a new dialog with the market inside
+     */
     public void showMarket() {
         if(actionDone){
             Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
@@ -111,6 +143,9 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Shows a new dialog with the development decks inside
+     */
     public void showDevDecks() {
         if(actionDone){
             Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
@@ -126,6 +161,9 @@ public class GUI extends Application implements View {
 
     }
 
+    /**
+     * Shows a new dialog with the production power that can be used
+     */
     public void activateProduction(){
         if(actionDone){
             Platform.runLater(() -> Transition.showErrorMessage("You already made your turn."));
@@ -142,6 +180,9 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Shows a new dialog with all the deposits where it is possible to move resources
+     */
     public void showDeposits(){
         ContainersScene containersScene = new ContainersScene();
         containersScene.addObserver(this);
@@ -154,6 +195,11 @@ public class GUI extends Application implements View {
         Platform.runLater(Transition::showDialog);
     }
 
+    /**
+     * Updates the faith marker
+     * @param playerId id of the player to which the change is associated
+     * @param pos new position
+     */
     @Override
     public void updatePositions(int playerId, int pos) {
         if(playerId == model.getLocalPlayerId()) toDoneState();
@@ -164,6 +210,11 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Updates the state of the pope favour cards
+     * @param playerId id of the player to which the change is associated
+     * @param states new states
+     */
     @Override
     public void updatePopeFavourCard(int playerId, PopeFavorCardState[] states) {
         if(model.getNumberOfPlayers() > 1){
@@ -173,6 +224,10 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Updates the strongbox
+     * @param playerId id of the player to which the change is associated
+     */
     @Override
     public void updateStrongbox(int playerId) {
         if(playerId == model.getLocalPlayerId()) toDoneState();
@@ -184,6 +239,11 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Updates a shelf
+     * @param playerId id of the player to which the change is associated
+     * @param numShelf number of shelf
+     */
     @Override
     public void updateShelves(int playerId, int numShelf) {
         if(playerId == model.getLocalPlayerId()) toDoneState();
@@ -196,6 +256,10 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Updates the support container
+     * @param playerId id of the player to which the change is associated
+     */
     @Override
     public void updateSupportContainer(int playerId) {
         if(Transition.isOnContainersScene()) this.showDeposits();
@@ -207,6 +271,11 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Updates leader storage
+     * @param playerId id of the player to which the change is associated
+     * @param cardId id of the leader card with storage ability
+     */
     @Override
     public void updateLeaderStorage(int playerId, int cardId) {
         if(playerId == getModel().getLocalPlayerId()) toDoneState();
@@ -218,6 +287,11 @@ public class GUI extends Application implements View {
 
     }
 
+    /**
+     * Activates a leader card
+     * @param playerId id of the player to which the change is associated
+     * @param cardId id of the leader card to activate
+     */
     @Override
     public void activateLeaderCard(int playerId, int cardId) {
         if(playerId == model.getLocalPlayerId()) ProductionScene.setActiveLeaderCard(cardId);
@@ -228,6 +302,11 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Discards a leader card
+     * @param playerId id of the player to which the change is associated
+     * @param cardId id of the leader card to discard
+     */
     @Override
     public void discardLeaderCard(int playerId, int cardId) {
         if(playerId == model.getLocalPlayerId()) ProductionScene.removeDiscardedLeaderCard(cardId);
@@ -239,6 +318,12 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Adds a new card in a slot
+     * @param playerId id of the player to which the change is associated
+     * @param cardId id of the new card
+     * @param slot number of slot
+     */
     @Override
     public void addDevCardInSlot(int playerId, int cardId, int slot) {
         if(playerId == model.getLocalPlayerId()){
@@ -258,6 +343,10 @@ public class GUI extends Application implements View {
         }
     }
 
+    /**
+     * Updates teh inkwell indicating whose turn is this
+     * @param playerId id of the player in turn
+     */
     @Override
     public void nextTurn(int playerId) {
         if(gamePhase == 0 && playerId == model.getLocalPlayerId()) this.chooseLeaderCards();
@@ -265,23 +354,37 @@ public class GUI extends Application implements View {
         else if(gamePhase > 1 && model.getNumberOfPlayers() > 1) Platform.runLater(() -> Transition.nextTurn(model.getPlayerIndex(playerId), model.getNumberOfPlayers(), playerId == model.getLocalPlayerId()));
     }
 
+
     @Override
     public void startInitialisation(){
 
     }
 
+    /**
+     * Shows the winner
+     * @param winnerId id of the player to which the change is associated
+     */
     @Override
     public void showWinner(int winnerId) {
         Platform.runLater(() -> Transition.setWinnerScene(new WinnerScene(model.getPlayerFromId(winnerId).getUsername()+" (id: "+winnerId+")")));
         Platform.runLater(Transition::toWinnerScene);
     }
 
+    /**
+     * Shows a new error
+     * @param message message to show
+     */
     @Override
     public void showErrorMessage(String message) {
         Platform.runLater(() -> Transition.showErrorMessage(message));
         if(currentState != null) Platform.runLater(() -> currentState.goBack());
     }
 
+    /**
+     * Deselects a wrong selection
+     * @param message message to show
+     * @param cardId id of the card to deselect
+     */
     @Override
     public void showSelectionError(String message, int cardId){
         Platform.runLater(() -> Transition.showErrorMessage(message));

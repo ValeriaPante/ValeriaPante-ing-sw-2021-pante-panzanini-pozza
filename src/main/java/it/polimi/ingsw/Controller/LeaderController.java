@@ -7,13 +7,20 @@ import it.polimi.ingsw.Enums.MacroTurnType;
 
 import java.util.*;
 
+/**
+ * Controller that manages the request of activation or discarding of a leader card by a player
+ */
 public class LeaderController extends SelectionController{
 
     public LeaderController(FaithTrackController ftc) {
         super(ftc);
     }
 
-    //attiva/scarta la carta
+    /**
+     * Makes an action (discard or activate) on a leader card if possibile, otherwise sets an error message
+     * @param id chosen leader card id
+     * @param discard indicates whether the card is to discard (true) or to activate (false)
+     */
     public void actionOnLeaderCard(int id, Boolean discard) {
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
@@ -33,12 +40,23 @@ public class LeaderController extends SelectionController{
         } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
+
+    /**
+     * Checks leader card requirements if the player wants to activate it
+     * @param leaderCardForAction leader card to activate
+     * @return true if the player satisfies all requirements, false otherwise
+     */
     private boolean checkRequirements(LeaderCard leaderCardForAction){
         return checkResourceReq(leaderCardForAction) && checkDevCardTypeReq(leaderCardForAction);
     }
 
+
+    /**
+     * Checks leader card requirements on the resources owned by the player
+     * @param leaderCardForAction leader card to activate
+     * @return true if the player satisfies all resource requirements, false otherwise
+     */
     private boolean checkResourceReq(LeaderCard leaderCardForAction){
-        // prende il contenuto che hai da tutti
         Depot allResourceOwned = new Depot();
 
         allResourceOwned.addEnumMap(table.turnOf().getResourcesOwned());
@@ -46,6 +64,12 @@ public class LeaderController extends SelectionController{
         return allResourceOwned.contains(leaderCardForAction.getResourceReq());
     }
 
+
+    /**
+     * Checks leader card requirements on the type of development card owned by the player
+     * @param leaderCardForAction leader card to activate
+     * @return true if the player satisfies all development card type requirements, false otherwise
+     */
     private boolean checkDevCardTypeReq(LeaderCard leaderCardForAction){
         boolean devCardReq = true;
         if(!leaderCardForAction.getDevCardReq().isEmpty()){

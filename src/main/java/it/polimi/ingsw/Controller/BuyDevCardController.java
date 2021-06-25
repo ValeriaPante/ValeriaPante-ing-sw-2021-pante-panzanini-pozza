@@ -17,14 +17,33 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Map;
 
+
+/**
+ * Controller that manages the process of buying a new development card
+ */
 public class BuyDevCardController extends CardActionController{
     private final ArrayList<Integer> appliedDiscounts;
 
+    /**
+     * Controller constructor
+     * @param ftc controller that manages actions on the faith track
+     */
     public BuyDevCardController(FaithTrackController ftc){
         super(ftc);
         appliedDiscounts = new ArrayList<>();
     }
 
+
+    /**
+     * Selects the card on top of the chosen deck if possible (if a card had been chosen before, it will be deselected);
+     * sets an error message in the following cases:
+     * - player has alredy made his turn
+     * - chosen number of deck doesn't exist
+     * - chosen deck is empty
+     * - there is no available slot to contain the card
+     * - player doesn't own the required resources to buy the card
+     * @param chosenDeck number of deck from which the player chose to buy the card on top
+     */
     public void chooseDevCard(int chosenDeck){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
@@ -37,12 +56,10 @@ public class BuyDevCardController extends CardActionController{
                     } else if(!isAffordableSomehow(table.getDevDecks()[chosenDeck - 1].getTopCard().getCost())){
                         table.turnOf().setErrorMessage("You can't buy this card, you don't have enough resources. ");
                     }else {
-                        //deseleziona un eventuale deck che era stato selezionato prima
                         for(DevDeck deck: table.getDevDecks()){
                             if(deck.getTopCard().isSelected())
                                 deck.selectTopCard();
                         }
-                        //seleziona deck scelto
                         table.getDevDecks()[chosenDeck - 1].selectTopCard();
                     }
                 } else {
@@ -54,6 +71,12 @@ public class BuyDevCardController extends CardActionController{
         } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
+
+    /**
+     * Checks if the player can place the chosen card on one of his slots
+     * @param card chosen card
+     * @return true if he can place the card, false otherwise
+     */
     private boolean atLeastOneDevSlotIsAvailable(DevCard card){
         boolean result = false;
         for(int i = 0; i < table.turnOf().getDevSlots().length; i++)
@@ -61,6 +84,10 @@ public class BuyDevCardController extends CardActionController{
         return result;
     }
 
+    /**
+     * Checks if the player had already chose a card
+     * @return true if a selection had already been made, false otherwise
+     */
     private boolean thereIsASelection(){
         for(DevDeck deck: table.getDevDecks()){
             if(deck.getTopCard().isSelected())
@@ -69,6 +96,10 @@ public class BuyDevCardController extends CardActionController{
         return false;
     }
 
+    /**
+     * Makes effective the choice of buying the selected development card
+     * sets an error in case player hasn't the previous step in the process of buying a new development card
+     */
     public void buyDevCard(){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
@@ -87,6 +118,17 @@ public class BuyDevCardController extends CardActionController{
         } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
+
+    /**
+     * Applies the discount of a leader card chosen by the player;
+     * sets an error message in the following cases:
+     * - player doesn't own that card
+     * - player didn't activate the card
+     * - chosen card has not a discount ability
+     * - player has already made his turn
+     * - player hasn't the previous step in the process of buying a new development card
+     * @param id chosen leader card id
+     */
     public void applyDiscountAbility(int id){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
@@ -117,6 +159,12 @@ public class BuyDevCardController extends CardActionController{
         } else table.turnOf().setErrorMessage("You can't do this action");
     }
 
+    /**
+     * Selects a resource from a shelf
+     * @param resType type of resource to select
+     * @param numberOfShelf number of shelf to select from
+     * @return true if the selection was successfully made, false otherwise
+     */
     public boolean selectionFromShelf(Resource resType, int numberOfShelf){
         if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
             selectFromShelf(resType, numberOfShelf);
@@ -125,6 +173,13 @@ public class BuyDevCardController extends CardActionController{
         return false;
     }
 
+    /**
+     * Selects a resource from a leader card with storage ability
+     * @param resType type of resource to select
+     * @param serial id of the leader card with storage ability
+     * @param resPosition position of the resource inside the storage
+     * @return true if the selection was successfully made, false otherwise
+     */
     public boolean selectionFromLeaderStorage(Resource resType, int serial, int resPosition){
         if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
             selectFromLeaderStorage(resType, serial, resPosition);
@@ -133,6 +188,12 @@ public class BuyDevCardController extends CardActionController{
         return false;
     }
 
+    /**
+     * Selects a resource from the strongbox
+     * @param resType type of resource to select
+     * @param quantity quantity of the chosen resource to select
+     * @return true if the selection was successfully made, false otherwise
+     */
     public boolean selectionFromStrongBox(Resource resType, int quantity){
         if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
             selectFromStrongBox(resType, quantity);
@@ -141,6 +202,12 @@ public class BuyDevCardController extends CardActionController{
         return false;
     }
 
+    /**
+     * Deselects a resource from a shelf
+     * @param resType type of resource to deselect
+     * @param numberOfShelf number of shelf to deselect from
+     * @return true if the deselection was successfully made, false otherwise
+     */
     public boolean deselectionFromShelf(Resource resType, int numberOfShelf){
         if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP) {
             deselectFromShelf(resType, numberOfShelf);
@@ -149,6 +216,12 @@ public class BuyDevCardController extends CardActionController{
         return false;
     }
 
+    /**
+     * Deselects a resource from the strongbox
+     * @param resType type of resource to deselect
+     * @param quantity quantity of the chosen resource to deselect
+     * @return true if the deselection was successfully made, false otherwise
+     */
     public boolean deselectionFromStrongBox(Resource resType, int quantity){
         if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
             deselectFromStrongBox(resType, quantity);
@@ -157,6 +230,13 @@ public class BuyDevCardController extends CardActionController{
         return false;
     }
 
+    /**
+     * Makes effective the payment of the selected resources;
+     * sets an error message int he following cases:
+     * - the total selection doesn't match the cost of the card
+     * - player has already made his turn
+     * - player hasn't the previous step in the process of buying a new development card
+     */
     public void paySelected(){
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();
@@ -179,7 +259,10 @@ public class BuyDevCardController extends CardActionController{
     }
 
 
-    //controlla che le risorse selezionate siano uguali al costo della carta
+    /**
+     * Checks if the total selection of resources to pay matches the cost of the chosen card
+     * @return true if the selection matches the cost, false otherwise
+     */
     private boolean isEnough(){
         Depot temp = new Depot();
         EnumMap<Resource, Integer> tempMap = new EnumMap<>(Resource.class);
@@ -208,6 +291,16 @@ public class BuyDevCardController extends CardActionController{
 
     }
 
+    /**
+     * Puts the bought card on top of the chosen slot;
+     * sets an error message in the following cases:
+     * - player has already made his turn
+     * - player hasn't the previous step in the process of buying a new development card
+     * - the chosen slot can't contain the bought card
+     * - number of slot is wrong
+     * @param numberOfSlot number of the slot to put the card onto
+     * @throws GameOver when player bought his 7th card (in this case the game must end)
+     */
     public void chooseDevSlot(int numberOfSlot) throws GameOver {
         table.turnOf().clearErrorMessage();
         table.clearBroadcastMessage();

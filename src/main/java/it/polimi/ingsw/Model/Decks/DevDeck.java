@@ -13,10 +13,18 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Representation of development deck
+ */
 public class DevDeck implements Deck{
     private List<DevCard> deck;
     private final DevCardType type;
 
+    /**
+     * Constructs the deck from a JSON file
+     * @param t type of all the card contained in the deck
+     * @throws IllegalArgumentException if the type is null or its attributes are not allowed
+     */
     public DevDeck(DevCardType t) throws IllegalArgumentException{
         deck = new ArrayList<>();
         type = new DevCardType(t.getLevel(), t.getColor());
@@ -73,29 +81,56 @@ public class DevDeck implements Deck{
         Collections.shuffle(deck);
     }
 
+    /**
+     * Type of the deck getter
+     * @return type (color-level) of the deck
+     */
     public DevCardType getType(){
         return new DevCardType(type.getLevel(), type.getColor());
     }
 
+    /**
+     * Shuffles the deck
+     */
     @Override
     public void shuffle() {
         Collections.shuffle(deck);
     }
 
+    /**
+     * Draws a card from the deck
+     * @return development card on top of the deck
+     */
     public DevCard draw() {
         return deck.remove(0);
     }
 
+    /**
+     * Top card of the deck
+     * @return a copy of the development card on top of the deck
+     */
     public DevCard getTopCard(){
         return this.deck.get(0).clone();
     }
 
+    /**
+     * Checks if the deck is empty
+     * @return true if the deck is empty, false otherwise
+     */
     public boolean isEmpty(){
         return this.deck.isEmpty();
     }
 
+    /**
+     * Size of the deck getter
+     * @return number of card contained by the deck
+     */
     public int size(){ return this.deck.size(); }
 
+    /**
+     * Selects top card of the deck
+     * @throws IndexOutOfBoundsException if the deck is empty
+     */
     public void selectTopCard() throws IndexOutOfBoundsException{
         deck.get(0).select();
     }

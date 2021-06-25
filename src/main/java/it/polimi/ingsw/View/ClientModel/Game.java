@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/**
+ * Simplified model of the game
+ */
 public class Game {
     private Resource[][] grid;
     private Resource slide;

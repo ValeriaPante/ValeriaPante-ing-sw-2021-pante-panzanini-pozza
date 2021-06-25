@@ -13,9 +13,15 @@ import java.io.InputStreamReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Representaion of Leader Deck
+ */
 public class LeaderDeck implements Deck{
     private final List<LeaderCard> deck;
 
+    /**
+     * Constucts a leader deck from a JSON file
+     */
     public LeaderDeck() {
         deck = new ArrayList<>();
 
@@ -82,11 +88,18 @@ public class LeaderDeck implements Deck{
         }
     }
 
+    /**
+     * Shuffles the deck
+     */
     @Override
     public void shuffle() {
         Collections.shuffle(deck);
     }
 
+    /**
+     * Draws from the deck
+     * @return Leader Card on top of the deck
+     */
     public LeaderCard draw() {
         return deck.remove(0);
     }

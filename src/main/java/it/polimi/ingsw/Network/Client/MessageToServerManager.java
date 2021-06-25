@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Objects;
 
 /**
- *
+ * Manages the messages from/to the player in an online game
  */
 public class MessageToServerManager implements Runnable, MessageManager{
 
@@ -33,7 +33,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
 
     /**
      * Constructor
-     * @param view objects that implements View interface
+     * @param view view modality chosen by the player
      */
     public MessageToServerManager(View view){
         this.visitor = new Visitor(view);
@@ -41,12 +41,21 @@ public class MessageToServerManager implements Runnable, MessageManager{
         this. parser = new JsonParser();
     }
 
-    //ritorna true se la partita è finita
+    /**
+     * Applicates the changes deriving from the message received
+     * @param input message received through the internet
+     * @return true if a message of game over has been received, false otherwise
+     */
     private boolean convertInput(String input){
         FromServerMessage message = interpret(input);
         return message.visit(visitor);
     }
 
+    /**
+     * Converts the string received from internet in a message
+     * @param input string received from internet
+     * @return the interpreted message
+     */
     private FromServerMessage interpret(String input){
         FromServerMessage result = null;
 
@@ -148,6 +157,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
                     //connessione caduta
                 }
             }
+
             fromServer.close();
             toServer.close();
         }

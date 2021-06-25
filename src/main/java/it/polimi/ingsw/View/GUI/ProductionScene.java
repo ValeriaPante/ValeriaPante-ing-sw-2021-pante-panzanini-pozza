@@ -14,6 +14,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Scene displaying all the production powers that the player can activate clicking on them
+ * and the resources he needs to select as input of the powers
+ */
 public class ProductionScene extends PaymentScene{
     private static final int[] devCardOnTop = new int[5];
     private static Node[] ticks = new Node[6];

@@ -5,6 +5,9 @@ import it.polimi.ingsw.Enums.Resource;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Simplified model of the player
+ */
 public class SimplifiedPlayer {
     private String username;
     private HashMap<Integer, Resource[]> leaderStorages = new HashMap<>();

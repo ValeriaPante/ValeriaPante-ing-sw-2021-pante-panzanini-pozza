@@ -3,6 +3,9 @@ package it.polimi.ingsw.View;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.View.ClientModel.Game;
 
+/**
+ * View of the game
+ */
 public interface View {
 
     void updateLobbyState(int lobbyId);

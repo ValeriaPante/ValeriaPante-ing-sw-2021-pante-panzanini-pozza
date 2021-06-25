@@ -11,6 +11,9 @@ import javafx.scene.layout.Pane;
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Scene displaying initial leader cards from which the player needs to choose
+ */
 public class LeaderCardScene extends ObservableByGUI{
 
     private Pane root;
