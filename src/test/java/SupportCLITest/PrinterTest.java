@@ -1,5 +1,6 @@
 package SupportCLITest;
 
+import it.polimi.ingsw.Enums.ActionTokenType;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Model.Deposit.Market;
@@ -188,6 +189,14 @@ public class PrinterTest {
         model.getPlayerFromId(0).removeLeaderCard(53);
         printer.inGamePrintRequest("LEADER CARDS");
         System.out.println("\n-----------------------------------------------------");
+
+        printer.notifyActionTokenDraw(ActionTokenType.DISCARDBLUE);
+        printer.notifyActionTokenDraw(ActionTokenType.DISCARDGREEN);
+        printer.notifyActionTokenDraw(ActionTokenType.DISCARDPURPLE);
+        printer.notifyActionTokenDraw(ActionTokenType.DISCARDYELLOW);
+        printer.notifyActionTokenDraw(ActionTokenType.RESETDECKONEFP);
+        printer.notifyActionTokenDraw(ActionTokenType.TWOFP);
+        System.out.println("\n-----------------------------------------------------");
     }
 
     @Test
@@ -222,6 +231,10 @@ public class PrinterTest {
 
         printer.notifyTurnChanged(1);
         System.out.println("\n");
+
+
+        printer.inGamePrintRequest("USERNAMES");
+        System.out.println("\n-----------------------------------------------------");
 
 
         printer.inGamePrintRequest("FAITH TRACK");

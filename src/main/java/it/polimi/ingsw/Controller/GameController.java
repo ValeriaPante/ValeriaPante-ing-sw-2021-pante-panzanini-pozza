@@ -30,7 +30,6 @@ public class GameController extends CertifiedResourceUsage{
         startGame();
     }
 
-    //allInOne is about card handling to players
     private void startGame(){
         this.table = new Table(players.size());
         this.faithTrackController = new FaithTrackController(table);
@@ -67,9 +66,10 @@ public class GameController extends CertifiedResourceUsage{
                 card = lc;
             }
 
-        if (!ownCard)
-            //Error message: "Wrong selection"
+        if (!ownCard){
+            table.turnOf().setErrorMessage("Wrong selection, you do not own a leader card with such id!");
             return;
+        }
 
         player.discardLeaderCard(card);
 
@@ -90,20 +90,21 @@ public class GameController extends CertifiedResourceUsage{
     }
 
     public void selectResource(int capacityShelf1, Resource resType1){
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.CHOOSE_RESOURCES){
+            table.turnOf().setErrorMessage("Invalid command");
+            return;
+        }
+
         if(!super.getLegalResource(resType1)){
             table.turnOf().setErrorMessage("Illegal resource type selected");
             return;
         }
 
-        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES){
-            //Error message: "Invalid command"
+        if ((capacityShelf1 > 3) || (capacityShelf1 < 1)){
+            table.turnOf().setErrorMessage("Bad shelf selection");
             return;
         }
 
-
-        if ((capacityShelf1 > 3) || (capacityShelf1 < 1))
-            //Error message: "Bad shelf selection"
-            return;
 
         if ((table.getPlayers().length == 4) && (table.turnOf() == table.getPlayers()[3])){
             int placedResources = 0;
@@ -120,18 +121,21 @@ public class GameController extends CertifiedResourceUsage{
                         if (s.isEmpty()) {
                             for (Shelf s1 : table.turnOf().getShelves())
                                 if ((s1 != s) && (!s1.isEmpty())) {
-                                    if (s1.getResourceType() == resType1)
-                                        //Error message: "Resource already contained in another shelf"
+                                    if (s1.getResourceType() == resType1){
+                                        table.turnOf().setErrorMessage("Resource already contained in another shelf");
                                         return;
+                                    }
                                 }
                         } else {
-                            if (s.getResourceType() != resType1)
-                                //Error message: "Cannot place the resource here"
+                            if (s.getResourceType() != resType1){
+                                table.turnOf().setErrorMessage("Cannot place the resource here");
                                 return;
+                            }
 
-                            if (s.getCapacity() == 1)
-                                //Error message: "Selected shelf cannot contain that resource"
+                            if (s.getCapacity() == 1){
+                                table.turnOf().setErrorMessage("Selected shelf cannot contain that resource");
                                 return;
+                            }
                         }
                         s.singleAdd(resType1);
                     }
@@ -158,9 +162,8 @@ public class GameController extends CertifiedResourceUsage{
             if(table.getPlayers()[table.getPlayers().length - 1].equals(table.turnOf())){
                 for (RealPlayer player : table.getPlayers())
                     player.sendMessage(new StartMessage());
-            } else {
-                table.nextTurn();
             }
+            table.nextTurn();
         }
     }
     
