@@ -166,19 +166,24 @@ public class GameController extends CertifiedResourceUsage{
             table.nextTurn();
         }
     }
-    
-    //End turn
-    //--------------------------------------------------------------------------------------------
+
+
+    /**
+     * Changes turn and checks if the game endend;
+     * in case the game is single-player, it also makes Lorenzo Il Magnifico's move
+     */
     public void endTurn(){
-        if (table.turnOf().getMacroTurnType() != MacroTurnType.DONE)
-            //Error message "Cannot skip turn"
+        if (table.turnOf().getMacroTurnType() != MacroTurnType.DONE){
+            table.turnOf().setErrorMessage("Cannot skip turn");
             return;
+        }
 
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
         table.turnOf().setMicroTurnType(MicroTurnType.NONE);
         table.nextTurn();
         if(table.isSinglePlayer() && !table.isLastLap()){
             playActionToken(table.getLorenzo().getActionTokenDeck().draw());
+            //msg (al single player): LorenzoTurnMessage(actionTokenType scartato)
             if(anEntireLineIsEmpty()){
                 table.setLastLap();
             }
@@ -188,13 +193,15 @@ public class GameController extends CertifiedResourceUsage{
             endGame();
     }
 
+    /**
+     * Finds the winner and sends it to the players
+     */
     public void endGame(){
         if(table.isSinglePlayer()){
             if(anEntireLineIsEmpty() || table.getFaithTrack().finished(table.getLorenzo().getPosition()))
                 table.addWinner(table.getLorenzo());
             else{
                 table.addWinner(table.getPlayers()[0]);
-                calculatePoints(table.getPlayers()[0]); //dove li memorizziamo i punti fatti?
             }
         } else {
             int maxPoints = 0;
@@ -211,29 +218,32 @@ public class GameController extends CertifiedResourceUsage{
                 }
             }
         }
+
+        //msg(a tutti): WinnerMessage(id del vincitore)
+        //nel table c'è una arraylist di vincitori, tu manda solo quello in cima alla lista
     }
 
+    /**
+     * Calculate the total points scored by a player and his total resources
+     * @param player the player whose points are being calculated
+     * @return array of integers containing the total points and the number of resources
+     */
     private int[] calculatePoints(RealPlayer player){
         int sum = 0;
 
-        //victory points from dev card
         for(DevSlot slot: player.getDevSlots())
             sum += slot.totalPoints();
 
-        //victory points from faith track
         sum += table.getFaithTrack().victoryPoints(player.getPosition());
 
-        //vp from pope favor cards
         for(PopeFavorCard card: player.getPopeFavorCards())
             if(card.getState() == PopeFavorCardState.FACEUP)
                 sum += card.getVictoryPoints();
 
-        //vp from resources
         int totalResources = player.getStrongBox().countAll();
         for(Shelf shelf: player.getShelves())
             totalResources += shelf.getUsage();
 
-        //vp from leader cards
         for(LeaderCard card: player.getLeaderCards())
             if(card.hasBeenPlayed()){
                 sum += card.getVictoryPoints();
@@ -247,6 +257,10 @@ public class GameController extends CertifiedResourceUsage{
         return new int[]{sum, totalResources};
     }
 
+    /**
+     * Applies the effect of an Action Token
+     * @param token Action Token that has been drawn
+     */
     private void playActionToken(ActionToken token){
         switch (token.getType()){
             case TWOFP:
@@ -271,6 +285,10 @@ public class GameController extends CertifiedResourceUsage{
         }
     }
 
+    /**
+     * Discards 2 development cards of a certain color
+     * @param color integer indicating the color of the development cards to discard
+     */
     private void discardDevCards(int color){
         int cardsToDiscard = 2;
         int level = 0;
@@ -289,6 +307,10 @@ public class GameController extends CertifiedResourceUsage{
         }
     }
 
+    /**
+     * Checks if all the decks of the same color are empty
+     * @return true if all the decks of the same color are empty, false otherwise
+     */
     private boolean anEntireLineIsEmpty(){
         for(int i = 0; i < 4; i++){
             if (getLineOfDecks(i).isEmpty()) return true;
@@ -296,6 +318,11 @@ public class GameController extends CertifiedResourceUsage{
         return false;
     }
 
+    /**
+     * Line of decks of the same color getter
+     * @param color integer indicating a color
+     * @return a list of decks of the same color
+     */
     private ArrayList<DevDeck> getLineOfDecks(int color){
         ArrayList<DevDeck> lineOfDecks = new ArrayList<>();
         lineOfDecks.add(table.getDevDecks()[color]);

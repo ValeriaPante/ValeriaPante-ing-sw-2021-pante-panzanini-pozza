@@ -145,12 +145,12 @@ public class BuyDevCardController extends CardActionController{
                             toBePaid.remove(entry.getKey());
 
                     table.turnOf().getSupportContainer().clear();
+                    table.turnOf().getSupportContainer().addEnumMap(toBePaid);
+                    //msg (a tutti): ChangedSupportContainer(id player di turno, hashmap contenuto) (come riga 113)
+
                     if(toBePaid.isEmpty()){
                         table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);
-                    } else {
-                        table.turnOf().getSupportContainer().addEnumMap(toBePaid);
                     }
-
                 } catch (WrongLeaderCardType e){
                     table.turnOf().setErrorMessage("This Leader Card has not a discount ability. ");
                 }
@@ -315,8 +315,10 @@ public class BuyDevCardController extends CardActionController{
             if(chosenDeck != null){
                 try {
                     table.turnOf().getDevSlots()[numberOfSlot - 1].addCard(chosenDeck.getTopCard());
+                    //msg (a tutti): NewDevCardMessage(id player di turno, id carta comprata, numero dello slot in cui è stata messa)
                     chosenDeck.selectTopCard();
                     chosenDeck.draw();
+                    //msg (a tutti): NewTopCardMessage(id della nuova carta in cima al mazzo, numero del mazzo da cui è stato fatto draw)
                     table.turnOf().setMicroTurnType(MicroTurnType.NONE);
                     table.turnOf().setMacroTurnType(MacroTurnType.DONE);
                     appliedDiscounts.clear();
