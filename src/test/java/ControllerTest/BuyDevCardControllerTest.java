@@ -1,5 +1,6 @@
 package ControllerTest;
 
+import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Model.Cards.DevCardType;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Controller.BuyDevCardController;
@@ -201,5 +202,41 @@ public class BuyDevCardControllerTest {
 
         for(EnumMap.Entry<Resource, Integer> entry: cost.entrySet())
             assertEquals(50 - entry.getValue() + 1, table.turnOf().getStrongBox().content().get(entry.getKey()));
+    }
+
+    @Test
+    public void testsSelection(){
+        Table table = new Table(2);
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+
+        EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
+        resourceOwned.put(Resource.SERVANT, 50);
+        resourceOwned.put(Resource.COIN, 50);
+        resourceOwned.put(Resource.SHIELD, 50);
+        resourceOwned.put(Resource.STONE, 50);
+
+        table.turnOf().getStrongBox().addEnumMap(resourceOwned);
+
+        FaithTrackController ftc = new FaithTrackController(table);
+        BuyDevCardController controller = new BuyDevCardController(ftc);
+
+        assertFalse(controller.selectionFromShelf(Resource.COIN, 1));
+        assertFalse(controller.selectionFromStrongBox(Resource.COIN,2));
+        assertFalse(controller.deselectionFromShelf(Resource.COIN, 1));
+        assertFalse(controller.deselectionFromStrongBox(Resource.COIN, 1));
+        assertFalse(controller.selectionFromLeaderStorage(Resource.COIN, 56, 1));
+
+        controller.chooseDevCard(1);
+        table.turnOf().setMacroTurnType(MacroTurnType.BUY_NEW_CARD);
+        table.turnOf().setMicroTurnType(MicroTurnType.SETTING_UP);
+        assertTrue(controller.selectionFromShelf(Resource.COIN, 1));
+        assertTrue(controller.selectionFromStrongBox(Resource.COIN,2));
+        assertTrue(controller.deselectionFromShelf(Resource.COIN, 1));
+        assertTrue(controller.deselectionFromStrongBox(Resource.COIN, 1));
+        assertTrue(controller.selectionFromLeaderStorage(Resource.COIN, 56, 1));
+
+
     }
 }
