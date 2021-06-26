@@ -143,7 +143,7 @@ public class GameControllerTest {
         RealPlayer player2 = multiGameController.getTable().getPlayers()[1];
         RealPlayer player3 = multiGameController.getTable().getPlayers()[2];
         RealPlayer player4 = multiGameController.getTable().getPlayers()[3];
-//        assertEquals(player3.getPosition(), 0);
+        assertEquals(player3.getPosition(), 0);
         multiGameController.discardLeaderCard(player1.getLeaderCards()[2].getId());
         multiGameController.discardLeaderCard(player1.getLeaderCards()[2].getId());
         multiGameController.discardLeaderCard(player2.getLeaderCards()[2].getId());
@@ -169,11 +169,11 @@ public class GameControllerTest {
         assertEquals(Resource.COIN, player2.getShelves()[1].getResourceType());
         assertEquals(1, player2.getShelves()[1].getUsage());
         assertEquals(player3, multiGameController.getTable().turnOf());
-//        assertEquals(player3.getPosition(), 0);
+        assertEquals(player3.getPosition(), 0);
         multiGameController.selectResource(1, Resource.COIN);
         assertEquals(Resource.COIN, player3.getShelves()[0].getResourceType());
         assertEquals(1, player3.getShelves()[0].getUsage());
-//        assertEquals(player3.getPosition(), 1);
+        assertEquals(player3.getPosition(), 1);
         assertEquals(player4, multiGameController.getTable().turnOf());
         multiGameController.selectResource(1, Resource.COIN);
         multiGameController.selectResource(2, Resource.COIN);
@@ -183,7 +183,7 @@ public class GameControllerTest {
         multiGameController.selectResource(2, Resource.SHIELD);
         assertEquals(1, player4.getShelves()[0].getUsage());
         assertEquals(1, player4.getShelves()[1].getUsage());
-//        assertEquals(player4.getPosition(), 1);
+        assertEquals(player4.getPosition(), 1);
         assertEquals(Resource.COIN, player4.getShelves()[0].getResourceType());
         assertEquals(Resource.SHIELD, player4.getShelves()[1].getResourceType());
         assertEquals(player1, multiGameController.getTable().turnOf());
@@ -195,6 +195,8 @@ public class GameControllerTest {
         assertEquals(MicroTurnType.NONE, player2.getMicroTurnType());
         assertEquals(MicroTurnType.NONE, player3.getMicroTurnType());
         assertEquals(MicroTurnType.NONE, player4.getMicroTurnType());
+        assertEquals(player2.getPosition(), 0);
+        assertEquals(player1.getPosition(), 0);
 
         multiGameController = new GameController(multiPlayerLobby);
         player1 = multiGameController.getTable().getPlayers()[0];

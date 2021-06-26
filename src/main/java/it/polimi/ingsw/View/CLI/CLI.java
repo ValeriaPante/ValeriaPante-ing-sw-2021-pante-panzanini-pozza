@@ -191,8 +191,7 @@ public class CLI extends Observable implements View, Runnable{
     @Override
     public void startGame() {
         executor.execute(() -> {
-            turnState = (model.getPLayersID().get(0) == model.getLocalPlayerId() ? 2 : 3);
-//            turnState = (model.getLocalPlayerIndex() == 1 ? 2 : 3);
+            turnState = 2;
             printer.gameStarted();
         });
     }
