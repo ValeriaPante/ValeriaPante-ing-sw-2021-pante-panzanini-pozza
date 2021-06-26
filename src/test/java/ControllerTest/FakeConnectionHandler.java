@@ -9,6 +9,8 @@ import it.polimi.ingsw.Network.Server.MessageSenderInterface;
 
 public class FakeConnectionHandler implements MessageSenderInterface {
 
+    private int id;
+
     @Override
     public void send(FromServerMessage message) {
         if (message instanceof InitMessage)
@@ -23,11 +25,13 @@ public class FakeConnectionHandler implements MessageSenderInterface {
 
     @Override
     public int getId() {
-        return 0;
+        return this.id;
     }
 
     @Override
-    public void setId(int id) {}
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Override
     public void setRequestHandler(RequestHandler requestHandler) {}
