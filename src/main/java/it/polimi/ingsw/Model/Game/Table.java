@@ -60,6 +60,7 @@ public class Table {
         this.faithTrack = new FaithTrack();
         this.initialiseDevDecks();
         this.broadcastMessage = null;
+        this.winner = new ArrayList<>();
     }
 
     public void setLastLap(){
