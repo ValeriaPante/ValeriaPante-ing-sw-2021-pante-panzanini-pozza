@@ -31,7 +31,7 @@ public class FaithTrackControllerMultiTest {
     @Test
     @DisplayName("Player of turn move forward without relation being activated")
     public void movePlayerOfTurnCase1(){
-        this.faithTrackController.movePlayerOfTurn(4);
+        this.faithTrackController.movePlayerOfTurn(5);
 
         assertEquals(this.table.turnOf().getPosition(), 5);
 
@@ -263,12 +263,12 @@ public class FaithTrackControllerMultiTest {
         for (RealPlayer player : this.table.getPlayers()){
             switch (player.getNickname()){
                 case("A"):
-                    assertEquals(1, player.getPosition());
+                    assertEquals(0, player.getPosition());
                     break;
                 case("B"):
                 case("C"):
                 case("D"):
-                    assertEquals(5, player.getPosition());
+                    assertEquals(4, player.getPosition());
                     break;
             }
         }
@@ -278,13 +278,13 @@ public class FaithTrackControllerMultiTest {
     @DisplayName("One of the other Players activates vatican relation and nobody is inside that")
     public void moveAllTheOthersCase2(){
         //A -> 2
-        this.table.getPlayers()[0].moveForward(1);
+        this.table.getPlayers()[0].moveForward(2);
         //B -> 7
-        this.table.getPlayers()[1].moveForward(6);
+        this.table.getPlayers()[1].moveForward(7);
         //C -> 3
-        this.table.getPlayers()[2].moveForward(2);
+        this.table.getPlayers()[2].moveForward(3);
         //D -> 3
-        this.table.getPlayers()[3].moveForward(2);
+        this.table.getPlayers()[3].moveForward(3);
 
         //C -> turn
         this.table.nextTurn();
@@ -314,13 +314,13 @@ public class FaithTrackControllerMultiTest {
     @DisplayName("One of the other Players activates vatican relation and someone is inside that")
     public void moveAllTheOthersCase3(){
         //A -> 2
-        this.table.getPlayers()[0].moveForward(1);
+        this.table.getPlayers()[0].moveForward(2);
         //B -> 6
-        this.table.getPlayers()[1].moveForward(5);
+        this.table.getPlayers()[1].moveForward(6);
         //C -> 4
-        this.table.getPlayers()[2].moveForward(3);
+        this.table.getPlayers()[2].moveForward(4);
         //D -> 4
-        this.table.getPlayers()[3].moveForward(3);
+        this.table.getPlayers()[3].moveForward(4);
 
         //D turn
         this.table.nextTurn();
@@ -349,13 +349,13 @@ public class FaithTrackControllerMultiTest {
     @Test
     @DisplayName("One of the other Players activates more than only one vatican relation and someone is inside the first")
     public void moveAllTheOthersCase4(){
-        //A -> 1
+        //A -> 0
         //B -> 2
-        this.table.getPlayers()[1].moveForward(1);
+        this.table.getPlayers()[1].moveForward(2);
         //C -> 7
-        this.table.getPlayers()[2].moveForward(6);
+        this.table.getPlayers()[2].moveForward(7);
         //D -> 3
-        this.table.getPlayers()[3].moveForward(2);
+        this.table.getPlayers()[3].moveForward(3);
 
         //B turn
         this.table.nextTurn();
@@ -387,13 +387,13 @@ public class FaithTrackControllerMultiTest {
     @DisplayName("check that nothing happens if a specific vatican relation already occurred")
     public void moveAllTheOthersCase5(){
         //A -> 6
-        this.table.getPlayers()[0].moveForward(5);
+        this.table.getPlayers()[0].moveForward(6);
         //B -> 2
-        this.table.getPlayers()[1].moveForward(1);
+        this.table.getPlayers()[1].moveForward(2);
         //C -> 3
-        this.table.getPlayers()[2].moveForward(2);
+        this.table.getPlayers()[2].moveForward(3);
         //D -> 3
-        this.table.getPlayers()[3].moveForward(2);
+        this.table.getPlayers()[3].moveForward(3);
 
         //C turn
         this.table.nextTurn();
@@ -435,7 +435,7 @@ public class FaithTrackControllerMultiTest {
     @DisplayName("One of the others reaches the end")
     public void moveAllTheOthersCase6(){
         //A -> 21
-        this.table.getPlayers()[0].moveForward(20);
+        this.table.getPlayers()[0].moveForward(21);
 
         //B turn
         this.table.nextTurn();

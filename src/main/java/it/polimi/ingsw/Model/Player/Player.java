@@ -12,7 +12,7 @@ public abstract class Player {
      * @param nickname the nickname of the player
      */
     Player(String nickname){
-        this.position = 1;
+        this.position = 0;
         this.nickname = nickname;
     }
 

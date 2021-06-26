@@ -31,8 +31,8 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("Player move forward without relation being activated")
     public void movePlayerOfTurnCase1(){
         this.faithTrackController.movePlayerOfTurn(4);
-        assertEquals(5, this.table.turnOf().getPosition());
-        assertEquals(1, this.table.getLorenzo().getPosition());
+        assertEquals(4, this.table.turnOf().getPosition());
+        assertEquals(0, this.table.getLorenzo().getPosition());
     }
 
     @Test
@@ -40,15 +40,15 @@ public class FaithTrackControllerSingleTest {
     public void movePlayerOfTurnCase2(){
         this.table.nextTurn();
         this.faithTrackController.movePlayerOfTurn(4);
-        assertEquals(1, this.table.turnOf().getPosition());
-        assertEquals(5, this.table.getLorenzo().getPosition());
+        assertEquals(0, this.table.turnOf().getPosition());
+        assertEquals(4, this.table.getLorenzo().getPosition());
     }
 
     @Test
     @DisplayName("Lorenzo activates vatican relation and the player is inside that")
     public void movePlayerOfTurnCase3(){
         this.table.nextTurn();
-        this.faithTrackController.movePlayerOfTurn(8);
+        this.faithTrackController.movePlayerOfTurn(9);
 
         assertEquals(PopeFavorCardState.DISABLED, this.table.getPlayers()[0].getPopeFavorCards()[0].getState());
         assertEquals(PopeFavorCardState.FACEDOWN, this.table.getPlayers()[0].getPopeFavorCards()[1].getState());
@@ -59,11 +59,11 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("Lorenzo activates vatican relation and the player is inside that")
     public void movePlayerOfTurnCase4(){
         //A -> 6
-        this.faithTrackController.movePlayerOfTurn(5);
+        this.faithTrackController.movePlayerOfTurn(6);
 
         //Lorenzo turn
         this.table.nextTurn();
-        this.faithTrackController.movePlayerOfTurn(7);
+        this.faithTrackController.movePlayerOfTurn(8);
 
         assertEquals(PopeFavorCardState.FACEUP, this.table.getPlayers()[0].getPopeFavorCards()[0].getState());
         assertEquals(PopeFavorCardState.FACEDOWN, this.table.getPlayers()[0].getPopeFavorCards()[1].getState());
@@ -74,7 +74,7 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("Lorenzo activates more than only one vatican relation and the player is inside the first")
     public void movePlayerOfTurnCase5(){
         //A -> 6
-        this.table.getPlayers()[0].moveForward(5);
+        this.table.getPlayers()[0].moveForward(6);
 
         //Lorenzo turn
         this.table.nextTurn();
@@ -89,11 +89,11 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("check that nothing happens if a specific vatican relation already occurred")
     public void movePlayerOfTurnCase6(){
         //A -> 6
-        this.faithTrackController.movePlayerOfTurn(5);
+        this.faithTrackController.movePlayerOfTurn(6);
 
         //Lorenzo Turn
         this.table.nextTurn();
-        this.faithTrackController.movePlayerOfTurn(7);
+        this.faithTrackController.movePlayerOfTurn(8);
 
         this.checkCase6();
 
@@ -113,11 +113,11 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("activation of 1 vatican relations by Lorenzo and then another by the player")
     public void movePlayerOfTurnCase7(){
         //A -> 6
-        this.faithTrackController.movePlayerOfTurn(5);
+        this.faithTrackController.movePlayerOfTurn(6);
 
         //Lorenzo turn -> 9
         this.table.nextTurn();
-        this.faithTrackController.movePlayerOfTurn(8);
+        this.faithTrackController.movePlayerOfTurn(9);
 
         //A turn -> 16
         this.table.nextTurn();
@@ -162,8 +162,8 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("Player move all the others forward without relation being activated")
     public void moveAllTheOthersCase1(){
         this.faithTrackController.moveAllTheOthers(4);
-        assertEquals(1, this.table.turnOf().getPosition());
-        assertEquals(5, this.table.getLorenzo().getPosition());
+        assertEquals(0, this.table.turnOf().getPosition());
+        assertEquals(4, this.table.getLorenzo().getPosition());
 
         assertEquals(PopeFavorCardState.FACEDOWN, this.table.getPlayers()[0].getPopeFavorCards()[0].getState());
         assertEquals(PopeFavorCardState.FACEDOWN, this.table.getPlayers()[0].getPopeFavorCards()[1].getState());
@@ -177,8 +177,8 @@ public class FaithTrackControllerSingleTest {
     public void moveAllTheOthersCase2(){
         this.table.nextTurn();
         this.faithTrackController.moveAllTheOthers(4);
-        assertEquals(1, this.table.turnOf().getPosition());
-        assertEquals(1, this.table.getLorenzo().getPosition());
+        assertEquals(0, this.table.turnOf().getPosition());
+        assertEquals(0, this.table.getLorenzo().getPosition());
     }
 
 
@@ -186,10 +186,10 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("Lorenzo activates vatican relation and the player is inside that")
     public void moveAllTheOthersCase4(){
         //A -> 7
-        this.faithTrackController.movePlayerOfTurn(6);
+        this.faithTrackController.movePlayerOfTurn(7);
         //Lorenzo -> 6
         this.table.nextTurn();
-        this.faithTrackController.movePlayerOfTurn(5);
+        this.faithTrackController.movePlayerOfTurn(6);
         //A turn
         this.table.nextTurn();
         this.faithTrackController.moveAllTheOthers(2);
@@ -203,7 +203,7 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("Lorenzo activates more than only one vatican relation and the player is inside the first")
     public void moveAllTheOthersCase5(){
         //A -> 6
-        this.faithTrackController.movePlayerOfTurn(5);
+        this.faithTrackController.movePlayerOfTurn(6);
         this.faithTrackController.moveAllTheOthers(16);
 
         assertEquals(PopeFavorCardState.FACEUP, this.table.getPlayers()[0].getPopeFavorCards()[0].getState());
