@@ -1,6 +1,7 @@
 package ControllerTest;
 
 import it.polimi.ingsw.Controller.GameController;
+import it.polimi.ingsw.Controller.MarketController;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
@@ -247,5 +248,47 @@ public class GameControllerTest {
         assertEquals(MacroTurnType.NONE, player2.getMacroTurnType());
         assertEquals(MicroTurnType.NONE, player1.getMicroTurnType());
         assertEquals(MicroTurnType.NONE, player2.getMicroTurnType());
+    }
+
+    @Test
+    public void testsEndTurn(){
+        Lobby multiPlayerLobby = new Lobby(5);
+        Lobby singlePlayerLobby = new Lobby(1);
+        User user1 = new User("user1", new FakeConnectionHandler());
+        User user2 = new User("user2", new FakeConnectionHandler());
+        User user3 = new User("user3", new FakeConnectionHandler());
+        User user4 = new User("user4", new FakeConnectionHandler());
+        multiPlayerLobby.addUser(user1);
+        multiPlayerLobby.addUser(user2);
+        multiPlayerLobby.addUser(user3);
+        multiPlayerLobby.addUser(user4);
+        singlePlayerLobby.addUser(user1);
+        GameController singleGameController = new GameController(singlePlayerLobby);
+        GameController multiGameController = new GameController(multiPlayerLobby);
+
+        String userOfTurn = multiGameController.getTable().turnOf().getNickname();
+        multiGameController.endTurn();
+        assertNotNull(multiGameController.getTable().turnOf().getErrorMessage());
+        assertEquals(userOfTurn, multiGameController.getTable().turnOf().getNickname());
+
+        multiGameController.getTable().getPlayers()[0].setMacroTurnType(MacroTurnType.DONE);
+        multiGameController.endTurn();
+        assertNotEquals(userOfTurn, multiGameController.getTable().turnOf().getNickname());
+
+        singleGameController.getTable().getPlayers()[0].setMacroTurnType(MacroTurnType.DONE);
+        singleGameController.endTurn();
+        assertNull(singleGameController.getTable().turnOf().getErrorMessage());
+        singleGameController.getTable().setLastLap();
+        singleGameController.getTable().getPlayers()[0].setMacroTurnType(MacroTurnType.DONE);
+        singleGameController.endTurn();
+
+        multiGameController.getTable().setLastLap();
+        multiGameController.getTable().turnOf().setMacroTurnType(MacroTurnType.DONE);
+        multiGameController.endTurn();
+        multiGameController.getTable().turnOf().setMacroTurnType(MacroTurnType.DONE);
+        multiGameController.endTurn();
+        multiGameController.getTable().turnOf().setMacroTurnType(MacroTurnType.DONE);
+        multiGameController.endTurn();
+        assertTrue(multiGameController.getTable().isLastLap());
     }
 }
