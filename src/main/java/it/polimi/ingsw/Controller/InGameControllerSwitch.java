@@ -13,8 +13,8 @@ public class InGameControllerSwitch {
     private final MarketController marketController;
     private final ProductionController productionController;
 
-    public InGameControllerSwitch(Lobby lobby, boolean bool){
-        gameController = new GameController(lobby, bool);
+    public InGameControllerSwitch(Lobby lobby){
+        gameController = new GameController(lobby);
         buyDevCardController = new BuyDevCardController(gameController.getFaithTrackController());
         productionController = new ProductionController(gameController.getFaithTrackController());
         marketController = new MarketController(gameController.getFaithTrackController());

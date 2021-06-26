@@ -157,26 +157,29 @@ public class CLI extends Observable implements View, Runnable{
     @Override
     public void nextTurn(int playerId) {
         executor.execute(() -> {
-            if (turnState == 2)
-                turnState = 3;
-
-            if (turnState == 3 && playerId == model.getLocalPlayerId())
-                turnState = 2;
-
             if (turnState == 1 && playerId != model.getLocalPlayerId()){
+                if (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().size() == 2 && playerId == 1)
+                    return;
                 printer.waitingInitialisation(playerId);
                 return;
             }
 
             if (turnState == 1 && playerId == model.getLocalPlayerId()){
                 if (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().size() == 2){
+                    if (model.getLocalPlayerId() == 1)
+                        return;
                     printer.notifyChooseInitialRes();
-                    return;
                 } else {
                     printer.notifyChooseLeaderCards();
-                    return;
                 }
+                return;
             }
+
+            if (turnState == 2)
+                turnState = 3;
+
+            if (turnState == 3 && playerId == model.getLocalPlayerId())
+                turnState = 2;
 
             printer.notifyTurnChanged(playerId);
         });
@@ -189,6 +192,7 @@ public class CLI extends Observable implements View, Runnable{
     public void startGame() {
         executor.execute(() -> {
             turnState = (model.getPLayersID().get(0) == model.getLocalPlayerId() ? 2 : 3);
+//            turnState = (model.getLocalPlayerIndex() == 1 ? 2 : 3);
             printer.gameStarted();
         });
     }

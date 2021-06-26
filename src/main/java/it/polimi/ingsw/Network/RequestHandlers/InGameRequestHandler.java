@@ -23,7 +23,7 @@ public class InGameRequestHandler implements RequestHandler{
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(InGameMessage.class, new InGameDeserializer());
         this.customGson = gsonBuilder.create();
-        this.inGameControllerSwitch = new InGameControllerSwitch(lobby, true);
+        this.inGameControllerSwitch = new InGameControllerSwitch(lobby);
     }
 
     /**

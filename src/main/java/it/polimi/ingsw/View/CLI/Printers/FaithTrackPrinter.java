@@ -96,13 +96,13 @@ public class FaithTrackPrinter {
             for (int j=0; j<3; j++){
                 switch(simplifiedFaithTrack.getCardsState(playersID.get(i))[j]){
                     case FACEDOWN:
-                        System.out.print("        " + (j+1) + ": face down");
+                        System.out.print("\t\t" + (j+1) + ": face down");
                         break;
                     case FACEUP:
-                        System.out.print("        " + (j+1) + ": face up");
+                        System.out.print("\t\t" + (j+1) + ": face up  ");
                         break;
                     case DISABLED:
-                        System.out.print("        " + (j+1) + ": discarded");
+                        System.out.print("\t\t" + (j+1) + ": discarded");
                         break;
                     default:
                         break;

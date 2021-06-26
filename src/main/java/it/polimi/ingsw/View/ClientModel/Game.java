@@ -19,40 +19,40 @@ public class Game {
     private  HashMap<Integer, String[]> lobbies = new HashMap<>();
     private int localPlayerLobbyId;
 
-    public SimplifiedPlayer getPlayerFromId(int id){
+    public synchronized SimplifiedPlayer getPlayerFromId(int id){
         return players.get(id);
     }
 
-    public void updateMarketState(Resource[][] grid, Resource slide){
+    public synchronized void updateMarketState(Resource[][] grid, Resource slide){
         this.grid = grid;
         this.slide = slide;
     }
 
-    public void updateDevDeck(int numDeck, int cardId){
+    public synchronized void updateDevDeck(int numDeck, int cardId){
         devDecks[numDeck/4][numDeck%4] = cardId;
     }
 
-    public void initialiseDevDecks(int[][] decks){
+    public synchronized void initialiseDevDecks(int[][] decks){
         this.devDecks = decks;
     }
 
-    public Resource[][] getGrid() {
+    public synchronized Resource[][] getGrid() {
         return grid;
     }
 
-    public Resource getSlide() {
+    public synchronized Resource getSlide() {
         return slide;
     }
 
-    public int[][] getDevDecks() {
+    public synchronized int[][] getDevDecks() {
         return devDecks;
     }
 
-    public void addPlayer(int playerId, SimplifiedPlayer player){
+    public synchronized void addPlayer(int playerId, SimplifiedPlayer player){
         players.put(playerId, player);
     }
 
-    public ArrayList<String> getUsernames(){
+    public synchronized ArrayList<String> getUsernames(){
         ArrayList<String> usernames = new ArrayList<>();
         for(Map.Entry<Integer, SimplifiedPlayer> player: players.entrySet()){
             usernames.add(player.getValue().getUsername());
@@ -60,47 +60,47 @@ public class Game {
         return usernames;
     }
 
-    public int getLocalPlayerId() {
+    public synchronized int getLocalPlayerId() {
         return localPlayerId;
     }
 
-    public void setLocalPlayerId(int localPlayerId) {
+    public synchronized void setLocalPlayerId(int localPlayerId) {
         this.localPlayerId = localPlayerId;
     }
 
-    public int getLocalPlayerIndex(){
+    public synchronized int getLocalPlayerIndex(){
         return new ArrayList<>(players.keySet()).indexOf(localPlayerId);
     }
 
-    public int getPlayerIndex(int playerId){
+    public synchronized int getPlayerIndex(int playerId){
         return new ArrayList<>(players.keySet()).indexOf(playerId);
     }
 
-    public int getNumberOfPlayers(){
+    public synchronized int getNumberOfPlayers(){
         return players.keySet().size();
     }
 
-    public int getLocalPlayerLobbyId() {
+    public synchronized int getLocalPlayerLobbyId() {
         return localPlayerLobbyId;
     }
 
-    public void setLocalPlayerLobbyId(int localPlayerLobbyId) {
+    public synchronized void setLocalPlayerLobbyId(int localPlayerLobbyId) {
         this.localPlayerLobbyId = localPlayerLobbyId;
     }
 
-    public HashMap<Integer, String[]> getLobbies() {
+    public synchronized HashMap<Integer, String[]> getLobbies() {
         return lobbies;
     }
 
-    public void addLobby(int lobbyId, String[] players) {
+    public synchronized void addLobby(int lobbyId, String[] players) {
         lobbies.put(lobbyId, players);
     }
 
-    public void removeLobby(int lobbyId) {
+    public synchronized void removeLobby(int lobbyId) {
         lobbies.remove(lobbyId);
     }
 
-    public ArrayList<Integer> getPLayersID(){
+    public synchronized ArrayList<Integer> getPLayersID(){
         ArrayList<Integer> playersID = new ArrayList<>();
         for(Map.Entry<Integer, SimplifiedPlayer> player: players.entrySet())
             playersID.add(player.getKey());

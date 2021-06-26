@@ -19,7 +19,7 @@ public class GameController extends CertifiedResourceUsage{
     private FaithTrackController faithTrackController;
     private final List<User> players;
 
-    public GameController(Lobby lobby, boolean dealingCardsAllInOne) throws NullPointerException, IndexOutOfBoundsException{
+    public GameController(Lobby lobby) throws NullPointerException, IndexOutOfBoundsException{
         if (lobby == null)
             throw new NullPointerException();
 
@@ -27,11 +27,11 @@ public class GameController extends CertifiedResourceUsage{
             throw new IndexOutOfBoundsException();
 
         this.players = lobby.getUsers();
-        startGame(dealingCardsAllInOne);
+        startGame();
     }
 
     //allInOne is about card handling to players
-    private void startGame(boolean allInOne){
+    private void startGame(){
         this.table = new Table(players.size());
         this.faithTrackController = new FaithTrackController(table);
 

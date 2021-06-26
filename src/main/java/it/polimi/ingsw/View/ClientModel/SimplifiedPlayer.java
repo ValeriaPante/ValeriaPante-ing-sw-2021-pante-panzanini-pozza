@@ -19,69 +19,69 @@ public class SimplifiedPlayer {
     private ArrayList<Integer> leaderCards = new ArrayList<>();
     private int[][] devSlots = new int[3][3];
 
-    public String getUsername() {
+    public synchronized String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public synchronized void setUsername(String username) {
         this.username = username;
     }
 
-    public Resource[] getLeaderStorage(int cardId) {
+    public synchronized Resource[] getLeaderStorage(int cardId) {
         return leaderStorages.get(cardId);
     }
 
-    public HashMap<Integer, Resource[]> getAllLeaderStorages(){
+    public synchronized HashMap<Integer, Resource[]> getAllLeaderStorages(){
         return leaderStorages;
     }
 
-    public void setLeaderStorage(int cardId, Resource[] leaderStorage) {
+    public synchronized void setLeaderStorage(int cardId, Resource[] leaderStorage) {
         if(this.leaderStorages.get(cardId) == null) this.leaderStorages.put(cardId, leaderStorage);
         else this.leaderStorages.replace(cardId, leaderStorage);
     }
 
-    public HashMap<Resource, Integer> getStrongbox() {
+    public synchronized HashMap<Resource, Integer> getStrongbox() {
         return strongbox;
     }
 
-    public void setStrongbox(HashMap<Resource, Integer> strongbox) {
+    public synchronized void setStrongbox(HashMap<Resource, Integer> strongbox) {
         this.strongbox = strongbox;
     }
 
-    public HashMap<Resource, Integer> getSupportContainer() {
+    public synchronized HashMap<Resource, Integer> getSupportContainer() {
         return supportContainer;
     }
 
-    public void setSupportContainer(HashMap<Resource, Integer> supportContainer) {
+    public synchronized void setSupportContainer(HashMap<Resource, Integer> supportContainer) {
         this.supportContainer = supportContainer;
     }
 
-    public HashMap<Resource, Integer> getShelf(int numShelf) {
+    public synchronized HashMap<Resource, Integer> getShelf(int numShelf) {
         return this.shelves[numShelf];
     }
 
-    public void setShelf(Resource type, int quantity, int numShelf) {
+    public synchronized void setShelf(Resource type, int quantity, int numShelf) {
         this.shelves[numShelf].clear();
         if(type != null) this.shelves[numShelf].put(type, quantity);
     }
 
-    public ArrayList<Integer> getLeaderCards() {
+    public synchronized ArrayList<Integer> getLeaderCards() {
         return leaderCards;
     }
 
-    public void addLeaderCard(int cardId) {
+    public synchronized void addLeaderCard(int cardId) {
         this.leaderCards.add(cardId);
     }
 
-    public void removeLeaderCard(int cardId) {
+    public synchronized void removeLeaderCard(int cardId) {
         this.leaderCards.remove(Integer.valueOf(cardId));
     }
 
-    public int[][] getDevSlots() {
+    public synchronized int[][] getDevSlots() {
         return devSlots;
     }
 
-    public void addDevCardInSlot(int cardId, int numberOfSlot){
+    public synchronized void addDevCardInSlot(int cardId, int numberOfSlot){
         for (int j = 0; j < devSlots[numberOfSlot - 1].length; j++){
             if(devSlots[numberOfSlot - 1][j] == 0){
                 devSlots[numberOfSlot - 1][j] = cardId;

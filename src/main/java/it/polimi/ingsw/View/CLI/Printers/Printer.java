@@ -294,6 +294,11 @@ public class Printer {
                 "Please list them one by one with their full name:");
     }
 
+    /**
+     * Creates a string containing the resources that a player can pick
+     * @return a string, in the right format, with all and only the resources
+     * that a player can pick typing on terminal
+     */
     private String stringLegalResources(){
         boolean printedOne = false;
         StringBuilder listResources = new StringBuilder();
@@ -446,8 +451,13 @@ public class Printer {
         System.out.println(Color.colourText("An error occurred while trying to select the card with id number" + cardId, "RED"));
     }
 
+    /**
+     *Prints on terminal the effect of the action token picked during Lorenzo's turn
+     * @param actionTokenType solo action token picked from the top of the stack during Lorenzo's turn
+     */
     public synchronized void notifyActionTokenDraw(ActionTokenType actionTokenType){
-
+        System.out.println("During Lorenzo's turn, the top solo action token, from the stack, was picked and here is it's effect:\n" +
+                "\t\t" + ActionTokenType.getEffectString(actionTokenType));
     }
 
     /**
