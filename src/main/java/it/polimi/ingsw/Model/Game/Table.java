@@ -174,6 +174,20 @@ public class Table {
         this.notifyAllPlayer(message);
     }
 
+    public void updatePlayerOfTurnDevSlot(int devSlotNum, DevCard chosenCard){
+        this.turnOf().getDevSlots()[devSlotNum - 1].addCard(chosenCard);
+        NewDevCardMessage message = new NewDevCardMessage(this.turnOf+1, devSlotNum, chosenCard.getId());
+        this.notifyAllPlayer(message);
+    }
+
+    //pensando al riuso di questo
+    public DevCard drawDevDeck(int numberOfDeck){
+        DevCard cardDrawn = this.devDecks[numberOfDeck].draw();
+        NewTopCardMessage message = new NewTopCardMessage(cardDrawn.getId(), numberOfDeck);
+        this.notifyAllPlayer(message);
+        return cardDrawn;
+    }
+
     //idee sul set winner??? questo non mi piace molto
     public void addWinner(Player winner){
         this.winner.add(winner);
@@ -183,10 +197,6 @@ public class Table {
 
     public DevDeck[] getDevDecks() {
         return Arrays.copyOf(this.devDecks, this.devDecks.length);
-    }
-
-    public DevCard drawDevDeck(int numberOfDeck){
-        return this.devDecks[numberOfDeck].draw();
     }
 
     public void setBroadcastMessage(String newErrorMessage) {
