@@ -228,7 +228,6 @@ public class PrinterTest {
         printer.notifyChooseInitialRes();
         System.out.println("\n");
 
-
         printer.notifyTurnChanged(1);
         System.out.println("\n");
 

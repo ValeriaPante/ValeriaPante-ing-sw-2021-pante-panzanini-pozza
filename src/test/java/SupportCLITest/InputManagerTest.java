@@ -121,6 +121,12 @@ public class InputManagerTest {
         Game model = new Game();
         InputManager inputManager = new InputManager(model);
 
+        assertThrows(PrintWithoutMessageCreationException.class, () -> inputManager.initializationInput("usernames"));
+        try{
+            inputManager.initializationInput("usernames");
+        } catch (PrintWithoutMessageCreationException e) {
+            assertEquals(e.getMessage(), "USERNAMES");
+        }
 
         assertThrows(IllegalArgumentException.class, () -> inputManager.initializationInput("invalid request"));
         try{

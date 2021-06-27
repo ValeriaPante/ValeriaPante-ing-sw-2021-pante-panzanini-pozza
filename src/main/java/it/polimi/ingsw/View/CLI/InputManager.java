@@ -221,9 +221,13 @@ public class InputManager{
      * @param input the input from the player
      * @return a message that has to be send to the server
      * @throws IllegalArgumentException the input is not correct
+     * @throws PrintWithoutMessageCreationException the input string was a request of printing the nicknames and the playing order of this game
      */
-    public InGameMessage initializationInput(String input) throws IllegalArgumentException{
+    public InGameMessage initializationInput(String input) throws IllegalArgumentException, PrintWithoutMessageCreationException{
         String toBeChecked = preprocess(input);
+
+        if (toBeChecked.equals("USERNAMES"))
+            throw new PrintWithoutMessageCreationException(toBeChecked);
 
         if(toBeChecked.matches("(SH[1-3]: (COIN|STONE|SERVANT|SHIELD))")){
             String[] inputParts = toBeChecked.split(":");
