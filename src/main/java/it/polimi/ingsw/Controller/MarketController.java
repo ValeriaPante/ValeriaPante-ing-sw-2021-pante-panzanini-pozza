@@ -13,6 +13,7 @@ import it.polimi.ingsw.Model.Player.RealPlayer;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Map;
 
 public class MarketController extends SelectionController{
     public MarketController(FaithTrackController ftc){
@@ -86,9 +87,10 @@ public class MarketController extends SelectionController{
 
         enumMap = table.turnOf().getSupportContainer().getSelection();
 
-        if ((enumMap == null) || (enumMap.size() != 1))
-            //Error message: "Wrong selection"
+        if ((enumMap == null) || (enumMap.size() != 1)) {
+            table.turnOf().setErrorMessage("Wrong selection");
             return;
+        }
 
         Resource resToBeAdded = null;
         for(Resource r : Resource.values())
@@ -101,18 +103,19 @@ public class MarketController extends SelectionController{
 
         if (currentShelf.isEmpty())
             for (Shelf s: table.turnOf().getShelves())
-                if ((currentShelf != s) && (resToBeAdded == s.getResourceType()))
-                    //Error message: "Resource already contained in another Shelf"
+                if ((currentShelf != s) && (resToBeAdded == s.getResourceType())) {
+                    table.turnOf().setErrorMessage("Resource already contained in another Shelf");
                     return;
+                }
 
         try{
             currentShelf.addAllIfPossible(resToBeAdded, enumMap.get(resToBeAdded));
             table.turnOf().getSupportContainer().pay();
         } catch (IllegalArgumentException e){
-            //Error message: "Wrong type of resource"
+            table.turnOf().setErrorMessage("Wrong type of resource");
             return;
         }catch (IndexOutOfBoundsException e){
-            //Error message: "Insertion exceeding limits"
+            table.turnOf().setErrorMessage("Insertion exceeding limits");
             return;
         }
     }
@@ -127,9 +130,10 @@ public class MarketController extends SelectionController{
             return;
 
         enumMap = table.turnOf().getSupportContainer().getSelection();
-        if (enumMap == null)
-            //Error message: "No resources selected to be moved"
+        if (enumMap == null) {
+            table.turnOf().setErrorMessage("No resources selected to be moved");
             return;
+        }
 
         if (canLeaderContain(specifiedLeaderCard.getAbility(), enumMap, false) ) {
             addEnumMapToLC(specifiedLeaderCard.getAbility(), table.turnOf().getSupportContainer().getSelection());
@@ -155,18 +159,22 @@ public class MarketController extends SelectionController{
                 shelvesSelected.add(s);
             }
         }
+
+//        optional optimization:
 //        if (numOfContainersSelected > 2)
 //            //Error message: "More than two selections"
 //            return;
 
         for (LeaderCard lc: player.getLeaderCards()){
             try{
-                if ((lc.hasBeenPlayed()) && (lc.getAbility().getSelected() != null)) {
+                if ((lc.hasBeenPlayed()) && (!lc.getAbility().getSelected().equals(new EnumMap<Resource, Integer>(Resource.class)))) {
                     numOfContainersSelected++;
                     leaderCardsSelected.add(lc);
                 }
             } catch (WrongLeaderCardType ignored) {}
         }
+
+//        optional optimization:
 //        if (numOfContainersSelected == 0)
 //            //Error message: "Less than two selections"
 //            return;
@@ -174,12 +182,16 @@ public class MarketController extends SelectionController{
         if (player.getSupportContainer().areThereSelections())
             numOfContainersSelected++;
 
-        if (numOfContainersSelected > 2)
-            //Error message: "More than two selections"
+        if (numOfContainersSelected > 2){
+            table.turnOf().setErrorMessage("More than two selections");
             return;
-        if (numOfContainersSelected < 2)
-            //Error message: "Less than two selections"
+        }
+
+        if (numOfContainersSelected < 2){
+            table.turnOf().setErrorMessage("Less than two selections");
             return;
+        }
+
 
         //PART 2: checks if it is possible to swap the selected resources and if so proceed
         //==================================================================================================
@@ -212,13 +224,15 @@ public class MarketController extends SelectionController{
             if (shelvesSelected.size() == 2){ //Selections only in Shelves
                 Shelf selectedShelf1 = shelvesSelected.get(0);
                 Shelf selectedShelf2 = shelvesSelected.get(1);
-                if ((selectedShelf2.getUsage() != selectedShelf2.getQuantitySelected()) || (selectedShelf1.getUsage() != selectedShelf1.getQuantitySelected()))
-                    //Error message: "Cannot swap shelves content"
+                if ((selectedShelf2.getUsage() != selectedShelf2.getQuantitySelected()) || (selectedShelf1.getUsage() != selectedShelf1.getQuantitySelected())){
+                    table.turnOf().setErrorMessage("Cannot swap shelves content");
                     return;
+                }
 
-                if ((selectedShelf1.getCapacity() < selectedShelf2.getQuantitySelected()) || (selectedShelf2.getCapacity() < selectedShelf1.getQuantitySelected()))
-                    //Error message: "Swap is exceeding one shelf limit"
+                if ((selectedShelf1.getCapacity() < selectedShelf2.getQuantitySelected()) || (selectedShelf2.getCapacity() < selectedShelf1.getQuantitySelected())){
+                    table.turnOf().setErrorMessage("Swap is exceeding one shelf limit");
                     return;
+                }
 
                 Resource shelf1Type = selectedShelf1.getResourceType();
                 int shelf1Usage = selectedShelf1.getUsage();
@@ -273,32 +287,41 @@ public class MarketController extends SelectionController{
 
     //checks if it is possible to move the enumMap inside the shelf, if so returns the resource in the map otherwise null
     private Resource movableResource(EnumMap<Resource, Integer> enumMap, Shelf shelf){
-        if(enumMap.size() != 1)
-            //Error message: "Too many type of resources selected"
+        if(enumMap.size() != 1){
+            table.turnOf().setErrorMessage("Too many type of resources selected");
             return null;
+        }
 
         Resource resourceContained = null;
         for (Resource r: Resource.values())
-            if(enumMap.containsKey(r))
+            if(enumMap.containsKey(r)){
                 resourceContained = r;
+                break;
+            }
 
         if (shelf.getUsage() == shelf.getQuantitySelected()){ //completely empty the shelf
-            if (enumMap.get(resourceContained) > shelf.getCapacity())
-                //Error message: "Shelf cannot contain that quantity"
+            if (enumMap.get(resourceContained) > shelf.getCapacity()){
+                table.turnOf().setErrorMessage("Shelf cannot contain that quantity");
                 return null;
+            }
 
             for (Shelf s: table.turnOf().getShelves())
-                if ((shelf != s) && (resourceContained == s.getResourceType()))
-                    //Error message: "Resource already contained in another Shelf"
+                if ((shelf != s) && (resourceContained == s.getResourceType())){
+                    table.turnOf().setErrorMessage("Resource already contained in another Shelf");
                     return null;
-        } else {
-            if (shelf.getResourceType() != resourceContained)
-                //Error message: "Wrong type of Resource"
-                return null;
+                }
 
-            if (enumMap.get(resourceContained) > (shelf.getCapacity() -(shelf.getUsage() - shelf.getQuantitySelected())))
-                //Error message: "Shelf cannot contain that quantity"
+        } else {
+            if (shelf.getResourceType() != resourceContained){
+                table.turnOf().setErrorMessage("Wrong type of Resource");
                 return null;
+            }
+
+            if (enumMap.get(resourceContained) > (shelf.getCapacity() - (shelf.getUsage() - shelf.getQuantitySelected()))){
+                table.turnOf().setErrorMessage("Shelf cannot contain that quantity");
+                return null;
+            }
+
         }
         return resourceContained;
     }
@@ -317,11 +340,11 @@ public class MarketController extends SelectionController{
                 depot.removeEnumMapIfPossible(enumMap);
                 return true;
             } catch (IndexOutOfBoundsException e){
-                //Error message: "LeaderCard cannot contain that quantity"
+                table.turnOf().setErrorMessage("LeaderCard cannot contain that quantity");
                 return false;
             }
         } catch (WrongLeaderCardType e){
-            //Error message: "Wrong leader card"
+            table.turnOf().setErrorMessage("Wrong leader card");
             return false;
         }
     }
@@ -336,38 +359,40 @@ public class MarketController extends SelectionController{
 
     //selects rows or columns in market
     public void selectFromMarket(int number, boolean isRowChosen){
-        if (table.turnOf().getMicroTurnType() == MicroTurnType.NONE)
-            table.turnOf().setMicroTurnType(MicroTurnType.SELECTION_IN_MARKET);
-
-        if(number < 1)
-            //Error message: "Wrong position specified"
+        if (table.turnOf().getMacroTurnType() == MacroTurnType.DONE ||
+                (table.turnOf().getMicroTurnType() != MicroTurnType.NONE &&
+                        table.turnOf().getMicroTurnType() != MicroTurnType.SELECTION_IN_MARKET))
             return;
+
+        if(number < 0){
+            table.turnOf().setErrorMessage("Wrong position specified");
+            return;
+        }
 
         if (isRowChosen){
             try{
-                table.getMarket().selectRow(number - 1);
+                table.getMarket().selectRow(number);
             } catch (IndexOutOfBoundsException e) {
-                //Error message: "Position specified exceeded limits"
+                table.turnOf().setErrorMessage("Position specified exceeded limits");
                 return;
             }
         } else {
             try{
-                table.getMarket().selectColumn(number - 1);
+                table.getMarket().selectColumn(number);
             } catch (IndexOutOfBoundsException e) {
-                //Error message: "Position specified exceeded limits"
+                table.turnOf().setErrorMessage("Position specified exceeded limits");
                 return;
             }
         }
+
+        if (table.turnOf().getMicroTurnType() == MicroTurnType.NONE)
+            table.turnOf().setMicroTurnType(MicroTurnType.SELECTION_IN_MARKET);
     }
 
-    //move the resources selected in the market into player's strongbox
+    //move the resources selected in the market into player's support container
     public void takeFromMarket(){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.SELECTION_IN_MARKET)
             return;
-
-//        if (!table.getMarket().areThereSelections())
-//            //Error message: "No selections specified"
-//            return;
 
         enumMap = table.getMarket().takeSelection();
         table.turnOf().setMicroTurnType(MicroTurnType.PLACE_RESOURCES);
@@ -400,7 +425,6 @@ public class MarketController extends SelectionController{
         if (enumMap.containsKey(Resource.FAITH))
             faithTrackController.movePlayerOfTurn(enumMap.remove(Resource.FAITH));
 
-
         table.turnOf().getSupportContainer().clear();
         table.turnOf().getSupportContainer().addEnumMap(enumMap);
         table.turnOf().setMacroTurnType(MacroTurnType.GET_FROM_MARKET);
@@ -428,9 +452,10 @@ public class MarketController extends SelectionController{
             return;
 
         int numOfWhite = table.turnOf().getSupportContainer().content().get(Resource.WHITE);
-        if((quantity1 + quantity2) != numOfWhite)
-            //Error message: "Wrong amount specified"
+        if((quantity1 + quantity2) != numOfWhite){
+            table.turnOf().setErrorMessage("Wrong amount specified");
             return;
+        }
 
         EnumMap<Resource, Integer> transmutation1 = getTransmutation(serial1);
         if (transmutation1 == null)
@@ -468,7 +493,7 @@ public class MarketController extends SelectionController{
         } catch (NullPointerException e) {
             return null;
         } catch (WrongLeaderCardType e) {
-            //Error message: "The selected leader card cannot transmute"
+            table.turnOf().setErrorMessage("The selected leader card cannot transmute");
             return null;
         }
     }

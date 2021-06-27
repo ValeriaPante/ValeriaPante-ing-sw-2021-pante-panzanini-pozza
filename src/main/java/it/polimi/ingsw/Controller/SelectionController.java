@@ -38,7 +38,7 @@ public class SelectionController extends CertifiedResourceUsage{
         if(super.getLegalResource(resource))
             return true;
 
-        table.turnOf().setErrorMessage("Illegal resource type selected");
+        table.turnOf().setErrorMessage("Illegal resource type specified");
         return false;
     }
 
@@ -68,14 +68,15 @@ public class SelectionController extends CertifiedResourceUsage{
         if (currentShelf == null)
             return;
 
-        if (currentShelf.getResourceType() != resType)
-            //Error message: "Wrong Resource type selected"
+        if (currentShelf.getResourceType() != resType){
+            table.turnOf().setErrorMessage("Wrong Resource type selected");
             return;
+        }
 
         try{
             currentShelf.singleSelection();
         } catch (IndexOutOfBoundsException e){
-            //Error message: "Maximum already selected"
+            table.turnOf().setErrorMessage("Maximum already selected");
         }
     }
 
@@ -90,21 +91,20 @@ public class SelectionController extends CertifiedResourceUsage{
 
         try{
             if (!specifiedLeaderCard.getAbility().getCapacity().containsKey(resType)){
-                //Error message: "Resource type note allowed"
+                table.turnOf().setErrorMessage("Resource type not allowed");
                 return;
             }
             if (!specifiedLeaderCard.getAbility().getContent().containsKey(resType)){
-                //Error message: "Resource not contained"
+                table.turnOf().setErrorMessage("Resource not contained");
                 return;
             }
             enumMap = specifiedLeaderCard.getAbility().getSelected();
             specifiedLeaderCard.getAbility().select(resType, resPosition);
             if (enumMap.equals(specifiedLeaderCard.getAbility().getSelected())){
-                //Error message: "Not selectable"
-                return;
+                table.turnOf().setErrorMessage("Not selectable");
             }
         } catch (WrongLeaderCardType e){
-            //Error message: "Wrong leader card"
+            table.turnOf().setErrorMessage("Wrong leader card");
         }
     }
 
@@ -126,14 +126,15 @@ public class SelectionController extends CertifiedResourceUsage{
         if (currentShelf == null)
             return;
 
-        if (currentShelf.getResourceType() != resType)
-            //Error message: "Wrong Resource type selected"
+        if (currentShelf.getResourceType() != resType){
+            table.turnOf().setErrorMessage("Wrong Resource type selected");
             return;
+        }
 
         try{
             currentShelf.singleDeselection();
         } catch (IndexOutOfBoundsException e){
-            //Error message: "Noting to deselect"
+            table.turnOf().setErrorMessage("Noting to deselect");
         }
     }
 
@@ -150,9 +151,10 @@ public class SelectionController extends CertifiedResourceUsage{
         if(!resCheck(resType))
             return;
 
-        if (quantity == 0)
-            //Error message: "No quantity specified"
+        if (quantity < 1){
+            table.turnOf().setErrorMessage("Wrong quantity specified");
             return;
+        }
 
         enumMap.clear();
         enumMap.put(resType, quantity);
@@ -160,7 +162,7 @@ public class SelectionController extends CertifiedResourceUsage{
         try{
             strongBox.mapSelection(enumMap);
         } catch (IndexOutOfBoundsException e){
-            //Error message: "Selection exceeding limits"
+            table.turnOf().setErrorMessage("Selection exceeding limits");
         }
     }
 
@@ -168,9 +170,10 @@ public class SelectionController extends CertifiedResourceUsage{
         if(!resCheck(resType))
             return;
 
-        if (quantity == 0)
-            //Error message: "No quantity specified"
+        if (quantity < 1){
+            table.turnOf().setErrorMessage("Wrong quantity specified");
             return;
+        }
 
         enumMap.clear();
         enumMap.put(resType, quantity);
@@ -178,7 +181,7 @@ public class SelectionController extends CertifiedResourceUsage{
         try{
             strongBox.mapDeselection(enumMap);
         } catch (IndexOutOfBoundsException e){
-            //Error message: "Deselection exceeding limits"
+            table.turnOf().setErrorMessage("Deselection exceeding limits");
         }
     }
 
@@ -195,9 +198,10 @@ public class SelectionController extends CertifiedResourceUsage{
     }
 
     protected Shelf shelfFromCapacity(int capacity){
-        if ((capacity > 3) || (capacity < 1))
-            //Error message: "Capacity specified is exceeding limits"
+        if ((capacity > 3) || (capacity < 1)){
+            table.turnOf().setErrorMessage("Capacity specified is exceeding limits");
             return null;
+        }
 
         Shelf shelfToBeReturned = null;
         for (Shelf s : table.turnOf().getShelves())
