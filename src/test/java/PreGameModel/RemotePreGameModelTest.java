@@ -23,10 +23,10 @@ class RemotePreGameModelTest {
     @Test
     @DisplayName("getAllUsersIds method test")
     void getAllUsersIds() {
-        this.preGameModel.addNewUser(new User("A", new FakeConnectionHandler(){{setId(1);}}));
-        this.preGameModel.addNewUser(new User("B", new FakeConnectionHandler(){{setId(2);}}));
+        this.preGameModel.addNewUser(new User("A", new FakeConnectionHandler(1)));
+        this.preGameModel.addNewUser(new User("B", new FakeConnectionHandler(2)));
         this.preGameModel.createLobby(1);
-        this.preGameModel.addUserToLobby(new User("C", new FakeConnectionHandler(){{setId(3);}}) ,1);
+        this.preGameModel.addUserToLobby(new User("C", new FakeConnectionHandler(3)) ,1);
         assertTrue(this.preGameModel.getAllUsersIds().contains(1) && this.preGameModel.getAllUsersIds().contains(2) && this.preGameModel.getAllUsersIds().contains(3));
     }
 
@@ -50,7 +50,7 @@ class RemotePreGameModelTest {
     void getUserLobbyId() {
         assertEquals(0,this.preGameModel.getUserLobbyId(2));
         this.preGameModel.createLobby(15);
-        this.preGameModel.addUserToLobby(new User("A", new FakeConnectionHandler(){{setId(1);}}), 15);
+        this.preGameModel.addUserToLobby(new User("A", new FakeConnectionHandler(1)), 15);
         assertEquals(15, this.preGameModel.getUserLobbyId(1));
     }
 
@@ -68,7 +68,7 @@ class RemotePreGameModelTest {
     void getAndRemoveUser() {
         assertNull(this.preGameModel.getAndRemoveUser(1));
 
-        User user = new User("A", new FakeConnectionHandler(){{setId(14);}});
+        User user = new User("A", new FakeConnectionHandler(14));
         this.preGameModel.addNewUser(user);
         assertTrue(this.preGameModel.getAllUsersIds().contains(14));
         this.preGameModel.getAndRemoveUser(14);
@@ -87,10 +87,10 @@ class RemotePreGameModelTest {
     void isLobbyFull() {
         this.preGameModel.createLobby(1);
         assertFalse(this.preGameModel.isLobbyFull(1));
-        this.preGameModel.addUserToLobby(new User("A", new FakeConnectionHandler(){{setId(1);}}), 1);
-        this.preGameModel.addUserToLobby(new User("B", new FakeConnectionHandler(){{setId(2);}}), 1);
-        this.preGameModel.addUserToLobby(new User("C", new FakeConnectionHandler(){{setId(3);}}), 1);
-        this.preGameModel.addUserToLobby(new User("D", new FakeConnectionHandler(){{setId(4);}}), 1);
+        this.preGameModel.addUserToLobby(new User("A", new FakeConnectionHandler(1)), 1);
+        this.preGameModel.addUserToLobby(new User("B", new FakeConnectionHandler(2)), 1);
+        this.preGameModel.addUserToLobby(new User("C", new FakeConnectionHandler(3)), 1);
+        this.preGameModel.addUserToLobby(new User("D", new FakeConnectionHandler(4)), 1);
         assertTrue(this.preGameModel.isLobbyFull(1));
     }
 
@@ -98,13 +98,13 @@ class RemotePreGameModelTest {
     @DisplayName("addUserToLobby method test")
     void addUserToLobby() {
         this.preGameModel.createLobby(1);
-        assertAll(() -> this.preGameModel.addUserToLobby(new User("A", new FakeConnectionHandler(){{setId(1);}}), 1));
+        assertAll(() -> this.preGameModel.addUserToLobby(new User("A", new FakeConnectionHandler(1)), 1));
     }
 
     @Test
     @DisplayName("addNewUser method test")
     void addNewUser() {
-        User user = new User("A", new FakeConnectionHandler());
+        User user = new User("A", new FakeConnectionHandler(1));
         assertAll(() -> this.preGameModel.addNewUser(user));
     }
 }

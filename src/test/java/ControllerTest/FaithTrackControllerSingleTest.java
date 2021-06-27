@@ -22,7 +22,7 @@ public class FaithTrackControllerSingleTest {
     @DisplayName("Setup")
     public void init(){
         this.table = new Table(1){{
-            addPlayer(new RealPlayer(new User("A", null)));
+            addPlayer(new RealPlayer(new User("A", new FakeConnectionHandler(1))));
         }};
         this.faithTrackController = new FaithTrackController(this.table);
     }

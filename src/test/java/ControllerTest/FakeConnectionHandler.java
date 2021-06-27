@@ -8,6 +8,10 @@ public class FakeConnectionHandler implements MessageSenderInterface {
 
     private int id;
 
+    public FakeConnectionHandler(int id){
+        this.id = id;
+    }
+
     @Override
     public void send(FromServerMessage message) {
         if (message instanceof InitMessage)

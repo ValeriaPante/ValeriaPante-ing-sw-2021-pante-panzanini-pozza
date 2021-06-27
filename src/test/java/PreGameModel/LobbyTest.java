@@ -22,8 +22,8 @@ class LobbyTest {
     @Test
     @DisplayName("getFirstUserId method test")
     void getFirstUserId() {
-        User user1 = new User("A", new FakeConnectionHandler(){{setId(55);}});
-        User user2 = new User("B", new FakeConnectionHandler(){{setId(44);}});
+        User user1 = new User("A", new FakeConnectionHandler(55));
+        User user2 = new User("B", new FakeConnectionHandler(44));
         this.lobby.addUser(user1);
         this.lobby.addUser(user2);
         assertEquals(55, this.lobby.getFirstUserId());
@@ -38,7 +38,7 @@ class LobbyTest {
     @Test
     @DisplayName("addUser method test")
     void addUser() {
-        User user = new User("A", new FakeConnectionHandler());
+        User user = new User("A", new FakeConnectionHandler(1));
         assertAll( () -> lobby.addUser(user));
         assertFalse(this.lobby.isEmpty());
     }
@@ -46,7 +46,7 @@ class LobbyTest {
     @Test
     @DisplayName("removeUser method test")
     void removeUser() {
-        User user = new User("A", new FakeConnectionHandler());
+        User user = new User("A", new FakeConnectionHandler(1));
         this.lobby.addUser(user);
         assertAll(()->this.lobby.removeUser(user));
         assertTrue(this.lobby.isEmpty());
@@ -59,8 +59,8 @@ class LobbyTest {
     @Test
     @DisplayName("getUsers method test")
     void getUsers() {
-        this.lobby.addUser(new User("A", new FakeConnectionHandler()));
-        this.lobby.addUser(new User("B", new FakeConnectionHandler()));
+        this.lobby.addUser(new User("A", new FakeConnectionHandler(1)));
+        this.lobby.addUser(new User("B", new FakeConnectionHandler(2)));
 
         assertEquals(2, this.lobby.getUsers().size());
     }

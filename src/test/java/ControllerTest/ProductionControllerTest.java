@@ -28,10 +28,10 @@ public class ProductionControllerTest {
     @DisplayName("Setup")
     private void init(){
         this.table = new Table(4){{
-            addPlayer(new RealPlayer(new User("A", new FakeConnectionHandler())));
-            addPlayer(new RealPlayer(new User("B", new FakeConnectionHandler())));
-            addPlayer(new RealPlayer(new User("C", new FakeConnectionHandler())));
-            addPlayer(new RealPlayer(new User("D", new FakeConnectionHandler())));
+            addPlayer(new RealPlayer(new User("A", new FakeConnectionHandler(1))));
+            addPlayer(new RealPlayer(new User("B", new FakeConnectionHandler(2))));
+            addPlayer(new RealPlayer(new User("C", new FakeConnectionHandler(3))));
+            addPlayer(new RealPlayer(new User("D", new FakeConnectionHandler(4))));
         }};
 
         FaithTrackController faithTrackController = new FaithTrackController(table);

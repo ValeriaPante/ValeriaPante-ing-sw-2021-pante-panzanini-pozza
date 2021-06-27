@@ -21,17 +21,17 @@ public class GameControllerTest {
         assertThrows(NullPointerException.class,() -> new GameController(null));
         Lobby problematicLobby = new Lobby(23);
         assertThrows(IndexOutOfBoundsException.class,() -> new GameController(problematicLobby));
-        problematicLobby.addUser(new User("Username1", new FakeConnectionHandler()));
-        problematicLobby.addUser(new User("Username2", new FakeConnectionHandler()));
-        problematicLobby.addUser(new User("Username3", new FakeConnectionHandler()));
-        problematicLobby.addUser(new User("Username4", new FakeConnectionHandler()));
-        problematicLobby.addUser(new User("Username5", new FakeConnectionHandler()));
+        problematicLobby.addUser(new User("Username1", new FakeConnectionHandler(1)));
+        problematicLobby.addUser(new User("Username2", new FakeConnectionHandler(2)));
+        problematicLobby.addUser(new User("Username3", new FakeConnectionHandler(3)));
+        problematicLobby.addUser(new User("Username4", new FakeConnectionHandler(4)));
+        problematicLobby.addUser(new User("Username5", new FakeConnectionHandler(5)));
         assertThrows(IndexOutOfBoundsException.class,() -> new GameController(problematicLobby));
 
         Lobby multiPlayerLobby = new Lobby(3);
-        User user1 = new User("user1", new FakeConnectionHandler());
-        User user2 = new User("user2", new FakeConnectionHandler());
-        User user3 = new User("user3", new FakeConnectionHandler());
+        User user1 = new User("user1", new FakeConnectionHandler(1));
+        User user2 = new User("user2", new FakeConnectionHandler(2));
+        User user3 = new User("user3", new FakeConnectionHandler(3));
         multiPlayerLobby.addUser(user1);
         multiPlayerLobby.addUser(user2);
         multiPlayerLobby.addUser(user3);
@@ -50,7 +50,7 @@ public class GameControllerTest {
         }
 
         Lobby singlePlayerLobby = new Lobby(1);
-        User user4 = new User("user4", new FakeConnectionHandler());
+        User user4 = new User("user4", new FakeConnectionHandler(4));
         singlePlayerLobby.addUser(user4);
         GameController gameControllerSingle = new GameController(singlePlayerLobby);
         assertTrue(gameControllerSingle.getTable().isSinglePlayer());
@@ -62,9 +62,9 @@ public class GameControllerTest {
     @DisplayName("discard leader cards test")
     public void testDiscardLC(){
         Lobby lobby = new Lobby(10);
-        User user1 = new User("user1", new FakeConnectionHandler());
+        User user1 = new User("user1", new FakeConnectionHandler(1));
         lobby.addUser(user1);
-        User user2 = new User("user2", new FakeConnectionHandler());
+        User user2 = new User("user2", new FakeConnectionHandler(2));
         lobby.addUser(user2);
         GameController gameController = new GameController(lobby);
 
@@ -119,10 +119,10 @@ public class GameControllerTest {
     public void testChooseResources(){
         Lobby multiPlayerLobby = new Lobby(5);
         Lobby singlePlayerLobby = new Lobby(1);
-        User user1 = new User("user1", new FakeConnectionHandler());
-        User user2 = new User("user2", new FakeConnectionHandler());
-        User user3 = new User("user3", new FakeConnectionHandler());
-        User user4 = new User("user4", new FakeConnectionHandler());
+        User user1 = new User("user1", new FakeConnectionHandler(1));
+        User user2 = new User("user2", new FakeConnectionHandler(2));
+        User user3 = new User("user3", new FakeConnectionHandler(3));
+        User user4 = new User("user4", new FakeConnectionHandler(4));
         multiPlayerLobby.addUser(user1);
         multiPlayerLobby.addUser(user2);
         multiPlayerLobby.addUser(user3);
@@ -254,10 +254,10 @@ public class GameControllerTest {
     public void testsEndTurn(){
         Lobby multiPlayerLobby = new Lobby(5);
         Lobby singlePlayerLobby = new Lobby(1);
-        User user1 = new User("user1", new FakeConnectionHandler());
-        User user2 = new User("user2", new FakeConnectionHandler());
-        User user3 = new User("user3", new FakeConnectionHandler());
-        User user4 = new User("user4", new FakeConnectionHandler());
+        User user1 = new User("user1", new FakeConnectionHandler(1));
+        User user2 = new User("user2", new FakeConnectionHandler(2));
+        User user3 = new User("user3", new FakeConnectionHandler(3));
+        User user4 = new User("user4", new FakeConnectionHandler(4));
         multiPlayerLobby.addUser(user1);
         multiPlayerLobby.addUser(user2);
         multiPlayerLobby.addUser(user3);

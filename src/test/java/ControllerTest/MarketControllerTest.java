@@ -26,7 +26,7 @@ public class MarketControllerTest {
     @DisplayName("selection and deselection testing")
     public void testSelectionDeselection(){
         Table table = new Table(1);
-        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler()));
+        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler(1)));
         table.addPlayer(realPlayer);
         assertEquals(table.turnOf(), realPlayer);
         FaithTrackController faithTrackController = new FaithTrackController(table);
@@ -91,7 +91,7 @@ public class MarketControllerTest {
     @DisplayName("move to support cointainer testing")
     public void testMoveSC(){
         Table table = new Table(1);
-        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler()));
+        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler(1)));
         table.addPlayer(realPlayer);
         assertEquals(table.turnOf(), realPlayer);
         FaithTrackController faithTrackController = new FaithTrackController(table);
@@ -167,7 +167,7 @@ public class MarketControllerTest {
     @DisplayName("move to shelf testing")
     public void testMoveSH(){
         Table table = new Table(1);
-        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler()));
+        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler(1)));
         table.addPlayer(realPlayer);
         assertEquals(table.turnOf(), realPlayer);
         FaithTrackController faithTrackController = new FaithTrackController(table);
@@ -281,7 +281,7 @@ public class MarketControllerTest {
     @DisplayName("move to leader card testing")
     public void testMoveLC(){
         Table table = new Table(1);
-        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler()));
+        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler(1)));
         table.addPlayer(realPlayer);
         assertEquals(table.turnOf(), realPlayer);
         FaithTrackController faithTrackController = new FaithTrackController(table);
@@ -381,7 +381,7 @@ public class MarketControllerTest {
     @DisplayName("market selection testing")
     public void testMarketSelection(){
         Table table = new Table(1);
-        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler()));
+        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler(1)));
         table.addPlayer(realPlayer);
         FaithTrackController faithTrackController = new FaithTrackController(table);
         MarketController marketController = new MarketController(faithTrackController);
@@ -424,7 +424,7 @@ public class MarketControllerTest {
     @DisplayName("take from market testing")
     public void testMarketTaking(){
         Table table = new Table(1);
-        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler()));
+        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler(1)));
         table.addPlayer(realPlayer);
         FaithTrackController faithTrackController = new FaithTrackController(table);
         MarketController marketController = new MarketController(faithTrackController);
@@ -592,9 +592,9 @@ public class MarketControllerTest {
     @DisplayName("quit from market selection testing")
     public void testQuit(){
         Table table = new Table(2);
-        RealPlayer realPlayer1 = new RealPlayer(new User("user1", new FakeConnectionHandler()));
+        RealPlayer realPlayer1 = new RealPlayer(new User("user1", new FakeConnectionHandler(1)));
         table.addPlayer(realPlayer1);
-        RealPlayer realPlayer2 = new RealPlayer(new User("user2", new FakeConnectionHandler()));
+        RealPlayer realPlayer2 = new RealPlayer(new User("user2", new FakeConnectionHandler(2)));
         table.addPlayer(realPlayer2);
         FaithTrackController faithTrackController = new FaithTrackController(table);
         MarketController marketController = new MarketController(faithTrackController);
@@ -664,7 +664,7 @@ public class MarketControllerTest {
     @DisplayName("transmutation testing")
     public void testTransmutation(){
         Table table = new Table(1);
-        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler()));
+        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler(1)));
         table.addPlayer(realPlayer);
         FaithTrackController faithTrackController = new FaithTrackController(table);
         MarketController marketController = new MarketController(faithTrackController);
@@ -792,7 +792,7 @@ public class MarketControllerTest {
     @DisplayName("exchange test")
     public void testExchange(){
         Table table = new Table(1);
-        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler()));
+        RealPlayer realPlayer = new RealPlayer(new User("user", new FakeConnectionHandler(1)));
         table.addPlayer(realPlayer);
         FaithTrackController faithTrackController = new FaithTrackController(table);
         MarketController marketController = new MarketController(faithTrackController);

@@ -25,8 +25,8 @@ public class BuyDevCardControllerTest {
     @Test
     public void validBuying(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
@@ -58,8 +58,8 @@ public class BuyDevCardControllerTest {
     @Test
     public void invalidBuying(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
@@ -98,8 +98,8 @@ public class BuyDevCardControllerTest {
     @Test
     public void invalidPlacing(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
@@ -151,8 +151,8 @@ public class BuyDevCardControllerTest {
     @Test
     public void discountUsage(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);
@@ -207,8 +207,8 @@ public class BuyDevCardControllerTest {
     @Test
     public void testsSelection(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
-        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceOwned = new EnumMap<>(Resource.class);

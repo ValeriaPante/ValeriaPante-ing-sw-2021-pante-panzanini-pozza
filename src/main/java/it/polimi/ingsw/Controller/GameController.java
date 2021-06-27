@@ -137,7 +137,7 @@ public class GameController extends CertifiedResourceUsage{
                                 return;
                             }
                         }
-                        table.singleAddShelf(s.getCapacity(), resType1);
+                        table.addAllIfPossibleToShelf(s.getCapacity(), resType1,1);
                     }
 
                 faithTrackController.movePlayerOfTurn(1);
@@ -150,7 +150,7 @@ public class GameController extends CertifiedResourceUsage{
                 table.nextTurn();
             }
         } else {
-            table.singleAddShelf(capacityShelf1, resType1);
+            table.addAllIfPossibleToShelf(capacityShelf1, resType1, 1);
 
             if ((table.getPlayers().length > 2) && (table.turnOf() == table.getPlayers()[2]))
                 faithTrackController.movePlayerOfTurn(1);

@@ -28,8 +28,8 @@ public class LeaderControllerTest {
     @Test
     public void discarding(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
-        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
@@ -53,8 +53,8 @@ public class LeaderControllerTest {
     @Test
     public void activateCardWithoutDevTypeRequirements(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
-        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
@@ -76,8 +76,8 @@ public class LeaderControllerTest {
     @Test
     public void activateCardWithoutResourceRequirements(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
-        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
@@ -99,8 +99,8 @@ public class LeaderControllerTest {
     @Test
     public void activateCard(){
         Table table = new Table(2);
-        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler())));
-        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler())));
+        table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
+        table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);

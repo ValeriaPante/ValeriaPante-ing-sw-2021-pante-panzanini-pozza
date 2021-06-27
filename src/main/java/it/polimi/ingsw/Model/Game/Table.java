@@ -1,10 +1,12 @@
 package it.polimi.ingsw.Model.Game;
 
+import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
 import it.polimi.ingsw.Model.Cards.DevCard;
 import it.polimi.ingsw.Model.Cards.DevCardType;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
+import it.polimi.ingsw.Model.Cards.PopeFavorCard;
 import it.polimi.ingsw.Model.Decks.DevDeck;
 import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import it.polimi.ingsw.Model.Deposit.Market;
@@ -13,6 +15,7 @@ import it.polimi.ingsw.Model.Deposit.Payable;
 import it.polimi.ingsw.Model.Deposit.Shelf;
 import it.polimi.ingsw.Model.Deposit.StrongBox;
 import it.polimi.ingsw.Model.FaithTrack.FaithTrack;
+import it.polimi.ingsw.Model.FaithTrack.VaticanRelation;
 import it.polimi.ingsw.Model.Player.LorenzoIlMagnifico;
 import it.polimi.ingsw.Model.Player.Player;
 import it.polimi.ingsw.Model.Player.RealPlayer;
@@ -215,18 +218,7 @@ public class Table {
         else{
             message = new WinnerMessage(turnOf+1);
         }
-        for (RealPlayer realPlayer : this.players){
-            realPlayer.sendMessage(message);
-        }
-    }
-
-    public void singleAddShelf(int capacity, Resource resourceToAdd){
-        for (Shelf s : this.turnOf().getShelves())
-            if (s.getCapacity() == capacity){
-                s.singleAdd(resourceToAdd);
-                notifyShelfChange(s);
-                break;
-            }
+        this.notifyAllPlayer(message);
     }
 
     public void addAllIfPossibleToShelf(int capacity, Resource resourceToAdd, int quantity){
@@ -240,10 +232,7 @@ public class Table {
 
     private void notifyStrongBoxChange(StrongBox strongBoxTarget){
         ChangedStrongboxMessage message = new ChangedStrongboxMessage(turnOf+1, this.turnOf().getStrongBox().content() == null ? new HashMap<>() : new HashMap<>(this.turnOf().getStrongBox().content()));
-
-        for (RealPlayer player : this.players){
-            player.sendMessage(message);
-        }
+        this.notifyAllPlayer(message);
     }
 
     private void notifyShelfChange(Shelf shelfTarget){
@@ -253,13 +242,11 @@ public class Table {
                 shelfTarget.getResourceType(),
                 shelfTarget.getUsage());
 
-        for (RealPlayer player : this.players){
-            player.sendMessage(message);
-        }
+        this.notifyAllPlayer(message);
     }
 
     public void payThrough(Payable payable){
-        payable. pay();
+        payable.pay();
         if (payable instanceof Shelf){
             notifyShelfChange((Shelf) payable);
         }
@@ -268,6 +255,40 @@ public class Table {
 //        }
         else if (payable instanceof StrongBox){
             notifyStrongBoxChange((StrongBox) payable);
+        }
+    }
+
+    public void moveForwardOnFaithTrack(int playerId, int amount){
+        FromServerMessage message = null;
+        if (playerId == 0){
+            this.lorenzoIlMagnifico.moveForward(amount);
+            message = new NewPlayerPositionMessage(0, this.getLorenzo().getPosition());
+        }
+        else {
+            for (int i=0; i<this.players.size(); i++){
+                if (this.players.get(i).getId() == playerId){
+                    this.players.get(i).moveForward(amount);
+                    message = new NewPlayerPositionMessage(i+1, this.players.get(i).getPosition());
+                    break;
+                }
+            }
+        }
+        if (message != null) {
+            this.notifyAllPlayer(message);
+        }
+    }
+
+    public void updatePlayersPopeCards(int vaticanRelationId){
+        VaticanRelation vaticanRelation = this.faithTrack.getVaticanRelations()[vaticanRelationId];
+        for (int i=0; i<this.players.size(); i++){
+            if (vaticanRelation.isInOrOver(this.players.get(i).getPosition())){
+                this.players.get(i).getPopeFavorCards()[vaticanRelationId].toFaceUp();
+            }
+            else{
+                this.players.get(i).getPopeFavorCards()[vaticanRelationId].discard();
+            }
+
+            this.notifyAllPlayer(new PopeFavourCardStateMessage(i+1, Arrays.stream(this.players.get(i).getPopeFavorCards()).map(PopeFavorCard::getState).toArray(PopeFavorCardState[]::new)));
         }
     }
 

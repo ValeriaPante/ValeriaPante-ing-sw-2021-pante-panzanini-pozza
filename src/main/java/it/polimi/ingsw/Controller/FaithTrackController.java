@@ -33,24 +33,17 @@ public class FaithTrackController {
         }
         for (VaticanRelation vaticanRelation: vaticanRelations){
             this.table.getFaithTrack().doneVaticanRelation(vaticanRelation.getId());
-            for (RealPlayer player : players){
-                if (vaticanRelation.isInOrOver(player.getPosition())){
-                    player.getPopeFavorCards()[vaticanRelation.getId()].toFaceUp();
-                }
-                else {
-                    player.getPopeFavorCards()[vaticanRelation.getId()].discard();
-                }
-            }
+            this.table.updatePlayersPopeCards(vaticanRelation.getId());
         }
     }
 
     private boolean moveForward(Player player, int faithPoints){
         //need to check if player exceed the faith track length
         if (this.faithTrack.finished(player.getPosition() + faithPoints)) {
-            player.moveForward(this.table.getFaithTrack().getLength() - player.getPosition());
+            this.table.moveForwardOnFaithTrack(player.getId(), this.table.getFaithTrack().getLength() - player.getPosition());
             return true;
         }
-        player.moveForward(faithPoints);
+        this.table.moveForwardOnFaithTrack(player.getId(), faithPoints);
         return false;
     }
 
