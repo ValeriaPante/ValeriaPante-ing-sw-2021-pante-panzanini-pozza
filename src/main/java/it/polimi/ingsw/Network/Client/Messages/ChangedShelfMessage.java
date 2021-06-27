@@ -5,7 +5,7 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public class ChangedShelfMessage extends WithIntMessage{
 
-    private String type = "changeShelf";
+    private String type = "changedShelf";
     private final int numberOfShelf;
     private final Resource resourceType;
     private final int quantity;
