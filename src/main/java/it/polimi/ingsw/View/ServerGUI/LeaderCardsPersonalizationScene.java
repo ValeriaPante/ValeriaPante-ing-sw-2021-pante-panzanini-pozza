@@ -305,12 +305,12 @@ public class LeaderCardsPersonalizationScene extends CustomScenes{
         //copiare il json
         Gson prettyPrinting = new GsonBuilder().setPrettyPrinting().create();
         String output = prettyPrinting.toJson(this.modifiedLeaderCards);
-        File outputDir = new File(serverPath + "\\accessible\\JSONs\\");
+        File outputDir = new File(serverPath + File.separator + "accessible" + File.separator + "JSONs" + File.separator);
         if (!outputDir.exists()){
             outputDir.mkdirs();
         }
         try {
-            FileOutputStream jsonFile = new FileOutputStream(serverPath + "\\accessible\\JSONs\\LeaderCardsConfig.json");
+            FileOutputStream jsonFile = new FileOutputStream(outputDir.getAbsolutePath() + File.separator + "LeaderCardsConfig.json");
             jsonFile.write(output.getBytes());
             jsonFile.close();
         }catch (IOException e){

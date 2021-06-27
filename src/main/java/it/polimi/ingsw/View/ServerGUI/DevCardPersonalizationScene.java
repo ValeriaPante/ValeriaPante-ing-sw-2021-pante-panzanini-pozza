@@ -181,19 +181,19 @@ public class DevCardPersonalizationScene extends CustomScenes{
         //copiare il json
         Gson prettyPrinting = new GsonBuilder().setPrettyPrinting().create();
         String output = prettyPrinting.toJson(this.modifiedDevCards);
-        File outputDir = new File(serverPath + "\\accessible\\JSONs\\");
+        File outputDir = new File(serverPath + File.separator + "accessible" + File.separator + "JSONs" + File.separator);
         if (!outputDir.exists()){
             outputDir.mkdirs();
         }
         try {
-            FileOutputStream jsonFile = new FileOutputStream(serverPath + "\\accessible\\JSONs\\DevCardsConfig.json");
+            FileOutputStream jsonFile = new FileOutputStream(outputDir.getAbsolutePath() + File.separator + "DevCardsConfig.json");
             jsonFile.write(output.getBytes());
             jsonFile.close();
         }catch (IOException e){
             //sincero bho
         }
 
-        super.closeStage();
+        super.setNextScene(new FaithTrackPersonalizationScene(super.mainStage).getScene());
     }
 
     private boolean allCorrect(){
