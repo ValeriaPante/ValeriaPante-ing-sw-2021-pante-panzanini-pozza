@@ -182,6 +182,7 @@ public class GameController extends CertifiedResourceUsage{
         table.turnOf().setMicroTurnType(MicroTurnType.NONE);
         table.nextTurn();
         if(table.isSinglePlayer() && !table.isLastLap()){
+            //table.drawToken(); //ritorna un token
             playActionToken(table.getLorenzo().getActionTokenDeck().draw());
             //msg (al single player): LorenzoTurnMessage(actionTokenType scartato)
             if(anEntireLineIsEmpty()){
@@ -219,6 +220,7 @@ public class GameController extends CertifiedResourceUsage{
             }
         }
 
+        //calcola prima i winner
         //msg(a tutti): WinnerMessage(id del vincitore)
         //nel table c'è una arraylist di vincitori, tu manda solo quello in cima alla lista
     }
@@ -290,6 +292,7 @@ public class GameController extends CertifiedResourceUsage{
      * @param color integer indicating the color of the development cards to discard
      */
     private void discardDevCards(int color){
+        //array di int [-1,-1,-1] top cards id
         int cardsToDiscard = 2;
         int level = 0;
         ArrayList<DevDeck> lineOfDecks = getLineOfDecks(color);
@@ -301,6 +304,7 @@ public class GameController extends CertifiedResourceUsage{
                 lineOfDecks.get(level).draw();
                 cardsToDiscard--;
                 level++;
+                //notifica cambiamento mazzetto
             } else {
                 level++;
             }

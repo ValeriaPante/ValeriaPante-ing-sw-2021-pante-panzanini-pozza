@@ -188,9 +188,29 @@ public class Table {
         return cardDrawn;
     }
 
+    public void drawTwoDevCards(){
+
+    }
+
     //idee sul set winner??? questo non mi piace molto
     public void addWinner(Player winner){
         this.winner.add(winner);
+    }
+
+    public void addWinners(List<Player> winners){
+        this.winner.addAll(winners);
+        Player winner = this.winner.get(0);
+        int winnerId = 0;
+        for (int i=0; i<this.players.size(); i++){
+            if (winner == this.players.get(i)){
+                winnerId = i+1;
+                break;
+            }
+        }
+        System.out.println(winnerId);
+        for (RealPlayer realPlayer : this.players){
+            realPlayer.sendMessage(new WinnerMessage(winnerId));
+        }
     }
 
     public void clearWinners(){ this.winner.clear(); }
