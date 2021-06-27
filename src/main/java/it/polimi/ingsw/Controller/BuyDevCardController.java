@@ -313,15 +313,10 @@ public class BuyDevCardController extends CardActionController{
                     break;
                 }
             }
-            if (numberOfDeck<devDecks.length){ //if(chosenDeck != null){
+            if (numberOfDeck<devDecks.length){
                 try {
-                    //table.turnOf().getDevSlots()[numberOfSlot - 1].addCard(chosenDeck.getTopCard()); //da eliminare
-                    //msg (a tutti): NewDevCardMessage(id player di turno, id carta comprata, numero dello slot in cui è stata messa)
-                    table.updatePlayerOfTurnDevSlot(numberOfSlot, devDecks[numberOfDeck].getTopCard()); // <---
-                    //devDecks[numberOfDeck].selectTopCard(); //da eliminare
-                    //devDecks[numberOfDeck].draw(); //da eliminare
-                    //msg (a tutti): NewTopCardMessage(id della nuova carta in cima al mazzo, numero del mazzo da cui è stato fatto draw)
-                    table.drawDevDeck(numberOfDeck); //<--
+                    table.updatePlayerOfTurnDevSlot(numberOfSlot, devDecks[numberOfDeck].getTopCard());
+                    table.drawDevDeck(numberOfDeck);
                     table.turnOf().setMicroTurnType(MicroTurnType.NONE);
                     table.turnOf().setMacroTurnType(MacroTurnType.DONE);
                     appliedDiscounts.clear();
@@ -336,36 +331,5 @@ public class BuyDevCardController extends CardActionController{
                 }
             }
         } else table.turnOf().setErrorMessage("You can't do this action");
-
-/*            DevDeck chosenDeck = null;
-            for(DevDeck deck: table.getDevDecks()){
-                if(deck.getTopCard().isSelected()) {
-                    chosenDeck = deck;
-                    //immagino che qui io abbia il numero del mazzo da cui debba fare draw (+1 o no?)
-                    break;
-                }
-            }
-            if(chosenDeck != null){
-                try {
-                    //table.turnOf().getDevSlots()[numberOfSlot - 1].addCard(chosenDeck.getTopCard()); //da eliminare
-                    //msg (a tutti): NewDevCardMessage(id player di turno, id carta comprata, numero dello slot in cui è stata messa)
-                    table.updatePlayerOfTurnDevSlot(numberOfSlot, chosenDeck.getTopCard()); // <---
-                    chosenDeck.selectTopCard();
-                    chosenDeck.draw();
-                    //msg (a tutti): NewTopCardMessage(id della nuova carta in cima al mazzo, numero del mazzo da cui è stato fatto draw)
-                    table.turnOf().setMicroTurnType(MicroTurnType.NONE);
-                    table.turnOf().setMacroTurnType(MacroTurnType.DONE);
-                    appliedDiscounts.clear();
-                    if(table.turnOf().getNumberOfDevCardOwned() == 7){
-                        table.setLastLap();
-                        throw new GameOver();
-                    }
-                } catch (CantPutThisHere e) {
-                    table.turnOf().setErrorMessage("This Slot can't contain your card. ");
-                } catch (IndexOutOfBoundsException e) {
-                    table.turnOf().setErrorMessage("Wrong selection: there is not such slot. ");
-                }
-            }
-        } else table.turnOf().setErrorMessage("You can't do this action");*/
     }
 }
