@@ -7,6 +7,16 @@ import it.polimi.ingsw.PreGameModel.Lobby;
 
 import java.util.List;
 
+/**
+ * This class is used for visitor pattern as visitor.
+ * It is implemented in order to avoid the usage of a "switch" made of multiples "instanceof".
+ * It extracts the content of each message and passes it to the right controller.
+ * Since some messages can correspond to calls of methods on different controller that cannot be
+ * decided before, since it is up to the business logic of the game, whe used the pattern "chain of responsibility":
+ * an example is the implementation of the "actionOnMessage" method for a message which type is "shelfSelection".
+ * All the possible methods, on the different controllers, are called and tried to be performed and according to the
+ * result, different calls on methods are considered.
+ */
 public class InGameControllerSwitch {
     private final BuyDevCardController buyDevCardController;
     private final GameController gameController;
@@ -14,6 +24,10 @@ public class InGameControllerSwitch {
     private final MarketController marketController;
     private final ProductionController productionController;
 
+    /**
+     * Creates all the controllers and all the game elements
+     * @param lobby lobby of the players that will play this match
+     */
     public InGameControllerSwitch(Lobby lobby){
         gameController = new GameController(lobby);
         buyDevCardController = new BuyDevCardController(gameController.getFaithTrackController());

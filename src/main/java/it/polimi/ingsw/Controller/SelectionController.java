@@ -9,6 +9,9 @@ import it.polimi.ingsw.Model.Game.Table;
 
 import java.util.EnumMap;
 
+/**
+ * This controller implements all the business logic linked to selection of resources
+ */
 public class SelectionController extends CertifiedResourceUsage{
     protected final Table table;
     protected EnumMap<Resource, Integer> enumMap;
@@ -20,6 +23,11 @@ public class SelectionController extends CertifiedResourceUsage{
         this.faithTrackController = ftc;
     }
 
+    /**
+     *
+     * @param serial
+     * @return
+     */
     protected LeaderCard getUsableLeaderCard(int serial){
         LeaderCard specifiedLeaderCard = leaderCardFromID(serial);
         if (specifiedLeaderCard == null)

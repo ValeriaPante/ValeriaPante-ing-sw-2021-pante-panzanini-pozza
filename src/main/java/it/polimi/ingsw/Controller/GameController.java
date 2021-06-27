@@ -14,6 +14,9 @@ import it.polimi.ingsw.PreGameModel.User;
 
 import java.util.*;
 
+/**
+ * This class provides the basic tools for playing a game such as end turn, and tools for initializing the match
+ */
 public class GameController extends CertifiedResourceUsage{
     private Table table;
     private FaithTrackController faithTrackController;
@@ -30,6 +33,9 @@ public class GameController extends CertifiedResourceUsage{
         startGame();
     }
 
+    /**
+     *Creates all the objects necessary for playing a game
+     */
     private void startGame(){
         this.table = new Table(players.size());
         this.faithTrackController = new FaithTrackController(table);
@@ -42,14 +48,28 @@ public class GameController extends CertifiedResourceUsage{
         table.initLeaderCards();
     }
 
+    /**
+     * Getter for the Table
+     * @return the table used in this precise game
+     */
     public Table getTable(){
         return this.table;
     }
 
+    /**
+     * Getter for the faith track controller which is used in all the game controller to move players on the faith tack
+     * @return the faith track controller used in this precise game
+     */
     public FaithTrackController getFaithTrackController(){
         return this.faithTrackController;
     }
 
+    /**
+     * Discards from player of turn's hand the leader card with the identifier number specified
+     * (this method is only used during initialization). When the first round of discarding of initialization is over,
+     * it sets the game up for the eventual initialization of resources in shelves and faith points
+     * @param serial unique identifier for the card to discard
+     */
     public void discardLeaderCard (int serial){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.DISCARD_LEADER_CARD)
             return;
@@ -89,6 +109,12 @@ public class GameController extends CertifiedResourceUsage{
         }
     }
 
+    /**
+     * Puts the resource passed as a parameter in the shelf specified
+     * @param capacityShelf1 capacity of the target shelf
+     * @param resType1 resource type of the resource to be added in the shelf
+     *                 with capacity equals to the target capacity specified
+     */
     public void selectResource(int capacityShelf1, Resource resType1){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.CHOOSE_RESOURCES){
             table.turnOf().setErrorMessage("Invalid command");
@@ -330,5 +356,4 @@ public class GameController extends CertifiedResourceUsage{
         lineOfDecks.add(table.getDevDecks()[color + 8]);
         return lineOfDecks;
     }
-    //--------------------------------------------------------------------------------------------
 }
