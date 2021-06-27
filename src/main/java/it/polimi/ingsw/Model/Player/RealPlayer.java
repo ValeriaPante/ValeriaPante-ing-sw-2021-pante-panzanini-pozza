@@ -209,4 +209,9 @@ public class RealPlayer extends Player{
     public void clearErrorMessage(){
         this.errorMessage = null;
     }
+
+    @Override
+    int getId() {
+        return this.connection.getId();
+    }
 }

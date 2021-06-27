@@ -2,7 +2,7 @@
   "1GREEN": [
     {
       "id": 1,
-      "victoryPoints": 10,
+      "victoryPoints": 1,
       "cost": {
         "SHIELD": 2
       },

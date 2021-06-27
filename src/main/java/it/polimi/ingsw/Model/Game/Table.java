@@ -195,16 +195,15 @@ public class Table {
     public void addWinners(List<Player> winners){
         this.winner.addAll(winners);
         Player winner = this.winner.get(0);
-        int winnerId = 0;
-        for (int i=0; i<this.players.size(); i++){
-            if (winner == this.players.get(i)){
-                winnerId = i+1;
-                break;
-            }
+        WinnerMessage message;
+        if (winner.getId() == 0){
+            message = new WinnerMessage(0);
         }
-        System.out.println(winnerId);
+        else{
+            message = new WinnerMessage(turnOf+1);
+        }
         for (RealPlayer realPlayer : this.players){
-            realPlayer.sendMessage(new WinnerMessage(winnerId));
+            realPlayer.sendMessage(message);
         }
     }
 

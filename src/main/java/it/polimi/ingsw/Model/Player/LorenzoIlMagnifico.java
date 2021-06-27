@@ -14,4 +14,9 @@ public class LorenzoIlMagnifico extends Player{
     public ActionTokenDeck getActionTokenDeck() {
         return this.actionTokenDeck;
     }
+
+    @Override
+    int getId() {
+        return 0;
+    }
 }

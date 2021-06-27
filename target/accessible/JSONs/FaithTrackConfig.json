@@ -1,67 +1,67 @@
 {
-	"length": 24,
-	"smallPaths": [
-		{
-		"posStart": 0,
-		"posEnd": 2,
-		"victoryPoints": 0 
-		},
-			{
-		"posStart": 3,
-		"posEnd": 5,
-		"victoryPoints": 1 
-		},
-			{
-		"posStart": 6,
-		"posEnd": 8,
-		"victoryPoints": 2
-		},
-			{
-		"posStart": 9,
-		"posEnd": 11,
-		"victoryPoints": 4
-		},
-			{
-		"posStart": 12,
-		"posEnd": 14,
-		"victoryPoints": 6
-		},
-			{
-		"posStart": 15,
-		"posEnd": 17,
-		"victoryPoints": 9
-		},
-			{
-		"posStart": 18,
-		"posEnd": 20,
-		"victoryPoints": 12
-		},
-			{
-		"posStart": 21,
-		"posEnd": 23,
-		"victoryPoints": 16
-		},
-			{
-		"posStart": 24,
-		"posEnd": 24,
-		"victoryPoints": 20
-		}
-	],
-	"vaticanRelations": [
-		{
-		"posStart": 5,
-		"posPope": 8, 
-		"id": 0
-		},
-			{
-		"posStart": 12,
-		"posPope": 16, 
-		"id": 1
-		},
-			{
-		"posStart": 19,
-		"posPope": 24, 
-		"id": 2
-		}
-	]
+  "length": 24,
+  "smallPaths": [
+    {
+      "posStart": 0,
+      "posEnd": 2,
+      "victoryPoints": 0
+    },
+    {
+      "posStart": 3,
+      "posEnd": 5,
+      "victoryPoints": 1
+    },
+    {
+      "posStart": 6,
+      "posEnd": 8,
+      "victoryPoints": 2
+    },
+    {
+      "posStart": 9,
+      "posEnd": 11,
+      "victoryPoints": 4
+    },
+    {
+      "posStart": 12,
+      "posEnd": 14,
+      "victoryPoints": 6
+    },
+    {
+      "posStart": 15,
+      "posEnd": 17,
+      "victoryPoints": 9
+    },
+    {
+      "posStart": 18,
+      "posEnd": 20,
+      "victoryPoints": 12
+    },
+    {
+      "posStart": 21,
+      "posEnd": 23,
+      "victoryPoints": 16
+    },
+    {
+      "posStart": 24,
+      "posEnd": 24,
+      "victoryPoints": 20
+    }
+  ],
+  "vaticanRelations": [
+    {
+      "posStart": 5,
+      "posPope": 8,
+      "id": 0
+    },
+    {
+      "posStart": 12,
+      "posPope": 16,
+      "id": 1
+    },
+    {
+      "posStart": 19,
+      "posPope": 24,
+      "id": 2
+    }
+  ]
 }

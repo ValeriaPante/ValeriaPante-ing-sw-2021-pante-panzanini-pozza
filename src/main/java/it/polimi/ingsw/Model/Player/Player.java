@@ -39,4 +39,6 @@ public abstract class Player {
     public void moveForward(int amount){
         this.position += amount;
     }
+
+    public abstract int getId();
 }
