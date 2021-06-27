@@ -89,6 +89,8 @@ public class GUI extends Application implements View {
      */
     @Override
     public void chooseLeaderCards() {
+        if(model.getNumberOfPlayers() == 1 ) Platform.runLater(() -> Transition.setMainScene(new SinglePlayerMainScene(this)));
+        else Platform.runLater(() -> Transition.setMainScene(new MainScene(this)));
         LeaderCardScene leaderCardScene = new LeaderCardScene(this);
         Platform.runLater(() -> Transition.setLeaderCardsScene(leaderCardScene));
         Platform.runLater(Transition::toLeaderCardScene);
@@ -116,13 +118,6 @@ public class GUI extends Application implements View {
     @Override
     public void startGame() {
         gamePhase = 2;
-        if(model.getNumberOfPlayers() == 1){
-            SinglePlayerMainScene mainScene = new SinglePlayerMainScene(this);
-            Platform.runLater(() -> Transition.setMainScene(mainScene));
-        } else {
-            MainScene mainScene = new MainScene(this);
-            Platform.runLater(() -> Transition.setMainScene(mainScene));
-        }
         Platform.runLater(Transition::toMainScene);
 
     }
@@ -367,8 +362,13 @@ public class GUI extends Application implements View {
      */
     @Override
     public void showWinner(int winnerId) {
-        Platform.runLater(() -> Transition.setWinnerScene(new WinnerScene(model.getPlayerFromId(winnerId).getUsername()+" (id: "+winnerId+")")));
+        if(model.getNumberOfPlayers() == 1 && model.getLocalPlayerId() != winnerId){
+            Platform.runLater(() -> Transition.setWinnerScene(new WinnerScene("Lorenzo Il Magnifico")));
+        } else {
+            Platform.runLater(() -> Transition.setWinnerScene(new WinnerScene(model.getPlayerFromId(winnerId).getUsername()+" (id: "+winnerId+")")));
+        }
         Platform.runLater(Transition::toWinnerScene);
+
     }
 
     /**

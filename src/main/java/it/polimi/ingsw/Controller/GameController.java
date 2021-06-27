@@ -198,11 +198,12 @@ public class GameController extends CertifiedResourceUsage{
      * Finds the winner and sends it to the players
      */
     public void endGame(){
+        ArrayList<Player> winners = new ArrayList<>();
         if(table.isSinglePlayer()){
             if(anEntireLineIsEmpty() || table.getFaithTrack().finished(table.getLorenzo().getPosition()))
-                table.addWinner(table.getLorenzo());
+                winners.add(table.getLorenzo());
             else{
-                table.addWinner(table.getPlayers()[0]);
+                winners.add(table.getPlayers()[0]);
             }
         } else {
             int maxPoints = 0;
@@ -212,17 +213,14 @@ public class GameController extends CertifiedResourceUsage{
                 if(points[0] > maxPoints || (points[0] == maxPoints && points[1] > maxNumOfResources)){
                     maxPoints = points[0];
                     maxNumOfResources = points[1];
-                    table.clearWinners();
-                    table.addWinner(player);
+                    winners.clear();
+                    winners.add(player);
                 } else if (points[0] == maxPoints && points[1] == maxNumOfResources){
-                    table.addWinner(player);
+                    winners.add(player);
                 }
             }
         }
-
-        //calcola prima i winner
-        //msg(a tutti): WinnerMessage(id del vincitore)
-        //nel table c'è una arraylist di vincitori, tu manda solo quello in cima alla lista
+        table.addWinners(winners);
     }
 
     /**

@@ -192,11 +192,6 @@ public class Table {
 
     }
 
-    //idee sul set winner??? questo non mi piace molto
-    public void addWinner(Player winner){
-        this.winner.add(winner);
-    }
-
     public void addWinners(List<Player> winners){
         this.winner.addAll(winners);
         Player winner = this.winner.get(0);
