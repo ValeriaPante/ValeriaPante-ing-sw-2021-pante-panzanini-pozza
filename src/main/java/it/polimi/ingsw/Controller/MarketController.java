@@ -13,7 +13,6 @@ import it.polimi.ingsw.Model.Player.RealPlayer;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.Map;
 
 public class MarketController extends SelectionController{
     public MarketController(FaithTrackController ftc){
@@ -67,14 +66,19 @@ public class MarketController extends SelectionController{
 
         for (Shelf s : table.turnOf().getShelves()){
             try{
-                supportContainer.addEnumMap(s.takeSelected());
+                EnumMap<Resource, Integer> shelfSelected = new EnumMap<>(Resource.class);
+                if (s.getResourceType() != null){
+                    shelfSelected.put(s.getResourceType(), s.getQuantitySelected());
+                    table.payThrough(s);
+                    table.addToSupportContainer(shelfSelected);
+                }
             } catch (IndexOutOfBoundsException ignored){}
         }
 
         for(LeaderCard lc: table.turnOf().getLeaderCards()){
             try{
-                supportContainer.addEnumMap(lc.getAbility().getSelected());
-                lc.getAbility().pay();
+                table.addToSupportContainer(lc.getAbility().getSelected());
+                table.payThrough(lc.getAbility());
             }
             catch (WrongLeaderCardType | NullPointerException ignored){}
         }
@@ -109,14 +113,13 @@ public class MarketController extends SelectionController{
                 }
 
         try{
-            currentShelf.addAllIfPossible(resToBeAdded, enumMap.get(resToBeAdded));
-            table.turnOf().getSupportContainer().pay();
+            table.addAllIfPossibleToShelf(currentShelf.getCapacity(), resToBeAdded, enumMap.get(resToBeAdded));
+            table.payThrough(table.turnOf().getSupportContainer());
+
         } catch (IllegalArgumentException e){
             table.turnOf().setErrorMessage("Wrong type of resource");
-            return;
         }catch (IndexOutOfBoundsException e){
             table.turnOf().setErrorMessage("Insertion exceeding limits");
-            return;
         }
     }
 
@@ -137,7 +140,7 @@ public class MarketController extends SelectionController{
 
         if (canLeaderContain(specifiedLeaderCard.getAbility(), enumMap, false) ) {
             addEnumMapToLC(specifiedLeaderCard.getAbility(), table.turnOf().getSupportContainer().getSelection());
-            table.turnOf().getSupportContainer().pay();
+            table.payThrough(table.turnOf().getSupportContainer());
         }
     }
 
@@ -204,20 +207,24 @@ public class MarketController extends SelectionController{
                 if (resSelectedInSupportContainer == null)
                     return;
 
-                player.getSupportContainer().addEnumMap(selectedShelf.takeSelected());
+                EnumMap<Resource, Integer> shelfSelection = new EnumMap<>(Resource.class);
+                shelfSelection.put(selectedShelf.getResourceType(), selectedShelf.getQuantitySelected());
+                table.payThrough(selectedShelf);
+                table.addToSupportContainer(shelfSelection);
+
                 enumMap = player.getSupportContainer().getSelection();
-                player.getSupportContainer().pay();
-                selectedShelf.addAllIfPossible(resSelectedInSupportContainer, enumMap.get(resSelectedInSupportContainer));
+                table.payThrough(player.getSupportContainer());
+                table.addAllIfPossibleToShelf(selectedShelf.getCapacity(), resSelectedInSupportContainer, enumMap.get(resSelectedInSupportContainer));
             } else { //Selections in stillToBeSetBox and one leaderCard
                 Ability selectedLeaderCardAbility = leaderCardsSelected.get(0).getAbility();
 
                 if (!canLeaderContain(selectedLeaderCardAbility, enumMap, true))
                     return;
 
-                player.getSupportContainer().addEnumMap(selectedLeaderCardAbility.getSelected());
+                table.addToSupportContainer(selectedLeaderCardAbility.getSelected());
                 selectedLeaderCardAbility.pay();
                 enumMap = player.getSupportContainer().getSelection();
-                player.getSupportContainer().pay();
+                table.payThrough(player.getSupportContainer());
                 addEnumMapToLC(selectedLeaderCardAbility, enumMap);
             }
         } else { //selections between LeaderCards and Shelves
@@ -242,8 +249,8 @@ public class MarketController extends SelectionController{
                 int shelf2Usage = selectedShelf2.getUsage();
                 selectedShelf2.pay();
 
-                selectedShelf1.addAllIfPossible(shelf2Type, shelf2Usage);
-                selectedShelf2.addAllIfPossible(shelf1Type, shelf1Usage);
+                table.addAllIfPossibleToShelf(selectedShelf1.getCapacity(), shelf2Type, shelf2Usage);
+                table.addAllIfPossibleToShelf(selectedShelf2.getCapacity(), shelf1Type, shelf1Usage);
             } else {
                 if (shelvesSelected.size() == 1) { //Selections in one Shelf and one LeaderCard
                     Ability selectedLeaderCardAbility = leaderCardsSelected.get(0).getAbility();
@@ -260,7 +267,7 @@ public class MarketController extends SelectionController{
 
                     EnumMap<Resource, Integer> shelfSelection = selectedShelf.takeSelected();
                     enumMap = selectedLeaderCardAbility.getSelected();
-                    selectedShelf.addAllIfPossible(resourceInLeaderCard, enumMap.get(resourceInLeaderCard));
+                    table.addAllIfPossibleToShelf(selectedShelf.getCapacity(), resourceInLeaderCard, enumMap.get(resourceInLeaderCard));
                     selectedLeaderCardAbility.pay();
                     addEnumMapToLC(selectedLeaderCardAbility, shelfSelection);
                 } else {//Selections only in LeaderCards
@@ -354,6 +361,8 @@ public class MarketController extends SelectionController{
         for (Resource r: Resource.values())
             if (enumMap.containsKey(r))
                 for (int i=0; i < enumMap.get(r); i++)
+                    //@daniel
+                    //msg(a tutti : changedLeaderCardMessage(id player di turno, id carta, array risorse contenute nella leader card)
                     ability.add(r);
     }
 
@@ -394,7 +403,7 @@ public class MarketController extends SelectionController{
         if (table.turnOf().getMicroTurnType() != MicroTurnType.SELECTION_IN_MARKET)
             return;
 
-        enumMap = table.getMarket().takeSelection();
+        enumMap = table.takeFromMarket();
         table.turnOf().setMicroTurnType(MicroTurnType.PLACE_RESOURCES);
 
         if (enumMap.containsKey(Resource.WHITE)){
@@ -425,8 +434,7 @@ public class MarketController extends SelectionController{
         if (enumMap.containsKey(Resource.FAITH))
             faithTrackController.movePlayerOfTurn(enumMap.remove(Resource.FAITH));
 
-        table.turnOf().getSupportContainer().clear();
-        table.turnOf().getSupportContainer().addEnumMap(enumMap);
+        table.updatePlayerOfTurnSupportContainer(enumMap);
         table.turnOf().setMacroTurnType(MacroTurnType.GET_FROM_MARKET);
     }
 
@@ -438,7 +446,7 @@ public class MarketController extends SelectionController{
 
         if (table.turnOf().getMicroTurnType() == MicroTurnType.PLACE_RESOURCES){
             int faithPoints = table.turnOf().getSupportContainer().countAll();
-            table.turnOf().getSupportContainer().clear();
+            table.updatePlayerOfTurnSupportContainer(null);
             faithTrackController.moveAllTheOthers(faithPoints);
             table.turnOf().setMicroTurnType(MicroTurnType.NONE);
             table.turnOf().setMacroTurnType(MacroTurnType.DONE);
@@ -480,8 +488,8 @@ public class MarketController extends SelectionController{
         StrongBox sb = table.turnOf().getSupportContainer();
         sb.clearSelection();
         sb.mapSelection(whiteSelection);
-        sb.pay();
-        sb.addEnumMap(enumMap);
+        table.payThrough(sb);
+        table.addToSupportContainer(enumMap);
         table.turnOf().setMicroTurnType(MicroTurnType.PLACE_RESOURCES);
     }
 

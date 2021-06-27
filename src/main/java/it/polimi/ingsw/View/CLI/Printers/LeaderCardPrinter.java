@@ -104,10 +104,18 @@ public class LeaderCardPrinter extends mapPrinter {
                 if (content == null || content.length == 0)
                     System.out.println("nothing");
                 else{
-//                    for (int i=0; i< content.length; i++)
-//                        
-//                    System.out.println("")
-//                    printMapCompact(mapContent);
+                    boolean commaNeeded = false;
+                    for (int i=0; i< content.length; i++){
+                        if (commaNeeded)
+                            System.out.print(",");
+                        if (!commaNeeded)
+                            commaNeeded = true;
+                        if (content[i] == null)
+                            System.out.print(" __");
+                        else
+                            System.out.print(Resource.toAliasCompact(content[i]));
+                    }
+                    System.out.print("\n");
                 }
                 break;
         }

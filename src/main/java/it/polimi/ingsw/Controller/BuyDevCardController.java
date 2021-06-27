@@ -253,7 +253,7 @@ public class BuyDevCardController extends CardActionController{
             }
 
             for(Payable payable: this.getPayableWithSelection())
-                payable.pay();
+                table.payThrough(payable);
             table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);
         } else table.turnOf().setErrorMessage("You can't do this action");
     }

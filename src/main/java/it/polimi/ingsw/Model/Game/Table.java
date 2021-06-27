@@ -9,6 +9,7 @@ import it.polimi.ingsw.Model.Decks.DevDeck;
 import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import it.polimi.ingsw.Model.Deposit.Market;
 import it.polimi.ingsw.Enums.Colour;
+import it.polimi.ingsw.Model.Deposit.Payable;
 import it.polimi.ingsw.Model.Deposit.Shelf;
 import it.polimi.ingsw.Model.Deposit.StrongBox;
 import it.polimi.ingsw.Model.FaithTrack.FaithTrack;
@@ -170,8 +171,13 @@ public class Table {
     public void updatePlayerOfTurnSupportContainer(EnumMap<Resource, Integer> cost){
         StrongBox supportContainer = this.turnOf().getSupportContainer();
         supportContainer.clear();
-        supportContainer.addEnumMap(cost);
-        ChangedSupportContainerMessage message = new ChangedSupportContainerMessage(this.turnOf+1, new HashMap<>(cost));
+        addToSupportContainer(cost);
+    }
+
+    public void addToSupportContainer(EnumMap<Resource, Integer> map){
+        if (map != null)
+            this.turnOf().getSupportContainer().addEnumMap(map);
+        ChangedSupportContainerMessage message = new ChangedSupportContainerMessage(this.turnOf+1, this.turnOf().getSupportContainer().content() == null ? new HashMap<>() : new HashMap<>(this.turnOf().getSupportContainer().content()));
         this.notifyAllPlayer(message);
     }
 
@@ -187,6 +193,12 @@ public class Table {
         NewTopCardMessage message = new NewTopCardMessage(cardDrawn.getId(), numberOfDeck);
         this.notifyAllPlayer(message);
         return cardDrawn;
+    }
+
+    public EnumMap<Resource, Integer> takeFromMarket(){
+        EnumMap<Resource, Integer> picked = market.takeSelection();
+        notifyAllPlayer(new NewMarketStateMessage(market.getState(), market.getSlide()));
+        return picked;
     }
 
     public void drawTwoDevCards(){
@@ -210,12 +222,52 @@ public class Table {
 
     public void singleAddShelf(int capacity, Resource resourceToAdd){
         for (Shelf s : this.turnOf().getShelves())
-            if (s.getCapacity() == capacity)
+            if (s.getCapacity() == capacity){
                 s.singleAdd(resourceToAdd);
+                notifyShelfChange(s);
+                break;
+            }
+    }
 
-        ChangedShelfMessage message = new ChangedShelfMessage(turnOf+1, capacity-1, resourceToAdd, 1);
+    public void addAllIfPossibleToShelf(int capacity, Resource resourceToAdd, int quantity){
+        for (Shelf s : this.turnOf().getShelves())
+            if (s.getCapacity() == capacity){
+                s.addAllIfPossible(resourceToAdd, quantity);
+                notifyShelfChange(s);
+                break;
+            }
+    }
+
+    private void notifyStrongBoxChange(StrongBox strongBoxTarget){
+        ChangedStrongboxMessage message = new ChangedStrongboxMessage(turnOf+1, this.turnOf().getStrongBox().content() == null ? new HashMap<>() : new HashMap<>(this.turnOf().getStrongBox().content()));
+
         for (RealPlayer player : this.players){
             player.sendMessage(message);
+        }
+    }
+
+    private void notifyShelfChange(Shelf shelfTarget){
+        ChangedShelfMessage message = new ChangedShelfMessage(
+                turnOf+1,
+                shelfTarget.getCapacity()-1,
+                shelfTarget.getResourceType(),
+                shelfTarget.getUsage());
+
+        for (RealPlayer player : this.players){
+            player.sendMessage(message);
+        }
+    }
+
+    public void payThrough(Payable payable){
+        payable. pay();
+        if (payable instanceof Shelf){
+            notifyShelfChange((Shelf) payable);
+        }
+//        else if(payable instanceof Ability){
+//            //@DANIEL
+//        }
+        else if (payable instanceof StrongBox){
+            notifyStrongBoxChange((StrongBox) payable);
         }
     }
 
