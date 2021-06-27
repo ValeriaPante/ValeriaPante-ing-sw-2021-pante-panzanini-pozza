@@ -223,7 +223,7 @@ public class CLI extends Observable implements View, Runnable{
     @Override
     public void updateShelves(int playerId, int numShelf) {
         if (playerId != model.getLocalPlayerId() && showNotifications)
-            executor.execute(() -> printer.notifyShelvesChange(playerId, numShelf));
+            executor.execute(() -> printer.notifyShelvesChange(playerId, numShelf+1));
     }
 
     @Override
