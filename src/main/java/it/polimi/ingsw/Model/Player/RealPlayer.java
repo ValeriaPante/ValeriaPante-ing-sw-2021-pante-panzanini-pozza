@@ -211,7 +211,7 @@ public class RealPlayer extends Player{
     }
 
     @Override
-    int getId() {
+    public int getId() {
         return this.connection.getId();
     }
 }

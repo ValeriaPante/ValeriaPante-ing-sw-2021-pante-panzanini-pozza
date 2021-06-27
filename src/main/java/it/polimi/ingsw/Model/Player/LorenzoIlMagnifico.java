@@ -16,7 +16,7 @@ public class LorenzoIlMagnifico extends Player{
     }
 
     @Override
-    int getId() {
+    public int getId() {
         return 0;
     }
 }

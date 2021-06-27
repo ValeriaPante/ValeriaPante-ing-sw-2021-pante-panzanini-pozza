@@ -1,9 +1,6 @@
 package ControllerTest;
 
-import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
-import it.polimi.ingsw.Network.Client.Messages.InitMessage;
-import it.polimi.ingsw.Network.Client.Messages.StartMessage;
-import it.polimi.ingsw.Network.Client.Messages.TurnOfMessage;
+import it.polimi.ingsw.Network.Client.Messages.*;
 import it.polimi.ingsw.Network.RequestHandlers.RequestHandler;
 import it.polimi.ingsw.Network.Server.MessageSenderInterface;
 
@@ -19,6 +16,8 @@ public class FakeConnectionHandler implements MessageSenderInterface {
             System.out.println("start message sent");
         else if (message instanceof TurnOfMessage)
             System.out.println("turn of message sent");
+        else if (message instanceof ChangedShelfMessage)
+            System.out.println("Changed shelf message sent");
         else
             System.out.println("Sending message...");
     }

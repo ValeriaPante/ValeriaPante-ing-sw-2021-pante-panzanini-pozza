@@ -9,6 +9,7 @@ import it.polimi.ingsw.Model.Decks.DevDeck;
 import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import it.polimi.ingsw.Model.Deposit.Market;
 import it.polimi.ingsw.Enums.Colour;
+import it.polimi.ingsw.Model.Deposit.Shelf;
 import it.polimi.ingsw.Model.Deposit.StrongBox;
 import it.polimi.ingsw.Model.FaithTrack.FaithTrack;
 import it.polimi.ingsw.Model.Player.LorenzoIlMagnifico;
@@ -204,6 +205,17 @@ public class Table {
         }
         for (RealPlayer realPlayer : this.players){
             realPlayer.sendMessage(message);
+        }
+    }
+
+    public void singleAddShelf(int capacity, Resource resourceToAdd){
+        for (Shelf s : this.turnOf().getShelves())
+            if (s.getCapacity() == capacity)
+                s.singleAdd(resourceToAdd);
+
+        ChangedShelfMessage message = new ChangedShelfMessage(turnOf+1, capacity-1, resourceToAdd, 1);
+        for (RealPlayer player : this.players){
+            player.sendMessage(message);
         }
     }
 
