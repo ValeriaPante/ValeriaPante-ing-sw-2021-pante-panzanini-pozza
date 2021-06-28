@@ -96,11 +96,8 @@ public class InGameControllerSwitch {
     }
 
     public synchronized void actionOnMessage(CardProductionSelectionMessage message){
-        if (message.getSenderId() != gameController.getTable().turnOf().getId() || (gameController.getTable().isSinglePlayer() && gameController.getTable().isLorenzoTurn())){
-            for (RealPlayer player : gameController.getTable().getPlayers())
-                if (player.getId() == message.getSenderId()){
-                    player.setErrorMessage("It is not your turn!");
-                }
+        if (!isActionFromTurnOf(message)){
+            return;
         }
         productionController.selectCardProduction(message.getInteger());
     }
