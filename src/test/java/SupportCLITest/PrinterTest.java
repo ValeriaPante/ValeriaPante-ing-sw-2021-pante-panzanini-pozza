@@ -24,7 +24,8 @@ public class PrinterTest {
             setUsername("UserName1");
         }});
         model.setLocalPlayerId(0);
-        SimplifiedFaithTrack simplifiedFaithTrack = new SimplifiedFaithTrack(model.getPLayersID());
+        SimplifiedFaithTrack simplifiedFaithTrack = new SimplifiedFaithTrack();
+        simplifiedFaithTrack.initialize(model.getPLayersID());
         Printer printer = new Printer(model,simplifiedFaithTrack);
 
         //single player
@@ -216,7 +217,8 @@ public class PrinterTest {
             setUsername("UserName4");
         }});
         model.setLocalPlayerId(0);
-        SimplifiedFaithTrack simplifiedFaithTrack = new SimplifiedFaithTrack(model.getPLayersID());
+        SimplifiedFaithTrack simplifiedFaithTrack = new SimplifiedFaithTrack();
+        simplifiedFaithTrack.initialize(model.getPLayersID());
         Printer printer = new Printer(model,simplifiedFaithTrack);
 
         printer.waitingInitialisation(2);
