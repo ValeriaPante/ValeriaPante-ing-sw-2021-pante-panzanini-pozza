@@ -37,7 +37,7 @@ public class CLI extends Observable implements View, Runnable{
 
     public CLI(){
         this.model = new Game();
-        this.simplifiedFaithTrack = new SimplifiedFaithTrack(model.getPLayersID());
+        this.simplifiedFaithTrack = new SimplifiedFaithTrack();
         this.input = new Scanner(System.in);
         this.printer = new Printer(model, simplifiedFaithTrack);
         this.inputManager = new InputManager(model);
@@ -149,6 +149,11 @@ public class CLI extends Observable implements View, Runnable{
     @Override
     public void chooseLeaderCards() {
         executor.execute(() -> {
+            try{
+                simplifiedFaithTrack.getPosition(model.getPLayersID().get(model.getPLayersID().size()));
+            } catch (NullPointerException e){
+                this.simplifiedFaithTrack.initialize(model.getPLayersID());
+            }
             turnState = 1;
             printer.notifyChooseLeaderCards();
         });
@@ -274,6 +279,11 @@ public class CLI extends Observable implements View, Runnable{
     @Override
     public void startInitialisation() {
         executor.execute(() -> {
+            try{
+                simplifiedFaithTrack.getPosition(model.getPLayersID().get(model.getPLayersID().size()));
+            } catch (NullPointerException e){
+                this.simplifiedFaithTrack.initialize(model.getPLayersID());
+            }
             turnState = 1;
             printer.notifyInitializationStarted();
     });

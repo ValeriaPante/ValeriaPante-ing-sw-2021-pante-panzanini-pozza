@@ -10,14 +10,16 @@ import java.util.Map;
  * This class is used to represent the faith track client side, without any business rule
  */
 public class SimplifiedFaithTrack {
-    private final Map<Integer, Integer> idInternalIndexMapping;
-    private final Map<Integer, Integer> positions;
-    private final PopeFavorCardState[][] cardsState;
+    private Map<Integer, Integer> idInternalIndexMapping;
+    private Map<Integer, Integer> positions;
+    private PopeFavorCardState[][] cardsState;
 
     /**
+     * Initializes the faith track according to the simplified model on client
+     * (but only after that model is initialized too, with the init message from the server)
      * @param playersID is the list of the ids of the player, ordered in the same order the will play
      */
-    public SimplifiedFaithTrack(List<Integer> playersID){
+    public void initialize(List<Integer> playersID){
         this.cardsState = new PopeFavorCardState[playersID.size()][3];
         this.idInternalIndexMapping = new HashMap<>();
         this.positions = new HashMap<>();
