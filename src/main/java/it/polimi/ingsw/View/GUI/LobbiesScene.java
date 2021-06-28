@@ -32,7 +32,7 @@ public class LobbiesScene extends ObservableByGUI{
         FlowPane box = (FlowPane) scrollPane.getContent();
         Button newLobbyButton = (Button) root.lookup("#createLobbyButton");
         newLobbyButton.setOnAction(event -> {
-            new Thread(() -> sendMessage(new CreationLobbyMessage())).start();
+            sendMessage(new CreationLobbyMessage());
             Platform.runLater(Transition::toWaitingToStartScene);
         });
         Pane lobbyPane = null;
@@ -55,7 +55,7 @@ public class LobbiesScene extends ObservableByGUI{
             Button goButton = (Button) pane.getChildren().get(5);
             goButton.setOnAction(event -> {
                 int lobbyNum = Integer.parseInt(((Label) ((Pane) ((Button) event.getSource()).getParent()).getChildren().get(0)).getText());
-                new Thread(() -> sendMessage(new MoveToLobbyMessage(lobbyNum))).start();
+                sendMessage(new MoveToLobbyMessage(lobbyNum));
                 WaitingToStartScene waitingToStartScene = new WaitingToStartScene(lobbyNum, observer.getModel().getLobbies().get(lobbyNum));
                 waitingToStartScene.addObserver(this.observer);
                 Platform.runLater(() -> Transition.setWaitingToStartScene(waitingToStartScene));

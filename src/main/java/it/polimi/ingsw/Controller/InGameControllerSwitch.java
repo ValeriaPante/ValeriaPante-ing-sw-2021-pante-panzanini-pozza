@@ -328,4 +328,16 @@ public class InGameControllerSwitch {
             gameController.endGame();
         }
     }
+
+    public void connectionClosed(int playerId){
+        int id = 0;
+        RealPlayer[] players = gameController.getTable().getPlayers();
+        for (int i=0; i<players.length; i++){
+            if (players[i].getId() == playerId){
+                id = i+1;
+                break;
+            }
+        }
+        gameController.getTable().closeAll(id);
+    }
 }

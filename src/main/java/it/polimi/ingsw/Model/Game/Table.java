@@ -356,4 +356,12 @@ public class Table {
     public void clearBroadcastMessage(){
         this.broadcastMessage = null;
     }
+
+    public void closeAll(int id){
+        FromServerMessage message = new DisconnectionMessage("Player disconnected", id);
+        this.notifyAllPlayer(message);
+        for (RealPlayer player : this.players){
+            player.closeConnection();
+        }
+    }
 }

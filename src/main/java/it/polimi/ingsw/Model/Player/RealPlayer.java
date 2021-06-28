@@ -214,4 +214,8 @@ public class RealPlayer extends Player{
     public int getId() {
         return this.connection.getId();
     }
+
+    public void closeConnection(){
+        this.connection.closeConnection();
+    }
 }

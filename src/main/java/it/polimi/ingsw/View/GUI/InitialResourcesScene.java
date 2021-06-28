@@ -83,7 +83,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                new Thread(() -> sendMessage(new SelectResourceMessage(1, Resource.valueOf(db.getString())))).start();
+                sendMessage(new SelectResourceMessage(1, Resource.valueOf(db.getString())));
                 count++;
                 success = true;
             }
@@ -109,7 +109,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                new Thread(() -> sendMessage(new SelectResourceMessage(2, Resource.valueOf(db.getString())))).start();
+                sendMessage(new SelectResourceMessage(2, Resource.valueOf(db.getString())));
                 count++;
                 success = true;
             }
@@ -135,7 +135,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                new Thread(() -> sendMessage(new SelectResourceMessage(3, Resource.valueOf(db.getString())))).start();
+                sendMessage(new SelectResourceMessage(3, Resource.valueOf(db.getString())));
                 count++;
                 success = true;
             }

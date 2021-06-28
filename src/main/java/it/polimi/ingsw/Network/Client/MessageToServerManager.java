@@ -13,10 +13,8 @@ import it.polimi.ingsw.Network.Sender;
 import it.polimi.ingsw.View.View;
 
 import java.io.*;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.net.URISyntaxException;
-import java.rmi.ConnectIOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
@@ -131,6 +129,10 @@ public class MessageToServerManager implements Runnable, MessageManager{
                             break;
                         case "selectionError":
                             result = new SelectionErrorMessage(toEvaluate.get("error").getAsString(), toEvaluate.get("id").getAsInt());
+                            break;
+                        case "disconnectionError":
+                            result = new DisconnectionMessage(toEvaluate.get("error").getAsString(), toEvaluate.get("id").getAsInt());
+                            break;
                         default:
                             break;
                     }
@@ -156,8 +158,8 @@ public class MessageToServerManager implements Runnable, MessageManager{
                     if(convertInput(input))
                         break;
                 }catch (IOException e){
-                    //throw new RuntimeException();
-                    //connessione caduta
+                    break;
+                    //problema sconosciuto
                 }
             }
             fromServer.close();

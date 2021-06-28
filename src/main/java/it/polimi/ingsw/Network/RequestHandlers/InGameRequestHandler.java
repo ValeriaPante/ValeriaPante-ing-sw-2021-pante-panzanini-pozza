@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import it.polimi.ingsw.Controller.InGameControllerSwitch;
 import it.polimi.ingsw.CustomDeserializers.InGameDeserializer;
 import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+import it.polimi.ingsw.Network.Client.Messages.DisconnectionMessage;
 import it.polimi.ingsw.PreGameModel.Lobby;
 
 /**
@@ -44,6 +45,7 @@ public class InGameRequestHandler implements RequestHandler{
      */
     @Override
     public void connectionClosed(int id) {
+        this.inGameControllerSwitch.connectionClosed(id);
         //da finire
     }
 }

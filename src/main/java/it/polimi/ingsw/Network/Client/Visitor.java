@@ -125,4 +125,8 @@ public class Visitor {
         view.showLorenzoTurn(m.getActionToken());
     }
 
+    public void updateModel(DisconnectionMessage m){
+        System.out.println("STACCA STACCA");
+    }
+
 }
