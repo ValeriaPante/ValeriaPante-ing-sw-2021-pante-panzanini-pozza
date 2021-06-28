@@ -419,7 +419,7 @@ public class ProductionController extends CardActionController{
             }
         }
 
-        //non controllo nemmeno se è un leadercard si tipo prodizione, deseleziono comunque tutto
+        //non controllo nemmeno se è un leadercard si tipo produzione, deseleziono comunque tutto
         for (LeaderCard leaderCard : player.getLeaderCards()){
             if (leaderCard.isSelected()){
                 leaderCard.select();
@@ -481,7 +481,7 @@ public class ProductionController extends CardActionController{
     public void backFromAnySelection(){
         this.player = super.table.turnOf();
         if (this.player.getMicroTurnType() != MicroTurnType.ANY_DECISION){
-            this.player.setErrorMessage("Ma dove vorresti tornare indietro scusa?");
+            this.player.setErrorMessage("You can't go back from here");
             return;
         }
         super.table.turnOf().getSupportContainer().clear();

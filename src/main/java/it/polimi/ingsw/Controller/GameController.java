@@ -206,8 +206,7 @@ public class GameController extends CertifiedResourceUsage{
         table.turnOf().setMicroTurnType(MicroTurnType.NONE);
         table.nextTurn();
         if(table.isSinglePlayer() && !table.isLastLap()){
-            //table.drawToken(); //ritorna un token
-            playActionToken(table.getLorenzo().getActionTokenDeck().draw());
+            playActionToken(table.drawToken());
             //msg (al single player): LorenzoTurnMessage(actionTokenType scartato)
             if(anEntireLineIsEmpty()){
                 table.setLastLap();
@@ -295,41 +294,17 @@ public class GameController extends CertifiedResourceUsage{
                 table.getLorenzo().getActionTokenDeck().reset();
                 break;
             case DISCARDGREEN:
-                discardDevCards(0);
+                table.discardTwoDevCards(Colour.GREEN);
                 break;
             case DISCARDYELLOW:
-                discardDevCards(1);
+                table.discardTwoDevCards(Colour.YELLOW);
                 break;
             case DISCARDBLUE:
-                discardDevCards(2);
+                table.discardTwoDevCards(Colour.BLUE);
                 break;
             case DISCARDPURPLE:
-                discardDevCards(3);
+                table.discardTwoDevCards(Colour.PURPLE);
                 break;
-        }
-    }
-
-    /**
-     * Discards 2 development cards of a certain color
-     * @param color integer indicating the color of the development cards to discard
-     */
-    private void discardDevCards(int color){
-        //array di int [-1,-1,-1] top cards id
-        int cardsToDiscard = 2;
-        int level = 0;
-        ArrayList<DevDeck> lineOfDecks = getLineOfDecks(color);
-        while(cardsToDiscard > 0 && level < 3){
-            if (lineOfDecks.get(level).size() > 1){
-                lineOfDecks.get(level).draw();
-                cardsToDiscard--;
-            } else if (lineOfDecks.get(level).size() == 1) {
-                lineOfDecks.get(level).draw();
-                cardsToDiscard--;
-                level++;
-                //notifica cambiamento mazzetto
-            } else {
-                level++;
-            }
         }
     }
 

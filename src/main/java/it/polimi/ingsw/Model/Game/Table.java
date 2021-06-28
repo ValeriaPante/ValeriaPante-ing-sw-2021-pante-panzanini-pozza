@@ -3,10 +3,7 @@ package it.polimi.ingsw.Model.Game;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
-import it.polimi.ingsw.Model.Cards.DevCard;
-import it.polimi.ingsw.Model.Cards.DevCardType;
-import it.polimi.ingsw.Model.Cards.LeaderCard;
-import it.polimi.ingsw.Model.Cards.PopeFavorCard;
+import it.polimi.ingsw.Model.Cards.*;
 import it.polimi.ingsw.Model.Decks.DevDeck;
 import it.polimi.ingsw.Model.Decks.LeaderDeck;
 import it.polimi.ingsw.Model.Deposit.Market;
@@ -180,8 +177,7 @@ public class Table {
     public void addToSupportContainer(EnumMap<Resource, Integer> map){
         if (map != null)
             this.turnOf().getSupportContainer().addEnumMap(map);
-        ChangedSupportContainerMessage message = new ChangedSupportContainerMessage(this.turnOf+1, this.turnOf().getSupportContainer().content() == null ? new HashMap<>() : new HashMap<>(this.turnOf().getSupportContainer().content()));
-        this.notifyAllPlayer(message);
+        this.notifySupportContainerChange();
     }
 
     public void updatePlayerOfTurnDevSlot(int devSlotNum, DevCard chosenCard){
@@ -204,8 +200,43 @@ public class Table {
         return picked;
     }
 
-    public void drawTwoDevCards(){
+    public ActionToken drawToken(){
+        ActionToken token = this.lorenzoIlMagnifico.getActionTokenDeck().draw();
+        this.notifyAllPlayer(new LorenzoTurnMessage(token.getType()));
+        return token;
+    }
 
+    /**
+     * Discards 2 development cards of a certain color
+     * @param color indicating the color of the development cards to discard
+     */
+    public void discardTwoDevCards(Colour color){
+        int cardToDiscards = 2;
+        int level = 0;
+        int i = 0;
+        for (i=0; i<this.devDecks.length; i++){
+            if (this.devDecks[i].getType().getColor() == color){
+                break;
+            }
+        }
+        while (cardToDiscards > 0 && level<3){
+            if (this.devDecks[4*level + i].size() > 1){
+                this.devDecks[4*level + i].draw();
+                cardToDiscards--;
+                if (cardToDiscards == 0){
+                    this.notifyAllPlayer(new NewTopCardMessage(this.devDecks[4*level + i].getTopCard().getId(), 4*level+i));
+                }
+            }
+            else if(this.devDecks[4*level + i].size() == 1){
+                this.devDecks[4*level + i].draw();
+                cardToDiscards--;
+                level++;
+                this.notifyAllPlayer(new NewTopCardMessage(0, 4*level + i));
+            }
+            else{
+                level++;
+            }
+        }
     }
 
     public void addWinners(List<Player> winners){
@@ -230,7 +261,7 @@ public class Table {
             }
     }
 
-    private void notifyStrongBoxChange(StrongBox strongBoxTarget){
+    private void notifyStrongBoxChange(){
         ChangedStrongboxMessage message = new ChangedStrongboxMessage(turnOf+1, this.turnOf().getStrongBox().content() == null ? new HashMap<>() : new HashMap<>(this.turnOf().getStrongBox().content()));
         this.notifyAllPlayer(message);
     }
@@ -245,17 +276,36 @@ public class Table {
         this.notifyAllPlayer(message);
     }
 
-    public void payThrough(Payable payable){
+    private void notifySupportContainerChange(){
+        ChangedSupportContainerMessage message = new ChangedSupportContainerMessage(this.turnOf+1, this.turnOf().getSupportContainer().content() == null ? new HashMap<>() : new HashMap<>(this.turnOf().getSupportContainer().content()));
+        this.notifyAllPlayer(message);
+    }
+
+    public void payPlayerOfTurn(Payable payable){
         payable.pay();
-        if (payable instanceof Shelf){
-            notifyShelfChange((Shelf) payable);
+        FromServerMessage message = null;
+
+        if (payable == this.turnOf().getStrongBox()){
+            this.notifyStrongBoxChange();
+            return;
         }
-//        else if(payable instanceof Ability){
-//            //@DANIEL
-//        }
-        else if (payable instanceof StrongBox){
-            notifyStrongBoxChange((StrongBox) payable);
+        if (payable == this.turnOf().getSupportContainer()){
+            notifySupportContainerChange();
+            return;
         }
+        for (Shelf shelf : this.turnOf().getShelves()){
+            if (payable == shelf){
+                this.notifyShelfChange(shelf);
+                return;
+            }
+        }
+        for (LeaderCard leaderCard : this.turnOf().getLeaderCards()){
+            if (leaderCard.getAbility() == payable){
+                //da aggiungere
+                return;
+            }
+        }
+
     }
 
     public void moveForwardOnFaithTrack(int playerId, int amount){
