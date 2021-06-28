@@ -55,7 +55,7 @@ public class LobbiesScene extends ObservableByGUI{
             Button goButton = (Button) pane.getChildren().get(5);
             goButton.setOnAction(event -> {
                 int lobbyNum = Integer.parseInt(((Label) ((Pane) ((Button) event.getSource()).getParent()).getChildren().get(0)).getText());
-                new Thread(() -> sendMessage(new MoveToLobbyMessage(lobbyNum)));
+                new Thread(() -> sendMessage(new MoveToLobbyMessage(lobbyNum))).start();
                 WaitingToStartScene waitingToStartScene = new WaitingToStartScene(lobbyNum, observer.getModel().getLobbies().get(lobbyNum));
                 waitingToStartScene.addObserver(this.observer);
                 Platform.runLater(() -> Transition.setWaitingToStartScene(waitingToStartScene));
