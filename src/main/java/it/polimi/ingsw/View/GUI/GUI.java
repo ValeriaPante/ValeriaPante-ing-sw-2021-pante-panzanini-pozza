@@ -10,6 +10,7 @@ import it.polimi.ingsw.View.View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -34,6 +35,8 @@ public class GUI extends Application implements View {
         Platform.runLater(Transition::toWelcomeScene);
         stage.setResizable(false);
         stage.show();
+
+        Platform.runLater(() -> Transition.setDialogStage(new Stage(){{setResizable(false);}}));
 
     }
 
@@ -181,14 +184,9 @@ public class GUI extends Application implements View {
         ContainersScene containersScene = new ContainersScene();
         containersScene.addObserver(this);
         containersScene.initialise();
-        containersScene.getRoot().lookup("#quitButton").setVisible(false);
         Platform.runLater(() -> {
-            Stage dialog = new Stage();
-            dialog.setTitle("Your deposits");
-            dialog.setResizable(false);
-            Platform.runLater(() -> dialog.setScene(new Scene(containersScene.getRoot())));
-            Platform.runLater(() -> Transition.setDialogStage(dialog));
-            Platform.runLater(Transition::showDialog);
+            Platform.runLater(() -> Transition.setDialogScene(containersScene.getRoot()));
+            Platform.runLater(() -> Transition.reshowDialog());
         });
 
     }
@@ -244,6 +242,7 @@ public class GUI extends Application implements View {
      */
     @Override
     public void updateShelves(int playerId, int numShelf) {
+        if(Transition.isOnContainersScene()) showDeposits();
         if(playerId == model.getLocalPlayerId()) toDoneState();
 
         if(model.getNumberOfPlayers() > 1){
@@ -260,7 +259,7 @@ public class GUI extends Application implements View {
      */
     @Override
     public void updateSupportContainer(int playerId) {
-        if(Transition.isOnContainersScene()) currentState.refresh();
+        if(Transition.isOnContainersScene()) showDeposits();
         else {
             if(playerId == model.getLocalPlayerId()){
                 Platform.runLater(() -> currentState.next());
@@ -276,6 +275,7 @@ public class GUI extends Application implements View {
      */
     @Override
     public void updateLeaderStorage(int playerId, int cardId) {
+        if(Transition.isOnContainersScene()) showDeposits();
         if(playerId == getModel().getLocalPlayerId()) toDoneState();
         if(model.getNumberOfPlayers() > 1){
             Platform.runLater(() -> Transition.updateLeaderStorage(model.getPlayerIndex(playerId), cardId, model.getPlayerFromId(playerId).getLeaderStorage(cardId)));
@@ -292,7 +292,11 @@ public class GUI extends Application implements View {
      */
     @Override
     public void activateLeaderCard(int playerId, int cardId) {
-        if(playerId == model.getLocalPlayerId()) ProductionScene.setActiveLeaderCard(cardId);
+        if(playerId == model.getLocalPlayerId()){
+            ProductionScene.setActiveLeaderCard(cardId);
+            TransmutationScene.addTransmutation(cardId);
+            DiscountsScene.putDiscount(cardId);
+        }
         if(model.getNumberOfPlayers() > 1){
             Platform.runLater(() -> Transition.activateLeaderCard(model.getPlayerIndex(playerId), cardId, playerId == model.getLocalPlayerId()));
         } else {
@@ -307,7 +311,11 @@ public class GUI extends Application implements View {
      */
     @Override
     public void discardLeaderCard(int playerId, int cardId) {
-        if(playerId == model.getLocalPlayerId()) ProductionScene.removeDiscardedLeaderCard(cardId);
+        if(playerId == model.getLocalPlayerId()){
+            ProductionScene.removeDiscardedLeaderCard(cardId);
+            TransmutationScene.removeTransmutation(cardId);
+            DiscountsScene.removeDiscount(cardId);
+        }
         if(model.getNumberOfPlayers() > 1){
             Platform.runLater(() -> Transition.discardLeaderCard(model.getPlayerIndex(playerId), cardId, playerId == model.getLocalPlayerId()));
         } else {
@@ -397,7 +405,7 @@ public class GUI extends Application implements View {
 
     @Override
     public void showLorenzoTurn(ActionTokenType actionToken){
-        Platform.runLater(() -> Transition.showErrorMessage("Lorenzo drew a token, its effect is: "+ ActionTokenType.getEffectString(actionToken)));
+        Platform.runLater(() -> Transition.showLorenzoMove("Lorenzo drew a token, its effect is: "+ ActionTokenType.getEffectStringForGUI(actionToken)));
     }
 
     @Override

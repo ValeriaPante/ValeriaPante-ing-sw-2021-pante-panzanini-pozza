@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,6 +26,8 @@ import java.util.Map;
  * Scene displaying all the containers of resources from which is possible to move the resources
  */
 public class ContainersScene extends Initializable{
+    private int selectFrom; //0 - support container, 1-2-3 shelf, cardId per leaderCard
+    private int position;
 
     public ContainersScene(){
         try {
@@ -37,13 +40,15 @@ public class ContainersScene extends Initializable{
 
     @Override
     public void initialise(){
+        Transition.setOnContainersScene(true);
+
         root.lookup("#back").setOnMouseClicked(mouseEvent -> {
             Transition.hideDialog();
             Transition.setOnContainersScene(false);
         });
 
         ((Button) root.lookup("#quitButton")).setOnAction(event -> {
-            Transition.hideDialog();
+            Platform.runLater(Transition::hideDialog);
             Transition.setOnContainersScene(false);
             observer.toDoneState();
             sendMessage(new QuitFromMarketMessage());
@@ -60,13 +65,15 @@ public class ContainersScene extends Initializable{
         if(count > 0){
             Node coin = root.lookup("#coinImage");
             coin.setOnDragDetected(dragEvent -> {
+                selectFrom = 0;
                 Dragboard db = ((Node) dragEvent.getSource()).startDragAndDrop(TransferMode.ANY);
                 ClipboardContent content = new ClipboardContent();
                 content.putString("COIN");
                 db.setContent(content);
                 dragEvent.consume();
             });
-            coin.setOnDragEntered(dragEvent -> sendMessage(new SupportContainerSelectionMessage(1, Resource.COIN)));
+
+            //coin.setOnDragEntered(dragEvent -> sendMessage(new SupportContainerSelectionMessage(1, Resource.COIN)));
             //coin.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.COIN))).start());
         }
 
@@ -76,13 +83,14 @@ public class ContainersScene extends Initializable{
         if(count > 0) {
             Node shield = root.lookup("#shieldImage");
             shield.setOnDragDetected(dragEvent -> {
+                selectFrom = 0;
                 Dragboard db = ((Node) dragEvent.getSource()).startDragAndDrop(TransferMode.ANY);
                 ClipboardContent content = new ClipboardContent();
                 content.putString("SHIELD");
                 db.setContent(content);
                 dragEvent.consume();
             });
-            shield.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new SupportContainerSelectionMessage(1, Resource.SHIELD))).start());
+            //shield.setOnMousePressed(mouseEvent -> sendMessage(new SupportContainerSelectionMessage(1, Resource.SHIELD)));
             //shield.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.SHIELD))).start());
         }
 
@@ -92,29 +100,31 @@ public class ContainersScene extends Initializable{
         if(count > 0) {
             Node stone = root.lookup("#stoneImage");
             stone.setOnDragDetected(dragEvent -> {
+                selectFrom = 0;
                 Dragboard db = ((Node) dragEvent.getSource()).startDragAndDrop(TransferMode.ANY);
                 ClipboardContent content = new ClipboardContent();
                 content.putString("STONE");
                 db.setContent(content);
                 dragEvent.consume();
             });
-            stone.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new SupportContainerSelectionMessage(1, Resource.STONE))).start());
+            //stone.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new SupportContainerSelectionMessage(1, Resource.STONE))).start());
             //stone.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.STONE)) ).start());
         }
 
         Label servantCount = (Label) root.lookup("#servant");
-        count = supportContainer.getOrDefault(Resource.STONE, 0);
+        count = supportContainer.getOrDefault(Resource.SERVANT, 0);
         servantCount.setText(String.valueOf(count));
         if(count > 0) {
             Node servant = root.lookup("#servantImage");
             servant.setOnDragDetected(dragEvent -> {
+                selectFrom = 0;
                 Dragboard db = ((Node) dragEvent.getSource()).startDragAndDrop(TransferMode.ANY);
                 ClipboardContent content = new ClipboardContent();
                 content.putString("SERVANT");
                 db.setContent(content);
                 dragEvent.consume();
             });
-            servant.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new SupportContainerSelectionMessage(1, Resource.SERVANT))).start());
+            //servant.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new SupportContainerSelectionMessage(1, Resource.SERVANT))).start());
             //servant.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.SERVANT))).start());
         }
 
@@ -131,6 +141,9 @@ public class ContainersScene extends Initializable{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
+                if(selectFrom == 0) sendMessage(new SupportContainerSelectionMessage(1, Resource.valueOf(db.getString())));
+                else if(selectFrom > 0 && selectFrom < 4) sendMessage(new ShelfSelectionMessage(selectFrom, Resource.valueOf(db.getString())));
+                else sendMessage(new LeaderStorageSelectionMessage(selectFrom, position, Resource.valueOf(db.getString())));
                 new Thread(() -> sendMessage(new MoveToSupportContainerMessage())).start();
                 success = true;
             }
@@ -153,20 +166,21 @@ public class ContainersScene extends Initializable{
                         image.setPreserveRatio(true);
                         image.setId(String.valueOf(i+1));
                         image.setOnDragDetected(dragEvent -> {
+                            selectFrom = Integer.parseInt(((Node) dragEvent.getSource()).getId());
                             Dragboard db = ((Node) dragEvent.getSource()).startDragAndDrop(TransferMode.ANY);
                             ClipboardContent content = new ClipboardContent();
                             content.putString(entry.getKey().toString());
                             db.setContent(content);
                             dragEvent.consume();
                         });
-                        image.setOnDragEntered(dragEvent -> {
+                        /*image.setOnDragEntered(dragEvent -> {
                             int numberOfShelf = Integer.parseInt(((Node) dragEvent.getSource()).getId());
                             new Thread(() -> sendMessage(new ShelfSelectionMessage(numberOfShelf, entry.getKey()))).start();
                         });
                         image.setOnDragExited(dragEvent -> {
                             int numberOfShelf = Integer.parseInt(((Node) dragEvent.getSource()).getId());
                             new Thread(() -> sendMessage(new ShelfDeselectionMessage(numberOfShelf, entry.getKey()))).start();
-                        });
+                        });*/
 
                         ((AnchorPane) root.lookup("#shelf"+ (j + 1) + (i + 1))).getChildren().add(image);
                     }
@@ -174,7 +188,7 @@ public class ContainersScene extends Initializable{
             }
         }
 
-        for(int i = 1; i < 3; i++){
+        for(int i = 1; i <= 3; i++){
             for(int j = 1; j < i + 1; j++){
                 AnchorPane shelf = (AnchorPane) root.lookup("#shelf"+ (i) + (j));
                 shelf.setId(String.valueOf(i));
@@ -185,12 +199,28 @@ public class ContainersScene extends Initializable{
 
                     dragEvent.consume();
                 });
+
+
+                Resource resourceContained;
+                try{
+                    resourceContained = new ArrayList<>(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getShelf(i - 1).keySet()).get(0);
+                } catch (IndexOutOfBoundsException e){
+                    resourceContained = null;
+                }
+
+                Resource finalResourceContained = resourceContained;
                 shelf.setOnDragDropped(dragEvent -> {
                     Dragboard db = dragEvent.getDragboard();
                     boolean success = false;
                     if (db.hasString()) {
+                        if(selectFrom == 0) sendMessage(new SupportContainerSelectionMessage(1, Resource.valueOf(db.getString())));
+                        else if(selectFrom > 0 && selectFrom < 4) sendMessage(new ShelfSelectionMessage(selectFrom, Resource.valueOf(db.getString())));
+                        else sendMessage(new LeaderStorageSelectionMessage(selectFrom, position, Resource.valueOf(db.getString())));
                         AnchorPane source = (AnchorPane) dragEvent.getSource();
-                        if(source.getChildren().size() != 0) new Thread(() -> sendMessage(new ExchangeMessage())).start();
+                        if(source.getChildren().size() != 0){
+                            sendMessage(new ShelfSelectionMessage(Integer.parseInt(source.getId()), finalResourceContained));
+                            new Thread(() -> sendMessage(new ExchangeMessage())).start();
+                        }
                         else new Thread(() -> sendMessage(new MoveToShelfMessage(Integer.parseInt(source.getId())))).start();
                         success = true;
                     }
@@ -229,12 +259,20 @@ public class ContainersScene extends Initializable{
 
                     dragEvent.consume();
                 });
+                int resPosition = i;
                 space.setOnDragDropped(dragEvent -> {
                     Dragboard db = dragEvent.getDragboard();
                     boolean success = false;
                     if (db.hasString()) {
+                        if(selectFrom == 0) sendMessage(new SupportContainerSelectionMessage(1, Resource.valueOf(db.getString())));
+                        else if(selectFrom > 0 && selectFrom < 4) sendMessage(new ShelfSelectionMessage(selectFrom, Resource.valueOf(db.getString())));
+                        else sendMessage(new LeaderStorageSelectionMessage(selectFrom, position, Resource.valueOf(db.getString())));
+
                         AnchorPane source = (AnchorPane) dragEvent.getSource();
-                        if(source.getChildren().size() != 0) new Thread(() -> sendMessage(new ExchangeMessage())).start();
+                        if(source.getChildren().size() != 0) {
+                            sendMessage(new LeaderStorageSelectionMessage(storage.getKey(), resPosition, resources[resPosition]));
+                            new Thread(() -> sendMessage(new ExchangeMessage())).start();
+                        }
                         else new Thread(() -> sendMessage(new MoveToShelfMessage(Integer.parseInt(source.getId())))).start();
                         success = true;
                     }
@@ -243,23 +281,25 @@ public class ContainersScene extends Initializable{
                 });
                 if(resources != null){
                     for(int j = 0; j < resources.length; j++){
+                        int numberOfCard = storage.getKey();
+                        int position = j;
+                        Resource resourceType = resources[j];
                         InputStream input = Transition.class.getResourceAsStream("/constantAssets/" +resources[j].toString().toLowerCase()+".png");
                         ImageView resourceImage = new ImageView();
                         resourceImage.setImage(new Image(input));
                         resourceImage.setFitWidth(60);
                         resourceImage.setPreserveRatio(true);
                         resourceImage.setOnDragDetected(dragEvent -> {
+                            selectFrom = numberOfCard;
+                            this.position = position;
                             Dragboard db = ((Node) dragEvent.getSource()).startDragAndDrop(TransferMode.ANY);
                             ClipboardContent content = new ClipboardContent();
-                            content.putString("");
+                            content.putString(resourceType.toString().toUpperCase());
                             db.setContent(content);
                             dragEvent.consume();
                         });
-                        int numberOfCard = storage.getKey();
-                        int position = j;
-                        Resource resourceType = resources[j];
-                        resourceImage.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(numberOfCard ,position, resourceType))).start());
-                        resourceImage.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(numberOfCard ,position, resourceType))).start());
+                        //resourceImage.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(numberOfCard ,position, resourceType))).start());
+                        //resourceImage.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(numberOfCard ,position, resourceType))).start());
                         space.getChildren().add(resourceImage);
                     }
                 }

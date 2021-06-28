@@ -7,6 +7,7 @@ import it.polimi.ingsw.View.View;
 
 public class LocalMessageSender implements MessageSenderInterface{
     private final Visitor visitor;
+    private int id;
 
     public LocalMessageSender(View view){
         visitor = new Visitor(view);
@@ -19,12 +20,12 @@ public class LocalMessageSender implements MessageSenderInterface{
 
     @Override
     public int getId() {
-        return 0;
+        return id;
     }
 
     @Override
     public void setId(int id) {
-
+        this.id = id;
     }
 
     @Override

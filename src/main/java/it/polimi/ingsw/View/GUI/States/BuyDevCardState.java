@@ -14,13 +14,7 @@ public class BuyDevCardState extends State {
         toDo = new ArrayList<>();
         done = new ArrayList<>();
 
-        ArrayList<Integer> lc = gui.getModel().getPlayerFromId(gui.getModel().getLocalPlayerId()).getLeaderCards();
-        int count = 0;
-        for (Integer integer : lc) {
-            if (integer > 48 && integer < 53) count++;
-        }
-
-        if(count > 0){
+        if(DiscountsScene.getNumberOfDiscounts() > 0){
             DiscountsScene discountsScene = new DiscountsScene();
             discountsScene.addObserver(gui);
             toDo.add(discountsScene);

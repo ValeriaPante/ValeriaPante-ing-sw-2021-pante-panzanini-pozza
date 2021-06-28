@@ -59,7 +59,7 @@ public class Transition {
     }
 
     public static void setDialogScene(Pane scene){
-        dialogStage.getScene().setRoot(scene);
+        dialogStage.setScene(new Scene(scene));
     }
 
     public static void setWelcomeScene(WelcomeScene welcomeScene) {
@@ -138,6 +138,11 @@ public class Transition {
     }
 
     public static void showDialog(){
+        if(dialogStage == null) {
+            dialogStage = new Stage();
+            dialogStage.setResizable(false);
+        }
+
         dialogStage.initModality(Modality.APPLICATION_MODAL);
         dialogStage.initStyle(StageStyle.UNDECORATED);
         dialogStage.showAndWait();
@@ -153,6 +158,11 @@ public class Transition {
 
     public static void showErrorMessage(String message){
         Alert alert = new Alert(Alert.AlertType.ERROR, message);
+        alert.showAndWait();
+    }
+
+    public static void showLorenzoMove(String message){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, message);
         alert.showAndWait();
     }
 
@@ -224,10 +234,12 @@ public class Transition {
      * @param position new position
      */
     public static void updatePosition(int index, int position){
-        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
-        double[] newPos = MainScene.getPositions()[position - 1];
-        grid.getChildren().get(index).lookup("#faith").setLayoutX(newPos[0]);
-        grid.getChildren().get(index).lookup("#faith").setLayoutY(newPos[1]);
+        if(position != 0){
+            GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
+            double[] newPos = MainScene.getPositions()[position - 1];
+            grid.getChildren().get(index).lookup("#faith").setLayoutX(newPos[0]);
+            grid.getChildren().get(index).lookup("#faith").setLayoutY(newPos[1]);
+        }
     }
 
     /**
@@ -236,14 +248,16 @@ public class Transition {
      * @param position new position
      */
     public static void updatePosition(boolean isLorenzo, int position){
-        if(isLorenzo){
-            double[] newPos = SinglePlayerMainScene.getLorenzoPositions()[position - 1];
-            mainScene.getRoot().lookup("#lorenzo").setLayoutX(newPos[0]);
-            mainScene.getRoot().lookup("#lorenzo").setLayoutY(newPos[1]);
-        } else {
-            double[] newPos = SinglePlayerMainScene.getPlayerPositions()[position - 1];
-            mainScene.getRoot().lookup("#faith").setLayoutX(newPos[0]);
-            mainScene.getRoot().lookup("#faith").setLayoutY(newPos[1]);
+        if(position != 0){
+            if(isLorenzo){
+                double[] newPos = SinglePlayerMainScene.getLorenzoPositions()[position - 1];
+                mainScene.getRoot().lookup("#lorenzo").setLayoutX(newPos[0]);
+                mainScene.getRoot().lookup("#lorenzo").setLayoutY(newPos[1]);
+            } else {
+                double[] newPos = SinglePlayerMainScene.getPlayerPositions()[position - 1];
+                mainScene.getRoot().lookup("#faith").setLayoutX(newPos[0]);
+                mainScene.getRoot().lookup("#faith").setLayoutY(newPos[1]);
+            }
         }
     }
 
@@ -408,7 +422,7 @@ public class Transition {
         for(int i = 1; i < shelfNumber + 1; i++){
             for(Map.Entry<Resource, Integer> shelf: inside.entrySet()){
                 AnchorPane container = (AnchorPane) grid.getChildren().get(index).lookup("#shelf"+(shelfNumber)+(i));
-                insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey());
+                insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey(), 18);
             }
         }
         if(onContainersScene) gui.showDeposits();
@@ -424,7 +438,7 @@ public class Transition {
         for(int i = 1; i < shelfNumber + 1; i++){
             AnchorPane container = (AnchorPane) mainScene.getRoot().lookup("#shelf"+(shelfNumber)+(i));
             for(Map.Entry<Resource, Integer> shelf: inside.entrySet()){
-                insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey());
+                insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey(),30);
             }
         }
         if(onContainersScene) gui.showDeposits();
@@ -437,13 +451,13 @@ public class Transition {
      * @param occupied number of resource contained on the shelf
      * @param resource type of resource contained
      */
-    private static void insertImagesOnShelf(AnchorPane container, int resourcePosition, int occupied, Resource resource){
+    private static void insertImagesOnShelf(AnchorPane container, int resourcePosition, int occupied, Resource resource, int size){
         if(container.getChildren().size() > 0) container.getChildren().remove(0);
         if( resourcePosition <= occupied){
             InputStream in = Transition.class.getResourceAsStream("/constantAssets/" +resource.toString().toLowerCase()+".png");
             ImageView image = new ImageView();
             image.setImage(new Image(in));
-            image.setFitWidth(18);
+            image.setFitWidth(size);
             image.setPreserveRatio(true);
             container.getChildren().add(image);
         }

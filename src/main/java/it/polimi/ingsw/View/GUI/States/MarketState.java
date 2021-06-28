@@ -14,16 +14,11 @@ import java.util.ArrayList;
 public class MarketState extends State{
 
     public MarketState(GUI gui){
-        ArrayList<Integer> lc = gui.getModel().getPlayerFromId(gui.getModel().getLocalPlayerId()).getLeaderCards();
-        int count = 0;
-        for(int i = 0; i < lc.size(); i++){
-            if(lc.get(i) > 56 && lc.get(i) < 61) count++;
-        }
 
         this.toDo = new ArrayList<>();
         this.done = new ArrayList<>();
 
-        if(count == 2){
+        if(TransmutationScene.getNumberOfTransmutations() == 2){
             TransmutationScene transmutationScene = new TransmutationScene();
             transmutationScene.addObserver(gui);
             toDo.add(transmutationScene);
@@ -63,6 +58,7 @@ public class MarketState extends State{
     @Override
     public void refresh() {
         done.get(0).initialise();
+
         Platform.runLater(() -> Transition.setDialogScene(done.get(0).getRoot()));
     }
 }

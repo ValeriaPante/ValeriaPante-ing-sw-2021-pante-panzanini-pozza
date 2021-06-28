@@ -20,6 +20,8 @@ import java.util.ArrayList;
  */
 public class TransmutationScene extends Initializable{
 
+    private static ArrayList<Integer> transmutationLC = new ArrayList();
+
     public TransmutationScene(){
         try {
             root = FXMLLoader.load(getClass().getResource("/Scenes/transmutationScene.fxml"));
@@ -69,5 +71,18 @@ public class TransmutationScene extends Initializable{
         });
 
 
+
+    }
+
+    public static int getNumberOfTransmutations(){
+        return transmutationLC.size();
+    }
+
+    public static void addTransmutation(int cardId){
+        if (cardId > 56 && cardId < 61) transmutationLC.add(cardId);
+    }
+
+    public static void removeTransmutation(int cardId){
+        transmutationLC.remove(Integer.valueOf(cardId));
     }
 }

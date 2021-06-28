@@ -37,6 +37,7 @@ public class LocalMessageManager implements MessageManager{
      */
     @Override
     public void update(InGameMessage message) {
+        message.setSenderId(1);
         message.readThrough(inGameControllerSwitch);
     }
 

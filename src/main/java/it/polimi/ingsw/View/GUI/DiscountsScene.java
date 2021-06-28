@@ -17,6 +17,8 @@ import java.util.ArrayList;
  */
 public class DiscountsScene extends Initializable{
 
+    private static ArrayList<Integer> discountLC = new ArrayList();
+
     public DiscountsScene(){
         try {
             root = FXMLLoader.load(getClass().getResource("/Scenes/discountsScene.fxml"));
@@ -29,13 +31,6 @@ public class DiscountsScene extends Initializable{
     public void initialise(){
         Button button = (Button) root.lookup("#button");
         button.setOnAction(event -> observer.getCurrentState().next());
-
-        ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
-        ArrayList<Integer> discountLC = new ArrayList<>();
-
-        for (Integer integer : lc) {
-            if (integer > 48 && integer < 53) discountLC.add(integer);
-        }
 
         root.getChildren().get(5).setVisible(false);
         root.getChildren().get(6).setVisible(false);
@@ -96,5 +91,17 @@ public class DiscountsScene extends Initializable{
 
         }
 
+    }
+
+    public static int getNumberOfDiscounts(){
+        return discountLC.size();
+    }
+
+    public static void putDiscount(int cardId){
+        if (cardId > 48 && cardId < 53) discountLC.add(cardId);
+    }
+
+    public static void removeDiscount(int cardId){
+        discountLC.remove(Integer.valueOf(cardId));
     }
 }
