@@ -34,8 +34,10 @@ public class PaymentScene extends Initializable{
 
         Button pay = (Button) root.lookup("#buyButton");
         pay.setOnAction(event -> {
+            Transition.setOnContainersScene(false);
+            observer.toProductionState();
             new Thread(() -> sendMessage(new PaySelectedMessage())).start();
-            observer.getCurrentState().next();
+            //observer.getCurrentState().next();
         });
 
         nextPosition1 = new EnumMap<>(Resource.class);
@@ -64,14 +66,19 @@ public class PaymentScene extends Initializable{
     }
 
     public void initialiseButtons(){
-        shelves= new HashMap<>(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getShelf(0));
-        shelves.putAll(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getShelf(1));
-        shelves.putAll(observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getShelf(2));
-
         shelfNumbers = new EnumMap<>(Resource.class);
-        for(Map.Entry<Resource, Integer> entry: shelves.entrySet()){
-            shelfNumbers.put(entry.getKey(), entry.getValue());
-        }
+        HashMap<Resource, Integer> shelf = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getShelf(0);
+        ArrayList<Resource> inside = new ArrayList<>(shelf.keySet());
+        if (!inside.isEmpty()) shelfNumbers.put(inside.get(0), 1);
+        shelves= new HashMap<>(shelf);
+        shelf = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getShelf(1);
+        inside = new ArrayList<>(shelf.keySet());
+        if(!inside.isEmpty()) shelfNumbers.put(inside.get(0), 2);
+        shelves.putAll(shelf);
+        shelf = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getShelf(2);
+        inside = new ArrayList<>(shelf.keySet());
+        if(!inside.isEmpty())shelfNumbers.put(new ArrayList<>(shelf.keySet()).get(0), 3);
+        shelves.putAll(shelf);
 
         completeMap(shelves);
 

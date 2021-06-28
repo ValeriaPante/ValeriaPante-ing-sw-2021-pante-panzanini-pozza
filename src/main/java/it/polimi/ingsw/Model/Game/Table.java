@@ -282,7 +282,14 @@ public class Table {
     }
 
     private void notifySupportContainerChange(){
-        ChangedSupportContainerMessage message = new ChangedSupportContainerMessage(this.turnOf+1, this.turnOf().getSupportContainer().content() == null ? new HashMap<>() : new HashMap<>(this.turnOf().getSupportContainer().content()));
+        HashMap<Resource, Integer> container = new HashMap<>();
+        EnumMap<Resource, Integer> content = this.turnOf().getSupportContainer().content();
+        if(content != null){
+            for(Map.Entry<Resource, Integer> entry: content.entrySet())
+                container.put(entry.getKey(), entry.getValue());
+        }
+
+        ChangedSupportContainerMessage message = new ChangedSupportContainerMessage(this.turnOf+1, container);
         this.notifyAllPlayer(message);
     }
 

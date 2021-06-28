@@ -31,9 +31,9 @@ public class ProductionScene extends PaymentScene{
 
         Button pay = (Button) root.lookup("#continue");
         pay.setOnAction(event -> {
-            sendMessage(new ProductionActivationMessage());
             observer.toProductionState();
             Transition.hideDialog();
+            sendMessage(new ProductionActivationMessage());
         });
     }
 

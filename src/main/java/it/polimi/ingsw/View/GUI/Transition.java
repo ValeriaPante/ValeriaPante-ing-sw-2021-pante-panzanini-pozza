@@ -4,6 +4,7 @@ import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.DisconnectMessage;
 import it.polimi.ingsw.Network.Client.MessageManager;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -149,11 +150,11 @@ public class Transition {
     }
 
     public static void reshowDialog(){
-        if(!dialogStage.isShowing()) dialogStage.showAndWait();
+        if(!dialogStage.isShowing()) Platform.runLater(() -> dialogStage.showAndWait());
     }
 
     public static void hideDialog(){
-        dialogStage.close();
+        dialogStage.hide();
     }
 
     public static void showErrorMessage(String message){

@@ -221,7 +221,10 @@ public class MainScene extends ObservableByGUI{
         menu.getItems().get(1).setOnAction(actionEvent -> observer.showDevDecks());
         menu.getItems().get(2).setOnAction(actionEvent -> observer.activateProduction());
         menu.getItems().get(3).setOnAction(actionEvent -> observer.showDeposits());
-        menu.getItems().get(4).setOnAction(actionEvent -> new Thread(() -> sendMessage(new EndTurnMessage())).start());
+        menu.getItems().get(4).setOnAction(actionEvent -> {
+            Transition.setOnContainersScene(false);
+            new Thread(() -> sendMessage(new EndTurnMessage())).start();
+        });
         if(observer.getModel().getPlayerIndex(observer.getModel().getLocalPlayerId()) > 0) menu.setVisible(false);
     }
 

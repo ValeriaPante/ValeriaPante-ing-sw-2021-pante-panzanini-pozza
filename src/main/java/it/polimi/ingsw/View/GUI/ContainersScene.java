@@ -164,7 +164,7 @@ public class ContainersScene extends Initializable{
                         image.setImage(new Image(in));
                         image.setFitWidth(50);
                         image.setPreserveRatio(true);
-                        image.setId(String.valueOf(i+1));
+                        image.setId(String.valueOf(j+1));
                         image.setOnDragDetected(dragEvent -> {
                             selectFrom = Integer.parseInt(((Node) dragEvent.getSource()).getId());
                             Dragboard db = ((Node) dragEvent.getSource()).startDragAndDrop(TransferMode.ANY);

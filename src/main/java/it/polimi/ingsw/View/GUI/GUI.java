@@ -262,7 +262,7 @@ public class GUI extends Application implements View {
         if(Transition.isOnContainersScene()) showDeposits();
         else {
             if(playerId == model.getLocalPlayerId()){
-                Platform.runLater(() -> currentState.next());
+                currentState.next();
                 this.actionDone = true;
             }
         }
