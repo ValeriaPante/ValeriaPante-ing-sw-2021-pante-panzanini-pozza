@@ -1,5 +1,6 @@
 package it.polimi.ingsw.Network.Client;
 
+import com.google.gson.Gson;
 import it.polimi.ingsw.Network.Client.Messages.*;
 import it.polimi.ingsw.View.ClientModel.SimplifiedPlayer;
 import it.polimi.ingsw.View.View;
@@ -94,6 +95,8 @@ public class Visitor {
     }
 
     public void updateModel(NewPlayerPositionMessage m){
+        Gson gson = new Gson();
+        System.out.println(gson.toJson(m));
         view.updatePositions(m.getId(), m.getPosition());
     }
 
@@ -126,7 +129,14 @@ public class Visitor {
     }
 
     public void updateModel(DisconnectionMessage m){
-        System.out.println("STACCA STACCA");
+        view.showErrorMessage(m.getError());
+        try{
+            Thread.sleep(3000);
+        } catch (Exception e){
+
+        } finally {
+            System.exit(0);
+        }
     }
 
 }

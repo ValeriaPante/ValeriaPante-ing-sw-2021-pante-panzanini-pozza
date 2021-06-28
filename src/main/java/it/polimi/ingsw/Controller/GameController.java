@@ -103,8 +103,7 @@ public class GameController extends CertifiedResourceUsage{
                 table.turnOf().setMicroTurnType(MicroTurnType.NONE);
                 if (table.isSinglePlayer())
                     table.turnOf().sendMessage(new StartMessage());
-                else
-                    table.nextTurn();
+                table.nextTurn();
             }
         }
     }

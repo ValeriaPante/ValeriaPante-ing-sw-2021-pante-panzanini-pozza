@@ -26,10 +26,10 @@ public class State {
             Platform.runLater(Transition::hideDialog);
         } else {
             toDo.get(0).initialise();
-            Platform.runLater(() -> Transition.setDialogScene(toDo.get(0).getRoot()));
+            Transition.setDialogScene(toDo.get(0).getRoot());
             done.add(0, toDo.get(0));
             toDo.remove(0);
-            Platform.runLater(Transition::reshowDialog);
+            Transition.reshowDialog();
         }
     }
 

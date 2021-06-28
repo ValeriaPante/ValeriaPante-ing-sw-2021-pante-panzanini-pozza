@@ -20,6 +20,9 @@ public class MarketState extends State{
             if(lc.get(i) > 56 && lc.get(i) < 61) count++;
         }
 
+        this.toDo = new ArrayList<>();
+        this.done = new ArrayList<>();
+
         if(count == 2){
             TransmutationScene transmutationScene = new TransmutationScene();
             transmutationScene.addObserver(gui);
@@ -60,6 +63,6 @@ public class MarketState extends State{
     @Override
     public void refresh() {
         done.get(0).initialise();
-        Platform.runLater(() -> Transition.setDialogScene(toDo.get(0).getRoot()));
+        Platform.runLater(() -> Transition.setDialogScene(done.get(0).getRoot()));
     }
 }

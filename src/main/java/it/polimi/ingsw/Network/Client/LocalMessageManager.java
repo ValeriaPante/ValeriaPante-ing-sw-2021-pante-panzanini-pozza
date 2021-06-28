@@ -25,7 +25,9 @@ public class LocalMessageManager implements MessageManager{
      */
     public LocalMessageManager(View view) {
         Lobby lobby = new Lobby(0);
-        lobby.addUser(new User("you", new LocalMessageSender(view)));
+        User user = new User("you", new LocalMessageSender(view));
+        user.setId(1);
+        lobby.addUser(user);
         this.inGameControllerSwitch = new InGameControllerSwitch(lobby);
     }
 

@@ -2,6 +2,7 @@ package it.polimi.ingsw.Network.Client;
 
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
+import it.polimi.ingsw.Enums.ActionTokenType;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
@@ -133,6 +134,9 @@ public class MessageToServerManager implements Runnable, MessageManager{
                         case "disconnectionError":
                             result = new DisconnectionMessage(toEvaluate.get("error").getAsString(), toEvaluate.get("id").getAsInt());
                             break;
+                        case "lorenzoTurn":
+                            result = new LorenzoTurnMessage(gson.fromJson(toEvaluate.get("actionToken"), ActionTokenType.class));
+                            break;
                         default:
                             break;
                     }
@@ -220,7 +224,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
         this.update(username);
         System.out.println("Sent username");
         System.out.println("Connection established");
-        this.run();
+        new Thread(() -> this.run()).start();
     }
 
     //Daniel-part-----------------------------

@@ -26,18 +26,18 @@
             <Image url="@../constantAssets/plancia.png" />
          </image>
       </ImageView>
-      <Circle fill="DODGERBLUE" layoutX="234.0" layoutY="147.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="388.0" layoutY="147.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="337.0" layoutY="147.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="286.0" layoutY="147.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="388.0" layoutY="196.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="337.0" layoutY="196.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="286.0" layoutY="196.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="234.0" layoutY="196.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="388.0" layoutY="245.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="337.0" layoutY="245.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="286.0" layoutY="245.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
-      <Circle fill="DODGERBLUE" layoutX="234.0" layoutY="245.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="0" fill="DODGERBLUE" layoutX="234.0" layoutY="147.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="3" fill="DODGERBLUE" layoutX="388.0" layoutY="147.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="2" fill="DODGERBLUE" layoutX="337.0" layoutY="147.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="1" fill="DODGERBLUE" layoutX="286.0" layoutY="147.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="7" fill="DODGERBLUE" layoutX="388.0" layoutY="196.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="6" fill="DODGERBLUE" layoutX="337.0" layoutY="196.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="5" fill="DODGERBLUE" layoutX="286.0" layoutY="196.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="4" fill="DODGERBLUE" layoutX="234.0" layoutY="196.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="11" fill="DODGERBLUE" layoutX="388.0" layoutY="245.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="10" fill="DODGERBLUE" layoutX="337.0" layoutY="245.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="9" fill="DODGERBLUE" layoutX="286.0" layoutY="245.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle id="8" fill="DODGERBLUE" layoutX="234.0" layoutY="245.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
       <Circle fill="DODGERBLUE" layoutX="421.0" layoutY="105.0" radius="21.0" stroke="BLACK" strokeType="INSIDE" />
       <Region id="horizontalArrow1" layoutX="483.0" layoutY="145.0" prefHeight="12.0" prefWidth="49.0" />
       <Region id="horizontalArrow2" layoutX="483.0" layoutY="190.0" prefHeight="18.0" prefWidth="49.0" />

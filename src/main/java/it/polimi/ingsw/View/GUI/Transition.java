@@ -225,7 +225,7 @@ public class Transition {
      */
     public static void updatePosition(int index, int position){
         GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
-        double[] newPos = MainScene.getPositions()[position - 2];
+        double[] newPos = MainScene.getPositions()[position - 1];
         grid.getChildren().get(index).lookup("#faith").setLayoutX(newPos[0]);
         grid.getChildren().get(index).lookup("#faith").setLayoutY(newPos[1]);
     }
@@ -237,11 +237,11 @@ public class Transition {
      */
     public static void updatePosition(boolean isLorenzo, int position){
         if(isLorenzo){
-            double[] newPos = SinglePlayerMainScene.getLorenzoPositions()[position - 2];
+            double[] newPos = SinglePlayerMainScene.getLorenzoPositions()[position - 1];
             mainScene.getRoot().lookup("#lorenzo").setLayoutX(newPos[0]);
             mainScene.getRoot().lookup("#lorenzo").setLayoutY(newPos[1]);
         } else {
-            double[] newPos = SinglePlayerMainScene.getPlayerPositions()[position - 2];
+            double[] newPos = SinglePlayerMainScene.getPlayerPositions()[position - 1];
             mainScene.getRoot().lookup("#faith").setLayoutX(newPos[0]);
             mainScene.getRoot().lookup("#faith").setLayoutY(newPos[1]);
         }
@@ -542,4 +542,5 @@ public class Transition {
         DevDecksScene.deselectIfSelected(cardId);
         ProductionScene.deselectIfSelected(cardId);
     }
+
 }

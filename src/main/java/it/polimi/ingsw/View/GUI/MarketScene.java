@@ -32,7 +32,7 @@ public class MarketScene extends ObservableByGUI{
         Resource[][] market = observer.getModel().getGrid();
         Resource slide = observer.getModel().getSlide();
         for(int i = 0; i < 12; i++ ){
-            Circle circle = (Circle) root.getChildren().get(i+3);
+            Circle circle = (Circle) root.lookup("#"+i);
             circle.setFill(getColorFromResource(market[i/4][i%4]));
         }
         Circle circle = (Circle) root.getChildren().get(15);
@@ -40,8 +40,8 @@ public class MarketScene extends ObservableByGUI{
 
         Button sendButton = (Button) root.lookup("#buyButton");
         sendButton.setOnAction(event -> {
-            new Thread(() -> sendMessage(new TakeFromMarketMessage())).start();
             observer.toMarketState();
+            new Thread(() -> sendMessage(new TakeFromMarketMessage())).start();
             Platform.runLater(Transition::hideDialog);
         });
 

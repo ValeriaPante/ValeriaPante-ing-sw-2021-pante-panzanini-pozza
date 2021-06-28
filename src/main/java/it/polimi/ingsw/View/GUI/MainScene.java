@@ -213,6 +213,8 @@ public class MainScene extends ObservableByGUI{
             }
         }
 
+        if(observer.getModel().getNumberOfPlayers() == 2) root.setPrefHeight(330);
+
         MenuBar menuBar = (MenuBar) root.getChildren().get(0);
         Menu menu = menuBar.getMenus().get(0);
         menu.getItems().get(0).setOnAction(actionEvent -> observer.showMarket());

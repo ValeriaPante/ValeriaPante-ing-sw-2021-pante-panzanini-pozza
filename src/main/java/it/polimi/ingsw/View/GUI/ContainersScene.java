@@ -5,6 +5,7 @@ import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.*;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -41,6 +42,13 @@ public class ContainersScene extends Initializable{
             Transition.setOnContainersScene(false);
         });
 
+        ((Button) root.lookup("#quitButton")).setOnAction(event -> {
+            Transition.hideDialog();
+            Transition.setOnContainersScene(false);
+            observer.toDoneState();
+            sendMessage(new QuitFromMarketMessage());
+        });
+
 
         // drag and drop from and to support container
         //--------------------------------------------------------------------------------------------------------
@@ -58,8 +66,8 @@ public class ContainersScene extends Initializable{
                 db.setContent(content);
                 dragEvent.consume();
             });
-            coin.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new SupportContainerSelectionMessage(1, Resource.COIN))).start());
-            coin.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.COIN))).start());
+            coin.setOnDragEntered(dragEvent -> sendMessage(new SupportContainerSelectionMessage(1, Resource.COIN)));
+            //coin.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.COIN))).start());
         }
 
         Label shieldCount = (Label) root.lookup("#shield");
@@ -75,7 +83,7 @@ public class ContainersScene extends Initializable{
                 dragEvent.consume();
             });
             shield.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new SupportContainerSelectionMessage(1, Resource.SHIELD))).start());
-            shield.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.SHIELD))).start());
+            //shield.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.SHIELD))).start());
         }
 
         Label stoneCount = (Label) root.lookup("#stone");
@@ -91,7 +99,7 @@ public class ContainersScene extends Initializable{
                 dragEvent.consume();
             });
             stone.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new SupportContainerSelectionMessage(1, Resource.STONE))).start());
-            stone.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.STONE)) ).start());
+            //stone.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.STONE)) ).start());
         }
 
         Label servantCount = (Label) root.lookup("#servant");
@@ -107,7 +115,7 @@ public class ContainersScene extends Initializable{
                 dragEvent.consume();
             });
             servant.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new SupportContainerSelectionMessage(1, Resource.SERVANT))).start());
-            servant.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.SERVANT))).start());
+            //servant.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(1, Resource.SERVANT))).start());
         }
 
 
@@ -157,7 +165,7 @@ public class ContainersScene extends Initializable{
                         });
                         image.setOnDragExited(dragEvent -> {
                             int numberOfShelf = Integer.parseInt(((Node) dragEvent.getSource()).getId());
-                            new Thread(() -> sendMessage(new SupportContainerDeselectionMessage(numberOfShelf, entry.getKey()))).start();
+                            new Thread(() -> sendMessage(new ShelfDeselectionMessage(numberOfShelf, entry.getKey()))).start();
                         });
 
                         ((AnchorPane) root.lookup("#shelf"+ (j + 1) + (i + 1))).getChildren().add(image);
@@ -182,7 +190,7 @@ public class ContainersScene extends Initializable{
                     boolean success = false;
                     if (db.hasString()) {
                         AnchorPane source = (AnchorPane) dragEvent.getSource();
-                        if(source.getChildren().size() == 0) new Thread(() -> sendMessage(new ExchangeMessage())).start();
+                        if(source.getChildren().size() != 0) new Thread(() -> sendMessage(new ExchangeMessage())).start();
                         else new Thread(() -> sendMessage(new MoveToShelfMessage(Integer.parseInt(source.getId())))).start();
                         success = true;
                     }
@@ -226,7 +234,7 @@ public class ContainersScene extends Initializable{
                     boolean success = false;
                     if (db.hasString()) {
                         AnchorPane source = (AnchorPane) dragEvent.getSource();
-                        if(source.getChildren().size() == 0) new Thread(() -> sendMessage(new ExchangeMessage())).start();
+                        if(source.getChildren().size() != 0) new Thread(() -> sendMessage(new ExchangeMessage())).start();
                         else new Thread(() -> sendMessage(new MoveToShelfMessage(Integer.parseInt(source.getId())))).start();
                         success = true;
                     }

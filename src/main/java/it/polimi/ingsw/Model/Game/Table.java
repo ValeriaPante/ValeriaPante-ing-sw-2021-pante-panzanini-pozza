@@ -122,13 +122,13 @@ public class Table {
     public void nextTurn(){
         if (!this.singlePlayer){
             this.turnOf = (this.turnOf + 1) % this.players.size();
-            for (RealPlayer player : this.players){
-                player.sendMessage(new TurnOfMessage(this.turnOf+1));
-            }
+            this.notifyAllPlayer(new TurnOfMessage(this.turnOf + 1));
         }
         else{
 
             this.isLorenzoTurn = !this.isLorenzoTurn;
+            if(isLorenzoTurn) this.notifyAllPlayer(new TurnOfMessage(0));
+            else this.notifyAllPlayer(new TurnOfMessage(this.turnOf + 1));
         }
     }
 

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class LeaderCardScene extends ObservableByGUI{
 
     private Pane root;
-    private ArrayList<Integer> discarded = new ArrayList<>();
+    private int discarded;
 
     public LeaderCardScene(GUI gui){
         addObserver(gui);
@@ -40,20 +40,23 @@ public class LeaderCardScene extends ObservableByGUI{
             }
             image.setFitWidth(200);
             image.setPreserveRatio(true);
-            image.setId(String.valueOf(i));
+            image.setId(String.valueOf(leaderCards.get(i)));
             image.setOnMouseClicked(mouseEvent -> {
-                int index = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
-                int cardId = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards().get(index);
-                new Thread(() -> sendMessage(new LeaderDiscardMessage(cardId))).start();
-                discarded.add(cardId);
-                Transition.updateLeaderCards(Math.max(index - discarded.size(), 0));
-                if (discarded.size() == 2){
-                    for(int card: discarded)
-                        observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).removeLeaderCard(card);
+                int cardId = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
+                ((ImageView) mouseEvent.getSource()).setVisible(false);
+                observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).removeLeaderCard(cardId);
+                discarded++;
+                //Transition.updateLeaderCards(Math.max(index - discarded.size(), 0));
+                if (discarded == 2){
                     observer.setGamePhase(1);
-                    Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
-                    Platform.runLater(Transition::toLoadingScene);
+                    if(observer.getModel().getNumberOfPlayers() != 1 ){
+                        Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
+                        Platform.runLater(Transition::toLoadingScene);
+                    }
                 }
+                new Thread(() -> sendMessage(new LeaderDiscardMessage(cardId))).start();
+                if(observer.getModel().getNumberOfPlayers() == 1 ) Platform.runLater(() -> Transition.setMainScene(new SinglePlayerMainScene(observer)));
+                else Platform.runLater(() -> Transition.setMainScene(new MainScene(observer)));
             });
             gridPane.addColumn(i, image);
         }

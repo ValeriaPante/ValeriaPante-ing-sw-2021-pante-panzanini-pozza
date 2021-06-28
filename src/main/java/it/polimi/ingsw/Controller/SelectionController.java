@@ -164,8 +164,13 @@ public class SelectionController extends CertifiedResourceUsage{
             return;
         }
 
-        enumMap.clear();
+        if(enumMap != null){
+            enumMap.clear();
+        } else {
+            enumMap = new EnumMap<>(Resource.class);
+        }
         enumMap.put(resType, quantity);
+
 
         try{
             strongBox.mapSelection(enumMap);
@@ -183,7 +188,11 @@ public class SelectionController extends CertifiedResourceUsage{
             return;
         }
 
-        enumMap.clear();
+        if(enumMap != null){
+            enumMap.clear();
+        } else {
+            enumMap = new EnumMap<>(Resource.class);
+        }
         enumMap.put(resType, quantity);
 
         try{

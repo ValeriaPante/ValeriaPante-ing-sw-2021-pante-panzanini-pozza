@@ -18,6 +18,6 @@ public class DisconnectionMessage extends WithIntMessage{
     @Override
     public boolean visit(Visitor v){
         v.updateModel(this);
-        return false;
+        return true;
     }
 }

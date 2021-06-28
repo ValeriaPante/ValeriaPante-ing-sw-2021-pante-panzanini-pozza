@@ -89,8 +89,6 @@ public class GUI extends Application implements View {
      */
     @Override
     public void chooseLeaderCards() {
-        if(model.getNumberOfPlayers() == 1 ) Platform.runLater(() -> Transition.setMainScene(new SinglePlayerMainScene(this)));
-        else Platform.runLater(() -> Transition.setMainScene(new MainScene(this)));
         LeaderCardScene leaderCardScene = new LeaderCardScene(this);
         Platform.runLater(() -> Transition.setLeaderCardsScene(leaderCardScene));
         Platform.runLater(Transition::toLeaderCardScene);
@@ -183,12 +181,16 @@ public class GUI extends Application implements View {
         ContainersScene containersScene = new ContainersScene();
         containersScene.addObserver(this);
         containersScene.initialise();
-        Stage dialog = new Stage();
-        dialog.setTitle("Your deposits");
-        dialog.setResizable(false);
-        Platform.runLater(() -> dialog.setScene(new Scene(containersScene.getRoot())));
-        Platform.runLater(() -> Transition.setDialogStage(dialog));
-        Platform.runLater(Transition::showDialog);
+        containersScene.getRoot().lookup("#quitButton").setVisible(false);
+        Platform.runLater(() -> {
+            Stage dialog = new Stage();
+            dialog.setTitle("Your deposits");
+            dialog.setResizable(false);
+            Platform.runLater(() -> dialog.setScene(new Scene(containersScene.getRoot())));
+            Platform.runLater(() -> Transition.setDialogStage(dialog));
+            Platform.runLater(Transition::showDialog);
+        });
+
     }
 
     /**
@@ -198,9 +200,9 @@ public class GUI extends Application implements View {
      */
     @Override
     public void updatePositions(int playerId, int pos) {
-        if(playerId == model.getLocalPlayerId()) toDoneState();
+        //if(playerId == model.getLocalPlayerId()) toDoneState();
         if(model.getNumberOfPlayers() == 1){
-            Platform.runLater(() -> Transition.updatePosition(playerId != model.getLocalPlayerId(), pos));
+            Platform.runLater(() -> Transition.updatePosition(playerId == 0, pos));
         } else {
             Platform.runLater(() -> Transition.updatePosition(model.getPlayerIndex(playerId), pos));
         }
@@ -258,7 +260,7 @@ public class GUI extends Application implements View {
      */
     @Override
     public void updateSupportContainer(int playerId) {
-        if(Transition.isOnContainersScene()) this.showDeposits();
+        if(Transition.isOnContainersScene()) currentState.refresh();
         else {
             if(playerId == model.getLocalPlayerId()){
                 Platform.runLater(() -> currentState.next());
@@ -345,6 +347,7 @@ public class GUI extends Application implements View {
      */
     @Override
     public void nextTurn(int playerId) {
+        actionDone = false;
         if(gamePhase == 0 && playerId == model.getLocalPlayerId()) this.chooseLeaderCards();
         else if(gamePhase == 1 && playerId == model.getLocalPlayerId()) this.chooseInitialResources();
         else if(gamePhase > 1 && model.getNumberOfPlayers() > 1) Platform.runLater(() -> Transition.nextTurn(model.getPlayerIndex(playerId), model.getNumberOfPlayers(), playerId == model.getLocalPlayerId()));

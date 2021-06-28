@@ -27,11 +27,6 @@
          </menus>
       </MenuBar>
       <AnchorPane id="background" layoutY="24.0" prefHeight="654.0" prefWidth="1006.0" />
-      <!--<ImageView fitHeight="654.0" fitWidth="1006.0" layoutY="24.0">
-         <image>
-            <Image url="@../accessible/assets/imgs/colored.jpg" />
-         </image>
-      </ImageView>-->
       <Button id="activate2" layoutX="1013.0" layoutY="339.0" mnemonicParsing="false" prefWidth="103.0" text="Activate">
          <font>
             <Font name="Bookman Old Style" size="11.0" />

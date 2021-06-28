@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="808.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
@@ -91,5 +91,10 @@
       <AnchorPane id="lc22" layoutX="381.0" layoutY="416.0" prefHeight="61.0" prefWidth="68.0" />
       <AnchorPane id="lc11" layoutX="59.0" layoutY="436.0" prefHeight="61.0" prefWidth="68.0" />
       <AnchorPane id="lc12" layoutX="152.0" layoutY="436.0" prefHeight="61.0" prefWidth="68.0" />
+      <Button id="quitButton" layoutX="366.0" layoutY="522.0" mnemonicParsing="false" text="Done">
+         <font>
+            <Font name="Bookman Old Style" size="20.0" />
+         </font>
+      </Button>
    </children>
 </Pane>
