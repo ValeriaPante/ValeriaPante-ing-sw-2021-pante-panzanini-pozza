@@ -187,7 +187,7 @@ public class Table {
 
     public void updatePlayerOfTurnDevSlot(int devSlotNum, DevCard chosenCard){
         this.turnOf().getDevSlots()[devSlotNum - 1].addCard(chosenCard);
-        NewDevCardMessage message = new NewDevCardMessage(this.turnOf+1, devSlotNum, chosenCard.getId());
+        NewDevCardMessage message = new NewDevCardMessage(this.turnOf+1, chosenCard.getId(), devSlotNum);
         this.notifyAllPlayer(message);
     }
 

@@ -57,8 +57,10 @@ public enum Resource {
                 return Color.colourText("SER", "PURPLE");
             case SHIELD:
                 return Color.colourText("SHI", "BLUE");
+            case ANY:
+                return Color.colourText("ANY", "RED");
             default:
-                return "";
+                return " X ";
         }
     }
 }

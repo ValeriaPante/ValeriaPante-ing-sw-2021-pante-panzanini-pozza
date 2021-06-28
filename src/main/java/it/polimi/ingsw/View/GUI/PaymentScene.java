@@ -35,9 +35,9 @@ public class PaymentScene extends Initializable{
         Button pay = (Button) root.lookup("#buyButton");
         pay.setOnAction(event -> {
             Transition.setOnContainersScene(false);
-            observer.toProductionState();
+            observer.getCurrentState().next();
             new Thread(() -> sendMessage(new PaySelectedMessage())).start();
-            //observer.getCurrentState().next();
+
         });
 
         nextPosition1 = new EnumMap<>(Resource.class);

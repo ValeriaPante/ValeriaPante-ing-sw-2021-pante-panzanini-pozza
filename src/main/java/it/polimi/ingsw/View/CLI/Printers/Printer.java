@@ -323,7 +323,7 @@ public class Printer {
             System.out.println(Color.colourText("\n\n=========================== Now it's your turn! ===========================\n", "RED"));
         } else {
             System.out.println(Color.colourText("\n\n*************************** Now it's " +
-                    model.getPlayerFromId(playerID).getUsername() +
+                    (playerID == 0 ? "Lorenzo" : model.getPlayerFromId(playerID).getUsername()) +
                     " turn! ***************************\n", "RED"));
         }
     }
@@ -429,7 +429,8 @@ public class Printer {
      * @param playerId unique identifier id the player in turn (deciding)
      */
     public synchronized void waitingInitialisation(int playerId){
-        System.out.println("Please wait, "+ Color.colourText(model.getPlayerFromId(playerId).getUsername(), "CYAN") + " is deciding!");
+        if (playerId != 0)
+            System.out.println("Please wait, "+ Color.colourText(model.getPlayerFromId(playerId).getUsername(), "CYAN") + " is deciding!");
     }
 
     /**

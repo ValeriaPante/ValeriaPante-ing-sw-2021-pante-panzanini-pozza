@@ -130,7 +130,7 @@ public class InputManager{
             default:
                 break;
         }
-        return new ChooseDevCardMessage(devDecPosition);
+        return new ChooseDevCardMessage(devDecPosition+1);
     }
 
     private InGameMessage selectInMarket(String input) throws IllegalArgumentException{

@@ -60,7 +60,7 @@ public class Transition {
     }
 
     public static void setDialogScene(Pane scene){
-        dialogStage.setScene(new Scene(scene));
+        dialogStage.getScene().setRoot(scene);
     }
 
     public static void setWelcomeScene(WelcomeScene welcomeScene) {
@@ -421,8 +421,9 @@ public class Transition {
     public static void updateShelf(int index, int shelfNumber, HashMap<Resource, Integer> inside, GUI gui){
         GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);
         for(int i = 1; i < shelfNumber + 1; i++){
+            AnchorPane container = (AnchorPane) grid.getChildren().get(index).lookup("#shelf"+(shelfNumber)+(i));
+            if(container.getChildren().size() > 0) container.getChildren().remove(0);
             for(Map.Entry<Resource, Integer> shelf: inside.entrySet()){
-                AnchorPane container = (AnchorPane) grid.getChildren().get(index).lookup("#shelf"+(shelfNumber)+(i));
                 insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey(), 18);
             }
         }
@@ -438,6 +439,7 @@ public class Transition {
     public static void updateShelf(int shelfNumber, HashMap<Resource, Integer> inside, GUI gui){
         for(int i = 1; i < shelfNumber + 1; i++){
             AnchorPane container = (AnchorPane) mainScene.getRoot().lookup("#shelf"+(shelfNumber)+(i));
+            if(container.getChildren().size() > 0) container.getChildren().remove(0);
             for(Map.Entry<Resource, Integer> shelf: inside.entrySet()){
                 insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey(),30);
             }
@@ -453,7 +455,7 @@ public class Transition {
      * @param resource type of resource contained
      */
     private static void insertImagesOnShelf(AnchorPane container, int resourcePosition, int occupied, Resource resource, int size){
-        if(container.getChildren().size() > 0) container.getChildren().remove(0);
+
         if( resourcePosition <= occupied){
             InputStream in = Transition.class.getResourceAsStream("/constantAssets/" +resource.toString().toLowerCase()+".png");
             ImageView image = new ImageView();

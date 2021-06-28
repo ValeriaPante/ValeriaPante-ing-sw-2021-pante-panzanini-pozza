@@ -60,11 +60,12 @@ public class DevSlot{
     }
 
     /**
-     * Gette of the card on top of the slot
+     * Getter of the card on top of the slot
      * @return development card on top of the slot
      */
     public DevCard topCard(){
-        return cards.get(0).clone();
+        if(!this.isEmpty()) return cards.get(0).clone();
+        else return  null;
     }
 
     /**
@@ -86,7 +87,7 @@ public class DevSlot{
      * @return true if the card can be placed on top, false otherwise
      */
     public boolean isInsertable(DevCard card){
-        return ((this.isEmpty() && card.getType().getLevel() == 1)) || (card.getType().getLevel() == this.topCard().getType().getLevel() + 1);
+        return ((this.isEmpty() && card.getType().getLevel() == 1)) || (this.topCard() != null && (card.getType().getLevel() == this.topCard().getType().getLevel() + 1));
     }
 
     /**

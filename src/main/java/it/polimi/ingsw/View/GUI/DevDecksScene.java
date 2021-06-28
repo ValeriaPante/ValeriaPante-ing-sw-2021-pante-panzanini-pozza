@@ -37,10 +37,10 @@ public class DevDecksScene extends ObservableByGUI{
         selection = new HashMap<>();
         for(int i = 0; i < devDecks.length; i++ )
             for(int j = 0; j < devDecks[i].length; j++){
+                Region region = (Region) root.getChildren().get(2+i*4+j);
+                region.setVisible(false);
+                selection.put(i*4+j+1, region);
                 if(devDecks[i][j] != 0){
-                    Region region = (Region) root.getChildren().get(2+i*4+j);
-                    region.setVisible(false);
-                    selection.put(devDecks[i][j], region);
                     ImageView image = new ImageView();
                     try {
                         File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
@@ -51,7 +51,7 @@ public class DevDecksScene extends ObservableByGUI{
                     }
                     image.setFitWidth(120);
                     image.setPreserveRatio(true);
-                    image.setId(String.valueOf(devDecks[i][j]));
+                    image.setId(String.valueOf(i*4+j+1));
                     image.setOnMouseClicked(mouseEvent -> {
                         deselectAll();
                         int deckNumber = Integer.parseInt(((ImageView) mouseEvent.getSource()).getId());
@@ -66,9 +66,9 @@ public class DevDecksScene extends ObservableByGUI{
 
         Button sendButton = (Button) root.lookup("#buyButton");
         sendButton.setOnAction(event -> {
-            new Thread(() -> sendMessage(new BuyDevCardMessage())).start();
             observer.toBuyDevCardState();
             Platform.runLater(Transition::hideDialog);
+            new Thread(() -> sendMessage(new BuyDevCardMessage())).start();
         });
 
         root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());

@@ -665,6 +665,6 @@ public class InputManagerTest {
         assertEquals(0, ((ChooseDevSlotMessage) inputManager.inTurnInput("SELECT: DS1")).getInteger());
 
         assertInstanceOf(ChooseDevCardMessage.class, inputManager.inTurnInput("SELECT: DD,LEVEL1,COLOR:GREEN"));
-        assertEquals(0, ((ChooseDevCardMessage) inputManager.inTurnInput("SELECT: DD,LEVEL1,COLOR:GREEN")).getInteger());
+        assertEquals(1, ((ChooseDevCardMessage) inputManager.inTurnInput("SELECT: DD,LEVEL1,COLOR:GREEN")).getInteger());
     }
 }

@@ -58,6 +58,8 @@ public class CLI extends Observable implements View, Runnable{
             onlineOfflineDecision = input.nextLine().trim().toUpperCase();
         }
 
+        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
+
         if (onlineOfflineDecision.equals("ONLINE")){
             this.client = new MessageToServerManager(this);
             System.out.println("\n" + "Write down the IP address of the server you want to connect:");
@@ -67,14 +69,12 @@ public class CLI extends Observable implements View, Runnable{
             System.out.println("Now, please, enter the username you want to play with:");
             String username = input.nextLine();
             turnState = 0;
-            new Thread(() -> client.connect(ip, port, username)).start();
+            client.connect(ip, port, username);
         } else {
             this.client = new LocalMessageManager(this);
-            //manca la parte per partita offline
+
             turnState = 1;
         }
-
-        this.executor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
 
         waitForInput();
     }
@@ -150,7 +150,7 @@ public class CLI extends Observable implements View, Runnable{
     public void chooseLeaderCards() {
         executor.execute(() -> {
             try{
-                simplifiedFaithTrack.getPosition(model.getPLayersID().get(model.getPLayersID().size()));
+                simplifiedFaithTrack.getPosition(model.getPLayersID().get(model.getPLayersID().size() - 1));
             } catch (NullPointerException e){
                 this.simplifiedFaithTrack.initialize(model.getPLayersID());
             }
@@ -280,7 +280,7 @@ public class CLI extends Observable implements View, Runnable{
     public void startInitialisation() {
         executor.execute(() -> {
             try{
-                simplifiedFaithTrack.getPosition(model.getPLayersID().get(model.getPLayersID().size()));
+                simplifiedFaithTrack.getPosition(model.getPLayersID().get(model.getPLayersID().size() - 1));
             } catch (NullPointerException e){
                 this.simplifiedFaithTrack.initialize(model.getPLayersID());
             }
