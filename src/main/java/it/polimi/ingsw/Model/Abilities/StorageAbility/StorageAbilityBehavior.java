@@ -12,6 +12,7 @@ public interface StorageAbilityBehavior{
     void singleRemove (Resource toBeRemoved);
     boolean isEmpty();
     EnumMap<Resource, Integer> content();
+    Resource[] fullContent();
     EnumMap<Resource, Integer> getCapacity();
     boolean contains(EnumMap<Resource, Integer> checkMap);
     void removeSelected();

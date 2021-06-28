@@ -61,6 +61,15 @@ public class Ability implements Payable{
 
     /**
      * Getter
+     * @return the content of this storage LeaderCard with null in empty spaces
+     * @throws WrongLeaderCardType if called on an ability that is not Storage type
+     */
+    public Resource[] getFullContent(){
+        return this.storageAbilityBehavior.fullContent();
+    }
+
+    /**
+     * Getter
      * @return the capacity of this storage LeaderCard
      * @throws WrongLeaderCardType if called on an ability that is not Storage type
      */

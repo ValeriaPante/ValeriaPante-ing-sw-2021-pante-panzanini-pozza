@@ -400,7 +400,7 @@ public class ProductionController extends CardActionController{
     private void setANYDECISIONIfNeeded(RealPlayer player, List<Payable> payableWithSelection, EnumMap<Resource, Integer> toPutInStrongBox){
         if (toPutInStrongBox.containsKey(Resource.ANY)){
             player.getSupportContainer().clear();
-            player.getSupportContainer().addEnumMap(new EnumMap<>(Resource.class){{put(Resource.ANY, toPutInStrongBox.get(Resource.ANY));}});
+            table.updatePlayerOfTurnSupportContainer(new EnumMap<>(Resource.class){{put(Resource.ANY, toPutInStrongBox.get(Resource.ANY));}});
             player.setMicroTurnType(MicroTurnType.ANY_DECISION);
         }
         else{
@@ -429,10 +429,10 @@ public class ProductionController extends CardActionController{
 
     private void effectiveTransaction(RealPlayer player, List<Payable> payableWithSelection, EnumMap<Resource, Integer> toPutInStrongBox){
         for (Payable payable : payableWithSelection){
-            payable.pay();
+            this.table.payPlayerOfTurn(payable);
         }
         Integer faithPoints = toPutInStrongBox.remove(Resource.FAITH);
-        player.getStrongBox().addEnumMap(toPutInStrongBox);
+        this.table.addToPlayerOfTurnStrongbox(toPutInStrongBox);
 
         if (faithPoints != null){
             super.faithTrackController.movePlayerOfTurn(faithPoints);
@@ -460,7 +460,7 @@ public class ProductionController extends CardActionController{
         }
 
         //a questo punto sono in tra
-        player.getSupportContainer().addEnumMap(new EnumMap<>(Resource.class){{put(resource, 1);}});
+        this.table.addToSupportContainer(new EnumMap<>(Resource.class){{put(resource, 1);}});
         int anyAmount = player.getSupportContainer().content().get(Resource.ANY);
 
         if (player.getSupportContainer().countAll() == 2*anyAmount){

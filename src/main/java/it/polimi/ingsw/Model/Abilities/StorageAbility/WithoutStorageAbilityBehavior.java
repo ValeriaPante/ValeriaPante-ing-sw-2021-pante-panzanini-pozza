@@ -41,6 +41,11 @@ public class WithoutStorageAbilityBehavior implements StorageAbilityBehavior{
     }
 
     @Override
+    public Resource[] fullContent() {
+        throw new WrongLeaderCardType();
+    }
+
+    @Override
     public boolean contains(EnumMap<Resource, Integer> checkMap) {
         throw new WrongLeaderCardType();
     }

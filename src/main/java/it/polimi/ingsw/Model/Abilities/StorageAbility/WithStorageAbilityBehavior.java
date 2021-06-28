@@ -6,6 +6,7 @@ import it.polimi.ingsw.Model.Deposit.Depot;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.Map;
 
 public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
 
@@ -101,6 +102,20 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
             }
         }
         return result;
+    }
+
+    @Override
+    public Resource[] fullContent() {
+        Resource[] fullContent = new Resource[this.contentState.values().stream().mapToInt(value -> value.length).reduce(0, Integer::sum)];
+        int i=0;
+        for (Map.Entry<Resource, State[]> entry : this.contentState.entrySet()){
+            for (State state : entry.getValue()){
+                fullContent[i] = (state == State.UNPRESENT) ? null : entry.getKey();
+                i++;
+            }
+        }
+
+        return fullContent;
     }
 
     /**

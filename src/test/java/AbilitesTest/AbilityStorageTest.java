@@ -92,6 +92,30 @@ public class AbilityStorageTest {
     }
 
     @Test
+    @DisplayName("Storage fullContent() method")
+    public void getFullContent(){
+        assertTrue(this.ability.getContent().isEmpty());
+        this.ability.add(Resource.STONE);
+        this.ability.add(Resource.COIN);
+        this.ability.add(Resource.COIN);
+
+        Resource[] expected;
+        expected = new Resource[]{Resource.COIN, Resource.COIN, null, Resource.STONE};
+        assertEquals(expected.length, this.ability.getFullContent().length);
+        for (int i=0; i<expected.length; i++){
+            assertEquals(expected[i], this.ability.getFullContent()[i]);
+        }
+
+        this.ability.select(Resource.COIN, 1);
+        this.ability.pay();
+        expected = new Resource[]{null, Resource.COIN, null, Resource.STONE};
+        assertEquals(expected.length, this.ability.getFullContent().length);
+        for (int i=0; i<expected.length; i++){
+            assertEquals(expected[i], this.ability.getFullContent()[i]);
+        }
+    }
+
+    @Test
     @DisplayName("Storage getCapacity() method")
     public void getCapacity(){
         assertEquals(this.capacity, this.ability.getCapacity());
@@ -158,7 +182,6 @@ public class AbilityStorageTest {
         assertEquals(new EnumMap<Resource, Integer>(Resource.class){{put(Resource.STONE, 1);}}, this.ability.getSelected());
     }
 
-    //manca la toString
 
     @Test
     @DisplayName("Storage deselectAll() method")

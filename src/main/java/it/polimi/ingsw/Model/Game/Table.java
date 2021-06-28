@@ -168,6 +168,11 @@ public class Table {
         this.notifyAllPlayer(message);
     }
 
+    public void addToPlayerOfTurnStrongbox(EnumMap<Resource, Integer> toAdd){
+        this.turnOf().getStrongBox().addEnumMap(toAdd);
+        this.notifyStrongBoxChange();
+    }
+
     public void updatePlayerOfTurnSupportContainer(EnumMap<Resource, Integer> cost){
         StrongBox supportContainer = this.turnOf().getSupportContainer();
         supportContainer.clear();
@@ -281,9 +286,13 @@ public class Table {
         this.notifyAllPlayer(message);
     }
 
+    private void notifyLeaderStorageChange(LeaderCard leaderCard){
+        ChangedLeaderStorageMessage message = new ChangedLeaderStorageMessage(this.turnOf+1, leaderCard.getId(), leaderCard.getAbility().getFullContent());
+        this.notifyAllPlayer(message);
+    }
+
     public void payPlayerOfTurn(Payable payable){
         payable.pay();
-        FromServerMessage message = null;
 
         if (payable == this.turnOf().getStrongBox()){
             this.notifyStrongBoxChange();
@@ -301,7 +310,7 @@ public class Table {
         }
         for (LeaderCard leaderCard : this.turnOf().getLeaderCards()){
             if (leaderCard.getAbility() == payable){
-                //da aggiungere
+                this.notifyLeaderStorageChange(leaderCard);
                 return;
             }
         }
