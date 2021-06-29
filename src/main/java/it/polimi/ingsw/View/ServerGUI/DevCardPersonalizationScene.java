@@ -129,7 +129,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
         card.add("cost", this.enumMapExtractor(this.cost, this.resourcesOrder));
         JsonObject prodPower = new JsonObject();
         prodPower.add("input", this.enumMapExtractor(this.input, this.resourcesOrder));
-        prodPower.add("output", this.enumMapExtractor(this.input, this.resourcesOrder));
+        prodPower.add("output", this.enumMapExtractor(this.output, this.resourcesOrder));
         card.add("prodpower", prodPower);
 
         JsonArray cards = this.modifiedDevCards.get(deckType);
