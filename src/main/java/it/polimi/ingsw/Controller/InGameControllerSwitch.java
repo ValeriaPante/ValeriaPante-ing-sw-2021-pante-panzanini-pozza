@@ -70,6 +70,13 @@ public class InGameControllerSwitch {
         return true;
     }
 
+    public synchronized void actionOnMessage(DeselectAllResources message){
+        if (!isActionFromTurnOf(message)){
+            return;
+        }
+        marketController.deselectAllResources();
+    }
+
     public synchronized void actionOnMessage(AllProductionPowerSelectionMessage message){
         if (!isActionFromTurnOf(message)){
             return;

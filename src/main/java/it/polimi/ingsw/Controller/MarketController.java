@@ -66,6 +66,13 @@ public class MarketController extends SelectionController{
         return true;
     }
 
+    @Override
+    public void deselectAllResources(){
+        if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
+            return;
+        super.deselectAllResources();
+    }
+
     /**
      *Checks if the state of the turn is correct and, if so, class the super method
      */

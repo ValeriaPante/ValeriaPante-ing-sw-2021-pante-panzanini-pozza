@@ -127,6 +127,9 @@ public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
                 case "Transmutation":
                     return new TransmutationMessage(jsonObject.get("serial1").getAsInt(), jsonObject.get("serial2").getAsInt(), jsonObject.get("quantity1").getAsInt(), jsonObject.get("quantity2").getAsInt());
 
+                case "DeselectAll":
+                    return new DeselectAllResources();
+
                 default:
                     //Error InGameMessage: "Incorrect message type for in-game"
                     return new NoActionMessage();

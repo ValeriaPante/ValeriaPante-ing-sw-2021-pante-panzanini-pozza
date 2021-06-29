@@ -149,6 +149,10 @@ public class MessageConverterToJSON {
         return "{ \"type\": \"TakeFromMarket\"}";
     }
 
+    public static String convertToJson(DeselectAllResources message){
+        return "{ \"type\": \"DeselectAll\"}";
+    }
+
     public static String convertToJson(TransmutationMessage message){
         return "{ \"type\": \"Transmutation\", " +
                 "\"serial1\":"+ message.getSerial1() +", "  +
