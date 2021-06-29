@@ -52,7 +52,10 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         JsonParser jsonParser = new JsonParser();
         File mainDir;
         try {
-            mainDir = new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getPath() + File.separator + "accessible" + File.separator + assetInfo[1]); //non mi convince
+            if (assetInfo[1].charAt(0) != File.separator.charAt(0)){
+                assetInfo[1] = assetInfo[1].replace(assetInfo[1].charAt(0), File.separator.charAt(0));
+            }
+            mainDir = new File(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getPath() + File.separator + "accessible" + File.separator + assetInfo[1]); //non mi convince
         }catch (URISyntaxException e){
             return;
         }
