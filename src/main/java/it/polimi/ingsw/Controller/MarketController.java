@@ -83,20 +83,18 @@ public class MarketController extends SelectionController{
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)
             return;
 
-        StrongBox supportContainer = table.turnOf().getSupportContainer();
-
+        Depot results = new Depot();
         for (Shelf s : table.turnOf().getShelves()){
             try{
                 EnumMap<Resource, Integer> shelfSelected = new EnumMap<>(Resource.class);
                 if (s.getResourceType() != null){
                     shelfSelected.put(s.getResourceType(), s.getQuantitySelected());
                     table.payPlayerOfTurn(s);
-                    table.addToSupportContainer(shelfSelected);
+                    results.addEnumMap(shelfSelected);
                 }
             } catch (IndexOutOfBoundsException ignored){}
         }
 
-        Depot results = new Depot();
         for(LeaderCard lc: table.turnOf().getLeaderCards()){
             try{
                 EnumMap<Resource, Integer> selected;
