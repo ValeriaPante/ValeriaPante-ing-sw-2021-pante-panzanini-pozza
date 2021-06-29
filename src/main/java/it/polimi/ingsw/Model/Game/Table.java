@@ -272,6 +272,29 @@ public class Table {
             }
     }
 
+    /**
+     * adds an enumMap to a leaderCard with storage ability
+     * @param cardId  the id of the leader card
+     * @param enumMap enumMap to be put in the specified leader storage ability
+     */
+    public void addResourcesToPlayerOfTurnLC(int cardId, EnumMap<Resource, Integer> enumMap){
+        LeaderCard specifiedLeaderCard = null;
+        for (LeaderCard leaderCard : this.turnOf().getLeaderCards()){
+            if (leaderCard.getId() == cardId){
+                specifiedLeaderCard = leaderCard;
+                break;
+            }
+        }
+        if (specifiedLeaderCard != null){
+            for (Resource r: Resource.values())
+                if (enumMap.containsKey(r))
+                    for (int i=0; i < enumMap.get(r); i++)
+                        specifiedLeaderCard.getAbility().add(r);
+
+            this.notifyLeaderStorageChange(specifiedLeaderCard);
+        }
+    }
+
     private void notifyStrongBoxChange(){
         ChangedStrongboxMessage message = new ChangedStrongboxMessage(turnOf+1, this.turnOf().getStrongBox().content() == null ? new HashMap<>() : new HashMap<>(this.turnOf().getStrongBox().content()));
         this.notifyAllPlayer(message);

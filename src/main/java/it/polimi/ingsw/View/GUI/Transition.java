@@ -520,7 +520,7 @@ public class Transition {
         for(int i = 1; i < 3; i++){
             AnchorPane container = (AnchorPane) player.lookup("#lc"+(cardId)+(i));
             if(container.getChildren().size() > 0) container.getChildren().remove(0);
-            if(resources.length >= i){
+            if(resources[i-1]!=null){
                 InputStream in = Transition.class.getResourceAsStream("/constantAssets/" +resources[i - 1].toString().toLowerCase()+".png");
                 ImageView image = new ImageView();
                 image.setImage(new Image(in));
@@ -540,7 +540,7 @@ public class Transition {
         for(int i = 1; i < 3; i++){
             AnchorPane container = (AnchorPane) mainScene.getRoot().lookup("#lc"+(cardId)+(i));
             if(container.getChildren().size() > 0) container.getChildren().remove(0);
-            if(resources.length >= i){
+            if(resources[i-1]!=null){
                 InputStream in = Transition.class.getResourceAsStream("/constantAssets/" +resources[i - 1].toString().toLowerCase()+".png");
                 ImageView image = new ImageView();
                 image.setImage(new Image(in));

@@ -211,7 +211,17 @@ public class GameController extends CertifiedResourceUsage{
                 table.setLastLap();
             }
         }
-        if(table.isSinglePlayer()) table.nextTurn();
+        if(table.isSinglePlayer()){
+            //MEGA DEBUG PLS LEVARE STA COSA
+            table.addToPlayerOfTurnStrongbox(new EnumMap<>(Resource.class){{
+                put(Resource.COIN, 50);
+                put(Resource.SERVANT, 50);
+                put(Resource.SHIELD, 50);
+                put(Resource.STONE, 50);
+            }});
+
+            table.nextTurn();
+        }
         if((table.isLastLap()) && (table.getPlayers()[0] == table.turnOf()))
             endGame();
     }

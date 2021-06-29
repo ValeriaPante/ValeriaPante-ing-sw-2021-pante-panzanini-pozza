@@ -168,7 +168,8 @@ public class MarketController extends SelectionController{
         }
 
         if (canLeaderContain(specifiedLeaderCard.getAbility(), enumMap, false) ) {
-            addEnumMapToLC(specifiedLeaderCard.getAbility(), table.turnOf().getSupportContainer().getSelection());
+            table.addResourcesToPlayerOfTurnLC(specifiedLeaderCard.getId(), table.turnOf().getSupportContainer().getSelection());
+            //addEnumMapToLC(specifiedLeaderCard.getAbility(), table.turnOf().getSupportContainer().getSelection());
             table.payPlayerOfTurn(table.turnOf().getSupportContainer());
         }
     }
@@ -260,7 +261,8 @@ public class MarketController extends SelectionController{
                 selectedLeaderCardAbility.pay();
                 enumMap = player.getSupportContainer().getSelection();
                 table.payPlayerOfTurn(player.getSupportContainer());
-                addEnumMapToLC(selectedLeaderCardAbility, enumMap);
+                table.addResourcesToPlayerOfTurnLC(leaderCardsSelected.get(0).getId(), enumMap);
+                //addEnumMapToLC(selectedLeaderCardAbility, enumMap);
             }
         } else { //selections between LeaderCards and Shelves
             if (shelvesSelected.size() == 2){ //Selections only in Shelves
@@ -304,7 +306,8 @@ public class MarketController extends SelectionController{
                     enumMap = selectedLeaderCardAbility.getSelected();
                     table.addAllIfPossibleToShelf(selectedShelf.getCapacity(), resourceInLeaderCard, enumMap.get(resourceInLeaderCard));
                     selectedLeaderCardAbility.pay();
-                    addEnumMapToLC(selectedLeaderCardAbility, shelfSelection);
+                    table.addResourcesToPlayerOfTurnLC(leaderCardsSelected.get(0).getId(), shelfSelection);
+                    //addEnumMapToLC(selectedLeaderCardAbility, shelfSelection);
                 } else {//Selections only in LeaderCards
                     Ability leaderAbility1 = leaderCardsSelected.get(0).getAbility();
                     Ability leaderAbility2 = leaderCardsSelected.get(1).getAbility();
@@ -319,8 +322,10 @@ public class MarketController extends SelectionController{
                     enumMap = leaderAbility2.getSelected();
                     leaderAbility1.pay();
                     leaderAbility2.pay();
-                    addEnumMapToLC(leaderAbility1, enumMap);
-                    addEnumMapToLC(leaderAbility2, enumMap1);
+                    table.addResourcesToPlayerOfTurnLC(leaderCardsSelected.get(0).getId(), enumMap);
+                    table.addResourcesToPlayerOfTurnLC(leaderCardsSelected.get(1).getId(), enumMap1);
+                    //addEnumMapToLC(leaderAbility1, enumMap);
+                    //addEnumMapToLC(leaderAbility2, enumMap1);
                 }
             }
         }
@@ -402,20 +407,6 @@ public class MarketController extends SelectionController{
             table.turnOf().setErrorMessage("Wrong leader card");
             return false;
         }
-    }
-
-    /**
-     * adds an enumMap to a leaderCard with storage ability
-     * @param ability storage ability of the leader card
-     * @param enumMap enumMap to be put in the specified leader storage ability
-     */
-    private void addEnumMapToLC (Ability ability, EnumMap<Resource, Integer> enumMap){
-        for (Resource r: Resource.values())
-            if (enumMap.containsKey(r))
-                for (int i=0; i < enumMap.get(r); i++)
-                    //@daniel
-                    //msg(a tutti : changedLeaderCardMessage(id player di turno, id carta, array risorse contenute nella leader card)
-                    ability.add(r);
     }
 
     /**
