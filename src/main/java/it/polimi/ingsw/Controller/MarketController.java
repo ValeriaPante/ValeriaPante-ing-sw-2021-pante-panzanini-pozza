@@ -184,7 +184,6 @@ public class MarketController extends SelectionController{
 
         if (canLeaderContain(specifiedLeaderCard.getAbility(), enumMap, false) ) {
             table.addResourcesToPlayerOfTurnLC(specifiedLeaderCard.getId(), table.turnOf().getSupportContainer().getSelection());
-            //addEnumMapToLC(specifiedLeaderCard.getAbility(), table.turnOf().getSupportContainer().getSelection());
             table.payPlayerOfTurn(table.turnOf().getSupportContainer());
         }
     }
@@ -322,7 +321,6 @@ public class MarketController extends SelectionController{
                     table.addAllIfPossibleToShelf(selectedShelf.getCapacity(), resourceInLeaderCard, enumMap.get(resourceInLeaderCard));
                     selectedLeaderCardAbility.pay();
                     table.addResourcesToPlayerOfTurnLC(leaderCardsSelected.get(0).getId(), shelfSelection);
-                    //addEnumMapToLC(selectedLeaderCardAbility, shelfSelection);
                 } else {//Selections only in LeaderCards
                     Ability leaderAbility1 = leaderCardsSelected.get(0).getAbility();
                     Ability leaderAbility2 = leaderCardsSelected.get(1).getAbility();
@@ -339,8 +337,6 @@ public class MarketController extends SelectionController{
                     leaderAbility2.pay();
                     table.addResourcesToPlayerOfTurnLC(leaderCardsSelected.get(0).getId(), enumMap);
                     table.addResourcesToPlayerOfTurnLC(leaderCardsSelected.get(1).getId(), enumMap1);
-                    //addEnumMapToLC(leaderAbility1, enumMap);
-                    //addEnumMapToLC(leaderAbility2, enumMap1);
                 }
             }
         }

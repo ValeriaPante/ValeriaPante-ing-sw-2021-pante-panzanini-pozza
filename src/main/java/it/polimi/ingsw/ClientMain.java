@@ -15,7 +15,7 @@ public class ClientMain
         if(args.length == 0) Application.launch(GUI.class);
         else if (args[0].equals("-cli")){
             CLI cli = new CLI();
-            new Thread(cli).start();
+            cli.runCLI();
         }
     }
 }

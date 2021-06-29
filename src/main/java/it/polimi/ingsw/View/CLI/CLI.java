@@ -16,7 +16,7 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
-public class CLI extends Observable implements View, Runnable{
+public class CLI extends Observable implements View{
     private MessageManager client;
     private final Game model;
     private final SimplifiedFaithTrack simplifiedFaithTrack;
@@ -44,8 +44,7 @@ public class CLI extends Observable implements View, Runnable{
         this.showNotifications = true;
     }
 
-    @Override
-    public void run() {
+    public void runCLI() {
         printTitle();
 
         System.out.println("\n\n" + "Would you like to play:\n"+
