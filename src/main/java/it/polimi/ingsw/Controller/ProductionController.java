@@ -100,6 +100,7 @@ public class ProductionController extends CardActionController{
                         }
                         else{
                             devSlot.selectTopCard();
+                            player.setErrorMessage("selected");
                         }
                     } else {
                         //non si può permettere questa carta

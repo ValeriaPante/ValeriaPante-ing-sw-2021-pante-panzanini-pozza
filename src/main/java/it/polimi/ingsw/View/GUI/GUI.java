@@ -1,7 +1,5 @@
 package it.polimi.ingsw.View.GUI;
 
-
-import com.sun.scenario.effect.impl.prism.ps.PPSLinearConvolveShadowPeer;
 import it.polimi.ingsw.Enums.ActionTokenType;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Network.Client.MessageManager;
@@ -11,7 +9,6 @@ import it.polimi.ingsw.View.View;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -389,8 +386,8 @@ public class GUI extends Application implements View {
      */
     @Override
     public void showErrorMessage(String message) {
-        Platform.runLater(() -> Transition.showErrorMessage(message));
         if(currentState != null) Platform.runLater(() -> currentState.goBack());
+        Platform.runLater(() -> Transition.showErrorMessage(message));
     }
 
     /**
@@ -400,7 +397,6 @@ public class GUI extends Application implements View {
      */
     @Override
     public void showSelectionError(String message, int cardId){
-        Platform.runLater(() -> Transition.showErrorMessage(message));
         for(int i = 0; i < model.getDevDecks().length; i++)
             for(int j = 0; j < model.getDevDecks()[i].length; j++)
                 if(cardId == model.getDevDecks()[i][j]){
@@ -410,6 +406,7 @@ public class GUI extends Application implements View {
                 }
 
         Platform.runLater(() -> ProductionScene.deselectIfSelected(cardId));
+        Platform.runLater(() -> Transition.showErrorMessage(message));
     }
 
     @Override

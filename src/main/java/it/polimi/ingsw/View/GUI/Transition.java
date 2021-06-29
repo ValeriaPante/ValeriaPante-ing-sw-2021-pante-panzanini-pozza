@@ -544,7 +544,7 @@ public class Transition {
                 InputStream in = Transition.class.getResourceAsStream("/constantAssets/" +resources[i - 1].toString().toLowerCase()+".png");
                 ImageView image = new ImageView();
                 image.setImage(new Image(in));
-                image.setFitWidth(86);
+                image.setFitWidth(70);
                 image.setPreserveRatio(true);
                 container.getChildren().add(image);
             }

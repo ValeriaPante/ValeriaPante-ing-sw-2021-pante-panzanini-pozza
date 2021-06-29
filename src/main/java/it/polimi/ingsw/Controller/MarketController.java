@@ -87,7 +87,7 @@ public class MarketController extends SelectionController{
         for (Shelf s : table.turnOf().getShelves()){
             try{
                 EnumMap<Resource, Integer> shelfSelected = new EnumMap<>(Resource.class);
-                if (s.getResourceType() != null){
+                if (s.getResourceType() != null && s.getQuantitySelected() != 0){
                     shelfSelected.put(s.getResourceType(), s.getQuantitySelected());
                     table.payPlayerOfTurn(s);
                     results.addEnumMap(shelfSelected);

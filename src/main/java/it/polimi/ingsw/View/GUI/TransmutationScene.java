@@ -36,7 +36,7 @@ public class TransmutationScene extends Initializable{
         ArrayList<Integer> lc = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getLeaderCards();
 
         for(int i = 0; i < 2; i++){
-            AnchorPane card = (AnchorPane) root.getChildren().get(i);
+            AnchorPane card = (AnchorPane) root.getChildren().get(i + 1);
             ImageView image = new ImageView();
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());

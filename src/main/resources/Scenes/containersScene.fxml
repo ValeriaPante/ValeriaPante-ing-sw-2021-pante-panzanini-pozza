@@ -87,10 +87,10 @@
       <AnchorPane id="shelf31" layoutX="584.0" layoutY="463.0" prefHeight="61.0" prefWidth="68.0" />
       <AnchorPane id="shelf32" layoutX="650.0" layoutY="463.0" prefHeight="61.0" prefWidth="62.0" />
       <AnchorPane id="shelf33" layoutX="712.0" layoutY="463.0" prefHeight="61.0" prefWidth="77.0" />
-      <AnchorPane id="lc21" layoutX="288.0" layoutY="416.0" prefHeight="61.0" prefWidth="68.0" />
-      <AnchorPane id="lc22" layoutX="381.0" layoutY="416.0" prefHeight="61.0" prefWidth="68.0" />
-      <AnchorPane id="lc11" layoutX="59.0" layoutY="436.0" prefHeight="61.0" prefWidth="68.0" />
-      <AnchorPane id="lc12" layoutX="152.0" layoutY="436.0" prefHeight="61.0" prefWidth="68.0" />
+      <AnchorPane id="lc21" layoutX="298.0" layoutY="450.0" prefHeight="61.0" prefWidth="68.0" />
+      <AnchorPane id="lc22" layoutX="391.0" layoutY="450.0" prefHeight="61.0" prefWidth="68.0" />
+      <AnchorPane id="lc11" layoutX="69.0" layoutY="450.0" prefHeight="61.0" prefWidth="68.0" />
+      <AnchorPane id="lc12" layoutX="162.0" layoutY="450.0" prefHeight="61.0" prefWidth="68.0" />
       <Button id="quitButton" layoutX="366.0" layoutY="522.0" mnemonicParsing="false" text="Done">
          <font>
             <Font name="Bookman Old Style" size="20.0" />

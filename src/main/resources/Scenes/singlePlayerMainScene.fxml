@@ -90,9 +90,9 @@
       <AnchorPane id="shelf31" layoutX="73.0" layoutY="426.0" prefHeight="33.0" prefWidth="35.0" />
       <AnchorPane id="shelf32" layoutX="108.0" layoutY="426.0" prefHeight="33.0" prefWidth="35.0" />
       <AnchorPane id="shelf33" layoutX="155.0" layoutY="426.0" prefHeight="33.0" prefWidth="35.0" />
-      <AnchorPane id="lc11" layoutX="1030.0" layoutY="210.0" prefHeight="103.0" prefWidth="86.0" />
-      <AnchorPane id="lc12" layoutX="1130.0" layoutY="210.0" prefHeight="103.0" prefWidth="86.0" />
-      <AnchorPane id="lc22" layoutX="1130.0" layoutY="547.0" prefHeight="103.0" prefWidth="86.0" />
-      <AnchorPane id="lc21" layoutX="1030.0" layoutY="547.0" prefHeight="103.0" prefWidth="86.0" />
+      <AnchorPane id="lc11" layoutX="1050.0" layoutY="250.0" prefHeight="103.0" prefWidth="86.0" />
+      <AnchorPane id="lc12" layoutX="1130.0" layoutY="250.0" prefHeight="103.0" prefWidth="86.0" />
+      <AnchorPane id="lc22" layoutX="1130.0" layoutY="577.0" prefHeight="103.0" prefWidth="86.0" />
+      <AnchorPane id="lc21" layoutX="1050.0" layoutY="577.0" prefHeight="103.0" prefWidth="86.0" />
    </children>
 </Pane>
