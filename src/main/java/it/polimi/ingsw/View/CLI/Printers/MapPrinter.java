@@ -9,7 +9,7 @@ import java.util.Map;
  * in a compact way (not "interpreted" as for support containers or strongboxes)
  * mostly used when printing cards
  */
-public abstract class mapPrinter {
+public abstract class MapPrinter {
     /**
      * prints the map in a compact way (only in one line)
      * @param map map to be printed

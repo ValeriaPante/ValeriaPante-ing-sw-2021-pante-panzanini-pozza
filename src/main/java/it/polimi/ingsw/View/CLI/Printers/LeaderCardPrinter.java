@@ -8,7 +8,6 @@ import it.polimi.ingsw.View.CLI.Color;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,7 +15,7 @@ import java.util.stream.Collectors;
 /**
  * This class is used to print on terminal the leader cards written down in the ".json" file named: "LeaderCardsConfig.json"
  */
-public class LeaderCardPrinter extends mapPrinter {
+public class LeaderCardPrinter extends MapPrinter {
     private final Gson gson;
     private final JsonArray array;
     private JsonObject currentCard;

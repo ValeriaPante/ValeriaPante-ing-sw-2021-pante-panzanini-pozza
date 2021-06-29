@@ -2,8 +2,10 @@ package it.polimi.ingsw.Messages.InGameMessages;
 
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.*;
 
+/**
+ * This class is used for converting a message into the corresponding json, through visitor pattern
+ */
 public class MessageConverterToJSON {
-    //the following static methods are used for creating the JSON through visitor pattern
     public static String convertToJson(AllProductionPowerSelectionMessage message){
         return "{ \"type\": \"AllProductionPowerSelection\"}";
     }

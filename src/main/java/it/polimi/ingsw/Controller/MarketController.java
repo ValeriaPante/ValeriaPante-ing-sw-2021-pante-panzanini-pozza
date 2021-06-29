@@ -66,6 +66,9 @@ public class MarketController extends SelectionController{
         return true;
     }
 
+    /**
+     * Clears all the selections of resources in player of turn's containers
+     */
     @Override
     public void deselectAllResources(){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.PLACE_RESOURCES)

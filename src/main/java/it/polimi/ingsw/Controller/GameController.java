@@ -57,8 +57,8 @@ public class GameController extends CertifiedResourceUsage{
     }
 
     /**
-     * Getter for the faith track controller which is used in all the game controller to move players on the faith tack
-     * @return the faith track controller used in this precise game
+     * Getter for the faith track controller which is used in all the game controller to move players on the faith track
+     * @return the faith track controller used in this precise match
      */
     public FaithTrackController getFaithTrackController(){
         return this.faithTrackController;
@@ -189,7 +189,6 @@ public class GameController extends CertifiedResourceUsage{
             table.nextTurn();
         }
     }
-
 
     /**
      * Changes turn and checks if the game endend;

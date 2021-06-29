@@ -12,9 +12,6 @@ public abstract class CertifiedResourceUsage{
      * @return true if the resource can be added to a storage, false otherwise
      */
     protected boolean getLegalResource(Resource resource){
-        if((resource == Resource.ANY) || (resource == Resource.WHITE) || (resource == Resource.FAITH))
-            return false;
-
-        return true;
+        return (resource != Resource.ANY) && (resource != Resource.WHITE) && (resource != Resource.FAITH);
     }
 }

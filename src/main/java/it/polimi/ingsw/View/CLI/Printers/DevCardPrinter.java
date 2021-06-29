@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
  * development slots, the grill of development cards on the table and development cards themselves.
  * The cards will be read from a ".json" file named "DevCardsConfig.json"
  */
-public class DevCardPrinter extends mapPrinter {
+public class DevCardPrinter extends MapPrinter {
     private final Gson gson;
     private final JsonObject devCards;
     private int level;

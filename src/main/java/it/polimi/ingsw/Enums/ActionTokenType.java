@@ -2,9 +2,17 @@ package it.polimi.ingsw.Enums;
 
 import it.polimi.ingsw.View.CLI.Color;
 
+/**
+ * This enumeration contains the action token used in single player for Lorenzo il Magnifico
+ */
 public enum ActionTokenType {
     DISCARDGREEN, DISCARDBLUE, DISCARDYELLOW, DISCARDPURPLE, RESETDECKONEFP, TWOFP;
 
+    /**
+     *Interprets an action token and returns a string explaining its effect
+     * @param token target token
+     * @return a string corresponding to the effect of the token "token" passed as a parameter
+     */
     public static String getEffectString(ActionTokenType token){
         switch(token){
             case DISCARDBLUE:
@@ -24,6 +32,11 @@ public enum ActionTokenType {
         }
     }
 
+    /**
+     *Interprets an action token and returns a string explaining its effect (this method is used in GUI)
+     * @param token target token
+     * @return a string corresponding to the effect of the token "token" passed as a parameter
+     */
     public static String getEffectStringForGUI(ActionTokenType token){
         switch(token){
             case DISCARDBLUE:

@@ -2,9 +2,20 @@ package it.polimi.ingsw.Enums;
 
 import it.polimi.ingsw.View.CLI.Color;
 
+/**
+ * This enumeration is used to represent the resources of the game. The resource "ANY" correspond to a
+ * resource without a specific type, that should be converted into another: an example of usage is
+ * the basic production power of the dashboard
+ */
 public enum Resource {
     COIN, STONE, SERVANT, SHIELD, FAITH, WHITE, ANY;
 
+    /**
+     * Converts a string into a resource if possible, otherwise returns null
+     * @param alias a string corresponding to the name of a resource (written in full length without abbreviations)
+     * @return the resource corresponding to the string passed as a parameter or null if
+     * that string does not correspond to a resource of this game
+     */
     public static Resource fromAlias(String alias){
         switch (alias.toUpperCase()){
             case ("COIN"):
@@ -26,6 +37,11 @@ public enum Resource {
         }
     }
 
+    /**
+     * Converts a resource into a string corresponding to the full name of that resource
+     * @param resource target resource
+     * @return the full name of the resource passed as a parameter
+     */
     public static String toAliasFull(Resource resource){
         switch (resource){
             case COIN:
@@ -47,6 +63,11 @@ public enum Resource {
         }
     }
 
+    /**
+     * Converts a resource into a string corresponding to an abbreviation of that resource
+     * @param resource target resource
+     * @return the abbreviation of the resource passed as a parameter
+     */
     public static String toAliasCompact(Resource resource){
         switch (resource){
             case COIN:

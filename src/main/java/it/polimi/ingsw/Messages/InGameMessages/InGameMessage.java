@@ -1,8 +1,10 @@
 package it.polimi.ingsw.Messages.InGameMessages;
 
 import it.polimi.ingsw.Controller.InGameControllerSwitch;
-import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.*;
 
+/**
+ * This class, and all the others extending this, are used for visitor pattern through an "InGameControllerSwitch"
+ */
 public abstract class InGameMessage {
     private int senderId;
 

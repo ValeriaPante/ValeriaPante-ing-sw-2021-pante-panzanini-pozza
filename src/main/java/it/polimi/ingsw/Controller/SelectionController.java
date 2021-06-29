@@ -24,9 +24,11 @@ public class SelectionController extends CertifiedResourceUsage{
     }
 
     /**
-     *
-     * @param serial
-     * @return
+     *Converts an identifier into the correspondent leader card if the card
+     * is owned by the player of turn and is played
+     * @param serial unique identifier of the leader card
+     * @return the correspondent leader card if the card with identifier equals to "serial"
+     * is owned by the player of turn and was played, null otherwise
      */
     protected LeaderCard getUsableLeaderCard(int serial){
         LeaderCard specifiedLeaderCard = leaderCardFromID(serial);
@@ -42,6 +44,11 @@ public class SelectionController extends CertifiedResourceUsage{
         return specifiedLeaderCard;
     }
 
+    /**
+     * Checks id the resource passed as a parameter is different from white, any or faith
+     * @param resource a resource to be checked
+     * @return ture if the resource specified is "legal", false otherwise
+     */
     private boolean resCheck(Resource resource){
         if(super.getLegalResource(resource))
             return true;
@@ -50,6 +57,13 @@ public class SelectionController extends CertifiedResourceUsage{
         return false;
     }
 
+    /**
+     * Converts an identifier into the correspondent leader card if the card
+     * is owned by the player of turn
+     * @param serial unique identifier of the leader card
+     * @return the correspondent leader card if the card with identifier equals to "serial"
+     * is owned by the player of turn, null otherwise
+     */
     protected LeaderCard leaderCardFromID(int serial){
         boolean ownCard = false;
         LeaderCard specifiedLeaderCard = null;
@@ -67,7 +81,11 @@ public class SelectionController extends CertifiedResourceUsage{
         return specifiedLeaderCard;
     }
 
-    //takes the shelf with "numberOfShelf" capacity and tries to select one Resource
+    /**
+     *Takes the shelf with "numberOfShelf" capacity and tries to select one Resource of the specified type
+     * @param resType type of the resource to be selected
+     * @param numberOfShelf capacity of the target shelf
+     */
     protected void selectFromShelf(Resource resType, int numberOfShelf){
         if(!resCheck(resType))
             return;
@@ -88,7 +106,12 @@ public class SelectionController extends CertifiedResourceUsage{
         }
     }
 
-    //takes the leader card with ID "serial" and tries to single select
+    /**
+     *Takes the leader card with ID "serial" and tries to single select a resource
+     * @param resType type of the resource to be selected
+     * @param serial unique identifier of the leader card (that should have storage type ability)
+     * @param resPosition position of the resource to be selected in the storage ability of the leader card specified
+     */
     protected void selectFromLeaderStorage(Resource resType, int serial, int resPosition){
         if(!resCheck(resType))
             return;
@@ -116,16 +139,29 @@ public class SelectionController extends CertifiedResourceUsage{
         }
     }
 
-    //selects "quantity" resources of "resType" type from player's StrongBox
+    /**
+     *Selects "quantity" resources of "resType" type from player's StrongBox
+     * @param resType resource type to be selected
+     * @param quantity quantity of resources of the specified type to be selected
+     */
     protected void selectFromStrongBox(Resource resType, int quantity){
         selectFromAStrongBox(table.turnOf().getStrongBox(), resType, quantity);
     }
 
+    /**
+     *Selects "quantity" resources of "resType" type from player's support container
+     * @param resType resource type to be selected
+     * @param quantity quantity of resources of the specified type to be selected
+     */
     protected void selectFromSupportContainer(Resource resType, int quantity){
         selectFromAStrongBox(table.turnOf().getSupportContainer(), resType, quantity);
     }
 
-    //takes the shelf with "numberOfShelf" capacity and tries to DEselect one Resource
+    /**
+     *Takes the shelf with "numberOfShelf" capacity and tries to Deselect one Resource of the specified type
+     * @param resType type of the resource to be deselected
+     * @param numberOfShelf capacity of the target shelf on which perform the deselection
+     */
     protected void deselectFromShelf(Resource resType, int numberOfShelf){
         if(!resCheck(resType))
             return;
@@ -146,15 +182,30 @@ public class SelectionController extends CertifiedResourceUsage{
         }
     }
 
-    //DEselects "quantity" resources of "resType" type from player's StrongBox
+    /**
+     *Deselects "quantity" resources of "resType" type from player's StrongBox
+     * @param resType resource type to be deselected
+     * @param quantity quantity of resources of the specified type to be deselected
+     */
     protected void deselectFromStrongBox(Resource resType, int quantity){
         deselectFromAStrongBox(table.turnOf().getStrongBox(), resType,quantity);
     }
 
+    /**
+     *Deselects "quantity" resources of "resType" type from player's support container
+     * @param resType resource type to be deselected
+     * @param quantity quantity of resources of the specified type to be deselected
+     */
     protected void deselectFromSupportContainer(Resource resType, int quantity){
         deselectFromAStrongBox(table.turnOf().getSupportContainer(), resType,quantity);
     }
 
+    /**
+     *Selects "quantity" resources of "resType" type from an object whose type is "StrongBox"
+     * (so the strongbox and the support container of the player)
+     * @param resType resource type to be selected
+     * @param quantity quantity of resources of the specified type to be selected
+     */
     private void selectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
         if(!resCheck(resType))
             return;
@@ -179,6 +230,12 @@ public class SelectionController extends CertifiedResourceUsage{
         }
     }
 
+    /**
+     *Deselects "quantity" resources of "resType" type from an object whose type is "StrongBox"
+     * (so the strongbox and the support container of the player)
+     * @param resType resource type to be deselected
+     * @param quantity quantity of resources of the specified type to be deselected
+     */
     private void deselectFromAStrongBox(StrongBox strongBox, Resource resType, int quantity){
         if(!resCheck(resType))
             return;
@@ -202,6 +259,9 @@ public class SelectionController extends CertifiedResourceUsage{
         }
     }
 
+    /**
+     * Clears all the selections of resources in player of turn's containers
+     */
     protected void deselectAllResources(){
         table.turnOf().getStrongBox().clearSelection();
         table.turnOf().getSupportContainer().clearSelection();
@@ -214,6 +274,11 @@ public class SelectionController extends CertifiedResourceUsage{
         }
     }
 
+    /**
+     *Returns a shelf by passing its capacity as a parameter
+     * @param capacity capacity of the target shelf
+     * @return the target shelf or null if the capacity request does not correspond to a shelf
+     */
     protected Shelf shelfFromCapacity(int capacity){
         if ((capacity > 3) || (capacity < 1)){
             table.turnOf().setErrorMessage("Capacity specified is exceeding limits");
