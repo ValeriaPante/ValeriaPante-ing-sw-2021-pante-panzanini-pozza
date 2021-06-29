@@ -401,7 +401,7 @@ public class GUI extends Application implements View {
         Platform.runLater(() -> Transition.showErrorMessage(message));
         Platform.runLater(() -> DevDecksScene.deselectAll());
         Platform.runLater(() -> ProductionScene.deselectIfSelected(cardId));
-        //if(Transition.isOnContainersScene()) messageManager.update(new DeselectAllResources());
+        if(Transition.isOnContainersScene()) messageManager.update(new DeselectAllResources());
     }
 
     @Override
