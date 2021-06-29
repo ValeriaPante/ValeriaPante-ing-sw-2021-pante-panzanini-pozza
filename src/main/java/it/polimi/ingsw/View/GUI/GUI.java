@@ -389,6 +389,7 @@ public class GUI extends Application implements View {
     public void showErrorMessage(String message) {
         if(currentState != null) Platform.runLater(() -> currentState.goBack());
         Platform.runLater(() -> Transition.showErrorMessage(message));
+        if(Transition.isOnContainersScene()) messageManager.update(new DeselectAllResources());
     }
 
     /**
@@ -398,10 +399,11 @@ public class GUI extends Application implements View {
      */
     @Override
     public void showSelectionError(String message, int cardId){
+
         Platform.runLater(() -> Transition.showErrorMessage(message));
         Platform.runLater(() -> DevDecksScene.deselectAll());
         Platform.runLater(() -> ProductionScene.deselectIfSelected(cardId));
-        if(Transition.isOnContainersScene()) messageManager.update(new DeselectAllResources());
+
     }
 
     @Override

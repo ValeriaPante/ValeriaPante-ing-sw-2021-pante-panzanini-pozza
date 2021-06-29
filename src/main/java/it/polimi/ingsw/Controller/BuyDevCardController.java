@@ -58,7 +58,8 @@ public class BuyDevCardController extends CardActionController{
                         table.turnOf().setErrorMessage("You can't buy this card, you don't have enough resources. ", cardId);
                     }else {
                         for(DevDeck deck: table.getDevDecks()){
-                            if(deck.getTopCard().isSelected())
+                            DevCard card = deck.getTopCard();
+                            if(card != null && card.isSelected())
                                 deck.selectTopCard();
                         }
                         table.getDevDecks()[chosenDeck - 1].selectTopCard();
@@ -67,7 +68,8 @@ public class BuyDevCardController extends CardActionController{
                     table.turnOf().setErrorMessage("Wrong selection: this deck is empty. ");
                 }
             } catch (IndexOutOfBoundsException e){
-                table.turnOf().setErrorMessage("Wrong selection: There is no such deck. ");
+                //table.turnOf().setErrorMessage("Wrong selection: There is no such deck. ");
+                e.printStackTrace();
             }
         } else table.turnOf().setErrorMessage("You can't do this action");
     }

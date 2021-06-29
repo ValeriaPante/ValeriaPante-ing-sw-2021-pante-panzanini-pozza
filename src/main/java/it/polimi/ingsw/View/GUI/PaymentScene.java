@@ -120,6 +120,7 @@ public class PaymentScene extends Initializable{
         });
         root.lookup("#minusButton0").setDisable(true);
         ((Button) root.lookup("#plusButton0")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new ShelfSelectionMessage(shelfNumbers.get(Resource.COIN), Resource.COIN))).start();
             Label count = (Label) root.lookup("#count0");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -147,6 +148,7 @@ public class PaymentScene extends Initializable{
         });
         root.lookup("#minusButton1").setDisable(true);
         ((Button) root.lookup("#plusButton1")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new ShelfSelectionMessage(shelfNumbers.get(Resource.SHIELD), Resource.SHIELD))).start();
             Label count = (Label) root.lookup("#count1");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -174,6 +176,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton2")).setDisable(true);
         ((Button) root.lookup("#plusButton2")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new ShelfSelectionMessage(shelfNumbers.get(Resource.SERVANT), Resource.SERVANT))).start();
             Label count = (Label) root.lookup("#count2");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -201,6 +204,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton3")).setDisable(true);
         ((Button) root.lookup("#plusButton3")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage( new ShelfSelectionMessage(shelfNumbers.get(Resource.STONE), Resource.STONE))).start();
             Label count = (Label) root.lookup("#count3");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -231,6 +235,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton4")).setDisable(true);
         ((Button) root.lookup("#plusButton4")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new StrongBoxSelectionMessage(1, Resource.COIN))).start();
             Label count = (Label) root.lookup("#count4");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -258,6 +263,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton5")).setDisable(true);
         ((Button) root.lookup("#plusButton5")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new StrongBoxSelectionMessage(1, Resource.SHIELD))).start();
             Label count = (Label) root.lookup("#count5");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -285,6 +291,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton6")).setDisable(true);
         ((Button) root.lookup("#plusButton6")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new StrongBoxSelectionMessage(1, Resource.SERVANT))).start();
             Label count = (Label) root.lookup("#count6");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -312,6 +319,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton7")).setDisable(true);
         ((Button) root.lookup("#plusButton7")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new StrongBoxSelectionMessage(1, Resource.STONE))).start();
             Label count = (Label) root.lookup("#count7");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -339,6 +347,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton8")).setDisable(true);
         ((Button) root.lookup("#plusButton8")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], selectNextPosition(0, Resource.COIN), Resource.COIN))).start();
             Label count = (Label) root.lookup("#count8");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -366,6 +375,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton9")).setDisable(true);
         ((Button) root.lookup("#plusButton9")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], selectNextPosition(0, Resource.SHIELD), Resource.SHIELD))).start();
             Label count = (Label) root.lookup("#count9");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -393,6 +403,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton10")).setDisable(true);
         ((Button) root.lookup("#plusButton10")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], selectNextPosition(0, Resource.SERVANT), Resource.SERVANT))).start();
             Label count = (Label) root.lookup("#count10");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -420,6 +431,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton11")).setDisable(true);
         ((Button) root.lookup("#plusButton11")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[0], selectNextPosition(0, Resource.STONE), Resource.STONE))).start();
             Label count = (Label) root.lookup("#count11");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -447,6 +459,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton12")).setDisable(true);
         ((Button) root.lookup("#plusButton12")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], selectNextPosition(1, Resource.COIN), Resource.COIN))).start();
             Label count = (Label) root.lookup("#count12");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -474,6 +487,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton13")).setDisable(true);
         ((Button) root.lookup("#plusButton13")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], selectNextPosition(1, Resource.SHIELD), Resource.SHIELD))).start();
             Label count = (Label) root.lookup("#count13");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -501,6 +515,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton14")).setDisable(true);
         ((Button) root.lookup("#plusButton14")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], selectNextPosition(1, Resource.SERVANT), Resource.SERVANT))).start();
             Label count = (Label) root.lookup("#count14");
             int currentCount = Integer.parseInt(count.getText())+1;
@@ -528,6 +543,7 @@ public class PaymentScene extends Initializable{
         });
         ( root.lookup("#minusButton15")).setDisable(true);
         ((Button) root.lookup("#plusButton15")).setOnAction(event -> {
+            if(root.lookup("#quit") != null) root.lookup("#quit").setVisible(false);
             new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(leaderStoragesID[1], selectNextPosition(1, Resource.STONE), Resource.STONE))).start();
             Label count = (Label) root.lookup("#count15");
             int currentCount = Integer.parseInt(count.getText())+1;

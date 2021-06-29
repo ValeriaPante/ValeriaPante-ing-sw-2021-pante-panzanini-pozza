@@ -123,6 +123,7 @@ public class DevDeck implements Deck{
      * @return a copy of the development card on top of the deck
      */
     public DevCard getTopCard(){
+        if(this.isEmpty()) return null;
         return this.deck.get(0).clone();
     }
 

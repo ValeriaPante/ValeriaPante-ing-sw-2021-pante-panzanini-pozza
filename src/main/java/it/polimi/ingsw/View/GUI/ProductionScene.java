@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.CardProductionSelectionMessage;
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.DeselectAllResources;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.ProductionActivationMessage;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 public class ProductionScene extends PaymentScene{
     private static final int[] devCardOnTop = new int[5];
     private static Node[] ticks = new Node[6];
+    private static Node quit;
 
     public ProductionScene(){
         try {
@@ -39,7 +41,11 @@ public class ProductionScene extends PaymentScene{
 
     @Override
     public void initialise(){
-        root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());
+
+        quit = root.lookup("#quit");
+        root.lookup("#quit").setOnMouseClicked(mouseEvent -> {
+            Transition.hideDialog();
+        });
 
         initialiseButtons();
         AnchorPane card1 = (AnchorPane) root.lookup("#card1");
@@ -60,6 +66,7 @@ public class ProductionScene extends PaymentScene{
                 new Thread(() -> sendMessage(new CardProductionSelectionMessage(devCardOnTop[0]))).start();
                 Node tick = root.lookup("#tick1");
                 tick.setVisible(!tick.isVisible());
+                quit.setVisible(false);
             });
             card1.getChildren().add(image);
         }
@@ -82,6 +89,7 @@ public class ProductionScene extends PaymentScene{
                 new Thread(() -> sendMessage(new CardProductionSelectionMessage(devCardOnTop[1]))).start();
                 Node tick = root.lookup("#tick2");
                 tick.setVisible(!tick.isVisible());
+                quit.setVisible(false);
             });
             card2.getChildren().add(image);
         }
@@ -104,6 +112,7 @@ public class ProductionScene extends PaymentScene{
                 new Thread(() -> sendMessage(new CardProductionSelectionMessage(devCardOnTop[2]))).start();
                 Node tick = root.lookup("#tick3");
                 tick.setVisible(!tick.isVisible());
+                quit.setVisible(false);
             });
             card3.getChildren().add(image);
         }
@@ -126,6 +135,7 @@ public class ProductionScene extends PaymentScene{
                 new Thread(() -> sendMessage(new CardProductionSelectionMessage(devCardOnTop[3]))).start();
                 Node tick = root.lookup("#tick4");
                 tick.setVisible(!tick.isVisible());
+                quit.setVisible(false);
             });
             card4.getChildren().add(image);
         }
@@ -148,6 +158,7 @@ public class ProductionScene extends PaymentScene{
                 new Thread(() -> sendMessage(new CardProductionSelectionMessage(devCardOnTop[4]))).start();
                 Node tick = root.lookup("#tick5");
                 tick.setVisible(!tick.isVisible());
+                quit.setVisible(false);
             });
             card5.getChildren().add(image);
         }
@@ -158,6 +169,7 @@ public class ProductionScene extends PaymentScene{
             new Thread(() -> sendMessage(new CardProductionSelectionMessage(0))).start();
             Node tick = root.lookup("#tick6");
             tick.setVisible(!tick.isVisible());
+            quit.setVisible(false);
         });
     }
 
@@ -188,4 +200,5 @@ public class ProductionScene extends PaymentScene{
             }
         }
     }
+
 }
