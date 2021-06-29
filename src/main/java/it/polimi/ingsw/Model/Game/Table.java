@@ -186,6 +186,7 @@ public class Table {
     }
 
     public void updatePlayerOfTurnDevSlot(int devSlotNum, DevCard chosenCard){
+        if(chosenCard.isSelected()) chosenCard.select();
         this.turnOf().getDevSlots()[devSlotNum - 1].addCard(chosenCard);
         NewDevCardMessage message = new NewDevCardMessage(this.turnOf+1, chosenCard.getId(), devSlotNum);
         this.notifyAllPlayer(message);

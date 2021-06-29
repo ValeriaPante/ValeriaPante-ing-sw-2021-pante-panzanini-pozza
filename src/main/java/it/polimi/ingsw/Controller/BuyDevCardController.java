@@ -314,7 +314,6 @@ public class BuyDevCardController extends CardActionController{
             int numberOfDeck=0;
             for (numberOfDeck=0; numberOfDeck<devDecks.length; numberOfDeck++){
                 if (devDecks[numberOfDeck].getTopCard().isSelected()){
-                    devDecks[numberOfDeck].selectTopCard();
                     break;
                 }
             }

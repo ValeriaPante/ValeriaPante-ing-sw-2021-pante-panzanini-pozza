@@ -2,6 +2,7 @@ package it.polimi.ingsw.View.GUI;
 
 import it.polimi.ingsw.Enums.ActionTokenType;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
+import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.DeselectAllResources;
 import it.polimi.ingsw.Network.Client.MessageManager;
 import it.polimi.ingsw.View.ClientModel.Game;
 import it.polimi.ingsw.View.GUI.States.*;
@@ -397,16 +398,10 @@ public class GUI extends Application implements View {
      */
     @Override
     public void showSelectionError(String message, int cardId){
-        for(int i = 0; i < model.getDevDecks().length; i++)
-            for(int j = 0; j < model.getDevDecks()[i].length; j++)
-                if(cardId == model.getDevDecks()[i][j]){
-                    int deck = i*4+j;
-                    Platform.runLater(() -> DevDecksScene.deselectIfSelected(deck));
-                    return;
-                }
-
-        Platform.runLater(() -> ProductionScene.deselectIfSelected(cardId));
         Platform.runLater(() -> Transition.showErrorMessage(message));
+        Platform.runLater(() -> DevDecksScene.deselectAll());
+        Platform.runLater(() -> ProductionScene.deselectIfSelected(cardId));
+        //if(Transition.isOnContainersScene()) messageManager.update(new DeselectAllResources());
     }
 
     @Override

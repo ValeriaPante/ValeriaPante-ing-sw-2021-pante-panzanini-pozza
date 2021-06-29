@@ -518,7 +518,7 @@ public class MarketController extends SelectionController{
             faithTrackController.moveAllTheOthers(faithPoints);
             table.turnOf().setMicroTurnType(MicroTurnType.NONE);
             table.turnOf().setMacroTurnType(MacroTurnType.DONE);
-            deselectAllResources();
+            super.deselectAllResources();
         }
     }
 

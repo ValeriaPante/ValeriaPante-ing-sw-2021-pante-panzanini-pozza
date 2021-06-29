@@ -74,13 +74,14 @@ public class DevDecksScene extends ObservableByGUI{
         root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());
     }
 
-    private static void deselectAll(){
+    public static void deselectAll(){
         for(Map.Entry<Integer, Region> card: selection.entrySet())
             card.getValue().setVisible(false);
     }
 
     public static void deselectIfSelected(int cardId){
         if(selection != null && selection.containsKey(cardId)) selection.get(cardId+1).setVisible(false);
+        deselectAll();
     }
 
     public Pane getRoot() {

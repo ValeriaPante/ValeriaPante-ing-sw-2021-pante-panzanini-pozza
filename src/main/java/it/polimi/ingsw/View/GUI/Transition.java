@@ -60,7 +60,8 @@ public class Transition {
     }
 
     public static void setDialogScene(Pane scene){
-        dialogStage.getScene().setRoot(scene);
+        if(dialogStage.getScene() != null) dialogStage.getScene().setRoot(scene);
+        else dialogStage.setScene(new Scene(scene));
     }
 
     public static void setWelcomeScene(WelcomeScene welcomeScene) {
