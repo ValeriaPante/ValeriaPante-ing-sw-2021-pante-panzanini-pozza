@@ -42,11 +42,6 @@ public class ContainersScene extends Initializable{
     public void initialise(){
         Transition.setOnContainersScene(true);
 
-        root.lookup("#back").setOnMouseClicked(mouseEvent -> {
-            Transition.hideDialog();
-            Transition.setOnContainersScene(false);
-        });
-
         ((Button) root.lookup("#quitButton")).setOnAction(event -> {
             Platform.runLater(Transition::hideDialog);
             Transition.setOnContainersScene(false);
@@ -296,10 +291,6 @@ public class ContainersScene extends Initializable{
 
             Platform.runLater(() ->Transition.setOnContainersScene(true));
 
-            root.lookup("#back").setOnMouseClicked(mouseEvent -> {
-                Platform.runLater(() -> Transition.setOnContainersScene(false));
-                Platform.runLater(Transition::hideDialog);
-            });
         }
 
 

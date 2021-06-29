@@ -16,14 +16,6 @@
             <Font name="Bookman Old Style" size="23.0" />
          </font>
       </Label>
-      <ImageView id="back" fitHeight="46.0" fitWidth="45.0" layoutX="6.0" layoutY="518.0">
-         <image>
-            <Image url="@../constantAssets/goback.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </ImageView>
       <ImageView fitHeight="390.0" fitWidth="324.0" layoutX="491.0" layoutY="181.0">
          <image>
             <Image url="@../constantAssets/shelf.png" />

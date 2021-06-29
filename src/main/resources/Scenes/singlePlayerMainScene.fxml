@@ -20,7 +20,6 @@
                   <MenuItem id="market" mnemonicParsing="false" text="Get from market" />
                   <MenuItem id="devcard" mnemonicParsing="false" text="Buy development card" />
                   <MenuItem id="prodpower" mnemonicParsing="false" text="Activate production" />
-                  <MenuItem id="containers" mnemonicParsing="false" text="Manage your deposits" />
                   <MenuItem id="endturn" mnemonicParsing="false" text="End you turn" />
                </items>
             </Menu>

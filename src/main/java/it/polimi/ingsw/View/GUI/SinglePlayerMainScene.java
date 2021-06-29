@@ -144,8 +144,7 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         menu.getItems().get(0).setOnAction(actionEvent -> observer.showMarket());
         menu.getItems().get(1).setOnAction(actionEvent -> observer.showDevDecks());
         menu.getItems().get(2).setOnAction(actionEvent -> observer.activateProduction());
-        menu.getItems().get(3).setOnAction(actionEvent -> observer.showDeposits());
-        menu.getItems().get(4).setOnAction(actionEvent -> {
+        menu.getItems().get(3).setOnAction(actionEvent -> {
             Transition.setOnContainersScene(false);
             new Thread(() -> sendMessage(new EndTurnMessage())).start();
         });
