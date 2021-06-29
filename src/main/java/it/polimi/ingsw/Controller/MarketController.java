@@ -96,12 +96,19 @@ public class MarketController extends SelectionController{
             } catch (IndexOutOfBoundsException ignored){}
         }
 
+        Depot results = new Depot();
         for(LeaderCard lc: table.turnOf().getLeaderCards()){
             try{
-                table.addToSupportContainer(lc.getAbility().getSelected());
-                table.payPlayerOfTurn(lc.getAbility());
-            }
-            catch (WrongLeaderCardType | NullPointerException ignored){}
+                EnumMap<Resource, Integer> selected;
+                selected = lc.getAbility().getSelected();
+                results.addEnumMap(selected);
+                if (!selected.isEmpty()){
+                    table.payPlayerOfTurn(lc.getAbility());
+                }
+            }catch (WrongLeaderCardType | NullPointerException ignored){}
+        }
+        if (!results.isEmpty()){
+            table.addToSupportContainer(results.content());
         }
     }
 
