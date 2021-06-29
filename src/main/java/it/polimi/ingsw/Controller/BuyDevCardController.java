@@ -91,8 +91,12 @@ public class BuyDevCardController extends CardActionController{
      */
     private boolean thereIsASelection(){
         for(DevDeck deck: table.getDevDecks()){
-            if(deck.getTopCard().isSelected())
-                return true;
+            try {
+                if(deck.getTopCard().isSelected())
+                    return true;
+            } catch (IndexOutOfBoundsException e){
+
+            }
         }
         return false;
     }

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Network.Client;
 
 import com.google.gson.Gson;
+import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Network.Client.Messages.*;
 import it.polimi.ingsw.View.ClientModel.SimplifiedPlayer;
 import it.polimi.ingsw.View.View;
@@ -28,10 +29,12 @@ public class Visitor {
 
         if(m.isDiscard()){
             if(m.getId() == model.getLocalPlayerId() || model.getPlayerFromId(m.getId()).getLeaderCards().contains(m.getCardId())) model.getPlayerFromId(m.getId()).getLeaderCards().remove(Integer.valueOf(m.getCardId()));
+            else if (m.getId() == model.getLocalPlayerId() && m.getCardId() > 52 && m.getCardId() <57) model.getPlayerFromId(m.getId()).getAllLeaderStorages().remove(m.getCardId());
             view.discardLeaderCard(m.getId(), m.getCardId());
         }
         else{
             if(m.getId() != model.getLocalPlayerId()) model.getPlayerFromId(m.getId()).getLeaderCards().add(m.getCardId());
+            else if (m.getCardId() > 52 && m.getCardId() <57) model.getPlayerFromId(m.getId()).getAllLeaderStorages().put(m.getCardId(), new Resource[]{null, null});
             view.activateLeaderCard(m.getId(), m.getCardId());
         }
     }

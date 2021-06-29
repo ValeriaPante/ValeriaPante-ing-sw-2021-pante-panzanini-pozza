@@ -194,7 +194,13 @@ public class Table {
     //pensando al riuso di questo
     public DevCard drawDevDeck(int numberOfDeck){
         DevCard cardDrawn = this.devDecks[numberOfDeck].draw();
-        NewTopCardMessage message = new NewTopCardMessage(cardDrawn.getId(), numberOfDeck);
+        DevCard newTopCard = null;
+        try{
+             newTopCard = this.devDecks[numberOfDeck].getTopCard();
+        } catch (IndexOutOfBoundsException e) {
+
+        }
+        NewTopCardMessage message = new NewTopCardMessage((newTopCard==null)? 0 : newTopCard.getId(), numberOfDeck);
         this.notifyAllPlayer(message);
         return cardDrawn;
     }

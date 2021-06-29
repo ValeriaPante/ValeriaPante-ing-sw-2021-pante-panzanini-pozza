@@ -80,7 +80,7 @@ public class DevDecksScene extends ObservableByGUI{
     }
 
     public static void deselectIfSelected(int cardId){
-        if(selection != null && selection.containsKey(cardId) && selection.get(cardId).isVisible()) selection.get(cardId).setVisible(false);
+        if(selection != null && selection.containsKey(cardId)) selection.get(cardId+1).setVisible(false);
     }
 
     public Pane getRoot() {

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.View.GUI;
 
 
+import com.sun.scenario.effect.impl.prism.ps.PPSLinearConvolveShadowPeer;
 import it.polimi.ingsw.Enums.ActionTokenType;
 import it.polimi.ingsw.Enums.PopeFavorCardState;
 import it.polimi.ingsw.Network.Client.MessageManager;
@@ -400,7 +401,15 @@ public class GUI extends Application implements View {
     @Override
     public void showSelectionError(String message, int cardId){
         Platform.runLater(() -> Transition.showErrorMessage(message));
-        Platform.runLater(() -> Transition.deselectCardIfSelected(cardId));
+        for(int i = 0; i < model.getDevDecks().length; i++)
+            for(int j = 0; j < model.getDevDecks()[i].length; j++)
+                if(cardId == model.getDevDecks()[i][j]){
+                    int deck = i*4+j;
+                    Platform.runLater(() -> DevDecksScene.deselectIfSelected(deck));
+                    return;
+                }
+
+        Platform.runLater(() -> ProductionScene.deselectIfSelected(cardId));
     }
 
     @Override
