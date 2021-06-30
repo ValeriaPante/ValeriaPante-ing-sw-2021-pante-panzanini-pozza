@@ -54,7 +54,7 @@ public class MainScene extends ObservableByGUI{
                 ImageView backgroundImage = new ImageView();
                 try {
                     File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                    FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\colored.jpg");
+                    FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator + "colored.png");
                     backgroundImage.setImage(new Image(fileInputStream));
 
                 } catch(Exception e) {
@@ -158,7 +158,7 @@ public class MainScene extends ObservableByGUI{
                 ImageView backgroundImage = new ImageView();
                 try {
                     File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                    FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator + "colored.jpg");
+                    FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator + "colored.png");
                     backgroundImage.setImage(new Image(fileInputStream));
 
                 } catch(Exception e) {
