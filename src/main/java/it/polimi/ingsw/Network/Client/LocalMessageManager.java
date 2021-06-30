@@ -28,7 +28,7 @@ public class LocalMessageManager implements MessageManager{
                 dir.mkdirs();
             }
             for (File file : fileToCopy.listFiles()){
-                this.copyFile(file, dir.getPath());
+                this.copyFile(file, dir.getAbsolutePath());
             }
         }
         else if (fileToCopy.isFile()){
@@ -58,8 +58,8 @@ public class LocalMessageManager implements MessageManager{
                 outputDir.mkdirs();
             }
             for (File file : jarFolder.listFiles()){
-                if (file.isDirectory() && !file.getPath().equals(outputDir.getPath())){
-                    this.copyFile(file, outputDir.getPath());
+                if (file.isDirectory() && !file.getAbsolutePath().equals(outputDir.getAbsolutePath())){
+                    this.copyFile(file, outputDir.getAbsolutePath());
                 }
             }
         }catch (URISyntaxException ignored){}

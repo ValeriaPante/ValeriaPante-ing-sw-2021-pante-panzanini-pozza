@@ -121,6 +121,20 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
             //sincero bho
         }
 
+        try {
+            InputStream imgInputStream = this.getClass().getResourceAsStream("/accessible/assets/imgs/colored.jpg");
+            FileOutputStream fileOutputStream = new FileOutputStream(serverPath + File.separator + "accessible" + File.separator + "assets" + File.separator + "imgs" + File.separator + "colored.jpg");
+            int count;
+            byte[] buffer = new byte[1024];
+            try {
+                while ((count = imgInputStream.read(buffer)) != -1) {
+                    fileOutputStream.write(buffer, 0, count);
+                }
+            } catch (IOException ignored) {
+            }
+            imgInputStream.close();
+            fileOutputStream.close();
+        }catch (IOException ignored){}
         super.closeStage();
     }
 
