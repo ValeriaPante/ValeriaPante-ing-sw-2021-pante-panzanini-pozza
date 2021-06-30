@@ -149,7 +149,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
         }
 
         for (int i=0; i<this.pathNewCards.size(); i++){
-            String relativePath = "\\accessible\\assets\\imgs\\";
+            String relativePath = File.separator + "accessible" + File.separator + "assets" + File.separator + "imgs" + File.separator;
             File dir = new File(serverPath + relativePath);
             if (!dir.exists()){
                 dir.mkdirs();
