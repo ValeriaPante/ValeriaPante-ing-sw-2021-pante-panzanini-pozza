@@ -4,7 +4,7 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public class WinnerMessage extends WithIntMessage{
 
-    private String type =" winner";
+    private String type ="winner";
 
     public WinnerMessage(int winnerId) {
         this.id = winnerId;

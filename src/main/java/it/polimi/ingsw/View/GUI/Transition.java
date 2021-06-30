@@ -59,6 +59,12 @@ public class Transition {
 
     }
 
+    public static void setExitOnClose(){
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            System.exit(1);
+        });
+    }
+
     public static void setDialogScene(Pane scene){
         if(dialogStage.getScene() != null) dialogStage.getScene().setRoot(scene);
         else dialogStage.setScene(new Scene(scene));

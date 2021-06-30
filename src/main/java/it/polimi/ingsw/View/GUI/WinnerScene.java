@@ -14,6 +14,7 @@ public class WinnerScene {
     private Pane root;
 
     public WinnerScene(String winner) {
+        Transition.setExitOnClose();
         try {
             root = FXMLLoader.load(getClass().getResource("/Scenes/winnerScene.fxml"));
         } catch (IOException e) {
