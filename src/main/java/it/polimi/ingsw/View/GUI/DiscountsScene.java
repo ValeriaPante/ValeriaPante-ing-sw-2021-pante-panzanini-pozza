@@ -41,7 +41,7 @@ public class DiscountsScene extends Initializable{
             ImageView image1 = new ImageView();
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +discountLC.get(0)+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator + "assets"+ File.separator +"imgs"+ File.separator +discountLC.get(0)+".png");
                 image1.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {
@@ -58,7 +58,7 @@ public class DiscountsScene extends Initializable{
             ImageView image2 = new ImageView();
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +discountLC.get(1)+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator + "assets"+ File.separator +"imgs"+ File.separator +discountLC.get(1)+".png");
                 image2.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {
@@ -76,7 +76,7 @@ public class DiscountsScene extends Initializable{
             ImageView image = new ImageView();
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +discountLC.get(0)+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator + "assets"+ File.separator +"imgs"+ File.separator +discountLC.get(0)+".png");
                 image.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {

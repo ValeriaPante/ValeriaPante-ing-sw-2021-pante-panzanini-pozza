@@ -48,7 +48,7 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         ImageView backgroundImage = new ImageView();
         try {
             File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\colored.jpg");
+            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +"colored.jpg");
             backgroundImage.setImage(new Image(fileInputStream));
 
         } catch(Exception e) {
@@ -67,9 +67,9 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         ImageView image2 = new ImageView();
         try {
             File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-            FileInputStream fileInputStream1 = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\"+lc.get(0)+".png");
+            FileInputStream fileInputStream1 = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator+lc.get(0)+".png");
             image1.setImage(new Image(fileInputStream1));
-            FileInputStream fileInputStream2 = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\"+lc.get(1)+".png");
+            FileInputStream fileInputStream2 = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator+lc.get(1)+".png");
             image2.setImage(new Image(fileInputStream2));
 
         } catch(Exception e) {

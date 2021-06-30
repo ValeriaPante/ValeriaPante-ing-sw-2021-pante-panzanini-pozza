@@ -203,7 +203,7 @@ public class Transition {
         ImageView image = new ImageView();
         try {
             File fullPath = new File(Transition.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +cardId+".png");
+            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +cardId+".png");
             image.setImage(new Image(fileInputStream));
 
         } catch(Exception e) {
@@ -225,7 +225,7 @@ public class Transition {
         ImageView image = new ImageView();
         try {
             File fullPath = new File(Transition.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +cardId+".png");
+            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +cardId+".png");
             image.setImage(new Image(fileInputStream));
 
         } catch(Exception e) {
@@ -284,7 +284,7 @@ public class Transition {
             ImageView image = new ImageView();
             try {
                 File fullPath = new File(Transition.class.getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +cardId+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +cardId+".png");
                 image.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {
@@ -558,13 +558,5 @@ public class Transition {
         }
     }
 
-    /**
-     * Deselects a card in the DevDecksScen or in the ProductionScene
-     * @param cardId id of the card to deselect
-     */
-    public static void deselectCardIfSelected(int cardId){
-        DevDecksScene.deselectIfSelected(cardId);
-        ProductionScene.deselectIfSelected(cardId);
-    }
 
 }

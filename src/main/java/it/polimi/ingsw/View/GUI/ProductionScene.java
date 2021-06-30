@@ -57,7 +57,7 @@ public class ProductionScene extends PaymentScene{
             ImageView image = new ImageView();
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[0]+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[0]+".png");
                 image.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {
@@ -80,7 +80,7 @@ public class ProductionScene extends PaymentScene{
             ImageView image = new ImageView();
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[1]+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[1]+".png");
                 image.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {
@@ -103,7 +103,7 @@ public class ProductionScene extends PaymentScene{
             ImageView image = new ImageView();
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[2]+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[2]+".png");
                 image.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {
@@ -126,7 +126,7 @@ public class ProductionScene extends PaymentScene{
             ImageView image = new ImageView();
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[3]+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[3]+".png");
                 image.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {
@@ -149,7 +149,7 @@ public class ProductionScene extends PaymentScene{
             ImageView image = new ImageView();
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCardOnTop[4]+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[4]+".png");
                 image.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {

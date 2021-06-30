@@ -44,7 +44,7 @@ public class DevDecksScene extends ObservableByGUI{
                     ImageView image = new ImageView();
                     try {
                         File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                        FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devDecks[i][j]+".png");
+                        FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator + "assets"+ File.separator + "imgs"+ File.separator +devDecks[i][j]+".png");
                         image.setImage(new Image(fileInputStream));
 
                     } catch(Exception e) {

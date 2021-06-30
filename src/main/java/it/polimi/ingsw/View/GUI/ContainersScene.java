@@ -266,7 +266,7 @@ public class ContainersScene extends Initializable{
                     int position = i;
                     Resource resourceType = resources[i - 1];
                     if(resourceType != null){
-                        InputStream input = Transition.class.getResourceAsStream("/constantAssets/" +resources[i - 1].toString().toLowerCase()+".png");
+                        InputStream input = Transition.class.getResourceAsStream(File.separator + "constantAssets"+ File.separator +resources[i - 1].toString().toLowerCase()+".png");
                         ImageView resourceImage = new ImageView();
                         resourceImage.setImage(new Image(input));
                         resourceImage.setFitWidth(40);
@@ -280,8 +280,6 @@ public class ContainersScene extends Initializable{
                             db.setContent(content);
                             dragEvent.consume();
                         });
-                        //resourceImage.setOnDragEntered(dragEvent -> new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(numberOfCard ,position, resourceType))).start());
-                        //resourceImage.setOnDragExited(dragEvent -> new Thread(() -> sendMessage(new LeaderStorageSelectionMessage(numberOfCard ,position, resourceType))).start());
                         space.getChildren().add(resourceImage);
                     }
 

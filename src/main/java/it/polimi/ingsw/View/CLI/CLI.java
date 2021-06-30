@@ -257,7 +257,7 @@ public class CLI extends Observable implements View{
     @Override
     public void addDevCardInSlot(int playerId, int cardId, int slot) {
         if (playerId != model.getLocalPlayerId() && showNotifications)
-            executor.execute(() -> printer.notifyDevCardPurchase(playerId, cardId, slot));
+            executor.execute(() -> printer.notifyDevCardPurchase(playerId, cardId, slot - 1));
     }
 
     @Override

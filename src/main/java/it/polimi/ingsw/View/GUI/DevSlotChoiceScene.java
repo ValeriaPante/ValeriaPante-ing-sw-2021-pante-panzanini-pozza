@@ -46,7 +46,7 @@ public class DevSlotChoiceScene extends Initializable{
                     ImageView image = new ImageView();
                     try {
                         File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                        FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\" +devCards[i][j]+".png");
+                        FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator + "assets"+ File.separator +"imgs"+ File.separator +devCards[i][j]+".png");
                         image.setImage(new Image(fileInputStream));
 
                     } catch(Exception e) {
