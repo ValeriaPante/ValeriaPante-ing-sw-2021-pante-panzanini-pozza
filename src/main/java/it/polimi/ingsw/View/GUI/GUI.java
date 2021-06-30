@@ -400,9 +400,9 @@ public class GUI extends Application implements View {
     @Override
     public void showSelectionError(String message, int cardId){
 
-        Platform.runLater(() -> Transition.showErrorMessage(message));
         Platform.runLater(() -> DevDecksScene.deselectAll());
         Platform.runLater(() -> ProductionScene.deselectIfSelected(cardId));
+        Platform.runLater(() -> Transition.showErrorMessage(message));
 
     }
 

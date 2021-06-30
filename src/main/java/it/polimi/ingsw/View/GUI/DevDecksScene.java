@@ -75,8 +75,10 @@ public class DevDecksScene extends ObservableByGUI{
     }
 
     public static void deselectAll(){
-        for(Map.Entry<Integer, Region> card: selection.entrySet())
-            card.getValue().setVisible(false);
+        if(selection != null){
+            for(Map.Entry<Integer, Region> card: selection.entrySet())
+                card.getValue().setVisible(false);
+        }
     }
 
     public static void deselectIfSelected(int cardId){

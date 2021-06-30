@@ -50,6 +50,7 @@ public class MarketState extends State{
         toDo.add(0, done.get(0));
         done.remove(0);
         Platform.runLater(() -> Transition.setDialogScene(toDo.get(0).getRoot()));
+        Platform.runLater(() -> Transition.reshowDialog());
     }
 
     /**

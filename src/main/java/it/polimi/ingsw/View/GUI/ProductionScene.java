@@ -3,6 +3,7 @@ package it.polimi.ingsw.View.GUI;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.CardProductionSelectionMessage;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.DeselectAllResources;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.ProductionActivationMessage;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -10,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 
+import javax.swing.text.PlainDocument;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -190,15 +192,21 @@ public class ProductionScene extends PaymentScene{
     }
 
     public static void deselectIfSelected(int cardId){
-        if(cardId == 0 && ticks[5].isVisible()){
+        if(cardId == 0){
             ticks[5].setVisible(false);
-            return;
-        }
-        for(int i = 0; i < devCardOnTop.length - 1; i++){
-            if(devCardOnTop[i] == cardId && ticks[i].isVisible()){
-                ticks[i].setVisible(false);
+        } else {
+            for(int i = 0; i < devCardOnTop.length - 1; i++){
+                if(devCardOnTop[i] == cardId){
+                    ticks[i].setVisible(false);
+                }
             }
         }
+
+        for(int i = 0; i < ticks.length; i++){
+            if(ticks[i].isVisible()) return;
+        }
+
+        quit.setVisible(true);
     }
 
 }
