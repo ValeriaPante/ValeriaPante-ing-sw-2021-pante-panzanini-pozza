@@ -224,7 +224,7 @@ public class ContainersScene extends Initializable{
 
             try {
                 File fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI());
-                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + "\\assets\\imgs\\"+storage.getKey()+".png");
+                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator + "assets"+ File.separator + "imgs"+ File.separator +storage.getKey()+".png");
                 image.setImage(new Image(fileInputStream));
 
             } catch(Exception e) {
