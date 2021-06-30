@@ -180,7 +180,7 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
      * @return the files infos or null if received an end message (client doesn't need more updates)
      */
     public String[] waitForAssetsDescription(){
-        String[] assetDescription;
+        String[] assetDescription = null;
         try {
             //bloccante
             assetDescription = this.fromClient.readAssetsDescription();
@@ -196,8 +196,7 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
             System.out.println(assetDescription[1]); //DEBUG
             System.out.println(assetDescription[2]); //DEBUG
         }catch (IOException e){
-            //Non è riuscito a leggere
-            return null;
+            this.requestHandler.connectionClosed(this.id);
         }
         return assetDescription;
     }
@@ -213,6 +212,7 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
                 nickname = this.fromClient.readMessage();
                 nickname = nickname.trim();
             }catch (IOException e){
+                this.requestHandler.connectionClosed(this.id);
                 //vediamo un attimo insieme cosa fare
             }
 

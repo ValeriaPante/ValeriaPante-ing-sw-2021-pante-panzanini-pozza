@@ -163,7 +163,6 @@ public class MessageToServerManager implements Runnable, MessageManager{
                         break;
                 }catch (IOException e){
                     break;
-                    //problema sconosciuto
                 }
             }
             fromServer.close();

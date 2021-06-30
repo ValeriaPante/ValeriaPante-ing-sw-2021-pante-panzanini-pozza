@@ -41,7 +41,7 @@ public class InGameControllerSwitch {
 
     private boolean isActionFromTurnOf(InGameMessage message){
         Gson gson = new Gson();
-        System.out.println("----"+gson.toJson(message));
+        System.out.println("----"+gson.toJson(message)); //DEBUG
 
         Table table = gameController.getTable();
 

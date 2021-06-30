@@ -102,6 +102,9 @@ public class Receiver {
         Integer byteArrived = this.inputStream.read();
 
         while (byteArrived!=10){        //(int)'\n' = 10
+            if (byteArrived == -1){
+                throw new IOException();
+            }
             header.add(byteArrived.byteValue());
             byteArrived = this.inputStream.read();
         }
