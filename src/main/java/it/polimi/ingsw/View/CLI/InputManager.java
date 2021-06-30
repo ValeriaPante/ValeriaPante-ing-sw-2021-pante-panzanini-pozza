@@ -305,7 +305,7 @@ public class InputManager{
         if (toBeChecked.matches("SELECT: (((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))"))
             return resourceSelectionDeselection(toBeChecked.replace("SELECT: ", ""), true);
 
-        if(toBeChecked.matches("DESELECT: (((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))"))
+        if(toBeChecked.matches("DESELECT: (((SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))"))
             return resourceSelectionDeselection(toBeChecked.replace("DESELECT: ", ""), false);
 
         if (toBeChecked.matches("MOVE TO: (SC|(LC\\d\\d)|(SH[1-3]))"))
