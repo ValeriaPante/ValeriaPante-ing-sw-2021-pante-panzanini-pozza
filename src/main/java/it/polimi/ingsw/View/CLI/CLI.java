@@ -16,6 +16,11 @@ import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+/**
+ * This class conciliate the requests from the player (command line) and from the net.
+ * It keeps an executor in order to not stop for too long the thread that should listen the net.
+ * Before Starting the connection, or the game if local, there is just one main thread playing
+ */
 public class CLI extends Observable implements View{
     private MessageManager client;
     private final Game model;
