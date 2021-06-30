@@ -139,7 +139,7 @@ public class GameController extends CertifiedResourceUsage{
             if (placedResources == 0){
                 for (Shelf s : table.turnOf().getShelves())
                     if (s.getCapacity() == capacityShelf1)
-                        s.singleAdd(resType1);
+                        table.addAllIfPossibleToShelf(s.getCapacity(), resType1,1);
             } else {
                 for (Shelf s : table.turnOf().getShelves())
                     if (s.getCapacity() == capacityShelf1){
