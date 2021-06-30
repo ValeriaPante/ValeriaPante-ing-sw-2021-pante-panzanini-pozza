@@ -81,7 +81,7 @@ public class ProductionController extends CardActionController{
                 }
                 else{
                     //non si può permettere questa carta
-                    player.setErrorMessage("You can't activate this production because you don't have enough resources");
+                    player.setErrorMessage("You can't activate this production because you don't have enough resources", idCard);
                     return;
                 }
             }
@@ -95,15 +95,10 @@ public class ProductionController extends CardActionController{
                     devSlot.selectTopCard();
                 } else {
                     if (this.isAffordableSomehow(devSlot.topCard().getProdPower(), player)) {
-                        if (devSlot.isEmpty()){
-                            player.setErrorMessage("This devSlot is empty");
-                        }
-                        else{
-                            devSlot.selectTopCard();
-                        }
+                        devSlot.selectTopCard();
                     } else {
                         //non si può permettere questa carta
-                        player.setErrorMessage("You can't activate this production because you don't have enough resources");
+                        player.setErrorMessage("You can't activate this production because you don't have enough resources", idCard);
                     }
                 }
                 return;
@@ -120,7 +115,7 @@ public class ProductionController extends CardActionController{
                         leaderProductionPower = leaderCard.getAbility().getProductionPower();
                     } catch (WrongLeaderCardType e) {
                         //ha selezionato una carta che non è di tipo produzione
-                        player.setErrorMessage("This is not a production LeaderCard");
+                        player.setErrorMessage("This is not a production LeaderCard", idCard);
                         return; //da eliminare
                     }
 
@@ -128,7 +123,7 @@ public class ProductionController extends CardActionController{
                         leaderCard.select();
                     } else {
                         //non si può permettere questa carta
-                        player.setErrorMessage("You can't activate this production because you don't have enough resources");
+                        player.setErrorMessage("You can't activate this production because you don't have enough resources", idCard);
                     }
                 }
                 return;
@@ -136,7 +131,7 @@ public class ProductionController extends CardActionController{
         }
 
         //il giocatore ha specificato una carta che non possiede
-        player.setErrorMessage("Card not owned");
+        player.setErrorMessage("Card not owned", idCard);
     }
 
     private boolean isTurnTypeValid(){
@@ -316,13 +311,13 @@ public class ProductionController extends CardActionController{
         this.player = super.table.turnOf();
 
         if (!(this.player.getMacroTurnType() == MacroTurnType.PRODUCTION && this.player.getMicroTurnType() == MicroTurnType.SETTING_UP)){
-            this.player.setErrorMessage("You can't");
+            this.player.setErrorMessage("You can't now");
             return;
         }
 
         ArrayList<ProductionPower> selectedProdPowers = this.getSelectedProductionPowers(this.player);
         if (selectedProdPowers.isEmpty()){
-            this.player.setErrorMessage("Seleziona qualche potere di produzione pls");
+            this.player.setErrorMessage("Please select some production power");
             return;
         }
 
@@ -355,7 +350,7 @@ public class ProductionController extends CardActionController{
         }
         //----
         if (resourceSelected.isEmpty()){
-            this.player.setErrorMessage("Non vai avanti fin quando non selezioni qualche risorsa");
+            this.player.setErrorMessage("Please select some resources");
             return;
         }
 
@@ -380,7 +375,7 @@ public class ProductionController extends CardActionController{
             else{
                 //errore:
                 //le risorse selezionate non sono abbastanza da coprire il costo delle carte selezionate
-                this.player.setErrorMessage("Selected are not enough");
+                this.player.setErrorMessage("Selection doesn't match the cost");
             }
         }
         else{
@@ -392,7 +387,7 @@ public class ProductionController extends CardActionController{
             else{
                 //errore:
                 //le risorse selezionate non sono abbastanza da coprire il costo delle carte selezionate
-                this.player.setErrorMessage("Selected are not enough");
+                this.player.setErrorMessage("Selection doesn't match the cost");
             }
         }
     }

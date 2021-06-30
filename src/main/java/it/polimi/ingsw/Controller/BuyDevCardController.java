@@ -68,8 +68,7 @@ public class BuyDevCardController extends CardActionController{
                     table.turnOf().setErrorMessage("Wrong selection: this deck is empty. ");
                 }
             } catch (IndexOutOfBoundsException e){
-                //table.turnOf().setErrorMessage("Wrong selection: There is no such deck. ");
-                e.printStackTrace();
+                table.turnOf().setErrorMessage("Wrong selection: There is no such deck. ");
             }
         } else table.turnOf().setErrorMessage("You can't do this action");
     }
