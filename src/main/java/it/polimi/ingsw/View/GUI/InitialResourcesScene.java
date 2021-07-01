@@ -92,7 +92,7 @@ public class InitialResourcesScene extends ObservableByGUI{
                     success = true;
                 }
             }
-            if(toChoose == 2 && count == 1){
+            if(success && toChoose == 2 && count == 1){
                 AnchorPane region = (AnchorPane) root.lookup("#resource1");
                 region.getChildren().add(getImageFromResource(db.getString()));
                 chosenResource = Resource.valueOf(db.getString());
@@ -123,7 +123,7 @@ public class InitialResourcesScene extends ObservableByGUI{
                     success = true;
                 }
             }
-            if(toChoose == 2 && count == 1){
+            if(success && toChoose == 2 && count == 1){
                 AnchorPane region = (AnchorPane) root.lookup("#resource2");
                 region.getChildren().add(getImageFromResource(db.getString()));
                 chosenResource = Resource.valueOf(db.getString());
@@ -155,7 +155,7 @@ public class InitialResourcesScene extends ObservableByGUI{
                 }
 
             }
-            if(toChoose == 2 && count == 1){
+            if(success && toChoose == 2 && count == 1){
                 AnchorPane region = (AnchorPane) root.lookup("#resource3");
                 region.getChildren().add(getImageFromResource(db.getString()));
                 chosenResource = Resource.valueOf(db.getString());
