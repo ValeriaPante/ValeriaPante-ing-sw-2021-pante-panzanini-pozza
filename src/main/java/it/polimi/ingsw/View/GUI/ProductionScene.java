@@ -192,21 +192,23 @@ public class ProductionScene extends PaymentScene{
     }
 
     public static void deselectIfSelected(int cardId){
-        if(cardId == 0){
-            ticks[5].setVisible(false);
-        } else {
-            for(int i = 0; i < devCardOnTop.length - 1; i++){
-                if(devCardOnTop[i] == cardId){
-                    ticks[i].setVisible(false);
+        if(ticks != null){
+            if(cardId == 0){
+                ticks[5].setVisible(false);
+            } else {
+                for(int i = 0; i < devCardOnTop.length - 1; i++){
+                    if(devCardOnTop[i] == cardId){
+                        ticks[i].setVisible(false);
+                    }
                 }
             }
-        }
 
-        for(int i = 0; i < ticks.length; i++){
-            if(ticks[i].isVisible()) return;
-        }
+            for(int i = 0; i < ticks.length; i++){
+                if(ticks[i].isVisible()) return;
+            }
 
-        quit.setVisible(true);
+            quit.setVisible(true);
+        }
     }
 
 }

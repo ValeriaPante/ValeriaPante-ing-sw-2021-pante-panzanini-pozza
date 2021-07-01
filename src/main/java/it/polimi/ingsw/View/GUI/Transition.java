@@ -293,7 +293,7 @@ public class Transition {
             image.setPreserveRatio(true);
 
             AnchorPane card;
-            if(playerPane.lookup("#lc1") != null){
+            if(playerPane.lookup("#lc1") != null && playerPane.lookup("lc1").isVisible()){
                 card = (AnchorPane) playerPane.lookup("#lc1");
                 playerPane.lookup("#lc11").setId("lc"+cardId+"1");
                 playerPane.lookup("#lc12").setId("lc"+cardId+"2");
