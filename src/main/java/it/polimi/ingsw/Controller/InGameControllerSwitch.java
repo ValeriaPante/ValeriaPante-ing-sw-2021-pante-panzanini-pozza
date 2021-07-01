@@ -127,7 +127,11 @@ public class InGameControllerSwitch {
         if (!isActionFromTurnOf(message)){
             return;
         }
-        buyDevCardController.chooseDevSlot(message.getInteger());
+        try{
+            buyDevCardController.chooseDevSlot(message.getInteger());
+        } catch (GameOver gameOver) {
+            gameController.endGame();
+        }
     }
 
     public synchronized void actionOnMessage(DiscountAbilityMessage message){

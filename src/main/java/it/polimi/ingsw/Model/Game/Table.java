@@ -242,8 +242,8 @@ public class Table {
             else if(this.devDecks[4*level + i].size() == 1){
                 this.devDecks[4*level + i].draw();
                 cardToDiscards--;
-                level++;
                 this.notifyAllPlayer(new NewTopCardMessage(0, 4*level + i));
+                level++;
             }
             else{
                 level++;
