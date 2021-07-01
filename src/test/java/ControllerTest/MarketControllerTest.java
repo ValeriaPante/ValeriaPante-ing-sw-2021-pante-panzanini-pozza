@@ -510,8 +510,8 @@ public class MarketControllerTest {
 
             assertEquals(realPlayer.getMicroTurnType(), MicroTurnType.PLACE_RESOURCES);
             assertEquals(realPlayer.getMacroTurnType(), MacroTurnType.GET_FROM_MARKET);
-            assertFalse(realPlayer.getSupportContainer().content().containsKey(Resource.WHITE));
-            assertFalse(realPlayer.getSupportContainer().content().containsKey(Resource.ANY));
+            if(!realPlayer.getSupportContainer().isEmpty()) assertFalse(realPlayer.getSupportContainer().content().containsKey(Resource.WHITE));
+            if(!realPlayer.getSupportContainer().isEmpty()) assertFalse(realPlayer.getSupportContainer().content().containsKey(Resource.ANY));
         }
 
         realPlayer.discardLeaderCard(lc2);
@@ -542,7 +542,7 @@ public class MarketControllerTest {
 
             assertEquals(realPlayer.getMicroTurnType(), MicroTurnType.PLACE_RESOURCES);
             assertEquals(realPlayer.getMacroTurnType(), MacroTurnType.GET_FROM_MARKET);
-            assertFalse(realPlayer.getSupportContainer().content().containsKey(Resource.WHITE));
+            if(!realPlayer.getSupportContainer().isEmpty()) assertFalse(realPlayer.getSupportContainer().content().containsKey(Resource.WHITE));
             assertEquals(4, (realPlayer.getPosition() - initialPosition) + realPlayer.getSupportContainer().countAll());
         }
 
@@ -581,8 +581,7 @@ public class MarketControllerTest {
             assertEquals(realPlayer.getMacroTurnType(), MacroTurnType.GET_FROM_MARKET);
             if(table.turnOf().getMicroTurnType() == MicroTurnType.SELECT_LEADER_CARD)
                 assertTrue(realPlayer.getSupportContainer().content().containsKey(Resource.WHITE));
-            else
-                assertFalse(realPlayer.getSupportContainer().content().containsKey(Resource.WHITE));
+            else if(!realPlayer.getSupportContainer().isEmpty()) assertFalse(realPlayer.getSupportContainer().content().containsKey(Resource.WHITE));
 
             assertEquals(4, (realPlayer.getPosition() - initialPosition) + realPlayer.getSupportContainer().countAll());
         }

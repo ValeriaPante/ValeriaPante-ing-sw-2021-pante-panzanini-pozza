@@ -247,13 +247,9 @@ public class BuyDevCardController extends CardActionController{
         table.clearBroadcastMessage();
 
         if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
-            try{
-                if(!this.isEnough()){
-                    table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too many resources.");
-                    return;
-                }
-            } catch (IndexOutOfBoundsException e){
-                table.turnOf().setErrorMessage("Your selection doesn't match the cost. You selected too few resources. ");
+
+            if(!this.isEnough()){
+                table.turnOf().setErrorMessage("Your selection doesn't match the cost.");
                 return;
             }
 
@@ -291,8 +287,11 @@ public class BuyDevCardController extends CardActionController{
             }
         }
 
-        tempMap = temp.removeEnumMapWhatPossible(table.turnOf().getSupportContainer().content());
-        return tempMap == null;
+        EnumMap<Resource, Integer> selected = temp.content();
+        if(selected == null) selected = new EnumMap<>(Resource.class);
+        EnumMap<Resource, Integer> supportContainerContent = table.turnOf().getSupportContainer().content();
+        if(supportContainerContent == null) supportContainerContent = new EnumMap<>(Resource.class);
+        return selected.equals(supportContainerContent);
 
     }
 
