@@ -83,7 +83,7 @@ public class LocalMessageManager implements MessageManager{
      * @param message message to send
      */
     @Override
-    public void update(InGameMessage message) {
+    public synchronized void update(InGameMessage message) {
         message.setSenderId(1);
         message.readThrough(inGameControllerSwitch);
     }
@@ -93,7 +93,7 @@ public class LocalMessageManager implements MessageManager{
      * @param message message to send
      */
     @Override
-    public void update(PreGameMessage message) {
+    public synchronized void update(PreGameMessage message) {
     }
 
     /**
