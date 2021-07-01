@@ -104,10 +104,7 @@ public class MainScene extends ObservableByGUI{
 
                 Button discard1 = (Button) player.lookup("#discard1");
                 discard1.setId(lc.get(0).toString());
-                discard1.setOnAction(actionEvent -> {
-                    new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(7)),true))).start();
-                    ((Button) actionEvent.getSource()).setDisable(true);
-                });
+                discard1.setOnAction(actionEvent -> new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(7)),true))).start());
                 discard1.setId("discard"+lc.get(0));
 
                 Button activate2 = (Button) player.lookup("#activate2");
@@ -117,10 +114,7 @@ public class MainScene extends ObservableByGUI{
 
                 Button discard2 = (Button) player.lookup("#discard2");
                 discard2.setId(lc.get(1).toString());
-                discard2.setOnAction(actionEvent -> {
-                    new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(7)),true))).start();
-                    ((Button) actionEvent.getSource()).setDisable(true);
-                });
+                discard2.setOnAction(actionEvent -> new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(7)),true))).start());
                 discard2.setId("discard"+lc.get(1));
 
                 for (int k = 1; k < 4; k++){

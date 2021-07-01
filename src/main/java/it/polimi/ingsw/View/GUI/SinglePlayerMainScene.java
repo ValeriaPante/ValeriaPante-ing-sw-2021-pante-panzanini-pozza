@@ -97,31 +97,19 @@ public class SinglePlayerMainScene extends ObservableByGUI{
 
         Button activate1 = (Button) root.lookup("#activate1");
         activate1.setId(lc.get(0).toString());
-        activate1.setOnAction(actionEvent -> {
-            new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(8)),false))).start();
-            actionEvent.consume();
-        });
+        activate1.setOnAction(actionEvent -> new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(8)),false))).start());
         activate1.setId("activate"+lc.get(0));
         Button discard1 = (Button) root.lookup("#discard1");
         discard1.setId(lc.get(0).toString());
-        discard1.setOnAction(actionEvent -> {
-            new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(7)),true))).start();
-            actionEvent.consume();
-        });
+        discard1.setOnAction(actionEvent -> new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(7)),true))).start());
         discard1.setId("discard"+lc.get(0));
         Button activate2 = (Button) root.lookup("#activate2");
         activate2.setId(lc.get(1).toString());
-        activate2.setOnAction(actionEvent -> {
-            new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(8)),false))).start();
-            actionEvent.consume();
-        });
+        activate2.setOnAction(actionEvent -> new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(8)),false))).start());
         activate2.setId("activate"+lc.get(1));
         Button discard2 = (Button) root.lookup("#discard2");
         discard2.setId(lc.get(1).toString());
-        discard2.setOnAction(actionEvent -> {
-            new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(7)),true))).start();
-            actionEvent.consume();
-        });
+        discard2.setOnAction(actionEvent -> new Thread(() -> sendMessage(new LeaderCardActionMessage(Integer.parseInt(((Button) actionEvent.getSource()).getId().substring(7)),true))).start());
         discard2.setId("discard"+lc.get(1));
 
         Region strongbox = (Region) root.lookup("#strongbox");
