@@ -33,6 +33,7 @@ public class Server{
         while(isServerAccepting) {
             try {
                 Socket newClient = serverSocket.accept();
+                newClient.setKeepAlive(true);
                 System.out.println("Connection"); //--------
 
                 //forse a questo punto syncronised su this

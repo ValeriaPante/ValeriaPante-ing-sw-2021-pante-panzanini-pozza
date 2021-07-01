@@ -245,6 +245,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
     public void connect(String ip, String port, String username) {
         try {
             Socket socket = new Socket(ip, Integer.parseInt(port));
+            socket.setKeepAlive(true);
             fromServer = new Receiver(socket.getInputStream());
             toServer = new Sender(socket.getOutputStream());
         } catch (IOException | IllegalArgumentException e) {
