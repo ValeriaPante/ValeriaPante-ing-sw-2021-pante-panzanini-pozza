@@ -264,6 +264,19 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
      */
     @Override
     public void run() {
+        new Thread(() -> {
+            while (true) {
+                if (!this.toClient.ping()){
+                    break;
+                }
+                try {
+                    Thread.sleep(1000 * 60);
+                } catch (InterruptedException e) {
+                    break;
+                }
+            }
+        }).start();
+
         String request;
         while (true) {
             try {

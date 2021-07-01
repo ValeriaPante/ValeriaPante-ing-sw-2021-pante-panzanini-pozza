@@ -43,6 +43,20 @@ public class Receiver {
         return element.getAsJsonObject();
     }
 
+    private boolean isPingHeaderJsonValid(String arrived){
+        JsonObject header = toJsonObjectIfPossible(arrived);
+        if (header == null){
+            return false;
+        }
+        JsonElement type = header.get("type");
+        JsonElement size = header.get("size");
+        if (type == null || size == null){
+            return false;
+        }
+        return (type.isJsonPrimitive() && type.getAsJsonPrimitive().isString()) &&
+                (size.isJsonPrimitive() && size.getAsJsonPrimitive().isNumber());
+    }
+
     /**
      * Checking is a string is in the correct format
      * @param arrived string to evaluate
@@ -203,7 +217,7 @@ public class Receiver {
     }
 
     /**
-     * Convert the next message on the stream as string
+     * Convert the next message on the stream to a string
      * @return the next message arrived on the stream as String
      * @throws IOException if there are problems reading on the stream or the header is not correct
      */

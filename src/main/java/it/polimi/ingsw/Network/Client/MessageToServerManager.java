@@ -49,6 +49,9 @@ public class MessageToServerManager implements Runnable, MessageManager{
      */
     private boolean convertInput(String input){
         FromServerMessage message = interpret(input);
+        if (message == null){
+            return false;
+        }
         return message.visit(visitor);
     }
 
@@ -59,7 +62,9 @@ public class MessageToServerManager implements Runnable, MessageManager{
      */
     private FromServerMessage interpret(String input){
         FromServerMessage result = null;
-
+        if (input == null){
+            return null;
+        }
         JsonElement element = parser.parse(input);
         if (!element.isJsonObject()){
             throw new IllegalArgumentException("Check the config file and his syntax");
@@ -256,7 +261,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
         this.update(username);
         System.out.println("Sent username");
         System.out.println("Connection established");
-        new Thread(() -> this.run()).start();
+        new Thread(this).start();
     }
 
     //Daniel-part-----------------------------

@@ -1,6 +1,7 @@
 package it.polimi.ingsw.Network;
 
 import java.io.*;
+import java.net.SocketException;
 
 /**
  * Utility class that write on a InputStream
@@ -72,6 +73,13 @@ public class Sender {
                 " }\n";
     }
 
+    private String buildPingHeader(){
+        return "{ " +
+                "\"type\": \"ping\", " +
+                "\"size\": 0" +
+                " }\n";
+    }
+
     /**
      * Once every file is sent this notifies that no more files for that folder will arrive
      * @return false if an error occurred sending the message
@@ -86,6 +94,18 @@ public class Sender {
         return true;
     }
 
+    public synchronized boolean ping(){
+        System.err.println("Pinging");
+        try {
+            this.outputStream.write(this.buildPingHeader().getBytes());
+            this.outputStream.flush();
+            System.err.println("Pinged");
+        } catch (IOException e){
+            return false;
+        }
+        return true;
+    }
+
     //only server
     /**
      * Writing a file to the outputStream
@@ -93,7 +113,7 @@ public class Sender {
      * @param name name of the file to send
      * @return false if an error occurred sending the message
      */
-    public boolean send(FileInputStream fileInputStream, String name){
+    public synchronized boolean send(FileInputStream fileInputStream, String name){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         int count;
         byte[] buffer = new byte[1024];
@@ -127,7 +147,7 @@ public class Sender {
      * @param hashAlg algorithm used
      * @return false if an error occurred sending the message
      */
-    public boolean sendAssetMessage(String assetDesc, String path, String hashAlg){
+    public synchronized boolean sendAssetMessage(String assetDesc, String path, String hashAlg){
         ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
         try{
             //proviamo a sostituire la seguente con:
@@ -151,7 +171,7 @@ public class Sender {
      * @param message message to send
      * @return false if an error occurred sending the message
      */
-    public boolean send(String message){
+    public synchronized boolean send(String message){
         System.out.println("Sending: " + message);
         ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
         try {
