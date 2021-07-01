@@ -513,7 +513,9 @@ public class MarketController extends SelectionController{
 
         if (table.turnOf().getMicroTurnType() == MicroTurnType.PLACE_RESOURCES){
             int faithPoints = table.turnOf().getSupportContainer().countAll();
-            table.updatePlayerOfTurnSupportContainer(null);
+            if (!table.turnOf().getSupportContainer().isEmpty()){
+                table.updatePlayerOfTurnSupportContainer(null);
+            }
             if (faithPoints!=0){
                 faithTrackController.moveAllTheOthers(faithPoints);
             }
