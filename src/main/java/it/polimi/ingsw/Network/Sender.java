@@ -17,6 +17,12 @@ public class Sender {
         this.outputStream = outputStream;
     }
 
+    /**
+     * Create a header for a file
+     * @param name name of the file
+     * @param size the size of the file in bytes
+     * @return the header as string
+     */
     private String buildHeader(String name, int size){
         return "{ " +
                 "\"type\": \""+ "assetFile" +"\"" + ", " +
@@ -25,6 +31,11 @@ public class Sender {
                 " }\n";
     }
 
+    /**
+     * Create a header for a message
+     * @param size the size of the message in bytes
+     * @return the header as string
+     */
     private String buildHeader(int size){
         return "{ " +
                 "\"type\": \"message\"" + ", " +
@@ -32,6 +43,13 @@ public class Sender {
                 " }\n";
     }
 
+    /**
+     * Create a header that specifies the hashing algorithm used to evaluate the files in a folder
+     * @param folderPath relative path from .jar of the folder that has been evaluated
+     * @param hashAlg hashing algorithm used
+     * @param size the size of the message in bytes
+     * @return the header as string
+     */
     private String buildAssetDescriptionHeader(String folderPath, String hashAlg, int size){
         return "{" +
                 "\"type\": \""+ "assetsDesc" +"\"" + ", " +
@@ -41,6 +59,10 @@ public class Sender {
                 "}\n";
     }
 
+    /**
+     * Create a particular message that specifies that all the files had been sent
+     * @return the message as String
+     */
     private String buildAssetFinishMessage(){
         return "{ " +
                 "\"type\": \"assetsEnd\", " +
@@ -132,16 +154,21 @@ public class Sender {
     public boolean send(String message){
         System.out.println("Sending: " + message);
         ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
-        try{
+        try {
             byteArrayOutStream.write(this.buildHeader(message.getBytes().length).getBytes());
             byteArrayOutStream.write(message.getBytes());
 
             byteArrayOutStream.writeTo(this.outputStream);
             this.outputStream.flush();
-            byteArrayOutStream.close();
             System.out.println("Sent: " + message);
         }catch (IOException e){
+            e.printStackTrace();
             return false;
+        }
+        try {
+            byteArrayOutStream.close();
+        }catch (IOException e){
+            return true;
         }
         return true;
     }

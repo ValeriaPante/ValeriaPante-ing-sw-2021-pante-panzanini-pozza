@@ -46,6 +46,5 @@ public class InGameRequestHandler implements RequestHandler{
     @Override
     public void connectionClosed(int id) {
         this.inGameControllerSwitch.connectionClosed(id);
-        //da finire
     }
 }

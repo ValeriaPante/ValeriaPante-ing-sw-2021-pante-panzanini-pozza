@@ -37,7 +37,6 @@ public class RemotePreGameModel{
 
     private void notifyUserAllLobbies(User user){
         this.lobbies.forEach(lobby -> user.send(this.messageBuilder(lobby, false)));
-        //user.send("{\"players\":[\"Daniel\",\"Vale\",\"Alberto\"],\"itsYou\":false,\"type\":\"changedLobby\",\"id\":1}"); //debug
     }
 
     private void notifyAllUsers(FromServerMessage message, int userId, FromServerMessage messageToSpecificUser){

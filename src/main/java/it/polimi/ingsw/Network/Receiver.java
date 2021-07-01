@@ -22,6 +22,11 @@ public class Receiver {
         this.inputStream = inputStream;
     }
 
+    /**
+     * Convert a string in a json object if possible
+     * @param toEvaluate string to evaluate
+     * @return the JsonObject associated to this string or null if the format was not correct
+     */
     private JsonObject toJsonObjectIfPossible(String toEvaluate){
         JsonParser parser = new JsonParser();
         JsonElement element;
@@ -38,6 +43,11 @@ public class Receiver {
         return element.getAsJsonObject();
     }
 
+    /**
+     * Checking is a string is in the correct format
+     * @param arrived string to evaluate
+     * @return true if the string is in the correct format, false otherwise
+     */
     private boolean isAssetHeaderJsonValid(String arrived){
         JsonObject header = toJsonObjectIfPossible(arrived);
         if (header==null){
@@ -55,6 +65,11 @@ public class Receiver {
                 (size.isJsonPrimitive() && size.getAsJsonPrimitive().isNumber());
     }
 
+    /**
+     * Checking is a string is in the correct format
+     * @param arrived string to evaluate
+     * @return true if the string is in the correct format, false otherwise
+     */
     private boolean isAssetHeaderFinish(String arrived){
         JsonObject header = toJsonObjectIfPossible(arrived);
         return (header.get("type").getAsString().equals("assetsEnd")) &&
@@ -63,7 +78,11 @@ public class Receiver {
                 (header.get("size").getAsInt() == 0);
     }
 
-
+    /**
+     * Checking is a string is in the correct format
+     * @param fromServer string to evaluate
+     * @return true if the string is in the correct format, false otherwise
+     */
     private boolean isAssetDescriptorsHeaderJsonValid(String fromServer){
         JsonObject header = toJsonObjectIfPossible(fromServer);
         if (header==null){
@@ -83,6 +102,11 @@ public class Receiver {
                 (size.isJsonPrimitive() && size.getAsJsonPrimitive().isNumber());
     }
 
+    /**
+     * Checking is a string is in the correct format
+     * @param fromServer string to evaluate
+     * @return true if the string is in the correct format, false otherwise
+     */
     private boolean isMessageHeaderValid(String fromServer){
         JsonObject header = this.toJsonObjectIfPossible(fromServer);
         if (header==null){
@@ -97,6 +121,11 @@ public class Receiver {
                 (size.isJsonPrimitive() && size.getAsJsonPrimitive().isNumber());
     }
 
+    /**
+     * Reads on the inputs stream waiting for the header of the next message
+     * @return the header read
+     * @throws IOException if an error occurs while reading or if the input stream has been closed
+     */
     private String getHeader() throws IOException {
         ArrayList<Byte> header = new ArrayList<>();
         Integer byteArrived = this.inputStream.read();
@@ -117,6 +146,12 @@ public class Receiver {
         return new String(headerByteArray, 0, headerByteArray.length);
     }
 
+    /**
+     * Reads on the input stream a specific amount of bytes an returns it as a byte array
+     * @param nbrToRead amount of bytes to read
+     * @return bytes read
+     * @throws IOException if an error occurs while reading
+     */
     private byte[] getByteArrayMessage(int nbrToRead) throws IOException {
         byte[] byteArray = new byte[nbrToRead];
         int nbrRd = 0;

@@ -466,6 +466,7 @@ public class ProductionController extends CardActionController{
             }
             //se sono finito qui significa che in questo output ci sono sicuramente delle any che devo togliere
             allOutputs.addEnumMap(player.getSupportContainer().content());
+            super.table.updatePlayerOfTurnSupportContainer(new EnumMap<>(Resource.class));
             this.effectiveTransaction(player, super.getPayableWithSelection(), new EnumMap<>(allOutputs.content()){{remove(Resource.ANY);}});
         }
     }
@@ -479,7 +480,7 @@ public class ProductionController extends CardActionController{
             this.player.setErrorMessage("You can't go back from here");
             return;
         }
-        super.table.turnOf().getSupportContainer().clear();
+        super.table.updatePlayerOfTurnSupportContainer(new EnumMap<>(Resource.class));
         super.table.turnOf().setMicroTurnType(MicroTurnType.SETTING_UP);
     }
 

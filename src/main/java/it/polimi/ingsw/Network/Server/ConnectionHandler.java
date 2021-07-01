@@ -19,17 +19,17 @@ import java.security.NoSuchAlgorithmException;
  */
 public class ConnectionHandler implements Runnable, MessageSenderInterface{
 
-    private Gson messageToJson;
+    private final Gson messageToJson;
     private int id;
     private final Receiver fromClient;
     private final Sender toClient;
     private RequestHandler requestHandler;
 
     /**
-     *
-     * @param socket
-     * @param requestHandler
-     * @throws IOException
+     * Constructor
+     * @param socket socket
+     * @param requestHandler a request handler that will take care of all the messages
+     * @throws IOException if an error occurs
      */
     public ConnectionHandler(Socket socket, RequestHandler requestHandler) throws IOException {
         this.messageToJson = new Gson();
@@ -48,6 +48,10 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         }
     }
 
+    /**
+     * Evaluates an array of assets with their hashing
+     * If a file is different, it will be sent to the other side
+     */
     private void evaluate(String[] assetInfo){
         JsonParser jsonParser = new JsonParser();
         File mainDir;
@@ -107,6 +111,11 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         System.out.println("Sent end message"); //debug
     }
 
+    /**
+     * Checking is a string is in the correct format
+     * @param fromServer string to evaluate
+     * @return true if the string is in the correct format, false otherwise
+     */
     private boolean isAssetsDescriptionValid(String fromServer){
         JsonParser parser = new JsonParser();
         JsonElement element = parser.parse(fromServer);
@@ -132,6 +141,12 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         return true;
     }
 
+    /**
+     * Calculate the hash of a file
+     * @param shaAlg hash algorithm to use
+     * @param file tile to evaluate
+     * @return the file hash
+     */
     private String getFileSha(String shaAlg, File file){
         MessageDigest digest = null;
         int totalBytes = 0;
@@ -274,6 +289,9 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         return this.id;
     }
 
+    /**
+     * Close the connection
+     */
     public void closeConnection(){
         this.fromClient.close();
         this.toClient.close();

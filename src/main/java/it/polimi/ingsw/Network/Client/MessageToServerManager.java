@@ -176,8 +176,19 @@ public class MessageToServerManager implements Runnable, MessageManager{
      */
     @Override
     public void update(InGameMessage message) {
-        if (!this.toServer.send(message.toJson())){
-            throw new RuntimeException();
+        int i=0;
+        while (!this.toServer.send(message.toJson())){
+            i++;
+            if (i>=0){
+                System.out.println("ERROR SENDING THE MESSAGE");
+            }
+            if (i==50){
+                this.fromServer.close();
+                this.toServer.close();
+                new DisconnectionMessage("Error on the internet", 404).visit(this.visitor);
+                break;
+            }
+            //throw new RuntimeException();
         }
     }
 
@@ -187,8 +198,19 @@ public class MessageToServerManager implements Runnable, MessageManager{
      */
     @Override
     public void update(PreGameMessage message) {
-        if (!this.toServer.send(message.toJson())){
-            throw new RuntimeException();
+        int i=0;
+        while (!this.toServer.send(message.toJson())){
+            i++;
+            if (i>=0){
+                System.out.println("ERROR SENDING THE MESSAGE");
+            }
+            if (i==50){
+                this.fromServer.close();
+                this.toServer.close();
+                new DisconnectionMessage("Error on the internet", 404).visit(this.visitor);
+                break;
+            }
+            //throw new RuntimeException();
         }
     }
 
@@ -197,8 +219,19 @@ public class MessageToServerManager implements Runnable, MessageManager{
      * @param inputLine sends a string to the server
      */
     public void update(String inputLine) {
-        if (!this.toServer.send(inputLine)){
-            throw new RuntimeException();
+        int i=0;
+        while (!this.toServer.send(inputLine)){
+            i++;
+            if (i>=0){
+                System.out.println("ERROR SENDING THE MESSAGE");
+            }
+            if (i==50){
+                this.fromServer.close();
+                this.toServer.close();
+                new DisconnectionMessage("Error on the internet", 404).visit(this.visitor);
+                break;
+            }
+            //throw new RuntimeException();
         }
     }
 
@@ -216,7 +249,6 @@ public class MessageToServerManager implements Runnable, MessageManager{
             toServer = new Sender(socket.getOutputStream());
         } catch (IOException | IllegalArgumentException e) {
             System.out.println("Server unreachable");
-            System.exit(0);
             return;
         }
         this.updateAssets();
@@ -227,6 +259,10 @@ public class MessageToServerManager implements Runnable, MessageManager{
     }
 
     //Daniel-part-----------------------------
+
+    /**
+     * This method create an send a message expecting some new files in return
+     */
     private void updateAssets(){
         String[] hashingAlg = {"SHA-256"};
         MessageDigest messageDigest = null;
@@ -264,6 +300,11 @@ public class MessageToServerManager implements Runnable, MessageManager{
         this.toServer.sendMessageEndAssets();
     }
 
+    /**
+     * Saves a file to a specific path
+     * @param assetDescriptor this object holds all the infos of a file arrived
+     * @param path the path to save the file into
+     */
     private void saveAsset(AssetDescriptor assetDescriptor, String path){
         FileOutputStream fileOutputStream = null;
         try {
@@ -287,6 +328,12 @@ public class MessageToServerManager implements Runnable, MessageManager{
         }
     }
 
+    /**
+     * Calculate the hash of a file
+     * @param shaAlg hash algorithm to use
+     * @param file tile to evaluate
+     * @return the file hash
+     */
     private String getFileSha(String shaAlg, File file){
         MessageDigest digest = null;
         int totalBytes = 0;
@@ -331,6 +378,12 @@ public class MessageToServerManager implements Runnable, MessageManager{
     }
 
     //size as identifier
+    /**
+     * Builds a message that specifies all the files in a folder and those files hash listed one by one
+     * @param fullPath path to evaluate
+     * @param hashAlg hash algorithm to use to check files
+     * @return the message
+     */
     private String getAssetsMessage(String fullPath, String hashAlg){
         File targetDir = new File(fullPath);
         if (!targetDir.exists()){
