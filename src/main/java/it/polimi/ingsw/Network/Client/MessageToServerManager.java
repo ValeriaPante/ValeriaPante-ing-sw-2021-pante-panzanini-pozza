@@ -43,7 +43,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
     }
 
     /**
-     * Applicates the changes deriving from the message received
+     * Applies the changes deriving from the message received
      * @param input message received through the internet
      * @return true if a message of game over has been received, false otherwise
      */

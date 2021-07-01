@@ -130,10 +130,6 @@ public class CLI extends Observable implements View{
             } catch (SuppressNotificationsException toggleNotificationState){
                 showNotifications = !showNotifications;
                 printer.printNotificationState(showNotifications);
-            } catch (RuntimeException e){
-                executor.shutdown();
-                printer.printError("Connection Closed");
-                return;
             }
         }
     }
