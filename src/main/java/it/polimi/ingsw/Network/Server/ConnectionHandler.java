@@ -242,7 +242,13 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
      */
     public void send(FromServerMessage message){
         //parso il messaggio
-        this.toClient.send(this.messageToJson.toJson(message));
+        int i=0;
+        while (!this.toClient.send(this.messageToJson.toJson(message))){
+            i++;
+            if (i==50){
+                break;
+            }
+        }
     }
 
     /**
