@@ -93,7 +93,7 @@ public class BuyDevCardController extends CardActionController{
     private boolean thereIsASelection(){
         for(DevDeck deck: table.getDevDecks()){
             try {
-                if(deck.getTopCard().isSelected())
+                if(deck.getTopCard() != null && deck.getTopCard().isSelected())
                     return true;
             } catch (IndexOutOfBoundsException e){
 
@@ -114,7 +114,7 @@ public class BuyDevCardController extends CardActionController{
             table.turnOf().setMacroTurnType(MacroTurnType.BUY_NEW_CARD);
             table.turnOf().setMicroTurnType(MicroTurnType.SETTING_UP);
             for(DevDeck deck: table.getDevDecks()){
-                if(deck.getTopCard().isSelected()) {
+                if(deck.getTopCard()!= null && deck.getTopCard().isSelected()) {
                     table.updatePlayerOfTurnSupportContainer(deck.getTopCard().getCost());
                     break;
                 }
@@ -312,9 +312,9 @@ public class BuyDevCardController extends CardActionController{
 
         if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.ANY_DECISION){
             DevDeck[] devDecks = table.getDevDecks();
-            int numberOfDeck=0;
-            for (numberOfDeck=0; numberOfDeck<devDecks.length; numberOfDeck++){
-                if (devDecks[numberOfDeck].getTopCard().isSelected()){
+            int numberOfDeck = 0;
+            for (numberOfDeck = 0; numberOfDeck<devDecks.length; numberOfDeck++){
+                if (devDecks[numberOfDeck].getTopCard()!= null && devDecks[numberOfDeck].getTopCard().isSelected()){
                     break;
                 }
             }

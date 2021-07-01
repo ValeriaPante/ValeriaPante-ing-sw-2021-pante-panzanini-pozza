@@ -200,10 +200,10 @@ public class ProductionScene extends PaymentScene{
             }
 
             for(int i = 0; i < ticks.length; i++){
-                if(ticks[i].isVisible()) return;
+                if(ticks[i] != null && ticks[i].isVisible()) return;
             }
 
-            quit.setVisible(true);
+            if(quit != null) quit.setVisible(true);
         }
     }
 
