@@ -27,7 +27,7 @@ public class UsernameScene extends ObservableByGUI {
             TextField ip = (TextField) root.lookup("#ipAddress");
             TextField port = (TextField) root.lookup("#port");
             TextField username = (TextField) root.lookup("#usernameBox");
-            if(!username.equals("")){
+            if(!username.getText().equals("")){
                 Platform.runLater(() -> Transition.setDisconnectOnClose(this.observer.getMessageManager()));
                 LobbiesScene lobbiesScene = new LobbiesScene(this.observer);
                 Platform.runLater(() -> Transition.setLobbiesScene(lobbiesScene));

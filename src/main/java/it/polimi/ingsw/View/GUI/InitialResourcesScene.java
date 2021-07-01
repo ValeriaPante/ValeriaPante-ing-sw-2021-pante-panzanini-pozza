@@ -86,7 +86,7 @@ public class InitialResourcesScene extends ObservableByGUI{
             boolean success = false;
             if (db.hasString()) {
                 Resource draggedResource = Resource.valueOf(db.getString());
-                if(count == 0 || chosenShelf != 1){
+                if(count == 0 || (count == 1 && ((draggedResource == chosenResource && chosenShelf == 1) || (draggedResource != chosenResource && chosenShelf != 1)))){
                     sendMessage(new SelectResourceMessage(1,draggedResource));
                     count++;
                     success = true;
