@@ -24,6 +24,8 @@ public class InitialResourcesScene extends ObservableByGUI{
 
     private static int count;
     private static int toChoose;
+    private Resource chosenResource;
+    private int chosenShelf;
     private Pane root;
 
     public InitialResourcesScene(GUI gui){
@@ -83,13 +85,18 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                sendMessage(new SelectResourceMessage(1, Resource.valueOf(db.getString())));
-                count++;
-                success = true;
+                Resource draggedResource = Resource.valueOf(db.getString());
+                if(count == 0 || chosenShelf != 1){
+                    sendMessage(new SelectResourceMessage(1,draggedResource));
+                    count++;
+                    success = true;
+                }
             }
             if(toChoose == 2 && count == 1){
                 AnchorPane region = (AnchorPane) root.lookup("#resource1");
                 region.getChildren().add(getImageFromResource(db.getString()));
+                chosenResource = Resource.valueOf(db.getString());
+                chosenShelf = 1;
             }
             dragEvent.setDropCompleted(success);
             dragEvent.consume();
@@ -109,13 +116,18 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                sendMessage(new SelectResourceMessage(2, Resource.valueOf(db.getString())));
-                count++;
-                success = true;
+                Resource draggedResource = Resource.valueOf(db.getString());
+                if(count == 0 || (count == 1 && ((draggedResource == chosenResource && chosenShelf == 2) || (draggedResource != chosenResource && chosenShelf != 2)))){
+                    sendMessage(new SelectResourceMessage(2, Resource.valueOf(db.getString())));
+                    count++;
+                    success = true;
+                }
             }
             if(toChoose == 2 && count == 1){
                 AnchorPane region = (AnchorPane) root.lookup("#resource2");
                 region.getChildren().add(getImageFromResource(db.getString()));
+                chosenResource = Resource.valueOf(db.getString());
+                chosenShelf = 2;
             }
             dragEvent.setDropCompleted(success);
             dragEvent.consume();
@@ -135,13 +147,19 @@ public class InitialResourcesScene extends ObservableByGUI{
             Dragboard db = dragEvent.getDragboard();
             boolean success = false;
             if (db.hasString()) {
-                sendMessage(new SelectResourceMessage(3, Resource.valueOf(db.getString())));
-                count++;
-                success = true;
+                Resource draggedResource = Resource.valueOf(db.getString());
+                if(count == 0 || (count == 1 && ((draggedResource == chosenResource && chosenShelf == 3) || (draggedResource != chosenResource && chosenShelf != 3)))){
+                    sendMessage(new SelectResourceMessage(3, Resource.valueOf(db.getString())));
+                    count++;
+                    success = true;
+                }
+
             }
             if(toChoose == 2 && count == 1){
                 AnchorPane region = (AnchorPane) root.lookup("#resource3");
                 region.getChildren().add(getImageFromResource(db.getString()));
+                chosenResource = Resource.valueOf(db.getString());
+                chosenShelf = 3;
             }
             dragEvent.setDropCompleted(success);
             dragEvent.consume();

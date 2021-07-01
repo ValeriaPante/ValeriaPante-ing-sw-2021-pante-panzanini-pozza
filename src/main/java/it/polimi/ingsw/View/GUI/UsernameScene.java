@@ -27,12 +27,13 @@ public class UsernameScene extends ObservableByGUI {
             TextField ip = (TextField) root.lookup("#ipAddress");
             TextField port = (TextField) root.lookup("#port");
             TextField username = (TextField) root.lookup("#usernameBox");
-            Platform.runLater(() -> Transition.setDisconnectOnClose(this.observer.getMessageManager()));
-            LobbiesScene lobbiesScene = new LobbiesScene(this.observer);
-            Platform.runLater(() -> Transition.setLobbiesScene(lobbiesScene));
-            Platform.runLater(() -> Transition.toLobbiesScene());
-            new Thread(() -> this.connect(ip.getText(), port.getText(), username.getText())).start();
-
+            if(!username.equals("")){
+                Platform.runLater(() -> Transition.setDisconnectOnClose(this.observer.getMessageManager()));
+                LobbiesScene lobbiesScene = new LobbiesScene(this.observer);
+                Platform.runLater(() -> Transition.setLobbiesScene(lobbiesScene));
+                Platform.runLater(() -> Transition.toLobbiesScene());
+                new Thread(() -> this.connect(ip.getText(), port.getText(), username.getText())).start();
+            }
         });
 
     }
