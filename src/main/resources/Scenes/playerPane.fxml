@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="302.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="302.0" maxWidth="563.0" minHeight="302.0" minWidth="563.0" prefHeight="302.0" prefWidth="563.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane id="background" layoutX="-3.0" layoutY="-2.0" prefHeight="309.0" prefWidth="464.0" />
       <AnchorPane id="slot1" layoutX="176.0" layoutY="130.0" prefHeight="167.0" prefWidth="79.0">

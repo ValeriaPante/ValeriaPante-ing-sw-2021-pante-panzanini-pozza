@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="459.0" prefWidth="855.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="459.0" maxWidth="855.0" minHeight="459.0" minWidth="855.0" prefHeight="459.0" prefWidth="855.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="334.0" layoutY="136.0" prefHeight="35.0" prefWidth="188.0" text="The winner is" textFill="WHITE">
          <font>

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="501.0" prefWidth="880.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane maxHeight="501.0" maxWidth="880.0" minHeight="501.0" minWidth="880.0" prefHeight="501.0" prefWidth="880.0" style="-fx-background-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label layoutX="23.0" layoutY="52.0" text="Discard two leader cards" textFill="WHITE">
          <font>

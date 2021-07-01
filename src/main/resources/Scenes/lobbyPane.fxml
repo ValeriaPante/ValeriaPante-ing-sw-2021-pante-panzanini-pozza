@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 
 
-<Pane id="scrollPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="123.0" prefWidth="145.5" style="-fx-border-width: 2; -fx-border-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
+<Pane id="scrollPane" maxHeight="123.0" maxWidth="145.5" minHeight="123.0" minWidth="145.5" prefHeight="123.0" prefWidth="145.5" style="-fx-border-width: 2; -fx-border-color: #003049;" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <Label id="lobbyId" layoutX="115.0" layoutY="-1.0" prefHeight="31.0" prefWidth="28.0" text="0" textAlignment="CENTER" />
       <Label id="user1" layoutX="6.0" layoutY="30.0" text="Label" />

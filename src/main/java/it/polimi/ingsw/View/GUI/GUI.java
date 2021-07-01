@@ -363,7 +363,8 @@ public class GUI extends Application implements View {
 
     @Override
     public void startInitialisation(){
-
+        Platform.runLater(() -> Transition.setLoadingScene(new LoadingScene()));
+        Platform.runLater(Transition::toLoadingScene);
     }
 
     /**
