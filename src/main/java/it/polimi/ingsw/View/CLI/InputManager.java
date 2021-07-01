@@ -102,7 +102,7 @@ public class InputManager{
         }
 
         if (input.startsWith("DS"))
-            return new ChooseDevSlotMessage(Integer.parseInt("" + input.charAt(2))-1);
+            return new ChooseDevSlotMessage(Integer.parseInt("" + input.charAt(2)));
 
         String[] inputContent = input.split(",");
         int devDecPosition;
