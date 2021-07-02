@@ -268,8 +268,7 @@ public class LeaderCardsPersonalizationScene extends CustomScenes{
         String serverPath = null;
         try {
             serverPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
-        }catch (URISyntaxException e){
-            //pass
+        }catch (URISyntaxException ignored){
         }
 
         for (int i=0; i<this.pathNewCards.size(); i++){
@@ -364,7 +363,6 @@ public class LeaderCardsPersonalizationScene extends CustomScenes{
                     try {
                         pathImageCard = selectedFile.getAbsolutePath();
                         String path = selectedFile.toURI().toURL().toExternalForm();
-                        //System.out.println(path);
                         imageSlot.setImage(new Image(path));
                     } catch (MalformedURLException e) {
                         e.printStackTrace();

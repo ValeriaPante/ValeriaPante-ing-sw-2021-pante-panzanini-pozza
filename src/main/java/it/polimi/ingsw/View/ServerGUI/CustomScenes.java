@@ -1,10 +1,7 @@
 package it.polimi.ingsw.View.ServerGUI;
 
-import it.polimi.ingsw.Network.RequestHandlers.PreGameRequestHandler;
-import it.polimi.ingsw.Network.Server.Server;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 
 public abstract class CustomScenes {
 

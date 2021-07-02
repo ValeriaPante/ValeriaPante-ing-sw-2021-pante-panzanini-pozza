@@ -6,7 +6,7 @@ import javafx.scene.text.Text;
 
 public class CustomEventHandler implements EventHandler<MouseEvent> {
 
-    private Text toUpdate;
+    private final Text toUpdate;
 
     public CustomEventHandler(Text toUpdate){
         this.toUpdate = toUpdate;

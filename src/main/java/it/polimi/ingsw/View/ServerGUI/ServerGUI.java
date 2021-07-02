@@ -25,8 +25,6 @@ public class ServerGUI extends Application {
             }
         });
         Scene leaderScene = new LeaderCardsPersonalizationScene(myStage).getScene();
-        //Scene leaderScene = new DevCardPersonalizationScene(myStage).getScene();
-        //Scene leaderScene = new FaithTrackPersonalizationScene(myStage).getScene();
         myStage.setResizable(false);
         myStage.setScene(leaderScene);
         myStage.showAndWait();

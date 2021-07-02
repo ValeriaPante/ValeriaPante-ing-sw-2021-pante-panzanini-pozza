@@ -22,7 +22,6 @@ import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class DevCardPersonalizationScene extends CustomScenes{
@@ -144,8 +143,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
         String serverPath = null;
         try {
             serverPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
-        }catch (URISyntaxException e){
-            //pass
+        }catch (URISyntaxException ignored){
         }
 
         for (int i=0; i<this.pathNewCards.size(); i++){
@@ -172,13 +170,11 @@ public class DevCardPersonalizationScene extends CustomScenes{
                 }
                 fileOutputStream.close();
                 imageStream.close();
-            }catch (IOException e){
-                //sincero bho
-                e.printStackTrace();
+            }catch (IOException ignored){
             }
         }
 
-        //copiare il json
+        //json copy
         Gson prettyPrinting = new GsonBuilder().setPrettyPrinting().create();
         String output = prettyPrinting.toJson(this.modifiedDevCards);
         File outputDir = new File(serverPath + File.separator + "accessible" + File.separator + "JSONs" + File.separator);
@@ -189,8 +185,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
             FileOutputStream jsonFile = new FileOutputStream(outputDir.getAbsolutePath() + File.separator + "DevCardsConfig.json");
             jsonFile.write(output.getBytes());
             jsonFile.close();
-        }catch (IOException e){
-            //sincero bho
+        }catch (IOException ignored){
         }
 
         super.setNextScene(new FaithTrackPersonalizationScene(super.mainStage).getScene());
@@ -216,7 +211,6 @@ public class DevCardPersonalizationScene extends CustomScenes{
                 if (allCorrect()) {
                     update();
                     devCardPos++;
-                    //System.out.println(devCardsJson.getAsJsonArray(devCardLv + order[devCardType]));
                     if (devCardPos >= devCardsJson.getAsJsonArray(devCardLv + order[devCardType]).size()){
                         devCardPos = 0;
                         devCardType ++;
@@ -378,8 +372,7 @@ public class DevCardPersonalizationScene extends CustomScenes{
         this.devCardsJson = parser.parse(reader.lines().collect(Collectors.joining())).getAsJsonObject();
         try{
             reader.close();
-        }catch (IOException e){
-            //
+        }catch (IOException ignore){
         }
         this.devCardLv = 1;
         this.devCardType = 0;

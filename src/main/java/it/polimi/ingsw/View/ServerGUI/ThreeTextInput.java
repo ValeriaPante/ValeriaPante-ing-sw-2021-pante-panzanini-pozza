@@ -7,8 +7,8 @@ import javafx.scene.text.Text;
 
 public class ThreeTextInput extends TwoTextInput{
 
-    private Text thirdTextField;
-    private TextField thirdInputField;
+    private final Text thirdTextField;
+    private final TextField thirdInputField;
 
     public ThreeTextInput(String firstText, String secondText, String thirdText){
         super(firstText, secondText);

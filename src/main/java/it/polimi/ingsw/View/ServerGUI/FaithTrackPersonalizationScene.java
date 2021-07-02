@@ -65,14 +65,14 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
             }
         }
 
-        for (int i=0; i<this.vaticanRelations.length; i++){
-            try{
-                one = Integer.parseInt(vaticanRelations[i].getFirstInput());
-                two = Integer.parseInt(vaticanRelations[i].getSecondInput());
-            } catch (NumberFormatException e){
+        for (TwoTextInput vaticanRelation : this.vaticanRelations) {
+            try {
+                one = Integer.parseInt(vaticanRelation.getFirstInput());
+                two = Integer.parseInt(vaticanRelation.getSecondInput());
+            } catch (NumberFormatException e) {
                 return false;
             }
-            if (two<one){
+            if (two < one) {
                 return false;
             }
         }
@@ -107,12 +107,11 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
         }
         faithTrackModified.add("vaticanRelations", vaticanRelations);
 
-        //copiare il json
+        //json copy
         String serverPath = null;
         try {
             serverPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();
-        }catch (URISyntaxException e){
-            //pass
+        }catch (URISyntaxException ignored){
         }
 
         Gson prettyPrinting = new GsonBuilder().setPrettyPrinting().create();
@@ -125,8 +124,7 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
             FileOutputStream jsonFile = new FileOutputStream(outputDir.getAbsolutePath() + File.separator + "FaithTrackConfig.json");
             jsonFile.write(output.getBytes());
             jsonFile.close();
-        }catch (IOException e){
-            //sincero bho
+        }catch (IOException ignored){
         }
 
         try {
@@ -200,13 +198,7 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
                 );
                 File selectedFile = fileChooser.showOpenDialog(null);
                 if (selectedFile!=null){
-                    try {
-                        pathFaithTrackImage = selectedFile.getAbsolutePath();
-                        String path = selectedFile.toURI().toURL().toExternalForm();
-                        //System.out.println(path);
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
+                    pathFaithTrackImage = selectedFile.getAbsolutePath();
                 }
                 root.setDisable(false);
             }

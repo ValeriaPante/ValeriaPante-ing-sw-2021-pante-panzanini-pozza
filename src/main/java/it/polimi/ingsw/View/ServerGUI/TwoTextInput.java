@@ -23,9 +23,7 @@ public class TwoTextInput {
 
     public void setFontSizes(int size){
         this.firstTextField.setFont(new Font(size));
-        //this.firstInputField.setFont(new Font(size));
         this.secondTextField.setFont(new Font(size));
-        //this.secondInputField.setFont(new Font(size));
     }
 
     protected double maxTextLength(){
