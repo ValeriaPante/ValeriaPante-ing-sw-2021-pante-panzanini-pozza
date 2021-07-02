@@ -29,7 +29,7 @@ The goal of the project was to create a software version of the board game Maste
 #### Server
 ***For the correct behavior it's mandatory to complete the customisation process at least once.***
 
-The server by default is bind to the port 42000
+The server by default is bind to the port 42000.
 
 To customize the assets of the game through GUI you can launch the server with the following command on the terminal.
 
@@ -48,7 +48,11 @@ To start the game in the CLI version, you need to digit the following command on
 
     java -jar client.jar -cli
 
+The complete list of all the commands and their explanation is available [here](https://github.com/ValeriaPante/ing-sw-2021-pante-panzanini-pozza/tree/main/deliverables/CLI%20commands/CLI%20commands.pdf).
+
 >For a better command line game experience it is necessary that the client supports UTF-8 encoding, otherwise some features of the CLI, such as colours, will be lost.
+
+
 
 To start the game in the GUI version, you need to digit the following line on the terminal:
 
