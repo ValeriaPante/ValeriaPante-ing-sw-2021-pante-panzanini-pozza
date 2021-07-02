@@ -24,7 +24,7 @@ public class PreGameRequestHandler implements RequestHandler{
         GsonBuilder gsonBuilder = new GsonBuilder();
         gsonBuilder.registerTypeAdapter(PreGameMessage.class, new PreGameDeserializer());
         this.customGson = gsonBuilder.create();
-        this.preGameControllerSwitch = new PreGameControllerSwitch(); //potrebbe essere sbagliato
+        this.preGameControllerSwitch = new PreGameControllerSwitch();
     }
 
     /**
@@ -50,7 +50,6 @@ public class PreGameRequestHandler implements RequestHandler{
         message.readThrough(preGameControllerSwitch);
     }
 
-    //questo metodo lo chiamo sempre e solo tramite un thread
     /**
      * Connection of a new client
      * @param username of the new client

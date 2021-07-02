@@ -29,6 +29,8 @@ The goal of the project was to create a software version of the board game Maste
 #### Server
 ***For the correct behavior it's mandatory to complete the customisation process at least once.***
 
+The server by default is bind to the port 42000
+
 To customize the assets of the game through GUI you can launch the server with the following command on the terminal.
 
     java -jar server.jar --custom

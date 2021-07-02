@@ -63,30 +63,23 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         }catch (URISyntaxException e){
             return;
         }
-        System.out.println(mainDir.getAbsolutePath()); //DEBUG
         if (!mainDir.exists() || !mainDir.isDirectory()){
-            System.out.println("Folder not present"); //DEBUG
             return;
         }
         if (!isAssetsDescriptionValid(assetInfo[0])){
-            //mi sa che non faccio nulla
-            System.out.println("Json not valid"); //DEBUG
             return;
         }
 
         JsonArray array = jsonParser.parse(assetInfo[0]).getAsJsonArray();
         File[] files = mainDir.listFiles();
         files = (files == null) ? new File[]{} : files;
-        System.out.println(files.length); //DEBUG
         boolean isFileDifferent = true;
         for (File file : files){
             if (file.isFile()){
-                System.out.println("Evaluating file: " + file.getName());
                 for (int i=0; i<array.size(); i++){
                     JsonObject elem = array.get(i).getAsJsonObject();
                     if(file.getName().equals(elem.get("name").getAsString())){
                         String fileHash = this.getFileSha(assetInfo[2], file);
-                        System.out.println("hash my file: " + fileHash + ", " + elem.getAsJsonPrimitive("hash").getAsString());
                         if (fileHash.equals(elem.get("hash").getAsString())){
                             isFileDifferent = false;
                         }
@@ -98,9 +91,7 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
                         FileInputStream fileToSend = new FileInputStream(file.getAbsolutePath());
                         this.toClient.send(fileToSend, file.getName());
                         fileToSend.close();
-                        System.out.println("sent asset " + file.getName()); //DEBUG*/
-                    }catch (IOException e){
-
+                    }catch (IOException ignored){
                     }
                 }
             }
@@ -108,7 +99,6 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         }
 
         this.toClient.sendMessageEndAssets();
-        System.out.println("Sent end message"); //debug
     }
 
     /**
@@ -184,7 +174,6 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
         byte[] hashBytes = digest.digest();
         StringBuilder strBuilder = new StringBuilder();
         for (byte singleByte : hashBytes) {
-            //se qualcuno sa cosa fa questa riga sarebbe così gentile da spiegarmelo?
             strBuilder.append(Integer.toString((singleByte & 0xff) + 0x100, 16).substring(1));
         }
         return strBuilder.toString();
@@ -200,16 +189,13 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
             //bloccante
             assetDescription = this.fromClient.readAssetsDescription();
             if (assetDescription == null){
-                //messaggio fine
+                //endMessage
                 return null;
             }
             else if (assetDescription[0] == null){
-                //messaggio non conforme
+                //message not correct
                 return null;
             }
-            System.out.println(assetDescription[0]); //DEBUG
-            System.out.println(assetDescription[1]); //DEBUG
-            System.out.println(assetDescription[2]); //DEBUG
         }catch (IOException e){
             this.requestHandler.connectionClosed(this.id);
         }
@@ -228,20 +214,17 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
                 nickname = nickname.trim();
             }catch (IOException e){
                 this.requestHandler.connectionClosed(this.id);
-                //vediamo un attimo insieme cosa fare
             }
 
         }
         return nickname;
     }
 
-    //accetto messaggio
     /**
      * Sending a message to client
      * @param message message to send
      */
     public void send(FromServerMessage message){
-        //parso il messaggio
         int i=0;
         while (!this.toClient.send(this.messageToJson.toJson(message))){
             i++;
@@ -282,7 +265,6 @@ public class ConnectionHandler implements Runnable, MessageSenderInterface{
             try {
                 request = fromClient.readMessage();
 
-                System.out.println(request); //
                 this.requestHandler.requestEvaluator(this.id, request);
             }
             catch (IOException e){

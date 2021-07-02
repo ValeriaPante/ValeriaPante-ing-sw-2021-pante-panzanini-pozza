@@ -157,9 +157,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
      */
     @Override
     public void run(){
-        System.out.println("Starting run");
         if(fromServer != null && toServer != null) {
-            System.out.println("Run started");
             String input;
             while (true) {
                 try {
@@ -181,20 +179,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
      */
     @Override
     public void update(InGameMessage message) {
-        int i=0;
-        while (!this.toServer.send(message.toJson())){
-            i++;
-            if (i>=0){
-                System.out.println("ERROR SENDING THE MESSAGE");
-            }
-            if (i==50){
-                this.fromServer.close();
-                this.toServer.close();
-                new DisconnectionMessage("Error on the internet", 404).visit(this.visitor);
-                break;
-            }
-            //throw new RuntimeException();
-        }
+        this.update(message.toJson());
     }
 
     /**
@@ -203,20 +188,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
      */
     @Override
     public void update(PreGameMessage message) {
-        int i=0;
-        while (!this.toServer.send(message.toJson())){
-            i++;
-            if (i>=0){
-                System.out.println("ERROR SENDING THE MESSAGE");
-            }
-            if (i==50){
-                this.fromServer.close();
-                this.toServer.close();
-                new DisconnectionMessage("Error on the internet", 404).visit(this.visitor);
-                break;
-            }
-            //throw new RuntimeException();
-        }
+        this.update(message.toJson());
     }
 
     /**
@@ -230,13 +202,12 @@ public class MessageToServerManager implements Runnable, MessageManager{
             if (i>=0){
                 System.out.println("ERROR SENDING THE MESSAGE");
             }
-            if (i==50){
+            if (i==10){
                 this.fromServer.close();
                 this.toServer.close();
                 new DisconnectionMessage("Error on the internet", 404).visit(this.visitor);
                 break;
             }
-            //throw new RuntimeException();
         }
     }
 
@@ -259,13 +230,10 @@ public class MessageToServerManager implements Runnable, MessageManager{
         }
         this.updateAssets();
         this.update(username);
-        System.out.println("Sent username");
-        System.out.println("Connection established");
         new Thread(this).start();
     }
 
-    //Daniel-part-----------------------------
-
+    //---Init-assets-part-----------------------------
     /**
      * This method create an send a message expecting some new files in return
      */
@@ -275,8 +243,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
         for (String alg : hashingAlg){
             try{
                 messageDigest = MessageDigest.getInstance(alg);
-            }catch (NoSuchAlgorithmException e){
-                //pass
+            }catch (NoSuchAlgorithmException ignored){
             }
         }
 
@@ -286,9 +253,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
             String fullPath ;
             try {
                 fullPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile().getPath() + relativePath;
-                System.out.println(fullPath);
             } catch (URISyntaxException e) {
-                System.out.println("DEBUG: Come on riguarda il relativePath");
                 return;
             }
             if (this.toServer.sendAssetMessage(this.getAssetsMessage(fullPath, (messageDigest==null) ? "size" : messageDigest.getAlgorithm()), relativePath, (messageDigest == null) ? "size" : messageDigest.getAlgorithm())){
@@ -297,8 +262,6 @@ public class MessageToServerManager implements Runnable, MessageManager{
                         this.saveAsset(assetDesc, fullPath);
                     }
                 }catch (IOException e){
-                    //raga scusate ma non avevo sbatti di gestire questa cosa
-                    //si poteva con inputStream.skip(n)
                     System.exit(1);
                 }
             }
@@ -324,12 +287,11 @@ public class MessageToServerManager implements Runnable, MessageManager{
             while ((count = assetDescriptor.getAssetByteArrayI().read(buffer)) != -1) {
                 fileOutputStream.write(buffer, 0, count);
             }
-        }catch (IOException e){
-            //pass
+        }catch (IOException ignored){
         }
         try {
             fileOutputStream.close();
-        }catch (IOException e){
+        }catch (IOException ignored){
             //
         }
     }
@@ -377,13 +339,11 @@ public class MessageToServerManager implements Runnable, MessageManager{
         byte[] hashBytes = digest.digest();
         StringBuilder strBuilder = new StringBuilder();
         for (byte singleByte : hashBytes) {
-            //se qualcuno sa cosa fa questa riga sarebbe così gentile da spiegarmelo?
             strBuilder.append(Integer.toString((singleByte & 0xff) + 0x100, 16).substring(1));
         }
         return strBuilder.toString();
     }
 
-    //size as identifier
     /**
      * Builds a message that specifies all the files in a folder and those files hash listed one by one
      * @param fullPath path to evaluate
@@ -400,7 +360,7 @@ public class MessageToServerManager implements Runnable, MessageManager{
         }
 
         File[] content = targetDir.listFiles();
-        assert content != null; //l'ho creata prima
+        assert content != null;
         if (content.length == 0){
             return "[]";
         }
@@ -420,5 +380,5 @@ public class MessageToServerManager implements Runnable, MessageManager{
             return message.substring(0,message.toString().length()-1) + "]";
         }
     }
-    //End-Daniel-part-------------------------
+    //End-init-assets-part-------------------------
 }

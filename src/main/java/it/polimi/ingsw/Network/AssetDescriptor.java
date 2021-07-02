@@ -3,7 +3,7 @@ package it.polimi.ingsw.Network;
 import java.io.ByteArrayInputStream;
 
 /**
- *
+ * Representation a file with his name and his bytes
  */
 public class AssetDescriptor {
 

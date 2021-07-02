@@ -1,7 +1,6 @@
 package it.polimi.ingsw.Network;
 
 import java.io.*;
-import java.net.SocketException;
 
 /**
  * Utility class that write on a InputStream
@@ -95,11 +94,9 @@ public class Sender {
     }
 
     public synchronized boolean ping(){
-        System.err.println("Pinging");
         try {
             this.outputStream.write(this.buildPingHeader().getBytes());
             this.outputStream.flush();
-            System.err.println("Pinged");
         } catch (IOException e){
             return false;
         }
@@ -150,13 +147,9 @@ public class Sender {
     public synchronized boolean sendAssetMessage(String assetDesc, String path, String hashAlg){
         ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
         try{
-            //proviamo a sostituire la seguente con:
             byteArrayOutStream.write(this.buildAssetDescriptionHeader(path.replace("\\", "\\\\"), hashAlg, assetDesc.getBytes().length).getBytes());
-            //byteArrayOutStream.write(this.buildAssetDescriptionHeader(path, hashAlg, assetDesc.getBytes().length).getBytes());       //<-----
             byteArrayOutStream.write(assetDesc.getBytes());
             byteArrayOutStream.writeTo(this.outputStream);
-            byteArrayOutStream.writeTo(System.out);//DEBUG
-            System.out.println("\n"); //DEBUG
             this.outputStream.flush();
             byteArrayOutStream.close();
         }catch (IOException e){
@@ -172,7 +165,6 @@ public class Sender {
      * @return false if an error occurred sending the message
      */
     public synchronized boolean send(String message){
-        System.out.println("Sending: " + message);
         ByteArrayOutputStream byteArrayOutStream = new ByteArrayOutputStream();
         try {
             byteArrayOutStream.write(this.buildHeader(message.getBytes().length).getBytes());
@@ -180,9 +172,7 @@ public class Sender {
 
             byteArrayOutStream.writeTo(this.outputStream);
             this.outputStream.flush();
-            System.out.println("Sent: " + message);
         }catch (IOException e){
-            e.printStackTrace();
             return false;
         }
         try {
@@ -197,13 +187,9 @@ public class Sender {
      * Closes the output stream
      */
     public void close(){
-        while (true){
-            try{
-                this.outputStream.close();
-                break;
-            }catch(IOException e){
-                //pass
-            }
+        try{
+            this.outputStream.close();
+        }catch(IOException ignored){
         }
     }
 

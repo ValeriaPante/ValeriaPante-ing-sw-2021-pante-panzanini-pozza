@@ -33,28 +33,12 @@ public class Receiver {
         try{
             element = parser.parse(toEvaluate);
         } catch (JsonParseException e){
-            System.out.println("failing parsing");
             return null;
         }
         if (!element.isJsonObject()){
-            System.out.println("not object");
             return null;
         }
         return element.getAsJsonObject();
-    }
-
-    private boolean isPingHeaderJsonValid(String arrived){
-        JsonObject header = toJsonObjectIfPossible(arrived);
-        if (header == null){
-            return false;
-        }
-        JsonElement type = header.get("type");
-        JsonElement size = header.get("size");
-        if (type == null || size == null){
-            return false;
-        }
-        return (type.isJsonPrimitive() && type.getAsJsonPrimitive().isString()) &&
-                (size.isJsonPrimitive() && size.getAsJsonPrimitive().isNumber());
     }
 
     /**
@@ -65,7 +49,6 @@ public class Receiver {
     private boolean isAssetHeaderJsonValid(String arrived){
         JsonObject header = toJsonObjectIfPossible(arrived);
         if (header==null){
-            System.out.println("wrong header");
             return false;
         }
         JsonElement type = header.get("type");
@@ -86,6 +69,9 @@ public class Receiver {
      */
     private boolean isAssetHeaderFinish(String arrived){
         JsonObject header = toJsonObjectIfPossible(arrived);
+        if (header==null){
+            return false;
+        }
         return (header.get("type").getAsString().equals("assetsEnd")) &&
                 (header.get("name").getAsString().equals("null")) &&
                 (header.get("format").getAsString().equals("null")) &&
@@ -183,11 +169,9 @@ public class Receiver {
 
     private String readMessage(int nbrToRead) throws IOException {
         byte[] byteArray = this.getByteArrayMessage(nbrToRead);
-        System.out.println("Arrived: " + new String(byteArray, 0, byteArray.length));
         return new String(byteArray,0,byteArray.length);
     }
 
-    //sever side
     /**
      * Convert the next message on the stream as String[3]
      * @return the files infos: (message received, folder evaluated client side, hash algorithm for hashing files client side)
@@ -196,13 +180,10 @@ public class Receiver {
     public String[] readAssetsDescription() throws IOException {
         JsonParser jsonParser = new JsonParser();
         String fromClient = this.getHeader();
-        System.out.println(fromClient); //DEBUG
         if(this.isAssetHeaderFinish(fromClient)){
-            System.out.println("Ricevuto messaggio fine");
             return null;
         }
         else if (!this.isAssetDescriptorsHeaderJsonValid(fromClient)){
-            System.out.println("wrong header");
             return null;
         }
         String folderPath;
@@ -240,13 +221,9 @@ public class Receiver {
         JsonParser jsonParser = new JsonParser();
         String arrived = this.getHeader();
         if (!this.isAssetHeaderJsonValid(arrived)){
-            //qualcosa è stato mandato sbagliato dal server
-            System.out.println("sintassi sbagliata");
-            System.out.println("arrivato: " + arrived);
             return null;
         }
         else if(this.isAssetHeaderFinish(arrived)){
-            System.out.println("Ricevuto messaggio fine");
             return null;
         }
         JsonObject header = jsonParser.parse(arrived).getAsJsonObject();
@@ -257,13 +234,10 @@ public class Receiver {
      * Closes the input stream
      */
     public void close(){
-        while (true){
-            try{
-                this.inputStream.close();
-                break;
-            }catch (IOException e){
-                //pass
-            }
+        try{
+            this.inputStream.close();
+        }catch (IOException ignored){
         }
+
     }
 }
