@@ -212,8 +212,8 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
     public int countAll(){
         int amount = 0;
         for (State[] state : this.contentState.values()){
-            for (int i=0; i< state.length; i++){
-                if (state[i] != State.UNPRESENT){
+            for (State value : state) {
+                if (value != State.UNPRESENT) {
                     amount += 1;
                 }
             }

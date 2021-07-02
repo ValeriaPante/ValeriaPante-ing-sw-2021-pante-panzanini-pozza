@@ -139,11 +139,9 @@ public class InGameDeserializer implements JsonDeserializer<InGameMessage> {
                     return new DeselectAllResources();
 
                 default:
-                    //Error InGameMessage: "Incorrect message type for in-game"
                     return new NoActionMessage();
             }
         } catch (NullPointerException e) {
-            //Error InGameMessage: "Incorrect message syntax"
             return new NoActionMessage();
         }
     }

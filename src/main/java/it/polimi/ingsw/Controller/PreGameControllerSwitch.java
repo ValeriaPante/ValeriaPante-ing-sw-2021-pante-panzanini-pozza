@@ -4,7 +4,6 @@ import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.*;
 import it.polimi.ingsw.Network.RequestHandlers.InGameRequestHandler;
 import it.polimi.ingsw.PreGameModel.*;
 
-import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -35,8 +34,6 @@ public class PreGameControllerSwitch {
         this.preGameModel.createLobby(id);
         User user = this.preGameModel.getAndRemoveUser(creationLobbyMessage.getSenderId());
         if (user == null){
-            //non ho associato nessun user con questo id, non me lo spiego
-            //ma per evitare che cada tutto
             return;
         }
         this.preGameModel.addUserToLobby(user, id);
@@ -60,12 +57,9 @@ public class PreGameControllerSwitch {
     public synchronized void actionOnMessage(MoveToLobbyMessage moveToLobbyMessage){
         User user = this.preGameModel.getAndRemoveUser(moveToLobbyMessage.getSenderId());
         if (user==null){
-            //non ho associato nessun user con questo id, non me lo spiego
-            //ma per evitare che cada tutto
             return;
         }
         if (this.preGameModel.isLobbyFull(moveToLobbyMessage.getLobbyId())){
-            //notifica il player che ha provato ad accedere ad una lobby piena sbagliato
             return;
         }
         this.preGameModel.addUserToLobby(user, moveToLobbyMessage.getLobbyId());
@@ -78,20 +72,15 @@ public class PreGameControllerSwitch {
     public synchronized void actionOnMessage(StartGameMessage startGameMessage){
         int lobbyId = this.preGameModel.getUserLobbyId(startGameMessage.getSenderId());
         if (lobbyId == 0){
-            //notifica il player che ha provato a fare una cosa non permessa
             this.preGameModel.notifyError(startGameMessage.getSenderId(), "You can't start the game, you are not the first");
             return;
         }
         Lobby lobby = this.preGameModel.getAndRemoveLobby(lobbyId);
         if (lobby == null){
-            //stranissimo, vuol dire che il giocatore ha richiesto l'inizio della partita
-            //di una lobby in cui era presente prima ma ora la lobby non esiste più;
             return;
         }
 
         new Thread(() ->{
-            //a questo punto di faccio un po quello che voglio,
-            //lo passo a chi di dovere che gestisce l'inizio della partita
             InGameRequestHandler inGameRequestHandler = new InGameRequestHandler(lobby);
             for (User user: lobby.getUsers()){
                 user.setRequestHandler(inGameRequestHandler);
@@ -105,7 +94,6 @@ public class PreGameControllerSwitch {
      * @param user user to add
      */
     public synchronized void addNewUser(User user){
-        //qui creo il nuovo clientHandler e nel costruttore gli passo this
         int id = this.random.nextInt(100000);
         while (this.preGameModel.getAllUsersIds().contains(id)){
             id = this.random.nextInt(100000);

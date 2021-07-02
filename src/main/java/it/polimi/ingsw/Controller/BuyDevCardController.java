@@ -11,7 +11,6 @@ import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.Exceptions.CantPutThisHere;
 import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
-import it.polimi.ingsw.Model.Deposit.StrongBox;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -95,7 +94,7 @@ public class BuyDevCardController extends CardActionController{
             try {
                 if(deck.getTopCard() != null && deck.getTopCard().isSelected())
                     return true;
-            } catch (IndexOutOfBoundsException e){
+            } catch (IndexOutOfBoundsException ignored){
 
             }
         }
@@ -278,7 +277,7 @@ public class BuyDevCardController extends CardActionController{
             if(table.turnOf().getLeaderCards()[i].hasBeenPlayed()){
                 try {
                     temp.addEnumMap(table.turnOf().getLeaderCards()[i].getAbility().getSelected());
-                } catch (WrongLeaderCardType e) {
+                } catch (WrongLeaderCardType ignored) {
 
                 }
             }

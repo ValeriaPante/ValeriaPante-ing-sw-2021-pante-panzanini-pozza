@@ -213,11 +213,6 @@ public class MarketController extends SelectionController{
             }
         }
 
-//        optional optimization:
-//        if (numOfContainersSelected > 2)
-//            //Error message: "More than two selections"
-//            return;
-
         for (LeaderCard lc: player.getLeaderCards()){
             try{
                 if ((lc.hasBeenPlayed()) && (!lc.getAbility().getSelected().equals(new EnumMap<Resource, Integer>(Resource.class)))) {
@@ -226,11 +221,6 @@ public class MarketController extends SelectionController{
                 }
             } catch (WrongLeaderCardType ignored) {}
         }
-
-//        optional optimization:
-//        if (numOfContainersSelected == 0)
-//            //Error message: "Less than two selections"
-//            return;
 
         if (player.getSupportContainer().areThereSelections())
             numOfContainersSelected++;
@@ -250,7 +240,7 @@ public class MarketController extends SelectionController{
         //==================================================================================================
         if (player.getSupportContainer().areThereSelections()){
             enumMap = player.getSupportContainer().getSelection();
-            if(shelvesSelected.size() == 1){ //Selections in stillToBeSetBox and one Shelf
+            if(shelvesSelected.size() == 1){
                 Shelf selectedShelf = shelvesSelected.get(0);
 
                 Resource resSelectedInSupportContainer = movableResource(enumMap, selectedShelf);
@@ -265,7 +255,7 @@ public class MarketController extends SelectionController{
                 enumMap = player.getSupportContainer().getSelection();
                 table.payPlayerOfTurn(player.getSupportContainer());
                 table.addAllIfPossibleToShelf(selectedShelf.getCapacity(), resSelectedInSupportContainer, enumMap.get(resSelectedInSupportContainer));
-            } else { //Selections in stillToBeSetBox and one leaderCard
+            } else {
                 Ability selectedLeaderCardAbility = leaderCardsSelected.get(0).getAbility();
 
                 if (!canLeaderContain(selectedLeaderCardAbility, enumMap, true))
@@ -276,10 +266,9 @@ public class MarketController extends SelectionController{
                 enumMap = player.getSupportContainer().getSelection();
                 table.payPlayerOfTurn(player.getSupportContainer());
                 table.addResourcesToPlayerOfTurnLC(leaderCardsSelected.get(0).getId(), enumMap);
-                //addEnumMapToLC(selectedLeaderCardAbility, enumMap);
             }
-        } else { //selections between LeaderCards and Shelves
-            if (shelvesSelected.size() == 2){ //Selections only in Shelves
+        } else {
+            if (shelvesSelected.size() == 2){
                 Shelf selectedShelf1 = shelvesSelected.get(0);
                 Shelf selectedShelf2 = shelvesSelected.get(1);
                 if ((selectedShelf2.getUsage() != selectedShelf2.getQuantitySelected()) || (selectedShelf1.getUsage() != selectedShelf1.getQuantitySelected())){
@@ -303,7 +292,7 @@ public class MarketController extends SelectionController{
                 table.addAllIfPossibleToShelf(selectedShelf1.getCapacity(), shelf2Type, shelf2Usage);
                 table.addAllIfPossibleToShelf(selectedShelf2.getCapacity(), shelf1Type, shelf1Usage);
             } else {
-                if (shelvesSelected.size() == 1) { //Selections in one Shelf and one LeaderCard
+                if (shelvesSelected.size() == 1) {
                     Ability selectedLeaderCardAbility = leaderCardsSelected.get(0).getAbility();
                     Shelf selectedShelf = shelvesSelected.get(0);
 
@@ -321,7 +310,7 @@ public class MarketController extends SelectionController{
                     table.addAllIfPossibleToShelf(selectedShelf.getCapacity(), resourceInLeaderCard, enumMap.get(resourceInLeaderCard));
                     selectedLeaderCardAbility.pay();
                     table.addResourcesToPlayerOfTurnLC(leaderCardsSelected.get(0).getId(), shelfSelection);
-                } else {//Selections only in LeaderCards
+                } else {
                     Ability leaderAbility1 = leaderCardsSelected.get(0).getAbility();
                     Ability leaderAbility2 = leaderCardsSelected.get(1).getAbility();
 
@@ -536,7 +525,6 @@ public class MarketController extends SelectionController{
      * @param quantity2 the quantity of white marbles to be transmuted with the ability
      *      *                  of the leader card with serial number equals to "serial2"
      */
-    //
     public void selectTransmutation (int serial1, int quantity1, int serial2, int quantity2){
         if (table.turnOf().getMicroTurnType() != MicroTurnType.SELECT_LEADER_CARD)
             return;

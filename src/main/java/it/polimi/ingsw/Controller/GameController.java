@@ -40,7 +40,6 @@ public class GameController extends CertifiedResourceUsage{
         this.table = new Table(players.size());
         this.faithTrackController = new FaithTrackController(table);
 
-        //Players' playing order is random
         Collections.shuffle(players);
         for (User player : players)
             table.addPlayer(new RealPlayer(player));
@@ -205,7 +204,6 @@ public class GameController extends CertifiedResourceUsage{
         table.nextTurn();
         if(table.isSinglePlayer() && !table.isLastLap()){
             playActionToken(table.drawToken());
-            //msg (al single player): LorenzoTurnMessage(actionTokenType scartato)
             if(anEntireLineIsEmpty()){
                 table.setLastLap();
             }
@@ -272,8 +270,7 @@ public class GameController extends CertifiedResourceUsage{
                 sum += card.getVictoryPoints();
                 try{
                     totalResources += card.getAbility().countAll();
-                } catch (WrongLeaderCardType e){
-
+                } catch (WrongLeaderCardType ignored){
                 }
             }
         sum += totalResources/5;

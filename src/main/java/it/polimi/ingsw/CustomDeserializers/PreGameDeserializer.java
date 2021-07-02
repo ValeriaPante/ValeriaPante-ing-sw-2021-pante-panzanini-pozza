@@ -29,11 +29,9 @@ public class PreGameDeserializer implements JsonDeserializer<PreGameMessage> {
                 case "StartGame":
                     return new StartGameMessage();
                 default:
-                    //Error InGameMessage: "Incorrect message type for in-game"
                     return new NoActionMessage();
             }
         } catch (NullPointerException e) {
-            //Error InGameMessage: "Incorrect message syntax"
             return new NoActionMessage();
         }
     }

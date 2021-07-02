@@ -1,14 +1,11 @@
 package it.polimi.ingsw.Controller;
 
-import com.google.gson.Gson;
 import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.*;
 import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
 import it.polimi.ingsw.Model.Game.Table;
 import it.polimi.ingsw.Model.Player.RealPlayer;
 import it.polimi.ingsw.PreGameModel.Lobby;
-
-import java.util.List;
 
 /**
  * This class is used for visitor pattern as visitor.
@@ -40,9 +37,6 @@ public class InGameControllerSwitch {
     }
 
     private boolean isActionFromTurnOf(InGameMessage message){
-        Gson gson = new Gson();
-        System.out.println("----"+gson.toJson(message)); //DEBUG
-
         Table table = gameController.getTable();
 
         RealPlayer senderPlayer = null;
@@ -56,8 +50,6 @@ public class InGameControllerSwitch {
                 senderPlayer.setErrorMessage("It is not your turn!");
             }
             return false;
-        } else if (table.isSinglePlayer()){
-
         }
         if (message.getSenderId() != table.turnOf().getId()){
             System.out.println(table.turnOf().getId());
@@ -66,7 +58,6 @@ public class InGameControllerSwitch {
             }
             return false;
         }
-
         return true;
     }
 

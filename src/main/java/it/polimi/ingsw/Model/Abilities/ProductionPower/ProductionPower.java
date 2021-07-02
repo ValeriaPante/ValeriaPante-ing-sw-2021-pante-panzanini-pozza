@@ -1,4 +1,5 @@
 package it.polimi.ingsw.Model.Abilities.ProductionPower;
+
 import java.util.EnumMap;
 import it.polimi.ingsw.Enums.Resource;
 
@@ -19,9 +20,6 @@ public class ProductionPower {
         stringBuilder.append(")");
         return stringBuilder.toString();
     }
-
-    //@ signals (IllegalArgumentException e)    (resourcesTypeInput == null || resourceAmountInput == null || resourcesTypeOutput == null || resourcesAmountOutput == null) ||
-    //                                          (resourcesTypeInput.length != resourceAmountInput.length || resourcesTypeOutput.length != resourcesAmountOutput.length)
 
     /**
      * Alternative and bad Constructor

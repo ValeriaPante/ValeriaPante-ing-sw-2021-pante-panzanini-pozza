@@ -40,7 +40,6 @@ public class SelectionController extends CertifiedResourceUsage{
             return null;
         }
 
-
         return specifiedLeaderCard;
     }
 

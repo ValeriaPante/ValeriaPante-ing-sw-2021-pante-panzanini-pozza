@@ -33,7 +33,6 @@ public class CardActionController extends SelectionController{
             return allResources.contains(checkMap);
         }
 
-        //qui in poi ho le any
         int anyAmount = copy.get(Resource.ANY);
         copy.remove(Resource.ANY);
         int otherResourcesAmount = 0;
@@ -68,8 +67,7 @@ public class CardActionController extends SelectionController{
                         payableWithSelection.add(leaderCard.getAbility());
                     }
                 }
-                catch (WrongLeaderCardType e){
-                    //non è una carta con potere di storage
+                catch (WrongLeaderCardType ignored){
                 }
             }
         }

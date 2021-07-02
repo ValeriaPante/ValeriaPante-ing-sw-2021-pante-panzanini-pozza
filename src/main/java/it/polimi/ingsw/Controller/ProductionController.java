@@ -31,7 +31,11 @@ public class ProductionController extends CardActionController{
         super(ftc);
     }
 
-    //mi serve un modo per capire quali poteri di produzone sono già selezionati
+    /**
+     * Getter
+     * @param player player to evaluate
+     * @return all the already selected production powers of a player
+     */
     private ArrayList<ProductionPower> getSelectedProductionPowers(RealPlayer player){
         ArrayList<ProductionPower> selectedProdPowers = new ArrayList<>();
 
@@ -50,8 +54,7 @@ public class ProductionController extends CardActionController{
                 try {
                     selectedProdPowers.add(leaderCard.getAbility().getProductionPower());
                 }
-                catch (WrongLeaderCardType e){
-                    //non dovrebbe succedere di arrivare qui
+                catch (WrongLeaderCardType ignored){
                 }
             }
         }
@@ -59,8 +62,13 @@ public class ProductionController extends CardActionController{
         return selectedProdPowers;
     }
 
+    /**
+     * Check if the player can afford to activate this production power plus all the production powers already selected
+     * @param productionPower the new production power
+     * @param player the player that wants to activate it
+     * @return true if the player can afford to activate this production power plus all the production powers already selected, false otherwise
+     */
     private boolean isAffordableSomehow(ProductionPower productionPower, RealPlayer player){
-        //mi serve un modo per capire quali altri poteri di produzone sono già selezionati
         Depot resourceRequired = new Depot();
         for (ProductionPower alreadySelectedProdPower : this.getSelectedProductionPowers(player)){
             resourceRequired.addEnumMap(alreadySelectedProdPower.getInput());
@@ -69,6 +77,11 @@ public class ProductionController extends CardActionController{
         return super.isAffordableSomehow(resourceRequired.content());
     }
 
+    /**
+     * Select a production power
+     * @param idCard the id of a card production (0 for the basic production power)
+     * @param player player with that production power
+     */
     private void selectCard(int idCard, RealPlayer player){
 
         if (idCard == 0){
@@ -80,7 +93,6 @@ public class ProductionController extends CardActionController{
                     player.getBasicProductionPower().select();
                 }
                 else{
-                    //non si può permettere questa carta
                     player.setErrorMessage("You can't activate this production because you don't have enough resources", idCard);
                     return;
                 }
@@ -88,7 +100,6 @@ public class ProductionController extends CardActionController{
             return;
         }
 
-        //devCards
         for (DevSlot devSlot : player.getDevSlots()) {
             if (!devSlot.isEmpty() && devSlot.topCard().getId() == idCard) {
                 if (devSlot.topCard().isSelected()) {
@@ -97,7 +108,6 @@ public class ProductionController extends CardActionController{
                     if (this.isAffordableSomehow(devSlot.topCard().getProdPower(), player)) {
                         devSlot.selectTopCard();
                     } else {
-                        //non si può permettere questa carta
                         player.setErrorMessage("You can't activate this production because you don't have enough resources", idCard);
                     }
                 }
@@ -114,15 +124,13 @@ public class ProductionController extends CardActionController{
                     try {
                         leaderProductionPower = leaderCard.getAbility().getProductionPower();
                     } catch (WrongLeaderCardType e) {
-                        //ha selezionato una carta che non è di tipo produzione
                         player.setErrorMessage("This is not a production LeaderCard", idCard);
-                        return; //da eliminare
+                        return;
                     }
 
                     if (this.isAffordableSomehow(leaderProductionPower, player)) {
                         leaderCard.select();
                     } else {
-                        //non si può permettere questa carta
                         player.setErrorMessage("You can't activate this production because you don't have enough resources", idCard);
                     }
                 }
@@ -130,14 +138,15 @@ public class ProductionController extends CardActionController{
             }
         }
 
-        //il giocatore ha specificato una carta che non possiede
         player.setErrorMessage("Card not owned", idCard);
     }
 
+    /**
+     *
+     * @return true if the player of turn is in a state in which he can do something related to the production
+     */
     private boolean isTurnTypeValid(){
         this.player = super.table.turnOf();
-        //il giocatore puù selezionare una risorsa quando Macro e micro sono None
-        //il giocatore puù selezionare una risorsa quando Macro e micro sono PRODPOWERS e SETTINGUP
 
         if (this.player.getMacroTurnType() == MacroTurnType.NONE && this.player.getMicroTurnType() == MicroTurnType.NONE){
             this.player.setMacroTurnType(MacroTurnType.PRODUCTION);
@@ -179,7 +188,6 @@ public class ProductionController extends CardActionController{
         }
 
         if (!super.isAffordableSomehow(allInputs.content())){
-            //non ha abbastanza risorse per attivarli tutti
             this.player.setErrorMessage("you can't activate all production Powers together because you don' have enough resources");
             this.checkResetCondition();
             return;
@@ -200,13 +208,11 @@ public class ProductionController extends CardActionController{
                     try {
                         leaderCard.getAbility().getProductionPower();
                         leaderCard.select();
-                    } catch (WrongLeaderCardType e) {
-                        //non è una carta con poteri di produzione
+                    } catch (WrongLeaderCardType ignored) {
                     }
                 }
             }
         }
-        //a questo punto sono tutti selezionati
         this.player.setMacroTurnType(MacroTurnType.PRODUCTION);
         this.player.setMicroTurnType(MicroTurnType.SETTING_UP);
     }
@@ -287,14 +293,12 @@ public class ProductionController extends CardActionController{
         return true;
     }
 
+    /**
+     * Rollback if the player of turn has no production powers selected and no resources selected
+     */
     private void checkResetCondition(){
         this.player = super.table.turnOf();
-        //DEVO CAPIRE QUANTE CARTE SONO SELEZIONATE PER SETTARE IL TURNO A NONE NEL CASO VOLESSE FARE ALTRO
         if (this.getSelectedProductionPowers(this.player).isEmpty()){
-            // -> significa che non ci sono carte selezionate
-
-            //chiedere ai ragazzi se per loro ha senso che anche le risorse vadano deselezionate
-            //per ora controllo che se anche tutte le risorse sono deselezionate allora il turno diventa NONE
             if (super.getPayableWithSelection().isEmpty()){
                 this.player.setMacroTurnType(MacroTurnType.NONE);
                 this.player.setMicroTurnType(MicroTurnType.NONE);
@@ -321,7 +325,6 @@ public class ProductionController extends CardActionController{
             return;
         }
 
-        //----Vado a prendermi tutte le risorse selezionate
         Depot resourceSelected = new Depot();
 
         for (Shelf shelf : this.player.getShelves()){
@@ -343,12 +346,11 @@ public class ProductionController extends CardActionController{
                         resourceSelected.addEnumMap(leaderCard.getAbility().getSelected());
                     }
                 }
-                catch(WrongLeaderCardType e){
-                    //non è una carta con poteri di produzione
+                catch(WrongLeaderCardType ignored){
                 }
             }
         }
-        //----
+
         if (resourceSelected.isEmpty()){
             this.player.setErrorMessage("Please select some resources");
             return;
@@ -368,30 +370,28 @@ public class ProductionController extends CardActionController{
 
             Depot temp = new Depot(){{addEnumMap(inputsWithoutAny);}};
             if (resourceSelected.contains(inputsWithoutAny) && resourceSelected.countAll() == temp.countAll() + anyAmount){
-                //il pagamento passa
-                //bisogna capire se negli output ci sono delle any
                 this.setANYDECISIONIfNeeded(this.player, super.getPayableWithSelection(), allOutputs.content());
             }
             else{
-                //errore:
-                //le risorse selezionate non sono abbastanza da coprire il costo delle carte selezionate
                 this.player.setErrorMessage("Selection doesn't match the cost");
             }
         }
         else{
             if (resourceSelected.content().equals(allInputs.content())){
-                //il pagamento passa
-                //bisogna capire se negli output ci sono delle any
                 this.setANYDECISIONIfNeeded(this.player, super.getPayableWithSelection(), allOutputs.content());
             }
             else{
-                //errore:
-                //le risorse selezionate non sono abbastanza da coprire il costo delle carte selezionate
                 this.player.setErrorMessage("Selection doesn't match the cost");
             }
         }
     }
 
+    /**
+     * Check if the output of the production has some any inside, if so updates the player state
+     * @param player the player that activated the production
+     * @param payableWithSelection All the storages with some selection in it
+     * @param toPutInStrongBox the output of the production
+     */
     private void setANYDECISIONIfNeeded(RealPlayer player, List<Payable> payableWithSelection, EnumMap<Resource, Integer> toPutInStrongBox){
         if (toPutInStrongBox.containsKey(Resource.ANY)){
             player.getSupportContainer().clear();
@@ -403,6 +403,10 @@ public class ProductionController extends CardActionController{
         }
     }
 
+    /**
+     * Deselect all the production cards that the player has
+     * @param player the player to deselect all the production cards
+     */
     private void deselectAllProdPowersSelected(RealPlayer player){
         if (player.getBasicProductionPower().isSelected()){
             player.getBasicProductionPower().select();
@@ -414,7 +418,6 @@ public class ProductionController extends CardActionController{
             }
         }
 
-        //non controllo nemmeno se è un leadercard si tipo produzione, deseleziono comunque tutto
         for (LeaderCard leaderCard : player.getLeaderCards()){
             if (leaderCard.isSelected()){
                 leaderCard.select();
@@ -422,6 +425,12 @@ public class ProductionController extends CardActionController{
         }
     }
 
+    /**
+     * Removes all the selected resources and put the output in the strongbox
+     * @param player player that activated the production
+     * @param payableWithSelection All the storages with some selection in it
+     * @param toPutInStrongBox the output of the production to be put in the strongbox
+     */
     private void effectiveTransaction(RealPlayer player, List<Payable> payableWithSelection, EnumMap<Resource, Integer> toPutInStrongBox){
         for (Payable payable : payableWithSelection){
             this.table.payPlayerOfTurn(payable);
@@ -436,7 +445,6 @@ public class ProductionController extends CardActionController{
         player.setMicroTurnType(MicroTurnType.NONE);
 
         this.deselectAllProdPowersSelected(player);
-        //le risorse selezionate non dovrebebro più esserci
     }
 
     /**
@@ -454,17 +462,14 @@ public class ProductionController extends CardActionController{
             return;
         }
 
-        //a questo punto sono in tra
         this.table.addToSupportContainer(new EnumMap<>(Resource.class){{put(resource, 1);}});
         int anyAmount = player.getSupportContainer().content().get(Resource.ANY);
 
         if (player.getSupportContainer().countAll() == 2*anyAmount){
-            //devo ottenere tutto l'output dei poteri di produzione
             Depot allOutputs = new Depot();
             for (ProductionPower productionPower : this.getSelectedProductionPowers(player)){
                 allOutputs.addEnumMap(productionPower.getOutput());
             }
-            //se sono finito qui significa che in questo output ci sono sicuramente delle any che devo togliere
             allOutputs.addEnumMap(player.getSupportContainer().content());
             super.table.updatePlayerOfTurnSupportContainer(new EnumMap<>(Resource.class));
             this.effectiveTransaction(player, super.getPayableWithSelection(), new EnumMap<>(allOutputs.content()){{remove(Resource.ANY);}});

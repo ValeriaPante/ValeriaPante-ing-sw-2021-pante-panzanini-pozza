@@ -31,7 +31,6 @@ public class Ability implements Payable{
     }
 
     //---Storage ability methods-------------------------------------------------------------------------------
-
     /**
      * Add a resource to this storage LeaderCard
      * @param resource resource to add
@@ -201,7 +200,6 @@ public class Ability implements Payable{
             this.transmutationAbilityBehavior = new WithoutTransmutationAbilityBehavior();
             this.productionPowerBehavior = new WithProductionPowerBehavior(map1, map2);
         }
-        //questo else lo teniamo per sicurezza
         else{
             this.storageAbilityBehavior = new WithoutStorageAbilityBehavior();
             this.discountAbilityBehavior = new WithoutDiscountAbilityBehavior();
