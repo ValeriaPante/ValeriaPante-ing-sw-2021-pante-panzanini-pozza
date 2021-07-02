@@ -13,7 +13,7 @@ import java.util.List;
  * Every player in a lobby can switch lobby
  */
 public class RemotePreGameModel{
-    //basically evey user is observe of the lobbies
+    //basically evey user is observer of the lobbies
     private final LinkedList<Lobby> lobbies;
     private final LinkedList<User> notDecidedYet;
 
@@ -81,7 +81,6 @@ public class RemotePreGameModel{
         return allIds;
     }
 
-    //non notifico nessuno perchè ci devo ancora mettere un giocatore (è vuota)
     /**
      * Creation of a lobby
      * @param id the id of the new lobby
@@ -101,7 +100,6 @@ public class RemotePreGameModel{
                 return lobby.getId();
             }
         }
-        //non ci può essere una lobby con id 0
         return 0;
     }
 
@@ -114,12 +112,10 @@ public class RemotePreGameModel{
         for (Lobby lobby : this.lobbies){
             if (lobby.getId() == lobbyId){
                 this.lobbies.remove(lobby);
-                //notifico a tutti che questa lobby è vuota
                 this.notifyAllUsers(this.messageBuilder(lobby, false));
                 return lobby;
             }
         }
-        //non credo proprio che possa arrivare a questo punto
         return null;
     }
 
@@ -141,21 +137,17 @@ public class RemotePreGameModel{
                 if (user.getId() == userId){
                     lobby.removeUser(user);
                     this.notDecidedYet.add(user);
-                    //notifico il cambiamento di lobby a tutti
                     this.notifyAllUsers(this.messageBuilder(lobby, false));
 
-                    //cancello la lobby se una volta rimosso un giocatore questa è vuota
-                    //è una cosa che dovrebbe fare il controller ma mi sembra stupido passarlo sopra
                     if (lobby.isEmpty()){
                         this.lobbies.remove(lobby);
                     }
 
-                    //so che è in not decided yet
                     return this.getAndRemoveUser(userId);
                 }
             }
         }
-        //l'user non c'è, molto strano
+
         return null;
     }
 

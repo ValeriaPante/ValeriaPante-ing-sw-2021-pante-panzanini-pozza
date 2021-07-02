@@ -62,6 +62,9 @@ public class User {
         return this.username;
     }
 
+    /**
+     * Closes the connection associated to this user
+     */
     public void closeConnection(){
         this.connectionHandler.closeConnection();
     }
