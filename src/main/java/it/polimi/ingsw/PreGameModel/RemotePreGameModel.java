@@ -65,7 +65,6 @@ public class RemotePreGameModel{
         for (User user : this.notDecidedYet){
             allIds.add(user.getId());
         }
-        System.out.println("Returned all ids");
         return allIds;
     }
 

@@ -85,7 +85,6 @@ public class PreGameControllerSwitch {
             for (User user: lobby.getUsers()){
                 user.setRequestHandler(inGameRequestHandler);
             }
-            System.out.println("Partita iniziata");
         }).start();
     }
 
