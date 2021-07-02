@@ -5,6 +5,7 @@ import it.polimi.ingsw.Controller.MarketController;
 import it.polimi.ingsw.Enums.MacroTurnType;
 import it.polimi.ingsw.Enums.MicroTurnType;
 import it.polimi.ingsw.Enums.Resource;
+import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Model.Player.RealPlayer;
 import it.polimi.ingsw.PreGameModel.Lobby;
@@ -290,5 +291,16 @@ public class GameControllerTest {
         multiGameController.getTable().turnOf().setMacroTurnType(MacroTurnType.DONE);
         multiGameController.endTurn();
         assertTrue(multiGameController.getTable().isLastLap());
+
+
+        singleGameController = new GameController(singlePlayerLobby);
+        for(int i = 0; i < 1000; i++){
+            try {
+                singleGameController.getTable().turnOf().setMacroTurnType(MacroTurnType.DONE);
+                singleGameController.endTurn();
+            } catch (GameOver e){
+                break;
+            }
+        }
     }
 }

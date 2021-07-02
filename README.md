@@ -61,6 +61,6 @@ in order to have the latest update of the assets, which can vary if any customis
 >For an offline game, it's recommended to insert the JAR and its assets inside an empty folder.
 
 
-Coverage Test:
+### Coverage Tests
+HTML documentation that reports the overall test coverage is available [here]().
 
-![](https://github.com/ValeriaPante/ing-sw-2021-pante-panzanini-pozza/blob/main/Coverage.png)

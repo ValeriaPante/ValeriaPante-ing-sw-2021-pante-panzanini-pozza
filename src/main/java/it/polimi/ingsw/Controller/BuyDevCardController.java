@@ -149,10 +149,7 @@ public class BuyDevCardController extends CardActionController{
                         if(entry.getValue() == 0)
                             toBePaid.remove(entry.getKey());
 
-                    //table.turnOf().getSupportContainer().clear(); //da eliminare
-                    //table.turnOf().getSupportContainer().addEnumMap(toBePaid); //da eliminare
-                    //msg (a tutti): ChangedSupportContainer(id player di turno, hashmap contenuto) (come riga 113)
-                    table.updatePlayerOfTurnSupportContainer(toBePaid);   //<--
+                    table.updatePlayerOfTurnSupportContainer(toBePaid);
 
                     if(toBePaid.isEmpty()){
                         table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);

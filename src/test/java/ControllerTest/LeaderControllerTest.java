@@ -1,5 +1,7 @@
 package ControllerTest;
 
+import it.polimi.ingsw.Model.Abilities.ProductionPower.ProductionPower;
+import it.polimi.ingsw.Model.Cards.DevCard;
 import it.polimi.ingsw.Model.Cards.DevCardType;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Controller.FaithTrackController;
@@ -102,12 +104,14 @@ public class LeaderControllerTest {
         table.addPlayer(new RealPlayer(new User("user1", new FakeConnectionHandler(1))));
         table.addPlayer(new RealPlayer(new User("user2", new FakeConnectionHandler(2))));
         table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+        table.turnOf().getDevSlots()[0].addCard(new DevCard(2, new EnumMap<>(Resource.class), new DevCardType(1, Colour.YELLOW), new ProductionPower(new EnumMap<>(Resource.class), new EnumMap<>(Resource.class)), 21));
 
         EnumMap<Resource, Integer> resourceReq = new EnumMap<>(Resource.class);
         Map<DevCardType, Integer> devCardReq = new HashMap<>();
         EnumMap<Resource, Integer> input = new EnumMap<>(Resource.class);
 
         input.put(Resource.SERVANT, 1);
+        devCardReq.put(new DevCardType(0, Colour.YELLOW), 1);
 
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),21));
         table.turnOf().addLeaderCard(new LeaderCard(2, resourceReq, devCardReq, LeaderCardType.DISCOUNT, input, new EnumMap<>(Resource.class),45));

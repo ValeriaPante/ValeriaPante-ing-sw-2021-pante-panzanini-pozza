@@ -1,6 +1,7 @@
 package ControllerTest;
 
 import it.polimi.ingsw.Enums.MicroTurnType;
+import it.polimi.ingsw.Exceptions.GameOver;
 import it.polimi.ingsw.Model.Cards.DevCardType;
 import it.polimi.ingsw.Model.Cards.LeaderCard;
 import it.polimi.ingsw.Controller.BuyDevCardController;
@@ -38,6 +39,7 @@ public class BuyDevCardControllerTest {
         table.turnOf().getStrongBox().addEnumMap(resourceOwned);
 
         BuyDevCardController controller = new BuyDevCardController(new FaithTrackController(table));
+        controller.chooseDevCard(2);
         controller.chooseDevCard(3);
         int id = table.getDevDecks()[2].getTopCard().getId();
         EnumMap<Resource, Integer> cost = table.getDevDecks()[2].getTopCard().getCost();
@@ -53,6 +55,61 @@ public class BuyDevCardControllerTest {
 
         for(EnumMap.Entry<Resource, Integer> entry: cost.entrySet())
             assertEquals(50 - entry.getValue(), table.turnOf().getStrongBox().content().get(entry.getKey()));
+
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+        table.turnOf().setMicroTurnType(MicroTurnType.NONE);
+        controller.chooseDevCard(1);
+        cost = table.getDevDecks()[0].getTopCard().getCost();
+        controller.buyDevCard();
+        table.turnOf().getStrongBox().clearSelection();
+        table.turnOf().getStrongBox().mapSelection(cost);
+        controller.paySelected();
+        controller.chooseDevSlot(1);
+
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+        table.turnOf().setMicroTurnType(MicroTurnType.NONE);
+        controller.chooseDevCard(2);
+        cost = table.getDevDecks()[1].getTopCard().getCost();
+        controller.buyDevCard();
+        table.turnOf().getStrongBox().mapSelection(cost);
+        controller.paySelected();
+        controller.chooseDevSlot(3);
+
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+        table.turnOf().setMicroTurnType(MicroTurnType.NONE);
+        controller.chooseDevCard(5);
+        cost = table.getDevDecks()[4].getTopCard().getCost();
+        controller.buyDevCard();
+        table.turnOf().getStrongBox().mapSelection(cost);
+        controller.paySelected();
+        controller.chooseDevSlot(1);
+
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+        table.turnOf().setMicroTurnType(MicroTurnType.NONE);
+        controller.chooseDevCard(5);
+        cost = table.getDevDecks()[4].getTopCard().getCost();
+        controller.buyDevCard();
+        table.turnOf().getStrongBox().mapSelection(cost);
+        controller.paySelected();
+        controller.chooseDevSlot(2);
+
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+        table.turnOf().setMicroTurnType(MicroTurnType.NONE);
+        controller.chooseDevCard(5);
+        cost = table.getDevDecks()[4].getTopCard().getCost();
+        controller.buyDevCard();
+        table.turnOf().getStrongBox().mapSelection(cost);
+        controller.paySelected();
+        controller.chooseDevSlot(3);
+
+        table.turnOf().setMacroTurnType(MacroTurnType.NONE);
+        table.turnOf().setMicroTurnType(MicroTurnType.NONE);
+        controller.chooseDevCard(9);
+        cost = table.getDevDecks()[8].getTopCard().getCost();
+        controller.buyDevCard();
+        table.turnOf().getStrongBox().mapSelection(cost);
+        controller.paySelected();
+        assertThrows(GameOver.class, () -> controller.chooseDevSlot(3));
     }
 
     @Test
@@ -93,6 +150,44 @@ public class BuyDevCardControllerTest {
         assertTrue(table.turnOf().getDevSlots()[2].isEmpty());
         for(int i = 0; i < table.getDevDecks().length; i++)
             assertEquals(4, table.getDevDecks()[i].size());
+
+        //3nd invalid buying: wrong deck
+        controller.chooseDevCard(20);
+        controller.buyDevCard();
+        controller.paySelected();
+        controller.chooseDevSlot(2);
+        assertTrue(table.turnOf().getDevSlots()[0].isEmpty());
+        assertTrue(table.turnOf().getDevSlots()[1].isEmpty());
+        assertTrue(table.turnOf().getDevSlots()[2].isEmpty());
+        for(int i = 0; i < table.getDevDecks().length; i++)
+            assertEquals(4, table.getDevDecks()[i].size());
+
+
+        //4nd invalid buying: wrong type of turn
+        table.turnOf().setMacroTurnType(MacroTurnType.PRODUCTION);
+        table.turnOf().setMicroTurnType(MicroTurnType.SETTING_UP);
+        controller.chooseDevCard(1);
+        controller.buyDevCard();
+        controller.paySelected();
+        controller.chooseDevSlot(2);
+        assertTrue(table.turnOf().getDevSlots()[0].isEmpty());
+        assertTrue(table.turnOf().getDevSlots()[1].isEmpty());
+        assertTrue(table.turnOf().getDevSlots()[2].isEmpty());
+
+        //5nd invalid buying: empty deck
+        table.getDevDecks()[0].draw();
+        table.getDevDecks()[0].draw();
+        table.getDevDecks()[0].draw();
+        table.getDevDecks()[0].draw();
+        controller.chooseDevCard(1);
+        controller.buyDevCard();
+        controller.paySelected();
+        controller.chooseDevSlot(2);
+        assertTrue(table.turnOf().getDevSlots()[0].isEmpty());
+        assertTrue(table.turnOf().getDevSlots()[1].isEmpty());
+        assertTrue(table.turnOf().getDevSlots()[2].isEmpty());
+
+
     }
 
     @Test

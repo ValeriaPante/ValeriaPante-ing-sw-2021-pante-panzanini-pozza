@@ -211,7 +211,6 @@ public class GameController extends CertifiedResourceUsage{
             }
         }
         if(table.isSinglePlayer()){
-
             table.nextTurn();
         }
         if((table.isLastLap()) && (table.getPlayers()[0] == table.turnOf()))
