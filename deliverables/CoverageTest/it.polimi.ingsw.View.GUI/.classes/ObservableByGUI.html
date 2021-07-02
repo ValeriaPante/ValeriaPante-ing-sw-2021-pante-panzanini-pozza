@@ -1,0 +1,110 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ObservableByGUI</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ObservableByGUI (it.polimi.ingsw.View.GUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ObservableByGUI</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 9)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+<i>4</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * Object that can provoke an action to be performed by GUI
+<i>8</i>&nbsp; */
+<b class="nc"><i>9</i>&nbsp;public abstract class ObservableByGUI {</b>
+<i>10</i>&nbsp;    protected GUI observer;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;    public void addObserver(GUI observer){
+<b class="nc"><i>13</i>&nbsp;        this.observer = observer;</b>
+<b class="nc"><i>14</i>&nbsp;    }</b>
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    public void sendMessage(InGameMessage messageToSend){
+<b class="nc"><i>17</i>&nbsp;        observer.getMessageManager().update(messageToSend);</b>
+<b class="nc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public void sendMessage(PreGameMessage messageToSend){
+<b class="nc"><i>21</i>&nbsp;        observer.getMessageManager().update(messageToSend);</b>
+<b class="nc"><i>22</i>&nbsp;    }</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public void connect(String ip, String port, String username){
+<b class="nc"><i>25</i>&nbsp;        observer.getMessageManager().connect(ip, port, username);</b>
+<b class="nc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

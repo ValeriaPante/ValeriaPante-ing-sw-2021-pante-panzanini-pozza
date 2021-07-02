@@ -1,0 +1,167 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TwoTextInput</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.ServerGUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TwoTextInput (it.polimi.ingsw.View.ServerGUI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TwoTextInput</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 36)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.ServerGUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import javafx.scene.control.TextField;
+<i>4</i>&nbsp;import javafx.scene.layout.Pane;
+<i>5</i>&nbsp;import javafx.scene.text.Font;
+<i>6</i>&nbsp;import javafx.scene.text.Text;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;public class TwoTextInput {
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;    protected Text firstTextField;
+<i>11</i>&nbsp;    protected Text secondTextField;
+<i>12</i>&nbsp;    protected TextField firstInputField;
+<i>13</i>&nbsp;    protected TextField secondInputField;
+<i>14</i>&nbsp;
+<b class="nc"><i>15</i>&nbsp;    public TwoTextInput(String firstText, String secondText){</b>
+<b class="nc"><i>16</i>&nbsp;        this.firstTextField = new Text(firstText);</b>
+<b class="nc"><i>17</i>&nbsp;        this.secondTextField = new Text(secondText);</b>
+<b class="nc"><i>18</i>&nbsp;        this.firstInputField = new TextField();</b>
+<b class="nc"><i>19</i>&nbsp;        this.secondInputField = new TextField();</b>
+<b class="nc"><i>20</i>&nbsp;        this.firstInputField.setPrefWidth(50);</b>
+<b class="nc"><i>21</i>&nbsp;        this.secondInputField.setPrefWidth(50);</b>
+<b class="nc"><i>22</i>&nbsp;    }</b>
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public void setFontSizes(int size){
+<b class="nc"><i>25</i>&nbsp;        this.firstTextField.setFont(new Font(size));</b>
+<b class="nc"><i>26</i>&nbsp;        this.secondTextField.setFont(new Font(size));</b>
+<b class="nc"><i>27</i>&nbsp;    }</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    protected double maxTextLength(){
+<b class="nc"><i>30</i>&nbsp;        return Math.max(this.firstTextField.getLayoutBounds().getWidth(), this.secondTextField.getLayoutBounds().getWidth());</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    public void setFirstInput(String text){
+<b class="nc"><i>34</i>&nbsp;        this.firstInputField.setText(text);</b>
+<b class="nc"><i>35</i>&nbsp;    }</b>
+<i>36</i>&nbsp;
+<i>37</i>&nbsp;    public void setSecondInput(String text){
+<b class="nc"><i>38</i>&nbsp;        this.secondInputField.setText(text);</b>
+<b class="nc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    protected void setPosition(double xPos, double yPos, double offset){
+<b class="nc"><i>42</i>&nbsp;        this.firstTextField.setX(xPos);</b>
+<b class="nc"><i>43</i>&nbsp;        this.firstTextField.setY(yPos);</b>
+<b class="nc"><i>44</i>&nbsp;        this.firstInputField.setLayoutX(xPos + offset + 20);</b>
+<b class="nc"><i>45</i>&nbsp;        this.firstInputField.setLayoutY(yPos - this.firstTextField.getFont().getSize());</b>
+<b class="nc"><i>46</i>&nbsp;        this.secondTextField.setX(xPos);</b>
+<b class="nc"><i>47</i>&nbsp;        this.secondTextField.setY(yPos + this.firstTextField.getLayoutBounds().getHeight() + 10);</b>
+<b class="nc"><i>48</i>&nbsp;        this.secondInputField.setLayoutX(xPos + offset + 20);</b>
+<b class="nc"><i>49</i>&nbsp;        this.secondInputField.setLayoutY(this.secondTextField.getY() - this.secondTextField.getFont().getSize());</b>
+<b class="nc"><i>50</i>&nbsp;    }</b>
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    public void setPosition(double xPos, double yPos){
+<b class="nc"><i>53</i>&nbsp;        double offset = this.maxTextLength();</b>
+<b class="nc"><i>54</i>&nbsp;        this.setPosition(xPos, yPos, offset);</b>
+<b class="nc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    public void addToPane(Pane pane){
+<b class="nc"><i>58</i>&nbsp;        pane.getChildren().addAll(this.firstTextField, this.firstInputField, this.secondTextField, this.secondInputField);</b>
+<b class="nc"><i>59</i>&nbsp;    }</b>
+<i>60</i>&nbsp;
+<i>61</i>&nbsp;    public String getFirstInput(){
+<b class="nc"><i>62</i>&nbsp;        return this.firstInputField.getCharacters().toString();</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    public String getSecondInput(){
+<b class="nc"><i>66</i>&nbsp;        return this.secondInputField.getCharacters().toString();</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    public double getHeight(){
+<b class="nc"><i>70</i>&nbsp;        return (this.secondTextField.getY() - this.firstTextField.getY()) + this.secondTextField.getLayoutBounds().getHeight();</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    public double getWidth(){
+<b class="nc"><i>74</i>&nbsp;        return this.maxTextLength() + 20 + this.firstInputField.getPrefWidth();</b>
+<i>75</i>&nbsp;    }
+<i>76</i>&nbsp;
+<i>77</i>&nbsp;    public double getY(){
+<b class="nc"><i>78</i>&nbsp;        return this.firstTextField.getY();</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    public double getX(){
+<b class="nc"><i>82</i>&nbsp;        return this.firstTextField.getX();</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

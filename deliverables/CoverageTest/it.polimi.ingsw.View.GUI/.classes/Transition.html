@@ -1,0 +1,660 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Transition</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.GUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Transition (it.polimi.ingsw.View.GUI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Transition</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 52)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 256)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Transition$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 53)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 257)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.GUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.PopeFavorCardState;
+<i>4</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>5</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.DisconnectMessage;
+<i>6</i>&nbsp;import it.polimi.ingsw.Network.Client.MessageManager;
+<i>7</i>&nbsp;import javafx.application.Platform;
+<i>8</i>&nbsp;import javafx.fxml.FXMLLoader;
+<i>9</i>&nbsp;import javafx.scene.Node;
+<i>10</i>&nbsp;import javafx.scene.Scene;
+<i>11</i>&nbsp;import javafx.scene.control.*;
+<i>12</i>&nbsp;import javafx.scene.image.Image;
+<i>13</i>&nbsp;import javafx.scene.image.ImageView;
+<i>14</i>&nbsp;import javafx.scene.layout.AnchorPane;
+<i>15</i>&nbsp;import javafx.scene.layout.GridPane;
+<i>16</i>&nbsp;import javafx.scene.layout.Pane;
+<i>17</i>&nbsp;import javafx.scene.layout.Region;
+<i>18</i>&nbsp;import javafx.stage.Modality;
+<i>19</i>&nbsp;import javafx.stage.Stage;
+<i>20</i>&nbsp;import javafx.stage.StageStyle;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;import java.io.File;
+<i>23</i>&nbsp;import java.io.FileInputStream;
+<i>24</i>&nbsp;import java.io.IOException;
+<i>25</i>&nbsp;import java.io.InputStream;
+<i>26</i>&nbsp;import java.util.HashMap;
+<i>27</i>&nbsp;import java.util.Map;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;/**
+<i>30</i>&nbsp; * Class used to change current scene or to transition from a scene to another
+<i>31</i>&nbsp; */
+<b class="nc"><i>32</i>&nbsp;public class Transition {</b>
+<i>33</i>&nbsp;    private static Stage primaryStage;
+<i>34</i>&nbsp;    private static Stage dialogStage;
+<i>35</i>&nbsp;    private static Scene welcomeScene;
+<i>36</i>&nbsp;    private static Scene usernameScene;
+<i>37</i>&nbsp;    private static Scene lobbiesScene;
+<i>38</i>&nbsp;    private static Scene waitingToStartScene;
+<i>39</i>&nbsp;    private static Scene loadingScene;
+<i>40</i>&nbsp;    private static Scene leaderCardsScene;
+<i>41</i>&nbsp;    private static Scene initialResourcesScene;
+<i>42</i>&nbsp;    private static Scene mainScene;
+<i>43</i>&nbsp;    private static Scene winnerScene;
+<i>44</i>&nbsp;    private static boolean onContainersScene;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    public static void setPrimaryStage(Stage primaryStage) {
+<b class="nc"><i>47</i>&nbsp;        Transition.primaryStage = primaryStage;</b>
+<b class="nc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    public static void setDialogStage(Stage dialogStage){
+<b class="nc"><i>51</i>&nbsp;        Transition.dialogStage = dialogStage;</b>
+<b class="nc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    public static void setDisconnectOnClose(MessageManager connectionHandler){
+<b class="nc"><i>55</i>&nbsp;        primaryStage.setOnCloseRequest(windowEvent -&gt; {</b>
+<b class="nc"><i>56</i>&nbsp;            connectionHandler.update(new DisconnectMessage());</b>
+<b class="nc"><i>57</i>&nbsp;            System.exit(1);</b>
+<b class="nc"><i>58</i>&nbsp;        });</b>
+<i>59</i>&nbsp;
+<b class="nc"><i>60</i>&nbsp;    }</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    public static void setExitOnClose(){
+<b class="nc"><i>63</i>&nbsp;        primaryStage.setOnCloseRequest(windowEvent -&gt; System.exit(1));</b>
+<b class="nc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    public static void setDialogScene(Pane scene){
+<b class="nc"><i>67</i>&nbsp;        if(dialogStage.getScene() != null) dialogStage.getScene().setRoot(scene);</b>
+<b class="nc"><i>68</i>&nbsp;        else dialogStage.setScene(new Scene(scene));</b>
+<b class="nc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public static void setWelcomeScene(WelcomeScene welcomeScene) {
+<b class="nc"><i>72</i>&nbsp;        Transition.welcomeScene = new Scene(welcomeScene.getRoot());</b>
+<b class="nc"><i>73</i>&nbsp;    }</b>
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    public static void setUsernameScene(UsernameScene usernameScene) {
+<b class="nc"><i>76</i>&nbsp;        Transition.usernameScene = new Scene(usernameScene.getRoot());</b>
+<b class="nc"><i>77</i>&nbsp;    }</b>
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    public static void setLobbiesScene(LobbiesScene lobbiesScene) {
+<b class="nc"><i>80</i>&nbsp;        Transition.lobbiesScene = new Scene(lobbiesScene.getRoot());</b>
+<b class="nc"><i>81</i>&nbsp;    }</b>
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    public static void setWaitingToStartScene(WaitingToStartScene waitingToStartScene) {
+<b class="nc"><i>84</i>&nbsp;        Transition.waitingToStartScene = new Scene(waitingToStartScene.getRoot());</b>
+<b class="nc"><i>85</i>&nbsp;    }</b>
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    public static void setLoadingScene(LoadingScene loadingScene){
+<b class="nc"><i>88</i>&nbsp;        Transition.loadingScene = new Scene(loadingScene.getRoot());</b>
+<b class="nc"><i>89</i>&nbsp;    }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public static void setLeaderCardsScene(LeaderCardScene leaderCardsScene){
+<b class="nc"><i>92</i>&nbsp;        Transition.leaderCardsScene = new Scene(leaderCardsScene.getRoot());</b>
+<b class="nc"><i>93</i>&nbsp;    }</b>
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    public static void setInitialResourcesScene(InitialResourcesScene initialResourcesScene){
+<b class="nc"><i>96</i>&nbsp;        Transition.initialResourcesScene = new Scene(initialResourcesScene.getRoot());</b>
+<b class="nc"><i>97</i>&nbsp;    }</b>
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    public static void setMainScene(MainScene mainScene){
+<b class="nc"><i>100</i>&nbsp;        Transition.mainScene = new Scene(mainScene.getRoot());</b>
+<b class="nc"><i>101</i>&nbsp;    }</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    public static void setMainScene(SinglePlayerMainScene mainScene){
+<b class="nc"><i>104</i>&nbsp;        Transition.mainScene = new Scene(mainScene.getRoot());</b>
+<b class="nc"><i>105</i>&nbsp;    }</b>
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    public static void setWinnerScene(WinnerScene winnerScene){
+<b class="nc"><i>108</i>&nbsp;        Transition.winnerScene = new Scene(winnerScene.getRoot());</b>
+<b class="nc"><i>109</i>&nbsp;    }</b>
+<i>110</i>&nbsp;    public static void toWelcomeScene(){
+<b class="nc"><i>111</i>&nbsp;        primaryStage.setScene(welcomeScene);</b>
+<b class="nc"><i>112</i>&nbsp;    }</b>
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    public static void toUsernameScene(){
+<b class="nc"><i>115</i>&nbsp;        primaryStage.setScene(usernameScene);</b>
+<b class="nc"><i>116</i>&nbsp;    }</b>
+<i>117</i>&nbsp;
+<i>118</i>&nbsp;    public static void toLobbiesScene(){
+<b class="nc"><i>119</i>&nbsp;        if(!WaitingToStartScene.isReady()) primaryStage.setScene(lobbiesScene);</b>
+<b class="nc"><i>120</i>&nbsp;    }</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;    public static void toWaitingToStartScene(){
+<b class="nc"><i>123</i>&nbsp;        if(loadingScene == null) primaryStage.setScene(waitingToStartScene);</b>
+<b class="nc"><i>124</i>&nbsp;    }</b>
+<i>125</i>&nbsp;
+<i>126</i>&nbsp;    public static void toLoadingScene(){
+<b class="nc"><i>127</i>&nbsp;        primaryStage.setScene(loadingScene);</b>
+<b class="nc"><i>128</i>&nbsp;    }</b>
+<i>129</i>&nbsp;
+<i>130</i>&nbsp;    public static void toLeaderCardScene(){
+<b class="nc"><i>131</i>&nbsp;        primaryStage.setScene(leaderCardsScene);</b>
+<b class="nc"><i>132</i>&nbsp;    }</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;    public static void toInitialResourcesScene(){
+<b class="nc"><i>135</i>&nbsp;        primaryStage.setScene(initialResourcesScene);</b>
+<b class="nc"><i>136</i>&nbsp;    }</b>
+<i>137</i>&nbsp;
+<i>138</i>&nbsp;    public static void toMainScene(){
+<b class="nc"><i>139</i>&nbsp;        primaryStage.setScene(mainScene);</b>
+<b class="nc"><i>140</i>&nbsp;    }</b>
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    public static void toWinnerScene(){
+<b class="nc"><i>143</i>&nbsp;        primaryStage.setScene(winnerScene);</b>
+<b class="nc"><i>144</i>&nbsp;    }</b>
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;    public static void showDialog(){
+<b class="nc"><i>147</i>&nbsp;        if(dialogStage == null) {</b>
+<b class="nc"><i>148</i>&nbsp;            dialogStage = new Stage();</b>
+<b class="nc"><i>149</i>&nbsp;            dialogStage.setResizable(false);</b>
+<i>150</i>&nbsp;        }
+<i>151</i>&nbsp;
+<b class="nc"><i>152</i>&nbsp;        dialogStage.initModality(Modality.APPLICATION_MODAL);</b>
+<b class="nc"><i>153</i>&nbsp;        dialogStage.initStyle(StageStyle.UNDECORATED);</b>
+<b class="nc"><i>154</i>&nbsp;        dialogStage.showAndWait();</b>
+<b class="nc"><i>155</i>&nbsp;    }</b>
+<i>156</i>&nbsp;
+<i>157</i>&nbsp;    public static void reshowDialog(){
+<b class="nc"><i>158</i>&nbsp;        if(!dialogStage.isShowing()) Platform.runLater(() -&gt; dialogStage.showAndWait());</b>
+<b class="nc"><i>159</i>&nbsp;    }</b>
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    public static void hideDialog(){
+<b class="nc"><i>162</i>&nbsp;        dialogStage.hide();</b>
+<b class="nc"><i>163</i>&nbsp;    }</b>
+<i>164</i>&nbsp;
+<i>165</i>&nbsp;    public static void showErrorMessage(String message){
+<b class="nc"><i>166</i>&nbsp;        Alert alert = new Alert(Alert.AlertType.ERROR, message);</b>
+<b class="nc"><i>167</i>&nbsp;        alert.showAndWait();</b>
+<b class="nc"><i>168</i>&nbsp;    }</b>
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    public static void showLorenzoMove(String message){
+<b class="nc"><i>171</i>&nbsp;        Alert alert = new Alert(Alert.AlertType.INFORMATION, message);</b>
+<b class="nc"><i>172</i>&nbsp;        alert.showAndWait();</b>
+<b class="nc"><i>173</i>&nbsp;    }</b>
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;    public static void setOnContainersScene(boolean onContainersScene){
+<b class="nc"><i>176</i>&nbsp;        Transition.onContainersScene = onContainersScene;</b>
+<b class="nc"><i>177</i>&nbsp;    }</b>
+<i>178</i>&nbsp;
+<i>179</i>&nbsp;    public static boolean isOnContainersScene(){
+<b class="nc"><i>180</i>&nbsp;        return Transition.onContainersScene;</b>
+<i>181</i>&nbsp;    }
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    /**
+<i>184</i>&nbsp;     * Adds a card in a slot (multiplayer case)
+<i>185</i>&nbsp;     * @param playerIndex index of the player to which apply the update
+<i>186</i>&nbsp;     * @param cardId id of the card to insert
+<i>187</i>&nbsp;     * @param slot number of slot where to put the card
+<i>188</i>&nbsp;     * @param row row on the slot
+<i>189</i>&nbsp;     */
+<i>190</i>&nbsp;    public static void addCardInSlot(int playerIndex, int cardId, int slot, int row){
+<b class="nc"><i>191</i>&nbsp;        ImageView image = new ImageView();</b>
+<i>192</i>&nbsp;        try {
+<b class="nc"><i>193</i>&nbsp;            File fullPath = new File(Transition.class.getProtectionDomain().getCodeSource().getLocation().toURI());</b>
+<b class="nc"><i>194</i>&nbsp;            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +&quot;assets&quot;+ File.separator +&quot;imgs&quot;+ File.separator +cardId+&quot;.png&quot;);</b>
+<b class="nc"><i>195</i>&nbsp;            image.setImage(new Image(fileInputStream));</b>
+<i>196</i>&nbsp;
+<b class="nc"><i>197</i>&nbsp;        } catch(Exception ignored) {</b>
+<b class="nc"><i>198</i>&nbsp;        }</b>
+<b class="nc"><i>199</i>&nbsp;        image.setFitWidth(50);</b>
+<b class="nc"><i>200</i>&nbsp;        image.setPreserveRatio(true);</b>
+<b class="nc"><i>201</i>&nbsp;        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);</b>
+<b class="nc"><i>202</i>&nbsp;        AnchorPane card = (AnchorPane) grid.getChildren().get(playerIndex).lookup(&quot;#slot&quot;+slot).lookup(&quot;#card&quot;+row);</b>
+<b class="nc"><i>203</i>&nbsp;        card.getChildren().add(image);</b>
+<b class="nc"><i>204</i>&nbsp;    }</b>
+<i>205</i>&nbsp;
+<i>206</i>&nbsp;    /**
+<i>207</i>&nbsp;     * Adds a card in a slot (single player case)
+<i>208</i>&nbsp;     * @param cardId id of the card to insert
+<i>209</i>&nbsp;     * @param slot number of slot where to put the card
+<i>210</i>&nbsp;     * @param row row on the slot
+<i>211</i>&nbsp;     */
+<i>212</i>&nbsp;    public static void addCardInSlot( int cardId, int slot, int row){
+<b class="nc"><i>213</i>&nbsp;        ImageView image = new ImageView();</b>
+<i>214</i>&nbsp;        try {
+<b class="nc"><i>215</i>&nbsp;            File fullPath = new File(Transition.class.getProtectionDomain().getCodeSource().getLocation().toURI());</b>
+<b class="nc"><i>216</i>&nbsp;            FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +&quot;assets&quot;+ File.separator +&quot;imgs&quot;+ File.separator +cardId+&quot;.png&quot;);</b>
+<b class="nc"><i>217</i>&nbsp;            image.setImage(new Image(fileInputStream));</b>
+<i>218</i>&nbsp;
+<b class="nc"><i>219</i>&nbsp;        } catch(Exception ignored) {</b>
+<b class="nc"><i>220</i>&nbsp;        }</b>
+<b class="nc"><i>221</i>&nbsp;        image.setFitWidth(150);</b>
+<b class="nc"><i>222</i>&nbsp;        image.setPreserveRatio(true);</b>
+<b class="nc"><i>223</i>&nbsp;        AnchorPane card = (AnchorPane) mainScene.getRoot().lookup(&quot;#slot&quot;+slot).lookup(&quot;#card&quot;+row);</b>
+<b class="nc"><i>224</i>&nbsp;        card.getChildren().add(image);</b>
+<b class="nc"><i>225</i>&nbsp;    }</b>
+<i>226</i>&nbsp;
+<i>227</i>&nbsp;    /**
+<i>228</i>&nbsp;     * Updates faith marker (multiplayer case)
+<i>229</i>&nbsp;     * @param index index of the player to which apply the update
+<i>230</i>&nbsp;     * @param position new position
+<i>231</i>&nbsp;     */
+<i>232</i>&nbsp;    public static void updatePosition(int index, int position){
+<b class="nc"><i>233</i>&nbsp;        if(position != 0){</b>
+<b class="nc"><i>234</i>&nbsp;            GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);</b>
+<b class="nc"><i>235</i>&nbsp;            double[] newPos = MainScene.getPositions()[position - 1];</b>
+<b class="nc"><i>236</i>&nbsp;            grid.getChildren().get(index).lookup(&quot;#faith&quot;).setLayoutX(newPos[0]);</b>
+<b class="nc"><i>237</i>&nbsp;            grid.getChildren().get(index).lookup(&quot;#faith&quot;).setLayoutY(newPos[1]);</b>
+<i>238</i>&nbsp;        }
+<b class="nc"><i>239</i>&nbsp;    }</b>
+<i>240</i>&nbsp;
+<i>241</i>&nbsp;    /**
+<i>242</i>&nbsp;     * Updates faith marker (singleplayer case)
+<i>243</i>&nbsp;     * @param isLorenzo indicates if the updates concerns Lorenzo Il Magnifico or not
+<i>244</i>&nbsp;     * @param position new position
+<i>245</i>&nbsp;     */
+<i>246</i>&nbsp;    public static void updatePosition(boolean isLorenzo, int position){
+<b class="nc"><i>247</i>&nbsp;        if(position != 0){</b>
+<b class="nc"><i>248</i>&nbsp;            if(isLorenzo){</b>
+<b class="nc"><i>249</i>&nbsp;                double[] newPos = SinglePlayerMainScene.getLorenzoPositions()[position - 1];</b>
+<b class="nc"><i>250</i>&nbsp;                mainScene.getRoot().lookup(&quot;#lorenzo&quot;).setLayoutX(newPos[0]);</b>
+<b class="nc"><i>251</i>&nbsp;                mainScene.getRoot().lookup(&quot;#lorenzo&quot;).setLayoutY(newPos[1]);</b>
+<b class="nc"><i>252</i>&nbsp;            } else {</b>
+<b class="nc"><i>253</i>&nbsp;                double[] newPos = SinglePlayerMainScene.getPlayerPositions()[position - 1];</b>
+<b class="nc"><i>254</i>&nbsp;                mainScene.getRoot().lookup(&quot;#faith&quot;).setLayoutX(newPos[0]);</b>
+<b class="nc"><i>255</i>&nbsp;                mainScene.getRoot().lookup(&quot;#faith&quot;).setLayoutY(newPos[1]);</b>
+<i>256</i>&nbsp;            }
+<i>257</i>&nbsp;        }
+<b class="nc"><i>258</i>&nbsp;    }</b>
+<i>259</i>&nbsp;
+<i>260</i>&nbsp;    /**
+<i>261</i>&nbsp;     * Disable activate button if player is local, otherwise turns the card up (multiplayer case)
+<i>262</i>&nbsp;     * @param index index of the player to which apply the update
+<i>263</i>&nbsp;     * @param cardId id of the activated leader card
+<i>264</i>&nbsp;     * @param isLocalPlayer indicates if the player to which apply the update is the local one
+<i>265</i>&nbsp;     */
+<i>266</i>&nbsp;    public static void activateLeaderCard(int index, int cardId, boolean isLocalPlayer){
+<b class="nc"><i>267</i>&nbsp;        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);</b>
+<b class="nc"><i>268</i>&nbsp;        Node playerPane = grid.getChildren().get(index);</b>
+<b class="nc"><i>269</i>&nbsp;        if(isLocalPlayer){</b>
+<b class="nc"><i>270</i>&nbsp;            playerPane.lookup(&quot;#activate&quot;+cardId).setDisable(true);</b>
+<i>271</i>&nbsp;        } else {
+<b class="nc"><i>272</i>&nbsp;            ImageView image = new ImageView();</b>
+<i>273</i>&nbsp;            try {
+<b class="nc"><i>274</i>&nbsp;                File fullPath = new File(Transition.class.getProtectionDomain().getCodeSource().getLocation().toURI());</b>
+<b class="nc"><i>275</i>&nbsp;                FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +&quot;assets&quot;+ File.separator +&quot;imgs&quot;+ File.separator +cardId+&quot;.png&quot;);</b>
+<b class="nc"><i>276</i>&nbsp;                image.setImage(new Image(fileInputStream));</b>
+<i>277</i>&nbsp;
+<b class="nc"><i>278</i>&nbsp;            } catch(Exception ignored) {</b>
+<b class="nc"><i>279</i>&nbsp;            }</b>
+<b class="nc"><i>280</i>&nbsp;            image.setFitWidth(100);</b>
+<b class="nc"><i>281</i>&nbsp;            image.setPreserveRatio(true);</b>
+<i>282</i>&nbsp;
+<i>283</i>&nbsp;            AnchorPane card;
+<b class="nc"><i>284</i>&nbsp;            if(playerPane.lookup(&quot;#lc1&quot;) != null &amp;&amp; playerPane.lookup(&quot;#lc1&quot;).isVisible()){</b>
+<b class="nc"><i>285</i>&nbsp;                card = (AnchorPane) playerPane.lookup(&quot;#lc1&quot;);</b>
+<b class="nc"><i>286</i>&nbsp;                playerPane.lookup(&quot;#lc11&quot;).setId(&quot;lc&quot;+cardId+&quot;1&quot;);</b>
+<b class="nc"><i>287</i>&nbsp;                playerPane.lookup(&quot;#lc12&quot;).setId(&quot;lc&quot;+cardId+&quot;2&quot;);</b>
+<i>288</i>&nbsp;            } else {
+<b class="nc"><i>289</i>&nbsp;                card = (AnchorPane) playerPane.lookup(&quot;#lc2&quot;);</b>
+<b class="nc"><i>290</i>&nbsp;                playerPane.lookup(&quot;#lc21&quot;).setId(&quot;lc&quot;+cardId+&quot;1&quot;);</b>
+<b class="nc"><i>291</i>&nbsp;                playerPane.lookup(&quot;#lc22&quot;).setId(&quot;lc&quot;+cardId+&quot;2&quot;);</b>
+<i>292</i>&nbsp;            }
+<b class="nc"><i>293</i>&nbsp;            card.getChildren().add(image);</b>
+<b class="nc"><i>294</i>&nbsp;            card.setId(String.valueOf(cardId));</b>
+<i>295</i>&nbsp;        }
+<i>296</i>&nbsp;
+<b class="nc"><i>297</i>&nbsp;    }</b>
+<i>298</i>&nbsp;
+<i>299</i>&nbsp;    /**
+<i>300</i>&nbsp;     * Disable activate button if player (singleplayer case)
+<i>301</i>&nbsp;     * @param cardId id of the activated leader card
+<i>302</i>&nbsp;     */
+<i>303</i>&nbsp;    public static void activateLeaderCard(int cardId){
+<b class="nc"><i>304</i>&nbsp;        mainScene.getRoot().lookup(&quot;#activate&quot;+cardId).setDisable(true);</b>
+<b class="nc"><i>305</i>&nbsp;    }</b>
+<i>306</i>&nbsp;
+<i>307</i>&nbsp;    /**
+<i>308</i>&nbsp;     * Removes discarded card (multiplayer case)
+<i>309</i>&nbsp;     * @param index index of the player to which apply the update
+<i>310</i>&nbsp;     * @param cardId id of the discarded leader card
+<i>311</i>&nbsp;     * @param isLocalPlayer indicates if the player to which apply the update is the local one
+<i>312</i>&nbsp;     */
+<i>313</i>&nbsp;    public static void discardLeaderCard(int index, int cardId, boolean isLocalPlayer){
+<b class="nc"><i>314</i>&nbsp;        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);</b>
+<b class="nc"><i>315</i>&nbsp;        Node playerPane = grid.getChildren().get(index);</b>
+<b class="nc"><i>316</i>&nbsp;        if(isLocalPlayer){</b>
+<b class="nc"><i>317</i>&nbsp;            playerPane.lookup(&quot;#&quot;+cardId).setVisible(false);</b>
+<b class="nc"><i>318</i>&nbsp;            playerPane.lookup(&quot;#activate&quot;+cardId).setVisible(false);</b>
+<b class="nc"><i>319</i>&nbsp;            playerPane.lookup(&quot;#discard&quot;+cardId).setVisible(false);</b>
+<i>320</i>&nbsp;        } else {
+<b class="nc"><i>321</i>&nbsp;            if(playerPane.lookup(&quot;#&quot;+cardId) != null) playerPane.lookup(&quot;#&quot;+cardId).setVisible(false);</b>
+<b class="nc"><i>322</i>&nbsp;            else if(playerPane.lookup(&quot;#lc1&quot;) != null) playerPane.lookup(&quot;#lc1&quot;).setVisible(false);</b>
+<b class="nc"><i>323</i>&nbsp;            else playerPane.lookup(&quot;#lc2&quot;).setVisible(false);</b>
+<i>324</i>&nbsp;        }
+<b class="nc"><i>325</i>&nbsp;    }</b>
+<i>326</i>&nbsp;
+<i>327</i>&nbsp;    /**
+<i>328</i>&nbsp;     * Removes discarded card (single player case)
+<i>329</i>&nbsp;     * @param cardId id of the discarded leader card
+<i>330</i>&nbsp;     */
+<i>331</i>&nbsp;    public static void discardLeaderCard(int cardId){
+<b class="nc"><i>332</i>&nbsp;        mainScene.getRoot().lookup(&quot;#activate&quot;+cardId).setVisible(false);</b>
+<b class="nc"><i>333</i>&nbsp;        mainScene.getRoot().lookup(&quot;#discard&quot;+cardId).setVisible(false);</b>
+<b class="nc"><i>334</i>&nbsp;        mainScene.getRoot().lookup(&quot;#&quot;+cardId).setVisible(false);</b>
+<b class="nc"><i>335</i>&nbsp;        mainScene.getRoot().lookup(&quot;#lc&quot;+cardId+&quot;1&quot;).setVisible(false);</b>
+<b class="nc"><i>336</i>&nbsp;        mainScene.getRoot().lookup(&quot;#lc&quot;+cardId+&quot;2&quot;).setVisible(false);</b>
+<b class="nc"><i>337</i>&nbsp;    }</b>
+<i>338</i>&nbsp;
+<i>339</i>&nbsp;    /**
+<i>340</i>&nbsp;     * Updates the position of the inkwell; if it&#39;s the turn of the local player,
+<i>341</i>&nbsp;     * it abilitate the menu, otherwise it disables it
+<i>342</i>&nbsp;     * @param index index of the player to which apply the update
+<i>343</i>&nbsp;     * @param numberOfPlayers number of players
+<i>344</i>&nbsp;     * @param itsMyTurn indicates if the turn is the local players&#39;s one
+<i>345</i>&nbsp;     */
+<i>346</i>&nbsp;    public static void nextTurn(int index, int numberOfPlayers, boolean itsMyTurn){
+<b class="nc"><i>347</i>&nbsp;        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);</b>
+<b class="nc"><i>348</i>&nbsp;        for(int i = 0; i &lt; numberOfPlayers; i++){</b>
+<b class="nc"><i>349</i>&nbsp;            grid.getChildren().get(i).lookup(&quot;#calamaio&quot;).setVisible(false);</b>
+<i>350</i>&nbsp;        }
+<b class="nc"><i>351</i>&nbsp;        grid.getChildren().get(index).lookup(&quot;#calamaio&quot;).setVisible(true);</b>
+<b class="nc"><i>352</i>&nbsp;        ((MenuBar) ((Pane)mainScene.getRoot()).getChildren().get(0)).getMenus().get(0).setVisible(itsMyTurn);</b>
+<b class="nc"><i>353</i>&nbsp;    }</b>
+<i>354</i>&nbsp;
+<i>355</i>&nbsp;    /**
+<i>356</i>&nbsp;     * Updates the images for each pope favour card (multiplayer case)
+<i>357</i>&nbsp;     * @param index index of the player to which apply the update
+<i>358</i>&nbsp;     * @param states new states of the cards
+<i>359</i>&nbsp;     */
+<i>360</i>&nbsp;    public static void updatePopeFavourCards(int index, PopeFavorCardState[] states){
+<b class="nc"><i>361</i>&nbsp;        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);</b>
+<b class="nc"><i>362</i>&nbsp;        for(int i = 0; i &lt; states.length; i++){</b>
+<b class="nc"><i>363</i>&nbsp;            switch (states[i]){</b>
+<i>364</i>&nbsp;                case FACEDOWN:
+<b class="nc"><i>365</i>&nbsp;                    break;</b>
+<i>366</i>&nbsp;                case FACEUP:
+<b class="nc"><i>367</i>&nbsp;                    InputStream in = Transition.class.getResourceAsStream(&quot;/constantAssets/check.png&quot;);</b>
+<b class="nc"><i>368</i>&nbsp;                    ImageView image = new ImageView();</b>
+<b class="nc"><i>369</i>&nbsp;                    image.setImage(new Image(in));</b>
+<b class="nc"><i>370</i>&nbsp;                    image.setFitWidth(31);</b>
+<b class="nc"><i>371</i>&nbsp;                    image.setPreserveRatio(true);</b>
+<b class="nc"><i>372</i>&nbsp;                    AnchorPane space = (AnchorPane) grid.getChildren().get(index).lookup(&quot;#pope&quot;+(i+1));</b>
+<b class="nc"><i>373</i>&nbsp;                    space.getChildren().remove(0);</b>
+<b class="nc"><i>374</i>&nbsp;                    space.getChildren().add(image);</b>
+<b class="nc"><i>375</i>&nbsp;                    break;</b>
+<i>376</i>&nbsp;                case DISABLED:
+<b class="nc"><i>377</i>&nbsp;                    grid.getChildren().get(index).lookup(&quot;#pope&quot;+(i+1)).setVisible(false);</b>
+<i>378</i>&nbsp;                    break;
+<i>379</i>&nbsp;            }
+<i>380</i>&nbsp;        }
+<b class="nc"><i>381</i>&nbsp;    }</b>
+<i>382</i>&nbsp;
+<i>383</i>&nbsp;    /**
+<i>384</i>&nbsp;     * Updates the images for each pope favour card (single player case)
+<i>385</i>&nbsp;     * @param states new states of the cards
+<i>386</i>&nbsp;     */
+<i>387</i>&nbsp;    public static void updatePopeFavourCards(PopeFavorCardState[] states){
+<b class="nc"><i>388</i>&nbsp;        for(int i = 0; i &lt; states.length; i++){</b>
+<b class="nc"><i>389</i>&nbsp;            switch (states[i]){</b>
+<i>390</i>&nbsp;                case FACEDOWN:
+<b class="nc"><i>391</i>&nbsp;                    break;</b>
+<i>392</i>&nbsp;                case FACEUP:
+<b class="nc"><i>393</i>&nbsp;                    InputStream in = Transition.class.getResourceAsStream(&quot;/constantAssets/check.png&quot;);</b>
+<b class="nc"><i>394</i>&nbsp;                    ImageView image = new ImageView();</b>
+<b class="nc"><i>395</i>&nbsp;                    image.setImage(new Image(in));</b>
+<b class="nc"><i>396</i>&nbsp;                    image.setFitWidth(31);</b>
+<b class="nc"><i>397</i>&nbsp;                    image.setPreserveRatio(true);</b>
+<b class="nc"><i>398</i>&nbsp;                    AnchorPane space = (AnchorPane) mainScene.getRoot().lookup(&quot;#pope&quot;+(i+1));</b>
+<b class="nc"><i>399</i>&nbsp;                    space.getChildren().remove(0);</b>
+<b class="nc"><i>400</i>&nbsp;                    space.getChildren().add(image);</b>
+<b class="nc"><i>401</i>&nbsp;                    break;</b>
+<i>402</i>&nbsp;                case DISABLED:
+<b class="nc"><i>403</i>&nbsp;                    mainScene.getRoot().lookup(&quot;#pope&quot;+(i+1)).setVisible(false);</b>
+<i>404</i>&nbsp;                    break;
+<i>405</i>&nbsp;            }
+<i>406</i>&nbsp;        }
+<b class="nc"><i>407</i>&nbsp;    }</b>
+<i>408</i>&nbsp;
+<i>409</i>&nbsp;    /**
+<i>410</i>&nbsp;     * Updates the content of a shelf (multiplayer case)
+<i>411</i>&nbsp;     * @param index index of the player to which apply the update
+<i>412</i>&nbsp;     * @param shelfNumber number of shelf
+<i>413</i>&nbsp;     * @param inside new content
+<i>414</i>&nbsp;     * @param gui view
+<i>415</i>&nbsp;     */
+<i>416</i>&nbsp;    public static void updateShelf(int index, int shelfNumber, HashMap&lt;Resource, Integer&gt; inside, GUI gui){
+<b class="nc"><i>417</i>&nbsp;        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);</b>
+<b class="nc"><i>418</i>&nbsp;        for(int i = 1; i &lt; shelfNumber + 1; i++){</b>
+<b class="nc"><i>419</i>&nbsp;            AnchorPane container = (AnchorPane) grid.getChildren().get(index).lookup(&quot;#shelf&quot;+(shelfNumber)+(i));</b>
+<b class="nc"><i>420</i>&nbsp;            if(container.getChildren().size() &gt; 0) container.getChildren().remove(0);</b>
+<b class="nc"><i>421</i>&nbsp;            for(Map.Entry&lt;Resource, Integer&gt; shelf: inside.entrySet()){</b>
+<b class="nc"><i>422</i>&nbsp;                insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey(), 18);</b>
+<b class="nc"><i>423</i>&nbsp;            }</b>
+<i>424</i>&nbsp;        }
+<b class="nc"><i>425</i>&nbsp;        if(onContainersScene) gui.showDeposits();</b>
+<b class="nc"><i>426</i>&nbsp;    }</b>
+<i>427</i>&nbsp;
+<i>428</i>&nbsp;    /**
+<i>429</i>&nbsp;     * Updates the content of a shelf (single player case)
+<i>430</i>&nbsp;     * @param shelfNumber number of shelf
+<i>431</i>&nbsp;     * @param inside new content
+<i>432</i>&nbsp;     * @param gui view
+<i>433</i>&nbsp;     */
+<i>434</i>&nbsp;    public static void updateShelf(int shelfNumber, HashMap&lt;Resource, Integer&gt; inside, GUI gui){
+<b class="nc"><i>435</i>&nbsp;        for(int i = 1; i &lt; shelfNumber + 1; i++){</b>
+<b class="nc"><i>436</i>&nbsp;            AnchorPane container = (AnchorPane) mainScene.getRoot().lookup(&quot;#shelf&quot;+(shelfNumber)+(i));</b>
+<b class="nc"><i>437</i>&nbsp;            if(container.getChildren().size() &gt; 0) container.getChildren().remove(0);</b>
+<b class="nc"><i>438</i>&nbsp;            for(Map.Entry&lt;Resource, Integer&gt; shelf: inside.entrySet()){</b>
+<b class="nc"><i>439</i>&nbsp;                insertImagesOnShelf(container, i, shelf.getValue(), shelf.getKey(),30);</b>
+<b class="nc"><i>440</i>&nbsp;            }</b>
+<i>441</i>&nbsp;        }
+<b class="nc"><i>442</i>&nbsp;        if(onContainersScene) gui.showDeposits();</b>
+<b class="nc"><i>443</i>&nbsp;    }</b>
+<i>444</i>&nbsp;
+<i>445</i>&nbsp;    /**
+<i>446</i>&nbsp;     * Insert a new image of the resource
+<i>447</i>&nbsp;     * @param container container of the image
+<i>448</i>&nbsp;     * @param resourcePosition position of the resource on the shelf
+<i>449</i>&nbsp;     * @param occupied number of resource contained on the shelf
+<i>450</i>&nbsp;     * @param resource type of resource contained
+<i>451</i>&nbsp;     */
+<i>452</i>&nbsp;    private static void insertImagesOnShelf(AnchorPane container, int resourcePosition, int occupied, Resource resource, int size){
+<i>453</i>&nbsp;
+<b class="nc"><i>454</i>&nbsp;        if( resourcePosition &lt;= occupied){</b>
+<b class="nc"><i>455</i>&nbsp;            InputStream in = Transition.class.getResourceAsStream(&quot;/constantAssets/&quot; +resource.toString().toLowerCase()+&quot;.png&quot;);</b>
+<b class="nc"><i>456</i>&nbsp;            ImageView image = new ImageView();</b>
+<b class="nc"><i>457</i>&nbsp;            image.setImage(new Image(in));</b>
+<b class="nc"><i>458</i>&nbsp;            image.setFitWidth(size);</b>
+<b class="nc"><i>459</i>&nbsp;            image.setPreserveRatio(true);</b>
+<b class="nc"><i>460</i>&nbsp;            container.getChildren().add(image);</b>
+<i>461</i>&nbsp;        }
+<b class="nc"><i>462</i>&nbsp;    }</b>
+<i>463</i>&nbsp;
+<i>464</i>&nbsp;    /**
+<i>465</i>&nbsp;     * Updates the content of the strongbox (multiplayer case)
+<i>466</i>&nbsp;     * @param index index of the player to which apply the update
+<i>467</i>&nbsp;     * @param inside strongbox content
+<i>468</i>&nbsp;     */
+<i>469</i>&nbsp;    public static void updateStrongbox(int index, HashMap&lt;Resource, Integer&gt; inside){
+<b class="nc"><i>470</i>&nbsp;        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);</b>
+<b class="nc"><i>471</i>&nbsp;        Region region = (Region) grid.getChildren().get(index).lookup(&quot;#strongbox&quot;);</b>
+<b class="nc"><i>472</i>&nbsp;        updateStrongboxTooltip(region, inside);</b>
+<b class="nc"><i>473</i>&nbsp;    }</b>
+<i>474</i>&nbsp;
+<i>475</i>&nbsp;    /**
+<i>476</i>&nbsp;     * Updates the content of the strongbox (single player case)
+<i>477</i>&nbsp;     * @param inside strongbox content
+<i>478</i>&nbsp;     */
+<i>479</i>&nbsp;    public static void updateStrongbox(HashMap&lt;Resource, Integer&gt; inside){
+<b class="nc"><i>480</i>&nbsp;        Region region = (Region) mainScene.lookup(&quot;#strongbox&quot;);</b>
+<b class="nc"><i>481</i>&nbsp;        updateStrongboxTooltip(region, inside);</b>
+<b class="nc"><i>482</i>&nbsp;    }</b>
+<i>483</i>&nbsp;
+<i>484</i>&nbsp;    /**
+<i>485</i>&nbsp;     * Updates the tooltip showing the inside of the strongbox
+<i>486</i>&nbsp;     * @param region region containing the tooltip
+<i>487</i>&nbsp;     * @param inside strongbox content
+<i>488</i>&nbsp;     */
+<i>489</i>&nbsp;    private static void updateStrongboxTooltip(Region region, HashMap&lt;Resource, Integer&gt; inside){
+<b class="nc"><i>490</i>&nbsp;        Tooltip strongbox = new Tooltip();</b>
+<b class="nc"><i>491</i>&nbsp;        Pane tooltip = null;</b>
+<i>492</i>&nbsp;        try {
+<b class="nc"><i>493</i>&nbsp;            tooltip = FXMLLoader.load(Transition.class.getResource(&quot;/Scenes/strongboxPane.fxml&quot;));</b>
+<b class="nc"><i>494</i>&nbsp;        } catch (IOException e) {</b>
+<b class="nc"><i>495</i>&nbsp;            e.printStackTrace();</b>
+<b class="nc"><i>496</i>&nbsp;        }</b>
+<i>497</i>&nbsp;
+<b class="nc"><i>498</i>&nbsp;        for(Map.Entry&lt;Resource, Integer&gt; entry: inside.entrySet()){</b>
+<b class="nc"><i>499</i>&nbsp;            assert tooltip != null;</b>
+<b class="nc"><i>500</i>&nbsp;            ((Label)tooltip.lookup(&quot;#&quot;+entry.getKey().toString().toLowerCase())).setText(entry.getValue().toString());</b>
+<b class="nc"><i>501</i>&nbsp;        }</b>
+<i>502</i>&nbsp;
+<b class="nc"><i>503</i>&nbsp;        strongbox.setGraphic(tooltip);</b>
+<b class="nc"><i>504</i>&nbsp;        Tooltip.install(region, strongbox);</b>
+<b class="nc"><i>505</i>&nbsp;    }</b>
+<i>506</i>&nbsp;
+<i>507</i>&nbsp;    /**
+<i>508</i>&nbsp;     * Updates leader storage content (multiplayer case)
+<i>509</i>&nbsp;     * @param index index of the player to which apply the update
+<i>510</i>&nbsp;     * @param cardId id of the leader card with storage ability
+<i>511</i>&nbsp;     * @param resources storage content
+<i>512</i>&nbsp;     */
+<i>513</i>&nbsp;    public static void updateLeaderStorage(int index, int cardId, Resource[] resources){
+<b class="nc"><i>514</i>&nbsp;        GridPane grid = (GridPane) ((Pane) mainScene.getRoot()).getChildren().get(1);</b>
+<b class="nc"><i>515</i>&nbsp;        Pane player = (Pane) grid.getChildren().get(index);</b>
+<b class="nc"><i>516</i>&nbsp;        for(int i = 1; i &lt; 3; i++){</b>
+<b class="nc"><i>517</i>&nbsp;            AnchorPane container = (AnchorPane) player.lookup(&quot;#lc&quot;+(cardId)+(i));</b>
+<b class="nc"><i>518</i>&nbsp;            if(container.getChildren().size() &gt; 0) container.getChildren().remove(0);</b>
+<b class="nc"><i>519</i>&nbsp;            if(resources[i-1]!=null){</b>
+<b class="nc"><i>520</i>&nbsp;                InputStream in = Transition.class.getResourceAsStream(&quot;/constantAssets/&quot; +resources[i - 1].toString().toLowerCase()+&quot;.png&quot;);</b>
+<b class="nc"><i>521</i>&nbsp;                ImageView image = new ImageView();</b>
+<b class="nc"><i>522</i>&nbsp;                image.setImage(new Image(in));</b>
+<b class="nc"><i>523</i>&nbsp;                image.setFitWidth(34);</b>
+<b class="nc"><i>524</i>&nbsp;                image.setPreserveRatio(true);</b>
+<b class="nc"><i>525</i>&nbsp;                container.getChildren().add(image);</b>
+<i>526</i>&nbsp;            }
+<i>527</i>&nbsp;        }
+<b class="nc"><i>528</i>&nbsp;    }</b>
+<i>529</i>&nbsp;
+<i>530</i>&nbsp;    /**
+<i>531</i>&nbsp;     * Updates leader storage content (singleplayer case)
+<i>532</i>&nbsp;     * @param cardId id of the leader card with storage ability
+<i>533</i>&nbsp;     * @param resources storage content
+<i>534</i>&nbsp;     */
+<i>535</i>&nbsp;    public static void updateLeaderStorage(int cardId, Resource[] resources){
+<b class="nc"><i>536</i>&nbsp;        for(int i = 1; i &lt; 3; i++){</b>
+<b class="nc"><i>537</i>&nbsp;            AnchorPane container = (AnchorPane) mainScene.getRoot().lookup(&quot;#lc&quot;+(cardId)+(i));</b>
+<b class="nc"><i>538</i>&nbsp;            if(container.getChildren().size() &gt; 0) container.getChildren().remove(0);</b>
+<b class="nc"><i>539</i>&nbsp;            if(resources[i-1]!=null){</b>
+<b class="nc"><i>540</i>&nbsp;                InputStream in = Transition.class.getResourceAsStream(&quot;/constantAssets/&quot; +resources[i - 1].toString().toLowerCase()+&quot;.png&quot;);</b>
+<b class="nc"><i>541</i>&nbsp;                ImageView image = new ImageView();</b>
+<b class="nc"><i>542</i>&nbsp;                image.setImage(new Image(in));</b>
+<b class="nc"><i>543</i>&nbsp;                image.setFitWidth(70);</b>
+<b class="nc"><i>544</i>&nbsp;                image.setPreserveRatio(true);</b>
+<b class="nc"><i>545</i>&nbsp;                container.getChildren().add(image);</b>
+<i>546</i>&nbsp;            }
+<i>547</i>&nbsp;        }
+<b class="nc"><i>548</i>&nbsp;    }</b>
+<i>549</i>&nbsp;
+<i>550</i>&nbsp;
+<i>551</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

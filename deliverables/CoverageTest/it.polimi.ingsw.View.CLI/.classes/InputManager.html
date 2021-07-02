@@ -1,0 +1,427 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: InputManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: InputManager (it.polimi.ingsw.View.CLI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InputManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    94,7%
+  </span>
+  <span class="absValue">
+    (162/ 171)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.CLI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>4</i>&nbsp;import it.polimi.ingsw.Exceptions.PrintWithoutMessageCreationException;
+<i>5</i>&nbsp;import it.polimi.ingsw.Exceptions.SuppressNotificationsException;
+<i>6</i>&nbsp;import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.*;
+<i>7</i>&nbsp;import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+<i>8</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.CreationLobbyMessage;
+<i>9</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.DisconnectMessage;
+<i>10</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.MoveToLobbyMessage;
+<i>11</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.StartGameMessage;
+<i>12</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
+<i>13</i>&nbsp;import it.polimi.ingsw.View.ClientModel.Game;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * This class is used to interpret the input from console and convert it into actions:
+<i>17</i>&nbsp; * creating the message specified, print what request oer even show or hide notifications from the server.
+<i>18</i>&nbsp; * All the exceptions are really important and each of them contains, as message, a custom string.
+<i>19</i>&nbsp; * To know exactly yhe use of each exception check the javadoc of each public method
+<i>20</i>&nbsp; */
+<i>21</i>&nbsp;public class InputManager{
+<i>22</i>&nbsp;    private final Game model;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    /**
+<i>25</i>&nbsp;     * @param model is the model the input manager will refer its decision about the input
+<i>26</i>&nbsp;     */
+<b class="fc"><i>27</i>&nbsp;    public InputManager(Game model){</b>
+<b class="fc"><i>28</i>&nbsp;        this.model = model;</b>
+<b class="fc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    private String preprocess(String string){
+<b class="fc"><i>32</i>&nbsp;        return string.trim().toUpperCase();</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    private boolean possesLeaderCard (int id){
+<b class="fc"><i>36</i>&nbsp;        return model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().contains(id);</b>
+<i>37</i>&nbsp;    }
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    private boolean possesDevCard (int id){
+<b class="fc"><i>40</i>&nbsp;        int[][] devSlots = model.getPlayerFromId(model.getLocalPlayerId()).getDevSlots();</b>
+<b class="fc"><i>41</i>&nbsp;        for (int[] devSlot : devSlots) {</b>
+<b class="fc"><i>42</i>&nbsp;            for (int i : devSlot)</b>
+<b class="fc"><i>43</i>&nbsp;                if (i == id)</b>
+<b class="fc"><i>44</i>&nbsp;                    return true;</b>
+<i>45</i>&nbsp;        }
+<b class="fc"><i>46</i>&nbsp;        return false;</b>
+<i>47</i>&nbsp;    }
+<i>48</i>&nbsp;
+<i>49</i>&nbsp;    private InGameMessage moveResources(String input) throws IllegalArgumentException{
+<b class="fc"><i>50</i>&nbsp;        if (input.startsWith(&quot;SC&quot;))</b>
+<b class="fc"><i>51</i>&nbsp;            return new MoveToSupportContainerMessage();</b>
+<i>52</i>&nbsp;
+<b class="fc"><i>53</i>&nbsp;        if (input.startsWith(&quot;SH&quot;))</b>
+<b class="fc"><i>54</i>&nbsp;            return new MoveToShelfMessage(Integer.parseInt(&quot;&quot;+input.charAt(2)));</b>
+<i>55</i>&nbsp;
+<b class="fc"><i>56</i>&nbsp;        int leaderCardID = Integer.parseInt(&quot;&quot;+input.charAt(2)+input.charAt(3));</b>
+<b class="fc"><i>57</i>&nbsp;        if (!possesLeaderCard(leaderCardID))</b>
+<b class="fc"><i>58</i>&nbsp;            throw new IllegalArgumentException(&quot;You do not own a leader card with that id! Please, retry...&quot;);</b>
+<b class="fc"><i>59</i>&nbsp;        return new MoveToLeaderStorageMessage(leaderCardID);</b>
+<i>60</i>&nbsp;    }
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    private InGameMessage resourceSelectionDeselection(String input, boolean selection) throws IllegalArgumentException{
+<b class="fc"><i>63</i>&nbsp;        String[] inputParts = input.split(&quot;,&quot;);</b>
+<b class="fc"><i>64</i>&nbsp;        Resource resource = Resource.fromAlias(inputParts[1]);</b>
+<i>65</i>&nbsp;
+<b class="fc"><i>66</i>&nbsp;        if (input.startsWith(&quot;SH&quot;)){</b>
+<b class="fc"><i>67</i>&nbsp;            int capacity = Integer.parseInt(&quot;&quot;+input.charAt(2));</b>
+<b class="fc"><i>68</i>&nbsp;            return selection? new ShelfSelectionMessage(capacity, resource) : new ShelfDeselectionMessage(capacity, resource);</b>
+<i>69</i>&nbsp;        }
+<i>70</i>&nbsp;
+<b class="fc"><i>71</i>&nbsp;        int positionOrQuantity = Integer.parseInt(inputParts[2]);</b>
+<b class="fc"><i>72</i>&nbsp;        if(input.startsWith(&quot;LC&quot;)){</b>
+<b class="fc"><i>73</i>&nbsp;            int leaderCardID = Integer.parseInt(&quot;&quot;+input.charAt(2)+input.charAt(3));</b>
+<b class="fc"><i>74</i>&nbsp;            if (!possesLeaderCard(leaderCardID))</b>
+<b class="fc"><i>75</i>&nbsp;                throw new IllegalArgumentException(&quot;You do not own a leader card with that id! Please, retry...&quot;);</b>
+<b class="fc"><i>76</i>&nbsp;            return new LeaderStorageSelectionMessage(leaderCardID, positionOrQuantity, resource);</b>
+<i>77</i>&nbsp;        }
+<b class="fc"><i>78</i>&nbsp;        if(input.startsWith(&quot;SB&quot;))</b>
+<b class="fc"><i>79</i>&nbsp;            return selection? new StrongBoxSelectionMessage(positionOrQuantity, resource) : new StrongBoxDeselectionMessage(positionOrQuantity, resource);</b>
+<b class="fc"><i>80</i>&nbsp;        return selection? new SupportContainerSelectionMessage(positionOrQuantity, resource) : new SupportContainerDeselectionMessage(positionOrQuantity, resource);</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    private InGameMessage objectSelection(String input) throws IllegalArgumentException{
+<b class="fc"><i>84</i>&nbsp;        if (input.startsWith(&quot;BASIC&quot;))</b>
+<b class="fc"><i>85</i>&nbsp;            return new CardProductionSelectionMessage(0);</b>
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;        if (input.startsWith(&quot;ALL&quot;))</b>
+<b class="fc"><i>88</i>&nbsp;            return new AllProductionPowerSelectionMessage();</b>
+<i>89</i>&nbsp;
+<b class="fc"><i>90</i>&nbsp;        if (input.startsWith(&quot;LC&quot;)){</b>
+<b class="fc"><i>91</i>&nbsp;            int leaderCardID = Integer.parseInt(input.replace(&quot;LC&quot;, &quot;&quot;));</b>
+<b class="fc"><i>92</i>&nbsp;            if (!possesLeaderCard(leaderCardID))</b>
+<b class="fc"><i>93</i>&nbsp;                throw new IllegalArgumentException(&quot;You do not own a leader card with that id! Please, retry...&quot;);</b>
+<b class="fc"><i>94</i>&nbsp;            return new CardProductionSelectionMessage(leaderCardID);</b>
+<i>95</i>&nbsp;        }
+<i>96</i>&nbsp;
+<b class="fc"><i>97</i>&nbsp;        if (input.startsWith(&quot;DC&quot;)){</b>
+<b class="fc"><i>98</i>&nbsp;            int devCardID = Integer.parseInt(input.replace(&quot;DC&quot;, &quot;&quot;));</b>
+<b class="fc"><i>99</i>&nbsp;            if (!possesDevCard(devCardID))</b>
+<b class="fc"><i>100</i>&nbsp;                throw new IllegalArgumentException(&quot;You cannot select the development card with that id! Please, retry...&quot;);</b>
+<b class="fc"><i>101</i>&nbsp;            return new CardProductionSelectionMessage(devCardID);</b>
+<i>102</i>&nbsp;        }
+<i>103</i>&nbsp;
+<b class="fc"><i>104</i>&nbsp;        if (input.startsWith(&quot;DS&quot;))</b>
+<b class="fc"><i>105</i>&nbsp;            return new ChooseDevSlotMessage(Integer.parseInt(&quot;&quot; + input.charAt(2)));</b>
+<i>106</i>&nbsp;
+<b class="fc"><i>107</i>&nbsp;        String[] inputContent = input.split(&quot;,&quot;);</b>
+<i>108</i>&nbsp;        int devDecPosition;
+<b class="fc"><i>109</i>&nbsp;        switch(inputContent[2].replace(&quot;COLOR:&quot;, &quot;&quot;)){</b>
+<i>110</i>&nbsp;            case &quot;GREEN&quot;:
+<b class="fc"><i>111</i>&nbsp;                devDecPosition = 0;</b>
+<b class="fc"><i>112</i>&nbsp;                break;</b>
+<i>113</i>&nbsp;            case &quot;YELLOW&quot;:
+<b class="nc"><i>114</i>&nbsp;                devDecPosition = 1;</b>
+<b class="nc"><i>115</i>&nbsp;                break;</b>
+<i>116</i>&nbsp;            case &quot;BLUE&quot;:
+<b class="nc"><i>117</i>&nbsp;                devDecPosition = 2;</b>
+<b class="nc"><i>118</i>&nbsp;                break;</b>
+<i>119</i>&nbsp;            default:
+<b class="nc"><i>120</i>&nbsp;                devDecPosition = 3;</b>
+<i>121</i>&nbsp;                break;
+<i>122</i>&nbsp;        }
+<b class="fc"><i>123</i>&nbsp;        switch(Integer.parseInt(inputContent[1].replace(&quot;LEVEL&quot;,&quot;&quot;))){</b>
+<i>124</i>&nbsp;            case 2 :
+<b class="nc"><i>125</i>&nbsp;                devDecPosition +=4;</b>
+<b class="nc"><i>126</i>&nbsp;                break;</b>
+<i>127</i>&nbsp;            case 3 :
+<b class="nc"><i>128</i>&nbsp;                devDecPosition +=8;</b>
+<b class="nc"><i>129</i>&nbsp;                break;</b>
+<i>130</i>&nbsp;            default:
+<i>131</i>&nbsp;                break;
+<i>132</i>&nbsp;        }
+<b class="fc"><i>133</i>&nbsp;        return new ChooseDevCardMessage(devDecPosition+1);</b>
+<i>134</i>&nbsp;    }
+<i>135</i>&nbsp;
+<i>136</i>&nbsp;    private InGameMessage selectInMarket(String input) throws IllegalArgumentException{
+<b class="fc"><i>137</i>&nbsp;        String[] inputContent = input.split(&quot;,&quot;);</b>
+<b class="fc"><i>138</i>&nbsp;        int number = Integer.parseInt(inputContent[1]);</b>
+<i>139</i>&nbsp;
+<b class="fc"><i>140</i>&nbsp;        if(inputContent[0].equals(&quot;ROW&quot;))</b>
+<b class="fc"><i>141</i>&nbsp;            return new MarketSelectionMessage(number, true);</b>
+<i>142</i>&nbsp;
+<b class="fc"><i>143</i>&nbsp;        return new MarketSelectionMessage(number, false);</b>
+<i>144</i>&nbsp;    }
+<i>145</i>&nbsp;
+<i>146</i>&nbsp;    private InGameMessage actionOnLC (String input){
+<b class="fc"><i>147</i>&nbsp;        String[] inputParts = input.split(&quot;:&quot;);</b>
+<b class="fc"><i>148</i>&nbsp;        int leaderCardID = Integer.parseInt(inputParts[1].replace(&quot; LC&quot;, &quot;&quot;));</b>
+<b class="fc"><i>149</i>&nbsp;        if (!possesLeaderCard(leaderCardID))</b>
+<b class="fc"><i>150</i>&nbsp;            throw new IllegalArgumentException(&quot;You do not own a leader card with that id! Please, retry...&quot;);</b>
+<b class="fc"><i>151</i>&nbsp;        return new LeaderCardActionMessage(leaderCardID, !input.startsWith(&quot;PLAY&quot;));</b>
+<i>152</i>&nbsp;    }
+<i>153</i>&nbsp;
+<i>154</i>&nbsp;    private InGameMessage leaderCardAbility(String input) throws IllegalArgumentException{
+<b class="fc"><i>155</i>&nbsp;        if (input.startsWith(&quot;TRANSMUTE: &quot;)){</b>
+<b class="fc"><i>156</i>&nbsp;            String[] inputParts = input.replace(&quot;TRANSMUTE: &quot;,&quot;&quot;).split(&quot;,&quot;);</b>
+<b class="fc"><i>157</i>&nbsp;            String[] internalParts = inputParts[0].split(&quot;X&quot;);</b>
+<b class="fc"><i>158</i>&nbsp;            int leaderCardID1 = Integer.parseInt(internalParts[0].replace(&quot;LC&quot;,&quot;&quot;));</b>
+<b class="fc"><i>159</i>&nbsp;            int quantity1 = Integer.parseInt(internalParts[1]);</b>
+<b class="fc"><i>160</i>&nbsp;            internalParts = inputParts[1].split(&quot;X&quot;);</b>
+<b class="fc"><i>161</i>&nbsp;            int leaderCardID2 = Integer.parseInt(internalParts[0].replace(&quot;LC&quot;,&quot;&quot;));</b>
+<b class="fc"><i>162</i>&nbsp;            int quantity2 = Integer.parseInt(internalParts[1]);</b>
+<i>163</i>&nbsp;
+<b class="fc"><i>164</i>&nbsp;            if (!possesLeaderCard(leaderCardID1))</b>
+<b class="fc"><i>165</i>&nbsp;                throw new IllegalArgumentException(&quot;You do not own a leader card with the first id you wrote! Please, retry...&quot;);</b>
+<b class="fc"><i>166</i>&nbsp;            if (!possesLeaderCard(leaderCardID2))</b>
+<b class="fc"><i>167</i>&nbsp;                throw new IllegalArgumentException(&quot;You do not own a leader card with the second id you wrote! Please, retry...&quot;);</b>
+<i>168</i>&nbsp;
+<b class="fc"><i>169</i>&nbsp;            return new TransmutationMessage(leaderCardID1, leaderCardID2, quantity1, quantity2);</b>
+<i>170</i>&nbsp;        }
+<i>171</i>&nbsp;
+<b class="fc"><i>172</i>&nbsp;        int leaderCardID = Integer.parseInt(input.replace(&quot;DISCOUNT: LC&quot;,&quot;&quot;));</b>
+<b class="fc"><i>173</i>&nbsp;        if (!possesLeaderCard(leaderCardID))</b>
+<b class="fc"><i>174</i>&nbsp;            throw new IllegalArgumentException(&quot;You do not own that leader card! Please, retry...&quot;);</b>
+<b class="fc"><i>175</i>&nbsp;        return new DiscountAbilityMessage(leaderCardID);</b>
+<i>176</i>&nbsp;    }
+<i>177</i>&nbsp;
+<i>178</i>&nbsp;    /**
+<i>179</i>&nbsp;     * Process the input in the pre game phase (when the player is surfing in the lobbies).
+<i>180</i>&nbsp;     * All the exceptions contain a String with the message to be displayed or to be analysed
+<i>181</i>&nbsp;     * @param input the input from the player
+<i>182</i>&nbsp;     * @return a message that has to be send to the server
+<i>183</i>&nbsp;     * @throws IllegalArgumentException the input is not correct
+<i>184</i>&nbsp;     * @throws PrintWithoutMessageCreationException the input is a request to print
+<i>185</i>&nbsp;     * @throws SuppressNotificationsException the player want to show or hide notifications
+<i>186</i>&nbsp;    */
+<i>187</i>&nbsp;    public PreGameMessage preGameInput(String input) throws IllegalArgumentException, PrintWithoutMessageCreationException, SuppressNotificationsException{
+<b class="fc"><i>188</i>&nbsp;        String toBeChecked = preprocess(input);</b>
+<b class="fc"><i>189</i>&nbsp;        if (toBeChecked.equals(&quot;NOTIFICATIONS&quot;))</b>
+<b class="fc"><i>190</i>&nbsp;            throw new SuppressNotificationsException();</b>
+<i>191</i>&nbsp;
+<b class="fc"><i>192</i>&nbsp;        if (toBeChecked.matches(&quot;(PRINT: (MY LOBBY|ALL LOBBIES))&quot;))</b>
+<b class="fc"><i>193</i>&nbsp;            throw new PrintWithoutMessageCreationException(toBeChecked.replace(&quot;PRINT: &quot;,&quot;&quot;));</b>
+<i>194</i>&nbsp;
+<b class="fc"><i>195</i>&nbsp;        if (toBeChecked.startsWith(&quot;MOVE TO LOBBY &quot;)){</b>
+<b class="fc"><i>196</i>&nbsp;            toBeChecked = toBeChecked.replace(&quot;MOVE TO LOBBY &quot;, &quot;&quot;);</b>
+<i>197</i>&nbsp;            try {
+<b class="fc"><i>198</i>&nbsp;                return new MoveToLobbyMessage(Integer.parseInt(toBeChecked));</b>
+<b class="fc"><i>199</i>&nbsp;            } catch (NumberFormatException e) {</b>
+<b class="fc"><i>200</i>&nbsp;                throw new IllegalArgumentException(&quot;You entered a wrong integer! Please, retry...&quot;);</b>
+<i>201</i>&nbsp;            }
+<i>202</i>&nbsp;        }
+<i>203</i>&nbsp;
+<b class="fc"><i>204</i>&nbsp;        switch(toBeChecked){</b>
+<i>205</i>&nbsp;            case &quot;CREATE LOBBY&quot;:
+<b class="fc"><i>206</i>&nbsp;                return new CreationLobbyMessage();</b>
+<i>207</i>&nbsp;            case &quot;DISCONNECT&quot;:
+<b class="fc"><i>208</i>&nbsp;                return new DisconnectMessage();</b>
+<i>209</i>&nbsp;            case &quot;START GAME&quot;:
+<b class="fc"><i>210</i>&nbsp;                if (model.getLocalPlayerLobbyId() == 0)</b>
+<b class="fc"><i>211</i>&nbsp;                    throw new IllegalArgumentException(&quot;You are not inside a lobby yet, please pick one&quot;);</b>
+<b class="fc"><i>212</i>&nbsp;                return new StartGameMessage();</b>
+<i>213</i>&nbsp;            default:
+<b class="fc"><i>214</i>&nbsp;                throw new IllegalArgumentException(&quot;Your input was not correct! Please, retry...&quot;);</b>
+<i>215</i>&nbsp;        }
+<i>216</i>&nbsp;    }
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;    /**
+<i>219</i>&nbsp;     * Process the input in the initialization phase (when the players have to decide abbout leader cards and resources, eventually).
+<i>220</i>&nbsp;     * The exception contains a String with the message to be displayed
+<i>221</i>&nbsp;     * @param input the input from the player
+<i>222</i>&nbsp;     * @return a message that has to be send to the server
+<i>223</i>&nbsp;     * @throws IllegalArgumentException the input is not correct
+<i>224</i>&nbsp;     * @throws PrintWithoutMessageCreationException the input string was a request of printing the nicknames and the playing order of this game
+<i>225</i>&nbsp;     */
+<i>226</i>&nbsp;    public InGameMessage initializationInput(String input) throws IllegalArgumentException, PrintWithoutMessageCreationException{
+<b class="fc"><i>227</i>&nbsp;        String toBeChecked = preprocess(input);</b>
+<i>228</i>&nbsp;
+<b class="fc"><i>229</i>&nbsp;        if (toBeChecked.equals(&quot;USERNAMES&quot;))</b>
+<b class="fc"><i>230</i>&nbsp;            throw new PrintWithoutMessageCreationException(toBeChecked);</b>
+<i>231</i>&nbsp;
+<b class="fc"><i>232</i>&nbsp;        if(toBeChecked.matches(&quot;(SH[1-3]: (COIN|STONE|SERVANT|SHIELD))&quot;)){</b>
+<b class="fc"><i>233</i>&nbsp;            String[] inputParts = toBeChecked.split(&quot;:&quot;);</b>
+<b class="fc"><i>234</i>&nbsp;            int capacity = Integer.parseInt(&quot;&quot;+inputParts[0].charAt(2));</b>
+<b class="fc"><i>235</i>&nbsp;            Resource resource = Resource.fromAlias(inputParts[1].trim());</b>
+<b class="fc"><i>236</i>&nbsp;            return new SelectResourceMessage(capacity, resource);</b>
+<i>237</i>&nbsp;        }
+<i>238</i>&nbsp;
+<i>239</i>&nbsp;        try {
+<b class="fc"><i>240</i>&nbsp;            int id = Integer.parseInt(toBeChecked);</b>
+<b class="fc"><i>241</i>&nbsp;            if (!possesLeaderCard(id)){</b>
+<b class="fc"><i>242</i>&nbsp;                throw new IllegalArgumentException(&quot;You do not own a leader card with that id! Please, retry...&quot;);</b>
+<i>243</i>&nbsp;            }
+<b class="fc"><i>244</i>&nbsp;            else if (model.getPlayerFromId(model.getLocalPlayerId()).getLeaderCards().size() &gt; 2){</b>
+<b class="fc"><i>245</i>&nbsp;                model.getPlayerFromId(model.getLocalPlayerId()).removeLeaderCard(id);</b>
+<b class="fc"><i>246</i>&nbsp;                return new LeaderDiscardMessage(id);</b>
+<i>247</i>&nbsp;            } else{
+<b class="fc"><i>248</i>&nbsp;                throw new IllegalArgumentException(&quot;You have already discarded enough leader cards!&quot;);</b>
+<i>249</i>&nbsp;            }
+<b class="fc"><i>250</i>&nbsp;        } catch (NumberFormatException e) {</b>
+<b class="fc"><i>251</i>&nbsp;            throw new IllegalArgumentException(&quot;Syntax error: what you wrote was not correct, please, retry...&quot;);</b>
+<i>252</i>&nbsp;        }
+<i>253</i>&nbsp;    }
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;    /**
+<i>256</i>&nbsp;     * Process the input received during the turn of the local player (during the game).
+<i>257</i>&nbsp;     * All the exceptions contain a String with the message to be displayed or to be analysed
+<i>258</i>&nbsp;     * @param input the input from the player
+<i>259</i>&nbsp;     * @return a message that has to be send to the server
+<i>260</i>&nbsp;     * @throws IllegalArgumentException the input is not correct
+<i>261</i>&nbsp;     * @throws PrintWithoutMessageCreationException the input is a request to print
+<i>262</i>&nbsp;     * @throws SuppressNotificationsException the player want to show or hide notifications
+<i>263</i>&nbsp;     */
+<i>264</i>&nbsp;    public InGameMessage inTurnInput(String input) throws IllegalArgumentException, PrintWithoutMessageCreationException, SuppressNotificationsException{
+<b class="fc"><i>265</i>&nbsp;        String toBeChecked = preprocess(input);</b>
+<b class="fc"><i>266</i>&nbsp;        if (toBeChecked.equals(&quot;NOTIFICATIONS&quot;))</b>
+<b class="fc"><i>267</i>&nbsp;            throw new SuppressNotificationsException();</b>
+<i>268</i>&nbsp;
+<b class="fc"><i>269</i>&nbsp;        if(toBeChecked.matches(&quot;(PRINT: (USERNAMES|(SHELVES|STRONGBOX|SUPPORT CONTAINER|(DEV SLOTS |DEV SLOT [1-3] )(CONTENT|TOP)|LEADER CARDS)( @(\\d)+)?|MARKET( LEGEND)?|DEV CARDS ON TABLE|FAITH TRACK( POINTS| VATICAN RELATIONS)?))&quot;))</b>
+<b class="fc"><i>270</i>&nbsp;            throw new PrintWithoutMessageCreationException(toBeChecked.replace(&quot;PRINT: &quot;,&quot;&quot;));</b>
+<i>271</i>&nbsp;
+<b class="fc"><i>272</i>&nbsp;        if (toBeChecked.equals(&quot;END TURN&quot;))</b>
+<b class="fc"><i>273</i>&nbsp;            return new EndTurnMessage();</b>
+<i>274</i>&nbsp;
+<b class="fc"><i>275</i>&nbsp;        if (toBeChecked.equals(&quot;CLEAR ANY SELECTION&quot;))</b>
+<b class="fc"><i>276</i>&nbsp;            return new BackFromAnySelectionMessage();</b>
+<i>277</i>&nbsp;
+<b class="fc"><i>278</i>&nbsp;        if (toBeChecked.equals(&quot;BUY CARD&quot;))</b>
+<b class="fc"><i>279</i>&nbsp;            return new BuyDevCardMessage();</b>
+<i>280</i>&nbsp;
+<b class="fc"><i>281</i>&nbsp;        if (toBeChecked.equals(&quot;ACTIVATE PRODUCTION POWER&quot;))</b>
+<b class="fc"><i>282</i>&nbsp;            return new ProductionActivationMessage();</b>
+<i>283</i>&nbsp;
+<b class="fc"><i>284</i>&nbsp;        if (toBeChecked.equals(&quot;TAKE FROM MARKET&quot;))</b>
+<b class="fc"><i>285</i>&nbsp;            return new TakeFromMarketMessage();</b>
+<i>286</i>&nbsp;
+<b class="fc"><i>287</i>&nbsp;        if (toBeChecked.equals(&quot;EXCHANGE&quot;))</b>
+<b class="fc"><i>288</i>&nbsp;            return new ExchangeMessage();</b>
+<i>289</i>&nbsp;
+<b class="fc"><i>290</i>&nbsp;        if (toBeChecked.equals(&quot;QUIT&quot;))</b>
+<b class="fc"><i>291</i>&nbsp;            return new QuitFromMarketMessage();</b>
+<i>292</i>&nbsp;
+<b class="fc"><i>293</i>&nbsp;        if(toBeChecked.equals(&quot;CHECKOUT&quot;))</b>
+<b class="fc"><i>294</i>&nbsp;            return new PaySelectedMessage();</b>
+<i>295</i>&nbsp;
+<b class="fc"><i>296</i>&nbsp;        if(toBeChecked.matches(&quot;DISCOUNT: (LC\\d\\d)&quot;))</b>
+<b class="fc"><i>297</i>&nbsp;            return leaderCardAbility(toBeChecked);</b>
+<i>298</i>&nbsp;
+<b class="fc"><i>299</i>&nbsp;        if (toBeChecked.matches(&quot;(PLAY|DISCARD): LC\\d\\d&quot;))</b>
+<b class="fc"><i>300</i>&nbsp;            return actionOnLC(toBeChecked);</b>
+<i>301</i>&nbsp;
+<b class="fc"><i>302</i>&nbsp;        if(toBeChecked.matches(&quot;SELECT FROM MARKET: (ROW,[0-2]|COLUMN,[0-3])&quot;))</b>
+<b class="fc"><i>303</i>&nbsp;            return selectInMarket(toBeChecked.replace(&quot;SELECT FROM MARKET: &quot;, &quot;&quot;));</b>
+<i>304</i>&nbsp;
+<b class="fc"><i>305</i>&nbsp;        if (toBeChecked.matches(&quot;SELECT: (((LC\\d\\d|SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))&quot;))</b>
+<b class="fc"><i>306</i>&nbsp;            return resourceSelectionDeselection(toBeChecked.replace(&quot;SELECT: &quot;, &quot;&quot;), true);</b>
+<i>307</i>&nbsp;
+<b class="fc"><i>308</i>&nbsp;        if(toBeChecked.matches(&quot;DESELECT: (((SB|SC),(COIN|STONE|SERVANT|SHIELD),(\\d)+)|((SH[1-3]),(COIN|STONE|SERVANT|SHIELD)))&quot;))</b>
+<b class="fc"><i>309</i>&nbsp;            return resourceSelectionDeselection(toBeChecked.replace(&quot;DESELECT: &quot;, &quot;&quot;), false);</b>
+<i>310</i>&nbsp;
+<b class="fc"><i>311</i>&nbsp;        if (toBeChecked.matches(&quot;MOVE TO: (SC|(LC\\d\\d)|(SH[1-3]))&quot;))</b>
+<b class="fc"><i>312</i>&nbsp;            return moveResources(toBeChecked.replace(&quot;MOVE TO: &quot;, &quot;&quot;));</b>
+<i>313</i>&nbsp;
+<b class="fc"><i>314</i>&nbsp;        if (toBeChecked.matches(&quot;ANY SELECTION: (COIN|STONE|SERVANT|SHIELD)&quot;))</b>
+<b class="fc"><i>315</i>&nbsp;            return new AnySelectionMessage(Resource.fromAlias(toBeChecked.replace(&quot;ANY SELECTION: &quot;,&quot;&quot;)));</b>
+<i>316</i>&nbsp;
+<b class="fc"><i>317</i>&nbsp;        if(toBeChecked.matches(&quot;TRANSMUTE: (LC\\d\\d)X((\\d)+),(LC\\d\\d)X((\\d)+)&quot;))</b>
+<b class="fc"><i>318</i>&nbsp;            return leaderCardAbility(toBeChecked);</b>
+<i>319</i>&nbsp;
+<b class="fc"><i>320</i>&nbsp;        if (toBeChecked.matches(&quot;SELECT: (LC\\d\\d|DC\\d\\d|BASIC PRODUCTION POWER|ALL PRODUCTION POWERS|DS[1-3]|DD,LEVEL[1-3],COLOR:(GREEN|YELLOW|BLUE|PURPLE))&quot;))</b>
+<b class="fc"><i>321</i>&nbsp;            return objectSelection(toBeChecked.replace(&quot;SELECT: &quot;,&quot;&quot;));</b>
+<i>322</i>&nbsp;
+<b class="fc"><i>323</i>&nbsp;        throw new IllegalArgumentException(&quot;Syntax error: what you wrote was not correct, please, retry...&quot;);</b>
+<i>324</i>&nbsp;    }
+<i>325</i>&nbsp;
+<i>326</i>&nbsp;    /**
+<i>327</i>&nbsp;     * Process the input received during the turn of a player different from the local one (during the game).
+<i>328</i>&nbsp;     * All the exceptions contain a String with the message to be displayed or to be analysed
+<i>329</i>&nbsp;     * @param input the input from the player
+<i>330</i>&nbsp;     * @throws IllegalArgumentException the input is not correct
+<i>331</i>&nbsp;     * @throws PrintWithoutMessageCreationException the input is a request to print
+<i>332</i>&nbsp;     * @throws SuppressNotificationsException the player want to show or hide notifications
+<i>333</i>&nbsp;     */
+<i>334</i>&nbsp;    public void NOTinTurnInput(String input) throws IllegalArgumentException, PrintWithoutMessageCreationException, SuppressNotificationsException{
+<b class="fc"><i>335</i>&nbsp;        String toBeChecked = preprocess(input);</b>
+<b class="fc"><i>336</i>&nbsp;        if (toBeChecked.equals(&quot;NOTIFICATIONS&quot;))</b>
+<b class="fc"><i>337</i>&nbsp;            throw new SuppressNotificationsException();</b>
+<i>338</i>&nbsp;
+<b class="fc"><i>339</i>&nbsp;        if (toBeChecked.matches(&quot;(PRINT: (USERNAMES|(SHELVES|STRONGBOX|SUPPORT CONTAINER|(DEV SLOTS |DEV SLOT [1-3] )(CONTENT|TOP)|LEADER CARDS)( @(\\d)+)?|MARKET( LEGEND)?|DEV CARDS ON TABLE|FAITH TRACK( POINTS| VATICAN RELATIONS)?))&quot;))</b>
+<b class="fc"><i>340</i>&nbsp;            throw new PrintWithoutMessageCreationException(toBeChecked.replace(&quot;PRINT: &quot;,&quot;&quot;));</b>
+<i>341</i>&nbsp;
+<b class="fc"><i>342</i>&nbsp;        throw new IllegalArgumentException(&quot;Syntax error: what you wrote was not correct, please, retry...&quot;);</b>
+<i>343</i>&nbsp;    }
+<i>344</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

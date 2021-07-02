@@ -1,0 +1,546 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Table</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model.Game</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Table (it.polimi.ingsw.Model.Game)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Table</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,4%
+  </span>
+  <span class="absValue">
+    (37/ 38)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95%
+  </span>
+  <span class="absValue">
+    (190/ 200)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model.Game;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.PopeFavorCardState;
+<i>4</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>5</i>&nbsp;import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
+<i>6</i>&nbsp;import it.polimi.ingsw.Model.Cards.*;
+<i>7</i>&nbsp;import it.polimi.ingsw.Model.Decks.DevDeck;
+<i>8</i>&nbsp;import it.polimi.ingsw.Model.Decks.LeaderDeck;
+<i>9</i>&nbsp;import it.polimi.ingsw.Model.Deposit.Market;
+<i>10</i>&nbsp;import it.polimi.ingsw.Enums.Colour;
+<i>11</i>&nbsp;import it.polimi.ingsw.Model.Deposit.Payable;
+<i>12</i>&nbsp;import it.polimi.ingsw.Model.Deposit.Shelf;
+<i>13</i>&nbsp;import it.polimi.ingsw.Model.Deposit.StrongBox;
+<i>14</i>&nbsp;import it.polimi.ingsw.Model.FaithTrack.FaithTrack;
+<i>15</i>&nbsp;import it.polimi.ingsw.Model.FaithTrack.VaticanRelation;
+<i>16</i>&nbsp;import it.polimi.ingsw.Model.Player.LorenzoIlMagnifico;
+<i>17</i>&nbsp;import it.polimi.ingsw.Model.Player.Player;
+<i>18</i>&nbsp;import it.polimi.ingsw.Model.Player.RealPlayer;
+<i>19</i>&nbsp;import it.polimi.ingsw.Network.Client.Messages.*;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;import java.util.*;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;public class Table {
+<i>24</i>&nbsp;    private boolean isLastLap;
+<i>25</i>&nbsp;    private boolean singlePlayer;
+<i>26</i>&nbsp;    private final Market market;
+<i>27</i>&nbsp;    private final FaithTrack faithTrack;
+<i>28</i>&nbsp;    private final LinkedList&lt;RealPlayer&gt; players;
+<i>29</i>&nbsp;    private LorenzoIlMagnifico lorenzoIlMagnifico;
+<i>30</i>&nbsp;    private int turnOf;
+<i>31</i>&nbsp;    private final ArrayList&lt;Player&gt; winner;
+<i>32</i>&nbsp;    private boolean isLorenzoTurn;
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    private DevDeck[] devDecks;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    private void notifyAllPlayer(FromServerMessage message){
+<b class="fc"><i>37</i>&nbsp;        players.forEach(player -&gt; player.sendMessage(message));</b>
+<b class="fc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    private void initialiseDevDecks(){
+<b class="fc"><i>41</i>&nbsp;        this.devDecks = new DevDeck[]{</b>
+<i>42</i>&nbsp;                new DevDeck(new DevCardType(1, Colour.GREEN)), new DevDeck(new DevCardType(1, Colour.YELLOW)), new DevDeck(new DevCardType(1,Colour.BLUE)), new DevDeck(new DevCardType(1, Colour.PURPLE)),
+<i>43</i>&nbsp;                new DevDeck(new DevCardType(2, Colour.GREEN)), new DevDeck(new DevCardType(2, Colour.YELLOW)), new DevDeck(new DevCardType(2,Colour.BLUE)), new DevDeck(new DevCardType(2, Colour.PURPLE)),
+<i>44</i>&nbsp;                new DevDeck(new DevCardType(3, Colour.GREEN)), new DevDeck(new DevCardType(3, Colour.YELLOW)), new DevDeck(new DevCardType(3,Colour.BLUE)), new DevDeck(new DevCardType(3, Colour.PURPLE)),
+<i>45</i>&nbsp;        };
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<b class="fc"><i>48</i>&nbsp;    public Table(int numberOfPlayers){</b>
+<b class="fc"><i>49</i>&nbsp;        if (1 == numberOfPlayers){</b>
+<b class="fc"><i>50</i>&nbsp;            this.lorenzoIlMagnifico = new LorenzoIlMagnifico();</b>
+<b class="fc"><i>51</i>&nbsp;            this.setSinglePlayer();</b>
+<i>52</i>&nbsp;        }
+<b class="fc"><i>53</i>&nbsp;        else this.setMultiPlayer();</b>
+<i>54</i>&nbsp;
+<b class="fc"><i>55</i>&nbsp;        this.market = new Market();</b>
+<b class="fc"><i>56</i>&nbsp;        this.isLastLap = false;</b>
+<b class="fc"><i>57</i>&nbsp;        this.turnOf = 0;</b>
+<b class="fc"><i>58</i>&nbsp;        this.players = new LinkedList&lt;&gt;();</b>
+<b class="fc"><i>59</i>&nbsp;        this.faithTrack = new FaithTrack();</b>
+<b class="fc"><i>60</i>&nbsp;        this.initialiseDevDecks();</b>
+<b class="fc"><i>61</i>&nbsp;        this.winner = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>62</i>&nbsp;    }</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public void setLastLap(){
+<b class="fc"><i>65</i>&nbsp;        this.isLastLap = true;</b>
+<b class="fc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    public boolean isLastLap(){
+<b class="fc"><i>69</i>&nbsp;        return this.isLastLap;</b>
+<i>70</i>&nbsp;    }
+<i>71</i>&nbsp;
+<i>72</i>&nbsp;    private void setMultiPlayer(){
+<b class="fc"><i>73</i>&nbsp;        this.singlePlayer = false;</b>
+<b class="fc"><i>74</i>&nbsp;    }</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    private void setSinglePlayer() {
+<b class="fc"><i>77</i>&nbsp;        this.singlePlayer = true;</b>
+<b class="fc"><i>78</i>&nbsp;        this.lorenzoIlMagnifico = new LorenzoIlMagnifico();</b>
+<b class="fc"><i>79</i>&nbsp;    }</b>
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    public boolean isSinglePlayer(){
+<b class="fc"><i>82</i>&nbsp;        return this.singlePlayer;</b>
+<i>83</i>&nbsp;    }
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    public Market getMarket() {
+<b class="fc"><i>86</i>&nbsp;        return this.market;</b>
+<i>87</i>&nbsp;    }
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    public FaithTrack getFaithTrack(){
+<b class="fc"><i>90</i>&nbsp;        return this.faithTrack;</b>
+<i>91</i>&nbsp;    }
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    public void addPlayer(RealPlayer player) throws WrongLeaderCardType {
+<b class="fc"><i>94</i>&nbsp;        if (player == null){</b>
+<b class="nc"><i>95</i>&nbsp;            throw new WrongLeaderCardType();</b>
+<i>96</i>&nbsp;        }
+<b class="fc"><i>97</i>&nbsp;        this.players.add(player);</b>
+<b class="fc"><i>98</i>&nbsp;    }</b>
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;    public RealPlayer[] getPlayers(){
+<b class="fc"><i>101</i>&nbsp;        return this.players.toArray(new RealPlayer[0]);</b>
+<i>102</i>&nbsp;    }
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    public LorenzoIlMagnifico getLorenzo(){
+<b class="fc"><i>105</i>&nbsp;        return this.lorenzoIlMagnifico;</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    public boolean isLorenzoTurn() {
+<b class="fc"><i>109</i>&nbsp;        return isLorenzoTurn;</b>
+<i>110</i>&nbsp;    }
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    public RealPlayer turnOf(){
+<b class="fc"><i>113</i>&nbsp;        return this.players.get(this.turnOf);</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    /**
+<i>117</i>&nbsp;     * Sets player in turn
+<i>118</i>&nbsp;     */
+<i>119</i>&nbsp;    public void nextTurn(){
+<b class="fc"><i>120</i>&nbsp;        if (!this.singlePlayer){</b>
+<b class="fc"><i>121</i>&nbsp;            this.turnOf = (this.turnOf + 1) % this.players.size();</b>
+<b class="fc"><i>122</i>&nbsp;            this.notifyAllPlayer(new TurnOfMessage(this.turnOf + 1));</b>
+<i>123</i>&nbsp;        }
+<i>124</i>&nbsp;        else{
+<i>125</i>&nbsp;
+<b class="fc"><i>126</i>&nbsp;            this.isLorenzoTurn = !this.isLorenzoTurn;</b>
+<b class="fc"><i>127</i>&nbsp;            if(isLorenzoTurn) this.notifyAllPlayer(new TurnOfMessage(0));</b>
+<b class="fc"><i>128</i>&nbsp;            else this.notifyAllPlayer(new TurnOfMessage(this.turnOf + 1));</b>
+<i>129</i>&nbsp;        }
+<b class="fc"><i>130</i>&nbsp;    }</b>
+<i>131</i>&nbsp;
+<i>132</i>&nbsp;    /**
+<i>133</i>&nbsp;     * Initialise the game
+<i>134</i>&nbsp;     */
+<i>135</i>&nbsp;    public void initLeaderCards(){
+<b class="fc"><i>136</i>&nbsp;        LeaderDeck leaderDeck = new LeaderDeck();</b>
+<b class="fc"><i>137</i>&nbsp;        leaderDeck.shuffle();</b>
+<i>138</i>&nbsp;
+<b class="fc"><i>139</i>&nbsp;        for (int i = 0; i &lt; 4; i++)</b>
+<b class="fc"><i>140</i>&nbsp;            for (RealPlayer player : this.players)</b>
+<b class="fc"><i>141</i>&nbsp;                player.addLeaderCard(leaderDeck.draw());</b>
+<i>142</i>&nbsp;
+<b class="fc"><i>143</i>&nbsp;        int[] playersId = new int[this.players.size()];</b>
+<b class="fc"><i>144</i>&nbsp;        for (int i=0; i&lt;this.players.size(); i++){</b>
+<b class="fc"><i>145</i>&nbsp;            playersId[i] = i+1;</b>
+<i>146</i>&nbsp;        }
+<b class="fc"><i>147</i>&nbsp;        int[] topDevCardsId = Arrays.stream(this.devDecks).mapToInt(devDeck -&gt; devDeck.getTopCard().getId()).toArray();</b>
+<b class="fc"><i>148</i>&nbsp;        for (int i=0; i&lt;this.players.size(); i++){</b>
+<b class="fc"><i>149</i>&nbsp;            this.players.get(i).sendMessage(new InitMessage(</b>
+<i>150</i>&nbsp;                    i+1,
+<b class="fc"><i>151</i>&nbsp;                    this.market.getState(),</b>
+<b class="fc"><i>152</i>&nbsp;                    this.market.getSlide(),</b>
+<i>153</i>&nbsp;                    topDevCardsId,
+<i>154</i>&nbsp;                    playersId,
+<b class="fc"><i>155</i>&nbsp;                    this.players.stream().map(Player::getNickname).toArray(String[]::new),</b>
+<b class="fc"><i>156</i>&nbsp;                    Arrays.stream(this.players.get(i).getLeaderCards()).mapToInt(LeaderCard::getId).toArray()</b>
+<i>157</i>&nbsp;            ));
+<i>158</i>&nbsp;        }
+<b class="fc"><i>159</i>&nbsp;    }</b>
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    /**
+<i>162</i>&nbsp;     * Makes an action on a leader card
+<i>163</i>&nbsp;     * @param card id of the leader card
+<i>164</i>&nbsp;     * @param discard if true the card is to discard, otherwise the card needs to be played
+<i>165</i>&nbsp;     */
+<i>166</i>&nbsp;    public void actionOnLeaderCard(LeaderCard card, boolean discard){
+<b class="fc"><i>167</i>&nbsp;        if (discard) {</b>
+<b class="fc"><i>168</i>&nbsp;            this.turnOf().discardLeaderCard(card);</b>
+<i>169</i>&nbsp;        } else{
+<b class="fc"><i>170</i>&nbsp;            card.play();</b>
+<i>171</i>&nbsp;        }
+<b class="fc"><i>172</i>&nbsp;        FromServerMessage message = new ActionOnLeaderCardMessage(this.turnOf + 1, discard, card.getId());</b>
+<b class="fc"><i>173</i>&nbsp;        this.notifyAllPlayer(message);</b>
+<b class="fc"><i>174</i>&nbsp;    }</b>
+<i>175</i>&nbsp;
+<i>176</i>&nbsp;    /**
+<i>177</i>&nbsp;     * Adds resources to the strongbox of the player in turn
+<i>178</i>&nbsp;     * @param toAdd resources to add
+<i>179</i>&nbsp;     */
+<i>180</i>&nbsp;    public void addToPlayerOfTurnStrongbox(EnumMap&lt;Resource, Integer&gt; toAdd){
+<b class="fc"><i>181</i>&nbsp;        this.turnOf().getStrongBox().addEnumMap(toAdd);</b>
+<b class="fc"><i>182</i>&nbsp;        this.notifyStrongBoxChange();</b>
+<b class="fc"><i>183</i>&nbsp;    }</b>
+<i>184</i>&nbsp;
+<i>185</i>&nbsp;    /**
+<i>186</i>&nbsp;     * Updates the state of the support container
+<i>187</i>&nbsp;     * @param cost new content of the support container
+<i>188</i>&nbsp;     */
+<i>189</i>&nbsp;    public void updatePlayerOfTurnSupportContainer(EnumMap&lt;Resource, Integer&gt; cost){
+<b class="fc"><i>190</i>&nbsp;        StrongBox supportContainer = this.turnOf().getSupportContainer();</b>
+<b class="fc"><i>191</i>&nbsp;        supportContainer.clear();</b>
+<b class="fc"><i>192</i>&nbsp;        addToSupportContainer(cost);</b>
+<b class="fc"><i>193</i>&nbsp;    }</b>
+<i>194</i>&nbsp;
+<i>195</i>&nbsp;    /**
+<i>196</i>&nbsp;     * Adds resources to the support container
+<i>197</i>&nbsp;     * @param map resources to put inside
+<i>198</i>&nbsp;     */
+<i>199</i>&nbsp;    public void addToSupportContainer(EnumMap&lt;Resource, Integer&gt; map){
+<b class="fc"><i>200</i>&nbsp;        if (map != null)</b>
+<b class="fc"><i>201</i>&nbsp;            this.turnOf().getSupportContainer().addEnumMap(map);</b>
+<b class="fc"><i>202</i>&nbsp;        this.notifySupportContainerChange();</b>
+<b class="fc"><i>203</i>&nbsp;    }</b>
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    /**
+<i>206</i>&nbsp;     * Adds a development card to a slot
+<i>207</i>&nbsp;     * @param devSlotNum slot in which to put the card
+<i>208</i>&nbsp;     * @param chosenCard development card to put on the slot
+<i>209</i>&nbsp;     */
+<i>210</i>&nbsp;    public void updatePlayerOfTurnDevSlot(int devSlotNum, DevCard chosenCard){
+<b class="fc"><i>211</i>&nbsp;        if(chosenCard.isSelected()) chosenCard.select();</b>
+<b class="fc"><i>212</i>&nbsp;        this.turnOf().getDevSlots()[devSlotNum - 1].addCard(chosenCard);</b>
+<b class="fc"><i>213</i>&nbsp;        NewDevCardMessage message = new NewDevCardMessage(this.turnOf+1, chosenCard.getId(), devSlotNum);</b>
+<b class="fc"><i>214</i>&nbsp;        this.notifyAllPlayer(message);</b>
+<b class="fc"><i>215</i>&nbsp;    }</b>
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;    /**
+<i>218</i>&nbsp;     * Draws a development card from a deck
+<i>219</i>&nbsp;     * @param numberOfDeck deck from which the card needs to be drawn
+<i>220</i>&nbsp;     * @return card drawn
+<i>221</i>&nbsp;     */
+<i>222</i>&nbsp;    public DevCard drawDevDeck(int numberOfDeck){
+<b class="fc"><i>223</i>&nbsp;        DevCard cardDrawn = this.devDecks[numberOfDeck].draw();</b>
+<b class="fc"><i>224</i>&nbsp;        DevCard newTopCard = null;</b>
+<i>225</i>&nbsp;        try{
+<b class="fc"><i>226</i>&nbsp;             newTopCard = this.devDecks[numberOfDeck].getTopCard();</b>
+<b class="nc"><i>227</i>&nbsp;        } catch (IndexOutOfBoundsException ignored) {</b>
+<i>228</i>&nbsp;
+<b class="fc"><i>229</i>&nbsp;        }</b>
+<b class="fc"><i>230</i>&nbsp;        NewTopCardMessage message = new NewTopCardMessage((newTopCard==null)? 0 : newTopCard.getId(), numberOfDeck);</b>
+<b class="fc"><i>231</i>&nbsp;        this.notifyAllPlayer(message);</b>
+<b class="fc"><i>232</i>&nbsp;        return cardDrawn;</b>
+<i>233</i>&nbsp;    }
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;    /**
+<i>236</i>&nbsp;     * Takes resources from the market
+<i>237</i>&nbsp;     * @return resources obtained
+<i>238</i>&nbsp;     */
+<i>239</i>&nbsp;    public EnumMap&lt;Resource, Integer&gt; takeFromMarket(){
+<b class="fc"><i>240</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; picked = market.takeSelection();</b>
+<b class="fc"><i>241</i>&nbsp;        notifyAllPlayer(new NewMarketStateMessage(market.getState(), market.getSlide()));</b>
+<b class="fc"><i>242</i>&nbsp;        return picked;</b>
+<i>243</i>&nbsp;    }
+<i>244</i>&nbsp;
+<i>245</i>&nbsp;    /**
+<i>246</i>&nbsp;     * Draws an Action Token
+<i>247</i>&nbsp;     * @return action token drawn
+<i>248</i>&nbsp;     */
+<i>249</i>&nbsp;    public ActionToken drawToken(){
+<b class="fc"><i>250</i>&nbsp;        ActionToken token = this.lorenzoIlMagnifico.getActionTokenDeck().draw();</b>
+<b class="fc"><i>251</i>&nbsp;        this.notifyAllPlayer(new LorenzoTurnMessage(token.getType()));</b>
+<b class="fc"><i>252</i>&nbsp;        return token;</b>
+<i>253</i>&nbsp;    }
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;    /**
+<i>256</i>&nbsp;     * Discards 2 development cards of a certain color
+<i>257</i>&nbsp;     * @param color indicating the color of the development cards to discard
+<i>258</i>&nbsp;     */
+<i>259</i>&nbsp;    public void discardTwoDevCards(Colour color){
+<b class="fc"><i>260</i>&nbsp;        int cardToDiscards = 2;</b>
+<b class="fc"><i>261</i>&nbsp;        int level = 0;</b>
+<i>262</i>&nbsp;        int i;
+<b class="fc"><i>263</i>&nbsp;        for (i = 0; i&lt;this.devDecks.length; i++){</b>
+<b class="fc"><i>264</i>&nbsp;            if (this.devDecks[i].getType().getColor() == color){</b>
+<b class="fc"><i>265</i>&nbsp;                break;</b>
+<i>266</i>&nbsp;            }
+<i>267</i>&nbsp;        }
+<b class="fc"><i>268</i>&nbsp;        while (cardToDiscards &gt; 0 &amp;&amp; level&lt;3){</b>
+<b class="fc"><i>269</i>&nbsp;            if (this.devDecks[4*level + i].size() &gt; 1){</b>
+<b class="fc"><i>270</i>&nbsp;                this.devDecks[4*level + i].draw();</b>
+<b class="fc"><i>271</i>&nbsp;                cardToDiscards--;</b>
+<b class="fc"><i>272</i>&nbsp;                if (cardToDiscards == 0){</b>
+<b class="fc"><i>273</i>&nbsp;                    this.notifyAllPlayer(new NewTopCardMessage(this.devDecks[4*level + i].getTopCard().getId(), 4*level+i));</b>
+<i>274</i>&nbsp;                }
+<i>275</i>&nbsp;            }
+<b class="fc"><i>276</i>&nbsp;            else if(this.devDecks[4*level + i].size() == 1){</b>
+<b class="fc"><i>277</i>&nbsp;                this.devDecks[4*level + i].draw();</b>
+<b class="fc"><i>278</i>&nbsp;                cardToDiscards--;</b>
+<b class="fc"><i>279</i>&nbsp;                this.notifyAllPlayer(new NewTopCardMessage(0, 4*level + i));</b>
+<b class="fc"><i>280</i>&nbsp;                level++;</b>
+<i>281</i>&nbsp;            }
+<i>282</i>&nbsp;            else{
+<b class="fc"><i>283</i>&nbsp;                level++;</b>
+<i>284</i>&nbsp;            }
+<i>285</i>&nbsp;        }
+<b class="fc"><i>286</i>&nbsp;    }</b>
+<i>287</i>&nbsp;
+<i>288</i>&nbsp;    /**
+<i>289</i>&nbsp;     * Setter of the winner
+<i>290</i>&nbsp;     * @param winners all the players who got the maximum amount of total points
+<i>291</i>&nbsp;     */
+<i>292</i>&nbsp;    public void addWinners(List&lt;Player&gt; winners){
+<b class="fc"><i>293</i>&nbsp;        this.winner.addAll(winners);</b>
+<b class="fc"><i>294</i>&nbsp;        Player winner = this.winner.get(0);</b>
+<i>295</i>&nbsp;        WinnerMessage message;
+<b class="fc"><i>296</i>&nbsp;        if (winner.getId() == 0){</b>
+<b class="nc"><i>297</i>&nbsp;            message = new WinnerMessage(0);</b>
+<i>298</i>&nbsp;        }
+<i>299</i>&nbsp;        else{
+<b class="fc"><i>300</i>&nbsp;            message = new WinnerMessage(turnOf+1);</b>
+<i>301</i>&nbsp;        }
+<b class="fc"><i>302</i>&nbsp;        this.notifyAllPlayer(message);</b>
+<b class="fc"><i>303</i>&nbsp;    }</b>
+<i>304</i>&nbsp;
+<i>305</i>&nbsp;    /**
+<i>306</i>&nbsp;     * Adds what is possible inside a shelf
+<i>307</i>&nbsp;     * @param capacity capacity of the shelf
+<i>308</i>&nbsp;     * @param resourceToAdd resource to add to the shelf
+<i>309</i>&nbsp;     * @param quantity amount of resources to add
+<i>310</i>&nbsp;     */
+<i>311</i>&nbsp;    public void addAllIfPossibleToShelf(int capacity, Resource resourceToAdd, int quantity){
+<b class="fc"><i>312</i>&nbsp;        for (Shelf s : this.turnOf().getShelves())</b>
+<b class="fc"><i>313</i>&nbsp;            if (s.getCapacity() == capacity){</b>
+<b class="fc"><i>314</i>&nbsp;                s.addAllIfPossible(resourceToAdd, quantity);</b>
+<b class="fc"><i>315</i>&nbsp;                notifyShelfChange(s);</b>
+<b class="fc"><i>316</i>&nbsp;                break;</b>
+<i>317</i>&nbsp;            }
+<b class="fc"><i>318</i>&nbsp;    }</b>
+<i>319</i>&nbsp;
+<i>320</i>&nbsp;    /**
+<i>321</i>&nbsp;     * adds an enumMap to a leaderCard with storage ability
+<i>322</i>&nbsp;     * @param cardId  the id of the leader card
+<i>323</i>&nbsp;     * @param enumMap enumMap to be put in the specified leader storage ability
+<i>324</i>&nbsp;     */
+<i>325</i>&nbsp;    public void addResourcesToPlayerOfTurnLC(int cardId, EnumMap&lt;Resource, Integer&gt; enumMap){
+<b class="fc"><i>326</i>&nbsp;        LeaderCard specifiedLeaderCard = null;</b>
+<b class="fc"><i>327</i>&nbsp;        for (LeaderCard leaderCard : this.turnOf().getLeaderCards()){</b>
+<b class="fc"><i>328</i>&nbsp;            if (leaderCard.getId() == cardId){</b>
+<b class="fc"><i>329</i>&nbsp;                specifiedLeaderCard = leaderCard;</b>
+<b class="fc"><i>330</i>&nbsp;                break;</b>
+<i>331</i>&nbsp;            }
+<i>332</i>&nbsp;        }
+<b class="fc"><i>333</i>&nbsp;        if (specifiedLeaderCard != null){</b>
+<b class="fc"><i>334</i>&nbsp;            for (Resource r: Resource.values())</b>
+<b class="fc"><i>335</i>&nbsp;                if (enumMap.containsKey(r))</b>
+<b class="fc"><i>336</i>&nbsp;                    for (int i=0; i &lt; enumMap.get(r); i++)</b>
+<b class="fc"><i>337</i>&nbsp;                        specifiedLeaderCard.getAbility().add(r);</b>
+<i>338</i>&nbsp;
+<b class="fc"><i>339</i>&nbsp;            this.notifyLeaderStorageChange(specifiedLeaderCard);</b>
+<i>340</i>&nbsp;        }
+<b class="fc"><i>341</i>&nbsp;    }</b>
+<i>342</i>&nbsp;
+<i>343</i>&nbsp;    private void notifyStrongBoxChange(){
+<b class="fc"><i>344</i>&nbsp;        ChangedStrongboxMessage message = new ChangedStrongboxMessage(turnOf+1, this.turnOf().getStrongBox().content() == null ? new HashMap&lt;&gt;() : new HashMap&lt;&gt;(this.turnOf().getStrongBox().content()));</b>
+<b class="fc"><i>345</i>&nbsp;        this.notifyAllPlayer(message);</b>
+<b class="fc"><i>346</i>&nbsp;    }</b>
+<i>347</i>&nbsp;
+<i>348</i>&nbsp;    private void notifyShelfChange(Shelf shelfTarget){
+<b class="fc"><i>349</i>&nbsp;        ChangedShelfMessage message = new ChangedShelfMessage(</b>
+<i>350</i>&nbsp;                turnOf+1,
+<b class="fc"><i>351</i>&nbsp;                shelfTarget.getCapacity()-1,</b>
+<b class="fc"><i>352</i>&nbsp;                shelfTarget.getResourceType(),</b>
+<b class="fc"><i>353</i>&nbsp;                shelfTarget.getUsage());</b>
+<i>354</i>&nbsp;
+<b class="fc"><i>355</i>&nbsp;        this.notifyAllPlayer(message);</b>
+<b class="fc"><i>356</i>&nbsp;    }</b>
+<i>357</i>&nbsp;
+<i>358</i>&nbsp;    private void notifySupportContainerChange(){
+<b class="fc"><i>359</i>&nbsp;        HashMap&lt;Resource, Integer&gt; container = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>360</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; content = this.turnOf().getSupportContainer().content();</b>
+<b class="fc"><i>361</i>&nbsp;        if(content != null){</b>
+<b class="fc"><i>362</i>&nbsp;            for(Map.Entry&lt;Resource, Integer&gt; entry: content.entrySet())</b>
+<b class="fc"><i>363</i>&nbsp;                container.put(entry.getKey(), entry.getValue());</b>
+<i>364</i>&nbsp;        }
+<i>365</i>&nbsp;
+<b class="fc"><i>366</i>&nbsp;        ChangedSupportContainerMessage message = new ChangedSupportContainerMessage(this.turnOf+1, container);</b>
+<b class="fc"><i>367</i>&nbsp;        this.notifyAllPlayer(message);</b>
+<b class="fc"><i>368</i>&nbsp;    }</b>
+<i>369</i>&nbsp;
+<i>370</i>&nbsp;    private void notifyLeaderStorageChange(LeaderCard leaderCard){
+<b class="fc"><i>371</i>&nbsp;        ChangedLeaderStorageMessage message = new ChangedLeaderStorageMessage(this.turnOf+1, leaderCard.getId(), leaderCard.getAbility().getFullContent());</b>
+<b class="fc"><i>372</i>&nbsp;        this.notifyAllPlayer(message);</b>
+<b class="fc"><i>373</i>&nbsp;    }</b>
+<i>374</i>&nbsp;
+<i>375</i>&nbsp;    /**
+<i>376</i>&nbsp;     * Pays what has been selected
+<i>377</i>&nbsp;     * @param payable container from which it will be removed what has been selected
+<i>378</i>&nbsp;     */
+<i>379</i>&nbsp;    public void payPlayerOfTurn(Payable payable){
+<b class="fc"><i>380</i>&nbsp;        payable.pay();</b>
+<i>381</i>&nbsp;
+<b class="fc"><i>382</i>&nbsp;        if (payable == this.turnOf().getStrongBox()){</b>
+<b class="fc"><i>383</i>&nbsp;            this.notifyStrongBoxChange();</b>
+<b class="fc"><i>384</i>&nbsp;            return;</b>
+<i>385</i>&nbsp;        }
+<b class="fc"><i>386</i>&nbsp;        if (payable == this.turnOf().getSupportContainer()){</b>
+<b class="fc"><i>387</i>&nbsp;            notifySupportContainerChange();</b>
+<b class="fc"><i>388</i>&nbsp;            return;</b>
+<i>389</i>&nbsp;        }
+<b class="fc"><i>390</i>&nbsp;        for (Shelf shelf : this.turnOf().getShelves()){</b>
+<b class="fc"><i>391</i>&nbsp;            if (payable == shelf){</b>
+<b class="fc"><i>392</i>&nbsp;                this.notifyShelfChange(shelf);</b>
+<b class="fc"><i>393</i>&nbsp;                return;</b>
+<i>394</i>&nbsp;            }
+<i>395</i>&nbsp;        }
+<b class="fc"><i>396</i>&nbsp;        for (LeaderCard leaderCard : this.turnOf().getLeaderCards()){</b>
+<b class="fc"><i>397</i>&nbsp;            if (leaderCard.getAbility() == payable){</b>
+<b class="fc"><i>398</i>&nbsp;                this.notifyLeaderStorageChange(leaderCard);</b>
+<b class="fc"><i>399</i>&nbsp;                return;</b>
+<i>400</i>&nbsp;            }
+<i>401</i>&nbsp;        }
+<i>402</i>&nbsp;
+<b class="nc"><i>403</i>&nbsp;    }</b>
+<i>404</i>&nbsp;
+<i>405</i>&nbsp;    /**
+<i>406</i>&nbsp;     * Updates the position of a player on the faith track
+<i>407</i>&nbsp;     * @param playerId player
+<i>408</i>&nbsp;     * @param amount amount of faith points to add
+<i>409</i>&nbsp;     */
+<i>410</i>&nbsp;    public void moveForwardOnFaithTrack(int playerId, int amount){
+<b class="fc"><i>411</i>&nbsp;        FromServerMessage message = null;</b>
+<b class="fc"><i>412</i>&nbsp;        if (playerId == 0){</b>
+<b class="fc"><i>413</i>&nbsp;            this.lorenzoIlMagnifico.moveForward(amount);</b>
+<b class="fc"><i>414</i>&nbsp;            message = new NewPlayerPositionMessage(0, this.getLorenzo().getPosition());</b>
+<i>415</i>&nbsp;        }
+<i>416</i>&nbsp;        else {
+<b class="fc"><i>417</i>&nbsp;            for (int i=0; i&lt;this.players.size(); i++){</b>
+<b class="fc"><i>418</i>&nbsp;                if (this.players.get(i).getId() == playerId){</b>
+<b class="fc"><i>419</i>&nbsp;                    this.players.get(i).moveForward(amount);</b>
+<b class="fc"><i>420</i>&nbsp;                    message = new NewPlayerPositionMessage(i+1, this.players.get(i).getPosition());</b>
+<b class="fc"><i>421</i>&nbsp;                    break;</b>
+<i>422</i>&nbsp;                }
+<i>423</i>&nbsp;            }
+<i>424</i>&nbsp;        }
+<b class="fc"><i>425</i>&nbsp;        if (message != null) {</b>
+<b class="fc"><i>426</i>&nbsp;            this.notifyAllPlayer(message);</b>
+<i>427</i>&nbsp;        }
+<b class="fc"><i>428</i>&nbsp;    }</b>
+<i>429</i>&nbsp;
+<i>430</i>&nbsp;    /**
+<i>431</i>&nbsp;     * Updates the state of the pope favour card of a player
+<i>432</i>&nbsp;     * @param vaticanRelationId id of the vatican relation
+<i>433</i>&nbsp;     */
+<i>434</i>&nbsp;    public void updatePlayersPopeCards(int vaticanRelationId){
+<b class="fc"><i>435</i>&nbsp;        VaticanRelation vaticanRelation = this.faithTrack.getVaticanRelations()[vaticanRelationId];</b>
+<b class="fc"><i>436</i>&nbsp;        for (int i=0; i&lt;this.players.size(); i++){</b>
+<b class="fc"><i>437</i>&nbsp;            if (vaticanRelation.isInOrOver(this.players.get(i).getPosition())){</b>
+<b class="fc"><i>438</i>&nbsp;                this.players.get(i).getPopeFavorCards()[vaticanRelationId].toFaceUp();</b>
+<i>439</i>&nbsp;            }
+<i>440</i>&nbsp;            else{
+<b class="fc"><i>441</i>&nbsp;                this.players.get(i).getPopeFavorCards()[vaticanRelationId].discard();</b>
+<i>442</i>&nbsp;            }
+<i>443</i>&nbsp;
+<b class="fc"><i>444</i>&nbsp;            this.notifyAllPlayer(new PopeFavourCardStateMessage(i+1, Arrays.stream(this.players.get(i).getPopeFavorCards()).map(PopeFavorCard::getState).toArray(PopeFavorCardState[]::new)));</b>
+<i>445</i>&nbsp;        }
+<b class="fc"><i>446</i>&nbsp;    }</b>
+<i>447</i>&nbsp;
+<i>448</i>&nbsp;    public DevDeck[] getDevDecks() {
+<b class="fc"><i>449</i>&nbsp;        return Arrays.copyOf(this.devDecks, this.devDecks.length);</b>
+<i>450</i>&nbsp;    }
+<i>451</i>&nbsp;
+<i>452</i>&nbsp;    /**
+<i>453</i>&nbsp;     * Discconnects all the players
+<i>454</i>&nbsp;     * @param id player who caused the disconnection
+<i>455</i>&nbsp;     */
+<i>456</i>&nbsp;    public void closeAll(int id){
+<b class="nc"><i>457</i>&nbsp;        FromServerMessage message = new DisconnectionMessage(&quot;Player disconnected&quot;, id);</b>
+<b class="nc"><i>458</i>&nbsp;        this.notifyAllPlayer(message);</b>
+<b class="nc"><i>459</i>&nbsp;        for (RealPlayer player : this.players){</b>
+<b class="nc"><i>460</i>&nbsp;            player.closeConnection();</b>
+<b class="nc"><i>461</i>&nbsp;        }</b>
+<b class="nc"><i>462</i>&nbsp;    }</b>
+<i>463</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

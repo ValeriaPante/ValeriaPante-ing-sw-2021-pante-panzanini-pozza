@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ShelvesPrinter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.CLI.Printers</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ShelvesPrinter (it.polimi.ingsw.View.CLI.Printers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ShelvesPrinter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95,5%
+  </span>
+  <span class="absValue">
+    (21/ 22)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.CLI.Printers;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.Map;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * This class is used to print on terminal the shelves with the content specified
+<i>9</i>&nbsp; * as parameter in the public method &quot;printShelves(...)&quot;
+<i>10</i>&nbsp; */
+<b class="fc"><i>11</i>&nbsp;public class ShelvesPrinter {</b>
+<i>12</i>&nbsp;    /**
+<i>13</i>&nbsp;     * Prints on terminal the shelves containing the resources with the quantities specified in the maps passed as parameters.
+<i>14</i>&nbsp;     * Each map should contain at most one resource mapped to the quantity in that precise shelf
+<i>15</i>&nbsp;     * @param shelf1 content of shelf with capacity one
+<i>16</i>&nbsp;     * @param shelf2 content of shelf with capacity two
+<i>17</i>&nbsp;     * @param shelf3 content of shelf with capacity three
+<i>18</i>&nbsp;     */
+<i>19</i>&nbsp;    public void printShelves(Map&lt;Resource, Integer&gt; shelf1, Map&lt;Resource, Integer&gt; shelf2, Map&lt;Resource, Integer&gt; shelf3){
+<b class="fc"><i>20</i>&nbsp;        System.out.println(&quot;\n&quot; +</b>
+<i>21</i>&nbsp;                &quot;+---------- SHELVES --------\n&quot; +
+<i>22</i>&nbsp;                &quot;|\n&quot; +
+<i>23</i>&nbsp;                &quot;|           |¯¯¯¯¯|\n&quot; +
+<b class="fc"><i>24</i>&nbsp;                &quot;|           &quot;+ getContent(1, shelf1) +&quot;\n&quot; +</b>
+<i>25</i>&nbsp;                &quot;|           |_____|\n&quot; +
+<i>26</i>&nbsp;                &quot;|                \n&quot; +
+<i>27</i>&nbsp;                &quot;|       |¯¯¯¯¯| |¯¯¯¯¯|\n&quot; +
+<b class="fc"><i>28</i>&nbsp;                &quot;|       &quot;+ getContent(2, shelf2) +&quot;\n&quot; +</b>
+<i>29</i>&nbsp;                &quot;|       |_____| |_____|\n&quot; +
+<i>30</i>&nbsp;                &quot;|        \n&quot; +
+<i>31</i>&nbsp;                &quot;|   |¯¯¯¯¯| |¯¯¯¯¯| |¯¯¯¯¯|\n&quot; +
+<b class="fc"><i>32</i>&nbsp;                &quot;|   &quot;+ getContent(3, shelf3) +&quot;\n&quot; +</b>
+<i>33</i>&nbsp;                &quot;|   |_____| |_____| |_____|\n&quot; +
+<i>34</i>&nbsp;                &quot;|\n&quot; +
+<i>35</i>&nbsp;                &quot;+---------------------------&quot;);
+<b class="fc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    private String getContent(int capacity, Map&lt;Resource, Integer&gt; shelf){
+<b class="fc"><i>39</i>&nbsp;        switch (capacity){</b>
+<i>40</i>&nbsp;            case 1:
+<b class="fc"><i>41</i>&nbsp;                return shelf == null || shelf.isEmpty() ?</b>
+<b class="fc"><i>42</i>&nbsp;                        &quot;|     |&quot; :</b>
+<b class="fc"><i>43</i>&nbsp;                        &quot;| &quot;+ Resource.toAliasCompact(getTheOnlyEntry(shelf)) +&quot; |&quot;;</b>
+<i>44</i>&nbsp;            case 2:
+<b class="fc"><i>45</i>&nbsp;                return shelf == null || shelf.isEmpty() ?</b>
+<b class="fc"><i>46</i>&nbsp;                        &quot;|     | |     |&quot; :</b>
+<b class="fc"><i>47</i>&nbsp;                        &quot;| &quot;+ Resource.toAliasCompact(getTheOnlyEntry(shelf)) +&quot; | &quot;</b>
+<b class="fc"><i>48</i>&nbsp;                                + &quot;| &quot;+ (shelf.get(getTheOnlyEntry(shelf)) &gt; 1 ? Resource.toAliasCompact(getTheOnlyEntry(shelf)) : &quot;   &quot;) +&quot; | &quot;;</b>
+<i>49</i>&nbsp;            default:
+<b class="fc"><i>50</i>&nbsp;                return shelf == null || shelf.isEmpty() ?</b>
+<b class="fc"><i>51</i>&nbsp;                        &quot;|     | |     | |     |&quot; :</b>
+<b class="fc"><i>52</i>&nbsp;                        &quot;| &quot;+ Resource.toAliasCompact(getTheOnlyEntry(shelf)) +&quot; | &quot;</b>
+<b class="fc"><i>53</i>&nbsp;                                + &quot;| &quot;+ (shelf.get(getTheOnlyEntry(shelf)) &gt; 1 ? Resource.toAliasCompact(getTheOnlyEntry(shelf)) : &quot;   &quot;) +&quot; | &quot;</b>
+<b class="fc"><i>54</i>&nbsp;                                + &quot;| &quot;+ (shelf.get(getTheOnlyEntry(shelf)) &gt; 2 ? Resource.toAliasCompact(getTheOnlyEntry(shelf)) : &quot;   &quot;) +&quot; | &quot;;</b>
+<i>55</i>&nbsp;        }
+<i>56</i>&nbsp;    }
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    private Resource getTheOnlyEntry(Map&lt;Resource, Integer&gt; shelf){
+<b class="fc"><i>59</i>&nbsp;        for (Map.Entry&lt;Resource, Integer&gt; entry : shelf.entrySet())</b>
+<b class="fc"><i>60</i>&nbsp;            return entry.getKey();</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;        //never used
+<b class="nc"><i>63</i>&nbsp;        return null;</b>
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,312 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Shelf</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model.Deposit</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Shelf (it.polimi.ingsw.Model.Deposit)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Shelf</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    95%
+  </span>
+  <span class="absValue">
+    (19/ 20)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98,9%
+  </span>
+  <span class="absValue">
+    (87/ 88)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model.Deposit;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>4</i>&nbsp;import java.util.EnumMap;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * This class is used to represent the shelves on player&#39;s dashboard
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;public class Shelf implements Payable{
+<i>10</i>&nbsp;    private final int capacity;
+<i>11</i>&nbsp;    private int usage;
+<i>12</i>&nbsp;    private Resource resType;
+<i>13</i>&nbsp;    private int quantitySelected;
+<i>14</i>&nbsp;    //when the Shelf is empty both these statements are true at the same time: usage==0 and resType==null
+<i>15</i>&nbsp;
+<i>16</i>&nbsp;    /**
+<i>17</i>&nbsp;     * Adds a single resource in the shelf
+<i>18</i>&nbsp;     * @param toBeAdded resource to be added in the shelf
+<i>19</i>&nbsp;     * @throws IllegalArgumentException if the resource is different from the others already inside this shelf
+<i>20</i>&nbsp;     * @throws IndexOutOfBoundsException if the shelf can contain no more resources
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    public synchronized void singleAdd(Resource toBeAdded) throws IllegalArgumentException, IndexOutOfBoundsException{
+<b class="fc"><i>23</i>&nbsp;        if ((usage + 1) &gt; capacity)</b>
+<b class="fc"><i>24</i>&nbsp;            throw new IndexOutOfBoundsException();</b>
+<b class="fc"><i>25</i>&nbsp;        if ((resType != null) &amp;&amp; (resType != toBeAdded))</b>
+<b class="fc"><i>26</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>27</i>&nbsp;
+<b class="fc"><i>28</i>&nbsp;        if (resType == null)</b>
+<b class="fc"><i>29</i>&nbsp;            resType = toBeAdded;</b>
+<b class="fc"><i>30</i>&nbsp;        usage++;</b>
+<b class="fc"><i>31</i>&nbsp;    }</b>
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    /**
+<i>34</i>&nbsp;     * Adds an amount of resources only if it is possible to add all of them (everything or nothing)
+<i>35</i>&nbsp;     * @param toBeAdded type of resource to be added
+<i>36</i>&nbsp;     * @param amount amount of resource to add
+<i>37</i>&nbsp;     * @throws IllegalArgumentException if the resource is different from the others already inside this shelf
+<i>38</i>&nbsp;     * @throws IndexOutOfBoundsException if it is not possible to add al the specified resources
+<i>39</i>&nbsp;     */
+<i>40</i>&nbsp;    public synchronized void addAllIfPossible(Resource toBeAdded, int amount) throws IllegalArgumentException, IndexOutOfBoundsException{
+<b class="fc"><i>41</i>&nbsp;        if ((usage + amount) &gt; capacity)</b>
+<b class="fc"><i>42</i>&nbsp;            throw new IndexOutOfBoundsException();</b>
+<b class="fc"><i>43</i>&nbsp;        if ((resType != null) &amp;&amp; (resType != toBeAdded))</b>
+<b class="fc"><i>44</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;        if (resType == null)</b>
+<b class="fc"><i>47</i>&nbsp;            resType = toBeAdded;</b>
+<b class="fc"><i>48</i>&nbsp;        usage += amount;</b>
+<b class="fc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    /**
+<i>52</i>&nbsp;     * Adds only the resources that can be added, the rest will not be added
+<i>53</i>&nbsp;     * @param toBeAdded type of resource to be added
+<i>54</i>&nbsp;     * @param amount amount of resource to add
+<i>55</i>&nbsp;     * @throws IllegalArgumentException if the resource is different from the others already inside this shelf
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public synchronized int addWhatPossible(Resource toBeAdded, int amount) throws IllegalArgumentException{
+<b class="fc"><i>58</i>&nbsp;        if ((resType != null) &amp;&amp; (resType != toBeAdded))</b>
+<b class="fc"><i>59</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;        if (resType == null)</b>
+<b class="fc"><i>62</i>&nbsp;            resType = toBeAdded;</b>
+<b class="fc"><i>63</i>&nbsp;        if ((usage + amount) &gt; capacity){</b>
+<b class="fc"><i>64</i>&nbsp;            int oldUsage = usage;</b>
+<b class="fc"><i>65</i>&nbsp;            usage = capacity;</b>
+<b class="fc"><i>66</i>&nbsp;            return amount - (capacity - oldUsage);</b>
+<i>67</i>&nbsp;        }
+<i>68</i>&nbsp;        //else
+<b class="fc"><i>69</i>&nbsp;        usage += amount;</b>
+<b class="fc"><i>70</i>&nbsp;        return 0;</b>
+<i>71</i>&nbsp;    }
+<i>72</i>&nbsp;
+<i>73</i>&nbsp;    /**
+<i>74</i>&nbsp;     * Adds a single resource to the existing selection
+<i>75</i>&nbsp;     * @throws IndexOutOfBoundsException if it is not possible to select more than what was previously selected
+<i>76</i>&nbsp;     */
+<i>77</i>&nbsp;    public synchronized void singleSelection() throws IndexOutOfBoundsException{
+<b class="fc"><i>78</i>&nbsp;        if ((quantitySelected + 1) &gt; usage)</b>
+<b class="fc"><i>79</i>&nbsp;            throw new IndexOutOfBoundsException();</b>
+<i>80</i>&nbsp;
+<b class="fc"><i>81</i>&nbsp;        quantitySelected++;</b>
+<b class="fc"><i>82</i>&nbsp;    }</b>
+<i>83</i>&nbsp;
+<i>84</i>&nbsp;    /**
+<i>85</i>&nbsp;     * Adds an amount of resources equals to &quot;selectedQuantity&quot; to the existing selection
+<i>86</i>&nbsp;     * @param selectedQuantity quantity of resource to add to the already existing selection
+<i>87</i>&nbsp;     * @throws IndexOutOfBoundsException if it is not possible to select the amount of resources specified
+<i>88</i>&nbsp;     */
+<i>89</i>&nbsp;    public synchronized void multiSelection(int selectedQuantity) throws IndexOutOfBoundsException{
+<b class="fc"><i>90</i>&nbsp;        if ((quantitySelected + selectedQuantity) &gt; usage)</b>
+<b class="fc"><i>91</i>&nbsp;            throw new IndexOutOfBoundsException();</b>
+<i>92</i>&nbsp;
+<b class="fc"><i>93</i>&nbsp;        quantitySelected += selectedQuantity;</b>
+<b class="fc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Removes a single resource to the existing selection
+<i>98</i>&nbsp;     * @throws IndexOutOfBoundsException if it is not possible to deselect anything more
+<i>99</i>&nbsp;     */
+<i>100</i>&nbsp;    public synchronized void singleDeselection() throws IndexOutOfBoundsException{
+<b class="fc"><i>101</i>&nbsp;        if (quantitySelected &lt; 1)</b>
+<b class="fc"><i>102</i>&nbsp;            throw new IndexOutOfBoundsException();</b>
+<i>103</i>&nbsp;
+<b class="fc"><i>104</i>&nbsp;        quantitySelected--;</b>
+<b class="fc"><i>105</i>&nbsp;    }</b>
+<i>106</i>&nbsp;
+<i>107</i>&nbsp;    /**
+<i>108</i>&nbsp;     * Removes an amount of resources equals to &quot;deselectedQuantity&quot; from the existing selection
+<i>109</i>&nbsp;     * @param deselectedQuantity quantity of resource to remove from the already existing selection
+<i>110</i>&nbsp;     * @throws IndexOutOfBoundsException if it is not possible to deselect the amount of resources specified
+<i>111</i>&nbsp;     */
+<i>112</i>&nbsp;    public synchronized void multiDeselection(int deselectedQuantity) throws IndexOutOfBoundsException{
+<b class="fc"><i>113</i>&nbsp;        if ((quantitySelected - deselectedQuantity) &lt; 0)</b>
+<b class="fc"><i>114</i>&nbsp;            throw new IndexOutOfBoundsException();</b>
+<i>115</i>&nbsp;
+<b class="fc"><i>116</i>&nbsp;        quantitySelected -= deselectedQuantity;</b>
+<b class="fc"><i>117</i>&nbsp;    }</b>
+<i>118</i>&nbsp;
+<i>119</i>&nbsp;    /**
+<i>120</i>&nbsp;     * Clears the selection in the shelf and returns the quantity selected, represented as enumMap
+<i>121</i>&nbsp;     * @return an enumMap representing the previous selection, now cleared, of the shelf
+<i>122</i>&nbsp;     * @throws IndexOutOfBoundsException if there was no selection in the shelf
+<i>123</i>&nbsp;     */
+<i>124</i>&nbsp;    public synchronized EnumMap&lt;Resource, Integer&gt; takeSelected() throws IndexOutOfBoundsException{
+<b class="fc"><i>125</i>&nbsp;        if (quantitySelected == 0)</b>
+<b class="fc"><i>126</i>&nbsp;            throw new IndexOutOfBoundsException();</b>
+<i>127</i>&nbsp;
+<b class="fc"><i>128</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; selectedMap = new EnumMap&lt;&gt;(Resource.class);</b>
+<b class="fc"><i>129</i>&nbsp;        selectedMap.put(resType, quantitySelected);</b>
+<b class="fc"><i>130</i>&nbsp;        usage-=quantitySelected;</b>
+<b class="fc"><i>131</i>&nbsp;        if (usage == 0)</b>
+<b class="fc"><i>132</i>&nbsp;            resType = null;</b>
+<b class="fc"><i>133</i>&nbsp;        quantitySelected = 0;</b>
+<b class="fc"><i>134</i>&nbsp;        return selectedMap;</b>
+<i>135</i>&nbsp;    }
+<i>136</i>&nbsp;
+<i>137</i>&nbsp;    public synchronized void clearSelection(){
+<b class="fc"><i>138</i>&nbsp;        quantitySelected = 0;</b>
+<b class="fc"><i>139</i>&nbsp;    }</b>
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;    /**
+<i>142</i>&nbsp;     * Empty the shelf and returns the content of it
+<i>143</i>&nbsp;     * @return an enumMap representing what was inside the shelf
+<i>144</i>&nbsp;     */
+<i>145</i>&nbsp;    public synchronized EnumMap&lt;Resource, Integer&gt; rifle (){
+<b class="fc"><i>146</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; tempMap = this.content();</b>
+<b class="fc"><i>147</i>&nbsp;        usage = 0;</b>
+<b class="fc"><i>148</i>&nbsp;        quantitySelected = 0;</b>
+<b class="fc"><i>149</i>&nbsp;        resType = null;</b>
+<b class="fc"><i>150</i>&nbsp;        return tempMap;</b>
+<i>151</i>&nbsp;    }
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;    /**
+<i>154</i>&nbsp;     * It is a getter for the content of the shelf
+<i>155</i>&nbsp;     * @return a copy of what is contained in the shelf
+<i>156</i>&nbsp;     */
+<i>157</i>&nbsp;    public synchronized EnumMap&lt;Resource, Integer&gt; content() {
+<b class="fc"><i>158</i>&nbsp;        if (usage == 0)</b>
+<b class="fc"><i>159</i>&nbsp;            return null;</b>
+<i>160</i>&nbsp;
+<b class="fc"><i>161</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; tempMap = new EnumMap&lt;&gt;(Resource.class);</b>
+<b class="fc"><i>162</i>&nbsp;        tempMap.put(resType, usage);</b>
+<b class="fc"><i>163</i>&nbsp;        return tempMap;</b>
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    /**
+<i>167</i>&nbsp;     * Checks if the shelf contains an enumMap
+<i>168</i>&nbsp;     * @param checkMap target enumMap
+<i>169</i>&nbsp;     * @return true if the shelf contains that enumMap, false otherwise
+<i>170</i>&nbsp;     * @throws NullPointerException if the parameter passed is null
+<i>171</i>&nbsp;     */
+<i>172</i>&nbsp;    @Override
+<i>173</i>&nbsp;    public synchronized boolean contains(EnumMap&lt;Resource, Integer&gt; checkMap) throws NullPointerException{
+<b class="fc"><i>174</i>&nbsp;        if (checkMap == null)</b>
+<b class="fc"><i>175</i>&nbsp;            throw new NullPointerException();</b>
+<i>176</i>&nbsp;
+<b class="fc"><i>177</i>&nbsp;        for (Resource r : Resource.values())</b>
+<b class="fc"><i>178</i>&nbsp;            if ((checkMap.get(r) != null) &amp;&amp; ((r != resType) || (checkMap.get(r) &gt; usage)))</b>
+<b class="fc"><i>179</i>&nbsp;                return false;</b>
+<i>180</i>&nbsp;
+<b class="fc"><i>181</i>&nbsp;        return true;</b>
+<i>182</i>&nbsp;    }
+<i>183</i>&nbsp;
+<i>184</i>&nbsp;    /**
+<i>185</i>&nbsp;     * Removes from the shelf the selection, if there was no selection, nothing will be removed:
+<i>186</i>&nbsp;     * the request will be ignored
+<i>187</i>&nbsp;     */
+<i>188</i>&nbsp;    @Override
+<i>189</i>&nbsp;    public synchronized void pay(){
+<b class="fc"><i>190</i>&nbsp;        usage-=quantitySelected;</b>
+<b class="fc"><i>191</i>&nbsp;        if (usage == 0)</b>
+<b class="fc"><i>192</i>&nbsp;            resType = null;</b>
+<b class="fc"><i>193</i>&nbsp;        quantitySelected = 0;</b>
+<b class="fc"><i>194</i>&nbsp;    }</b>
+<i>195</i>&nbsp;
+<i>196</i>&nbsp;    public synchronized int getCapacity() {
+<b class="fc"><i>197</i>&nbsp;        return capacity;</b>
+<i>198</i>&nbsp;    }
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;    public synchronized int getQuantitySelected() {
+<b class="fc"><i>201</i>&nbsp;        return quantitySelected;</b>
+<i>202</i>&nbsp;    }
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;    public synchronized int getUsage() {
+<b class="fc"><i>205</i>&nbsp;        return usage;</b>
+<i>206</i>&nbsp;    }
+<i>207</i>&nbsp;
+<i>208</i>&nbsp;    public synchronized Resource getResourceType(){
+<b class="fc"><i>209</i>&nbsp;        return resType;</b>
+<i>210</i>&nbsp;    }
+<i>211</i>&nbsp;
+<i>212</i>&nbsp;    public synchronized boolean isEmpty() {
+<b class="fc"><i>213</i>&nbsp;        return usage == 0;</b>
+<i>214</i>&nbsp;    }
+<i>215</i>&nbsp;
+<b class="fc"><i>216</i>&nbsp;    public Shelf (int capacity) throws IndexOutOfBoundsException{</b>
+<b class="fc"><i>217</i>&nbsp;        if ((capacity &gt; 3) || (capacity &lt; 1))</b>
+<b class="fc"><i>218</i>&nbsp;            throw new IndexOutOfBoundsException();</b>
+<i>219</i>&nbsp;
+<b class="fc"><i>220</i>&nbsp;        this.capacity = capacity;</b>
+<b class="fc"><i>221</i>&nbsp;        this.usage = 0;</b>
+<b class="fc"><i>222</i>&nbsp;        this.quantitySelected = 0;</b>
+<b class="fc"><i>223</i>&nbsp;        this.resType = null;</b>
+<b class="fc"><i>224</i>&nbsp;    }</b>
+<i>225</i>&nbsp;
+<i>226</i>&nbsp;    public String toString(){
+<b class="nc"><i>227</i>&nbsp;        return &quot;Shelf&quot; + capacity;</b>
+<i>228</i>&nbsp;    }
+<i>229</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,71 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Payable</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model.Deposit</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Payable (it.polimi.ingsw.Model.Deposit)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+</tr>
+<tr>
+  <td class="name">Payable</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model.Deposit;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.EnumMap;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * This interface is used for removing the resources selected in the object implementing it
+<i>9</i>&nbsp; * and knowing if a container contains an enumMap
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public interface Payable {
+<i>12</i>&nbsp;    /**
+<i>13</i>&nbsp;     * Checks if the payable object contains an enumMap of resources
+<i>14</i>&nbsp;     * @param checkMap target enumMap
+<i>15</i>&nbsp;     * @return true if the payable object contains the same or more resources of the type and quantity
+<i>16</i>&nbsp;     * specified in the enumMap passed as a parameter
+<i>17</i>&nbsp;     */
+<i>18</i>&nbsp;    boolean contains(EnumMap&lt;Resource, Integer&gt; checkMap);
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * Removes all the selected resources from the payable object
+<i>22</i>&nbsp;     */
+<i>23</i>&nbsp;    void pay();
+<i>24</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

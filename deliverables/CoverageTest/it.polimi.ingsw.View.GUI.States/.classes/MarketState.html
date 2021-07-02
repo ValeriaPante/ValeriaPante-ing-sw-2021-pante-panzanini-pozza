@@ -1,0 +1,148 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: MarketState</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.GUI.States</a> ]
+</div>
+
+<h1>Coverage Summary for Class: MarketState (it.polimi.ingsw.View.GUI.States)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">MarketState</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 25)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.GUI.States;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.View.GUI.ContainersScene;
+<i>4</i>&nbsp;import it.polimi.ingsw.View.GUI.GUI;
+<i>5</i>&nbsp;import it.polimi.ingsw.View.GUI.Transition;
+<i>6</i>&nbsp;import it.polimi.ingsw.View.GUI.TransmutationScene;
+<i>7</i>&nbsp;import javafx.application.Platform;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import java.util.ArrayList;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;/**
+<i>12</i>&nbsp; * State indicating that the player chose to pick from market
+<i>13</i>&nbsp; */
+<i>14</i>&nbsp;public class MarketState extends State{
+<i>15</i>&nbsp;
+<b class="nc"><i>16</i>&nbsp;    public MarketState(GUI gui){</b>
+<i>17</i>&nbsp;
+<b class="nc"><i>18</i>&nbsp;        this.toDo = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>19</i>&nbsp;        this.done = new ArrayList&lt;&gt;();</b>
+<i>20</i>&nbsp;
+<b class="nc"><i>21</i>&nbsp;        if(TransmutationScene.getNumberOfTransmutations() == 2){</b>
+<b class="nc"><i>22</i>&nbsp;            TransmutationScene transmutationScene = new TransmutationScene();</b>
+<b class="nc"><i>23</i>&nbsp;            transmutationScene.addObserver(gui);</b>
+<b class="nc"><i>24</i>&nbsp;            toDo.add(transmutationScene);</b>
+<i>25</i>&nbsp;        }
+<i>26</i>&nbsp;
+<b class="nc"><i>27</i>&nbsp;        ContainersScene containersScene = new ContainersScene();</b>
+<b class="nc"><i>28</i>&nbsp;        containersScene.addObserver(gui);</b>
+<b class="nc"><i>29</i>&nbsp;        toDo.add(containersScene);</b>
+<b class="nc"><i>30</i>&nbsp;    }</b>
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    /**
+<i>33</i>&nbsp;     * Moves to the next scene
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    @Override
+<i>36</i>&nbsp;    public void next(){
+<b class="nc"><i>37</i>&nbsp;        super.next();</b>
+<b class="nc"><i>38</i>&nbsp;        if(toDo.size() == 0) Transition.setOnContainersScene(true);</b>
+<b class="nc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Goes back to the previous scene
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    @Override
+<i>45</i>&nbsp;    public void goBack(){
+<b class="nc"><i>46</i>&nbsp;        if(done.size() == 0){</b>
+<b class="nc"><i>47</i>&nbsp;            Transition.reshowDialog();</b>
+<b class="nc"><i>48</i>&nbsp;            return;</b>
+<i>49</i>&nbsp;        }
+<b class="nc"><i>50</i>&nbsp;        toDo.add(0, done.get(0));</b>
+<b class="nc"><i>51</i>&nbsp;        done.remove(0);</b>
+<b class="nc"><i>52</i>&nbsp;        Platform.runLater(() -&gt; Transition.setDialogScene(toDo.get(0).getRoot()));</b>
+<b class="nc"><i>53</i>&nbsp;        Platform.runLater(() -&gt; Transition.reshowDialog());</b>
+<b class="nc"><i>54</i>&nbsp;    }</b>
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    /**
+<i>57</i>&nbsp;     * Updates the current scene
+<i>58</i>&nbsp;     */
+<i>59</i>&nbsp;    @Override
+<i>60</i>&nbsp;    public void refresh() {
+<b class="nc"><i>61</i>&nbsp;        done.get(0).initialise();</b>
+<i>62</i>&nbsp;
+<b class="nc"><i>63</i>&nbsp;        Platform.runLater(() -&gt; Transition.setDialogScene(done.get(0).getRoot()));</b>
+<b class="nc"><i>64</i>&nbsp;    }</b>
+<i>65</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

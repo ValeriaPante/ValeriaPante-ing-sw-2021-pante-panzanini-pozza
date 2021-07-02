@@ -1,0 +1,127 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: TransmutationMessage</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages</a> ]
+</div>
+
+<h1>Coverage Summary for Class: TransmutationMessage (it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">TransmutationMessage</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    71,4%
+  </span>
+  <span class="absValue">
+    (5/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    76,9%
+  </span>
+  <span class="absValue">
+    (10/ 13)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Controller.InGameControllerSwitch;
+<i>4</i>&nbsp;import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+<i>5</i>&nbsp;import it.polimi.ingsw.Messages.InGameMessages.MessageConverterToJSON;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;public class TransmutationMessage extends InGameMessage {
+<i>8</i>&nbsp;    private final int serial1;
+<i>9</i>&nbsp;    private final int serial2;
+<i>10</i>&nbsp;    private final int quantity1;
+<i>11</i>&nbsp;    private final int quantity2;
+<i>12</i>&nbsp;
+<b class="fc"><i>13</i>&nbsp;    public TransmutationMessage(int serial1, int serial2, int quantity1, int quantity2) {</b>
+<b class="fc"><i>14</i>&nbsp;        this.serial1 = serial1;</b>
+<b class="fc"><i>15</i>&nbsp;        this.serial2 = serial2;</b>
+<b class="fc"><i>16</i>&nbsp;        this.quantity1 = quantity1;</b>
+<b class="fc"><i>17</i>&nbsp;        this.quantity2 = quantity2;</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public int getSerial1() {
+<b class="fc"><i>21</i>&nbsp;        return serial1;</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public int getSerial2() {
+<b class="fc"><i>25</i>&nbsp;        return serial2;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public int getQuantity1() {
+<b class="fc"><i>29</i>&nbsp;        return quantity1;</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    public int getQuantity2() {
+<b class="fc"><i>33</i>&nbsp;        return quantity2;</b>
+<i>34</i>&nbsp;    }
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    public void readThrough(InGameControllerSwitch inGameControllerSwitch){
+<b class="nc"><i>37</i>&nbsp;        inGameControllerSwitch.actionOnMessage(this);</b>
+<b class="nc"><i>38</i>&nbsp;    }</b>
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    @Override
+<i>41</i>&nbsp;    public String toJson(){
+<b class="nc"><i>42</i>&nbsp;        return MessageConverterToJSON.convertToJson(this);</b>
+<i>43</i>&nbsp;    }
+<i>44</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

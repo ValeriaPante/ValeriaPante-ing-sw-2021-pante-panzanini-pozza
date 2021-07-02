@@ -1,0 +1,285 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LeaderDeck</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model.Decks</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LeaderDeck (it.polimi.ingsw.Model.Decks)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LeaderDeck</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,7%
+  </span>
+  <span class="absValue">
+    (49/ 54)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LeaderDeck$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LeaderDeck$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LeaderDeck$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LeaderDeck$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,4%
+  </span>
+  <span class="absValue">
+    (53/ 58)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model.Decks;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.gson.*;
+<i>4</i>&nbsp;import com.google.gson.reflect.TypeToken;
+<i>5</i>&nbsp;import it.polimi.ingsw.Model.Cards.DevCardType;
+<i>6</i>&nbsp;import it.polimi.ingsw.Model.Cards.LeaderCard;
+<i>7</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>8</i>&nbsp;import it.polimi.ingsw.Enums.LeaderCardType;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.io.*;
+<i>11</i>&nbsp;import java.net.URISyntaxException;
+<i>12</i>&nbsp;import java.nio.charset.StandardCharsets;
+<i>13</i>&nbsp;import java.nio.file.Files;
+<i>14</i>&nbsp;import java.nio.file.Path;
+<i>15</i>&nbsp;import java.nio.file.Paths;
+<i>16</i>&nbsp;import java.util.*;
+<i>17</i>&nbsp;import java.util.stream.Collectors;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;/**
+<i>20</i>&nbsp; * Representation of Leader Deck
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;public class LeaderDeck implements Deck{
+<i>23</i>&nbsp;    private final List&lt;LeaderCard&gt; deck;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Constructs a leader deck from the JSON file
+<i>27</i>&nbsp;     */
+<b class="fc"><i>28</i>&nbsp;    public LeaderDeck() {</b>
+<b class="fc"><i>29</i>&nbsp;        deck = new ArrayList&lt;&gt;();</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;        Path path;
+<i>32</i>&nbsp;        String config;
+<i>33</i>&nbsp;        try {
+<b class="fc"><i>34</i>&nbsp;            path = Paths.get(new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent() + File.separator + &quot;accessible&quot; + File.separator + &quot;JSONs&quot; + File.separator + &quot;LeaderCardsConfig.json&quot;);</b>
+<b class="nc"><i>35</i>&nbsp;        }catch (URISyntaxException e){</b>
+<b class="nc"><i>36</i>&nbsp;            throw new IllegalArgumentException(&quot;Unable to find the file Path&quot;);</b>
+<b class="fc"><i>37</i>&nbsp;        }</b>
+<i>38</i>&nbsp;        try {
+<b class="fc"><i>39</i>&nbsp;            config = Files.readString(path, StandardCharsets.UTF_8);</b>
+<i>40</i>&nbsp;        }
+<b class="nc"><i>41</i>&nbsp;        catch (IOException e){</b>
+<b class="nc"><i>42</i>&nbsp;            throw new IllegalArgumentException(&quot;Error during the reading of the config file&quot;);</b>
+<b class="fc"><i>43</i>&nbsp;        }</b>
+<i>44</i>&nbsp;
+<b class="fc"><i>45</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; resourceReq = new EnumMap&lt;&gt;(Resource.class);</b>
+<b class="fc"><i>46</i>&nbsp;        Map&lt;DevCardType, Integer&gt; devCardReq = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>47</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; input = new EnumMap&lt;&gt;(Resource.class);</b>
+<b class="fc"><i>48</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; output = new EnumMap&lt;&gt;(Resource.class);</b>
+<i>49</i>&nbsp;
+<b class="fc"><i>50</i>&nbsp;        Gson gson = new Gson();</b>
+<b class="fc"><i>51</i>&nbsp;        JsonParser parser = new JsonParser();</b>
+<b class="fc"><i>52</i>&nbsp;        JsonElement elements = parser.parse(config);</b>
+<b class="fc"><i>53</i>&nbsp;        if (!elements.isJsonArray()) {</b>
+<b class="nc"><i>54</i>&nbsp;            throw new IllegalArgumentException(&quot;Check the config file and his syntax&quot;);</b>
+<i>55</i>&nbsp;        } else {
+<b class="fc"><i>56</i>&nbsp;            JsonArray array = elements.getAsJsonArray();</b>
+<i>57</i>&nbsp;            String s;
+<b class="fc"><i>58</i>&nbsp;            for (int i = 0; i &lt; array.size(); i++) {</b>
+<b class="fc"><i>59</i>&nbsp;                JsonObject card = array.get(i).getAsJsonObject();</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;                s = card.get(&quot;LeaderCardType&quot;).getAsString().toLowerCase();</b>
+<b class="fc"><i>62</i>&nbsp;                LeaderCardType type = gson.fromJson(card.get(&quot;LeaderCardType&quot;), LeaderCardType.class);</b>
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;                Map&lt;Resource, Integer&gt; map;
+<b class="fc"><i>65</i>&nbsp;                if(!s.equals(&quot;prodpower&quot;)){</b>
+<b class="fc"><i>66</i>&nbsp;                    map = gson.fromJson(card.get(s), new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType());</b>
+<b class="fc"><i>67</i>&nbsp;                    for(Map.Entry&lt;Resource, Integer&gt; entry: map.entrySet()){</b>
+<b class="fc"><i>68</i>&nbsp;                        input.put(entry.getKey(), entry.getValue());</b>
+<b class="fc"><i>69</i>&nbsp;                    }</b>
+<i>70</i>&nbsp;                } else {
+<b class="fc"><i>71</i>&nbsp;                    map = gson.fromJson(card.get(s).getAsJsonObject().get(&quot;input&quot;), new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType());</b>
+<b class="fc"><i>72</i>&nbsp;                    for(Map.Entry&lt;Resource, Integer&gt; entry: map.entrySet()){</b>
+<b class="fc"><i>73</i>&nbsp;                        input.put(entry.getKey(), entry.getValue());</b>
+<b class="fc"><i>74</i>&nbsp;                    }</b>
+<b class="fc"><i>75</i>&nbsp;                    map = gson.fromJson(card.get(s).getAsJsonObject().get(&quot;output&quot;), new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType());</b>
+<b class="fc"><i>76</i>&nbsp;                    for(Map.Entry&lt;Resource, Integer&gt; entry: map.entrySet()){</b>
+<b class="fc"><i>77</i>&nbsp;                        output.put(entry.getKey(), entry.getValue());</b>
+<b class="fc"><i>78</i>&nbsp;                    }</b>
+<i>79</i>&nbsp;                }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;                map = gson.fromJson(card.get(&quot;resourceReq&quot;),new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType());</b>
+<b class="fc"><i>83</i>&nbsp;                for(Map.Entry&lt;Resource, Integer&gt; entry: map.entrySet()){</b>
+<b class="fc"><i>84</i>&nbsp;                    resourceReq.put(entry.getKey(), entry.getValue());</b>
+<b class="fc"><i>85</i>&nbsp;                }</b>
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;                JsonArray devMap = card.get(&quot;devCardReq&quot;).getAsJsonArray();</b>
+<b class="fc"><i>88</i>&nbsp;                for(int j = 0; j &lt; devMap.size(); j++){</b>
+<b class="fc"><i>89</i>&nbsp;                    JsonObject obj = devMap.get(j).getAsJsonObject();</b>
+<b class="fc"><i>90</i>&nbsp;                    devCardReq.put(gson.fromJson(obj.get(&quot;devCardType&quot;), DevCardType.class), obj.get(&quot;quantity&quot;).getAsInt());</b>
+<i>91</i>&nbsp;                }
+<i>92</i>&nbsp;
+<b class="fc"><i>93</i>&nbsp;                deck.add(new LeaderCard(card.get(&quot;victoryPoints&quot;).getAsInt(), resourceReq, devCardReq, type, input, output, card.get(&quot;id&quot;).getAsInt()));</b>
+<i>94</i>&nbsp;
+<b class="fc"><i>95</i>&nbsp;                resourceReq.clear();</b>
+<b class="fc"><i>96</i>&nbsp;                devCardReq.clear();</b>
+<b class="fc"><i>97</i>&nbsp;                input.clear();</b>
+<b class="fc"><i>98</i>&nbsp;                output.clear();</b>
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;            }
+<i>101</i>&nbsp;        }
+<b class="fc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    /**
+<i>105</i>&nbsp;     * Shuffles the deck
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    @Override
+<i>108</i>&nbsp;    public void shuffle() {
+<b class="fc"><i>109</i>&nbsp;        Collections.shuffle(deck);</b>
+<b class="fc"><i>110</i>&nbsp;    }</b>
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    /**
+<i>113</i>&nbsp;     * Draws from the deck
+<i>114</i>&nbsp;     * @return Leader Card on top of the deck
+<i>115</i>&nbsp;     */
+<i>116</i>&nbsp;    public LeaderCard draw() {
+<b class="fc"><i>117</i>&nbsp;        return deck.remove(0);</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

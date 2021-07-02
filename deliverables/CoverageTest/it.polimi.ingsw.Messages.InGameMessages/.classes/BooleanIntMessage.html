@@ -1,0 +1,100 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BooleanIntMessage</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Messages.InGameMessages</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BooleanIntMessage (it.polimi.ingsw.Messages.InGameMessages)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BooleanIntMessage</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Messages.InGameMessages;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * The messages extending this class contains an integer (already from IntMessage) and a boolean
+<i>5</i>&nbsp; */
+<i>6</i>&nbsp;public abstract class BooleanIntMessage extends IntMessage{
+<i>7</i>&nbsp;    private final boolean aBoolean;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;    public BooleanIntMessage(int integer, boolean aBoolean) {
+<b class="fc"><i>10</i>&nbsp;        super(integer);</b>
+<b class="fc"><i>11</i>&nbsp;        this.aBoolean = aBoolean;</b>
+<b class="fc"><i>12</i>&nbsp;    }</b>
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    public boolean isaBoolean() {
+<b class="fc"><i>15</i>&nbsp;        return aBoolean;</b>
+<i>16</i>&nbsp;    }
+<i>17</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

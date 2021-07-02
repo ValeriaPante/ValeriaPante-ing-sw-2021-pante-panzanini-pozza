@@ -1,0 +1,296 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: RemotePreGameModel</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.PreGameModel</a> ]
+</div>
+
+<h1>Coverage Summary for Class: RemotePreGameModel (it.polimi.ingsw.PreGameModel)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RemotePreGameModel</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,8%
+  </span>
+  <span class="absValue">
+    (15/ 16)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    74,2%
+  </span>
+  <span class="absValue">
+    (69/ 93)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.PreGameModel;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Network.Client.Messages.ChangedLobbyMessage;
+<i>4</i>&nbsp;import it.polimi.ingsw.Network.Client.Messages.ErrorMessage;
+<i>5</i>&nbsp;import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.LinkedList;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Model of pre game grouped
+<i>12</i>&nbsp; * Every new user is not placed in a lobby
+<i>13</i>&nbsp; * Every player in a lobby can switch lobby
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public class RemotePreGameModel{
+<i>16</i>&nbsp;    //basically evey user is observer of the lobbies
+<i>17</i>&nbsp;    private final LinkedList&lt;Lobby&gt; lobbies;
+<i>18</i>&nbsp;    private final LinkedList&lt;User&gt; notDecidedYet;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * Constructor
+<i>22</i>&nbsp;     */
+<b class="fc"><i>23</i>&nbsp;    public RemotePreGameModel(){</b>
+<b class="fc"><i>24</i>&nbsp;        this.lobbies = new LinkedList&lt;&gt;();</b>
+<b class="fc"><i>25</i>&nbsp;        this.notDecidedYet = new LinkedList&lt;&gt;();</b>
+<b class="fc"><i>26</i>&nbsp;    }</b>
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    private ChangedLobbyMessage messageBuilder(Lobby lobby, boolean bool){
+<b class="fc"><i>29</i>&nbsp;        String[] usernames = lobby.getUsers().stream().map(User::getUsername).toArray(String[]::new);</b>
+<b class="fc"><i>30</i>&nbsp;        return new ChangedLobbyMessage(lobby.getId(), usernames, bool);</b>
+<i>31</i>&nbsp;    }
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    private void notifyAllUsers(FromServerMessage message){
+<b class="fc"><i>34</i>&nbsp;        this.notDecidedYet.forEach(user -&gt; user.send(message));</b>
+<b class="fc"><i>35</i>&nbsp;        this.lobbies.forEach(lobby -&gt; lobby.getUsers().forEach(user -&gt; user.send(message)));</b>
+<b class="fc"><i>36</i>&nbsp;    }</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    private void notifyUserAllLobbies(User user){
+<b class="fc"><i>39</i>&nbsp;        this.lobbies.forEach(lobby -&gt; user.send(this.messageBuilder(lobby, false)));</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    private void notifyAllUsers(FromServerMessage message, int userId, FromServerMessage messageToSpecificUser){
+<b class="fc"><i>43</i>&nbsp;        this.notDecidedYet.forEach(user -&gt; user.send(message));</b>
+<b class="fc"><i>44</i>&nbsp;        this.lobbies.forEach(lobby -&gt; lobby.getUsers().forEach(user -&gt; {</b>
+<b class="fc"><i>45</i>&nbsp;            if (user.getId() == userId){</b>
+<b class="fc"><i>46</i>&nbsp;                user.send(messageToSpecificUser);</b>
+<i>47</i>&nbsp;            }
+<i>48</i>&nbsp;            else{
+<b class="fc"><i>49</i>&nbsp;                user.send(message);</b>
+<i>50</i>&nbsp;            }
+<b class="fc"><i>51</i>&nbsp;        }));</b>
+<b class="fc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;    /**
+<i>55</i>&nbsp;     * Getter
+<i>56</i>&nbsp;     * @return all the users ids
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public List&lt;Integer&gt; getAllUsersIds(){
+<b class="fc"><i>59</i>&nbsp;        LinkedList&lt;Integer&gt; allIds = new LinkedList&lt;&gt;();</b>
+<b class="fc"><i>60</i>&nbsp;        for(Lobby lobby : this.lobbies){</b>
+<b class="fc"><i>61</i>&nbsp;            for (User user : lobby.getUsers()){</b>
+<b class="fc"><i>62</i>&nbsp;                allIds.add(user.getId());</b>
+<b class="fc"><i>63</i>&nbsp;            }</b>
+<b class="fc"><i>64</i>&nbsp;        }</b>
+<b class="fc"><i>65</i>&nbsp;        for (User user : this.notDecidedYet){</b>
+<b class="fc"><i>66</i>&nbsp;            allIds.add(user.getId());</b>
+<b class="fc"><i>67</i>&nbsp;        }</b>
+<b class="fc"><i>68</i>&nbsp;        return allIds;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    /**
+<i>72</i>&nbsp;     * Getter
+<i>73</i>&nbsp;     * @return all the lobbies id
+<i>74</i>&nbsp;     */
+<i>75</i>&nbsp;    public List&lt;Integer&gt; getAllLobbiesId(){
+<b class="fc"><i>76</i>&nbsp;        LinkedList&lt;Integer&gt; allIds = new LinkedList&lt;&gt;();</b>
+<b class="fc"><i>77</i>&nbsp;        for (Lobby lobby : this.lobbies){</b>
+<b class="fc"><i>78</i>&nbsp;            allIds.add(lobby.getId());</b>
+<b class="fc"><i>79</i>&nbsp;        }</b>
+<b class="fc"><i>80</i>&nbsp;        return allIds;</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    /**
+<i>84</i>&nbsp;     * Creation of a lobby
+<i>85</i>&nbsp;     * @param id the id of the new lobby
+<i>86</i>&nbsp;     */
+<i>87</i>&nbsp;    public void createLobby(int id){
+<b class="fc"><i>88</i>&nbsp;        this.lobbies.add(new Lobby(id));</b>
+<b class="fc"><i>89</i>&nbsp;    }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**
+<i>92</i>&nbsp;     * Asking if a user is the first user in a lobby
+<i>93</i>&nbsp;     * @param userId the user id that we are searching
+<i>94</i>&nbsp;     * @return the lobby id the user is the first in or 0 if no match are found
+<i>95</i>&nbsp;     */
+<i>96</i>&nbsp;    public int getUserLobbyId(int userId){
+<b class="fc"><i>97</i>&nbsp;        for (Lobby lobby : this.lobbies){</b>
+<b class="fc"><i>98</i>&nbsp;            if (lobby.getFirstUserId() == userId){</b>
+<b class="fc"><i>99</i>&nbsp;                return lobby.getId();</b>
+<i>100</i>&nbsp;            }
+<b class="nc"><i>101</i>&nbsp;        }</b>
+<b class="fc"><i>102</i>&nbsp;        return 0;</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    /**
+<i>106</i>&nbsp;     * Removes a lobby
+<i>107</i>&nbsp;     * @param lobbyId the id of the lobby to remove
+<i>108</i>&nbsp;     * @return the lobby removed or null if there was no lobby with that id
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    public Lobby getAndRemoveLobby(int lobbyId){
+<b class="fc"><i>111</i>&nbsp;        for (Lobby lobby : this.lobbies){</b>
+<b class="fc"><i>112</i>&nbsp;            if (lobby.getId() == lobbyId){</b>
+<b class="fc"><i>113</i>&nbsp;                this.lobbies.remove(lobby);</b>
+<b class="fc"><i>114</i>&nbsp;                this.notifyAllUsers(this.messageBuilder(lobby, false));</b>
+<b class="fc"><i>115</i>&nbsp;                return lobby;</b>
+<i>116</i>&nbsp;            }
+<b class="nc"><i>117</i>&nbsp;        }</b>
+<b class="nc"><i>118</i>&nbsp;        return null;</b>
+<i>119</i>&nbsp;    }
+<i>120</i>&nbsp;
+<i>121</i>&nbsp;    /**
+<i>122</i>&nbsp;     * Removes a user
+<i>123</i>&nbsp;     * @param userId the id of the user to remove
+<i>124</i>&nbsp;     * @return the user removed or null if there was no user with that id
+<i>125</i>&nbsp;     */
+<i>126</i>&nbsp;    public User getAndRemoveUser(int userId){
+<b class="fc"><i>127</i>&nbsp;        for (User user : this.notDecidedYet){</b>
+<b class="fc"><i>128</i>&nbsp;            if (user.getId() == userId){</b>
+<b class="fc"><i>129</i>&nbsp;                this.notDecidedYet.remove(user);</b>
+<b class="fc"><i>130</i>&nbsp;                return user;</b>
+<i>131</i>&nbsp;            }
+<b class="nc"><i>132</i>&nbsp;        }</b>
+<i>133</i>&nbsp;
+<b class="fc"><i>134</i>&nbsp;        for (Lobby lobby : this.lobbies){</b>
+<b class="fc"><i>135</i>&nbsp;            for (User user : lobby.getUsers()){</b>
+<b class="fc"><i>136</i>&nbsp;                if (user.getId() == userId){</b>
+<b class="fc"><i>137</i>&nbsp;                    lobby.removeUser(user);</b>
+<b class="fc"><i>138</i>&nbsp;                    this.notDecidedYet.add(user);</b>
+<b class="fc"><i>139</i>&nbsp;                    this.notifyAllUsers(this.messageBuilder(lobby, false));</b>
+<i>140</i>&nbsp;
+<b class="fc"><i>141</i>&nbsp;                    if (lobby.isEmpty()){</b>
+<b class="fc"><i>142</i>&nbsp;                        this.lobbies.remove(lobby);</b>
+<i>143</i>&nbsp;                    }
+<i>144</i>&nbsp;
+<b class="fc"><i>145</i>&nbsp;                    return this.getAndRemoveUser(userId);</b>
+<i>146</i>&nbsp;                }
+<b class="nc"><i>147</i>&nbsp;            }</b>
+<b class="nc"><i>148</i>&nbsp;        }</b>
+<i>149</i>&nbsp;
+<b class="fc"><i>150</i>&nbsp;        return null;</b>
+<i>151</i>&nbsp;    }
+<i>152</i>&nbsp;
+<i>153</i>&nbsp;    /**
+<i>154</i>&nbsp;     * Asking if a lobby is full
+<i>155</i>&nbsp;     * @param lobbyId the lobby id that we are asking
+<i>156</i>&nbsp;     * @return true if the lobby is full or if the lobby does not exist
+<i>157</i>&nbsp;     */
+<i>158</i>&nbsp;    public boolean isLobbyFull(int lobbyId){
+<b class="fc"><i>159</i>&nbsp;        for (Lobby lobby : this.lobbies){</b>
+<b class="fc"><i>160</i>&nbsp;            if (lobby.getId() == lobbyId){</b>
+<b class="fc"><i>161</i>&nbsp;                return lobby.isFull();</b>
+<i>162</i>&nbsp;            }
+<b class="nc"><i>163</i>&nbsp;        }</b>
+<b class="nc"><i>164</i>&nbsp;        return true;</b>
+<i>165</i>&nbsp;    }
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    /**
+<i>168</i>&nbsp;     * Add a user to a lobby
+<i>169</i>&nbsp;     * @param user user to add
+<i>170</i>&nbsp;     * @param lobbyId the destination lobby
+<i>171</i>&nbsp;     */
+<i>172</i>&nbsp;    public void addUserToLobby(User user, int lobbyId){
+<b class="fc"><i>173</i>&nbsp;        for(Lobby lobby : this.lobbies){</b>
+<b class="fc"><i>174</i>&nbsp;            if (lobby.getId() == lobbyId){</b>
+<b class="fc"><i>175</i>&nbsp;                lobby.addUser(user);</b>
+<b class="fc"><i>176</i>&nbsp;                this.notifyAllUsers(this.messageBuilder(lobby, false), user.getId(), this.messageBuilder(lobby, true));</b>
+<b class="fc"><i>177</i>&nbsp;                return;</b>
+<i>178</i>&nbsp;            }
+<b class="nc"><i>179</i>&nbsp;        }</b>
+<b class="nc"><i>180</i>&nbsp;    }</b>
+<i>181</i>&nbsp;
+<i>182</i>&nbsp;    /**
+<i>183</i>&nbsp;     * Send and error message to a specified user
+<i>184</i>&nbsp;     * @param userToNotifyError the user id
+<i>185</i>&nbsp;     * @param errorString the error
+<i>186</i>&nbsp;     */
+<i>187</i>&nbsp;    public void notifyError(int userToNotifyError, String errorString){
+<b class="nc"><i>188</i>&nbsp;        ErrorMessage errorMessage = new ErrorMessage(errorString);</b>
+<b class="nc"><i>189</i>&nbsp;        for (User user : this.notDecidedYet){</b>
+<b class="nc"><i>190</i>&nbsp;            if (user.getId() == userToNotifyError){</b>
+<b class="nc"><i>191</i>&nbsp;                user.send(errorMessage);</b>
+<b class="nc"><i>192</i>&nbsp;                return;</b>
+<i>193</i>&nbsp;            }
+<b class="nc"><i>194</i>&nbsp;        }</b>
+<b class="nc"><i>195</i>&nbsp;        for (Lobby lobby : this.lobbies) {</b>
+<b class="nc"><i>196</i>&nbsp;            for (User user : lobby.getUsers()) {</b>
+<b class="nc"><i>197</i>&nbsp;                if (user.getId() == userToNotifyError) {</b>
+<b class="nc"><i>198</i>&nbsp;                    user.send(errorMessage);</b>
+<b class="nc"><i>199</i>&nbsp;                    return;</b>
+<i>200</i>&nbsp;                }
+<b class="nc"><i>201</i>&nbsp;            }</b>
+<b class="nc"><i>202</i>&nbsp;        }</b>
+<b class="nc"><i>203</i>&nbsp;    }</b>
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;    /**
+<i>206</i>&nbsp;     * Adding a new user to the model: basically adding a new observer
+<i>207</i>&nbsp;     * @param user user to add
+<i>208</i>&nbsp;     */
+<i>209</i>&nbsp;    public void addNewUser(User user){
+<b class="fc"><i>210</i>&nbsp;        this.notDecidedYet.add(user);</b>
+<b class="fc"><i>211</i>&nbsp;        this.notifyUserAllLobbies(user);</b>
+<b class="fc"><i>212</i>&nbsp;    }</b>
+<i>213</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

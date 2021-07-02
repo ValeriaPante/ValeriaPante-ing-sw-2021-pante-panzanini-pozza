@@ -1,0 +1,414 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BuyDevCardController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BuyDevCardController (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BuyDevCardController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/ 14)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89,4%
+  </span>
+  <span class="absValue">
+    (118/ 132)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.Cards.DevCard;
+<i>4</i>&nbsp;import it.polimi.ingsw.Model.Cards.LeaderCard;
+<i>5</i>&nbsp;import it.polimi.ingsw.Model.Decks.DevDeck;
+<i>6</i>&nbsp;import it.polimi.ingsw.Model.Deposit.Depot;
+<i>7</i>&nbsp;import it.polimi.ingsw.Model.Deposit.Payable;
+<i>8</i>&nbsp;import it.polimi.ingsw.Enums.MacroTurnType;
+<i>9</i>&nbsp;import it.polimi.ingsw.Enums.MicroTurnType;
+<i>10</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>11</i>&nbsp;import it.polimi.ingsw.Exceptions.CantPutThisHere;
+<i>12</i>&nbsp;import it.polimi.ingsw.Exceptions.GameOver;
+<i>13</i>&nbsp;import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.util.ArrayList;
+<i>16</i>&nbsp;import java.util.EnumMap;
+<i>17</i>&nbsp;import java.util.Map;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;/**
+<i>21</i>&nbsp; * Controller that manages the process of buying a new development card
+<i>22</i>&nbsp; */
+<i>23</i>&nbsp;public class BuyDevCardController extends CardActionController{
+<i>24</i>&nbsp;    private final ArrayList&lt;Integer&gt; appliedDiscounts;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Controller constructor
+<i>28</i>&nbsp;     * @param ftc controller that manages actions on the faith track
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    public BuyDevCardController(FaithTrackController ftc){
+<b class="fc"><i>31</i>&nbsp;        super(ftc);</b>
+<b class="fc"><i>32</i>&nbsp;        appliedDiscounts = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    /**
+<i>37</i>&nbsp;     * Selects the card on top of the chosen deck if possible (if a card had been chosen before, it will be deselected);
+<i>38</i>&nbsp;     * sets an error message in the following cases:
+<i>39</i>&nbsp;     * - player has already made his turn
+<i>40</i>&nbsp;     * - chosen number of deck doesn&#39;t exist
+<i>41</i>&nbsp;     * - chosen deck is empty
+<i>42</i>&nbsp;     * - there is no available slot to contain the card
+<i>43</i>&nbsp;     * - player doesn&#39;t own the required resources to buy the card
+<i>44</i>&nbsp;     * @param chosenDeck number of deck from which the player chose to buy the card on top
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;    public void chooseDevCard(int chosenDeck){
+<b class="fc"><i>47</i>&nbsp;        table.turnOf().clearErrorMessage();</b>
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;        if(table.turnOf().getMacroTurnType() == MacroTurnType.NONE) {</b>
+<i>50</i>&nbsp;            try {
+<b class="fc"><i>51</i>&nbsp;                if(!table.getDevDecks()[chosenDeck - 1].isEmpty()) {</b>
+<b class="fc"><i>52</i>&nbsp;                    int cardId = table.getDevDecks()[chosenDeck-1].getTopCard().getId();</b>
+<b class="fc"><i>53</i>&nbsp;                    if (!atLeastOneDevSlotIsAvailable(table.getDevDecks()[chosenDeck - 1].getTopCard())) {</b>
+<b class="fc"><i>54</i>&nbsp;                        table.turnOf().setErrorMessage(&quot;You can&#39;t buy this card, there is no slot to contain it. &quot;, cardId);</b>
+<b class="fc"><i>55</i>&nbsp;                    } else if(!isAffordableSomehow(table.getDevDecks()[chosenDeck - 1].getTopCard().getCost())){</b>
+<b class="nc"><i>56</i>&nbsp;                        table.turnOf().setErrorMessage(&quot;You can&#39;t buy this card, you don&#39;t have enough resources. &quot;, cardId);</b>
+<i>57</i>&nbsp;                    }else {
+<b class="fc"><i>58</i>&nbsp;                        for(DevDeck deck: table.getDevDecks()){</b>
+<b class="fc"><i>59</i>&nbsp;                            DevCard card = deck.getTopCard();</b>
+<b class="fc"><i>60</i>&nbsp;                            if(card != null &amp;&amp; card.isSelected())</b>
+<b class="fc"><i>61</i>&nbsp;                                deck.selectTopCard();</b>
+<i>62</i>&nbsp;                        }
+<b class="fc"><i>63</i>&nbsp;                        table.getDevDecks()[chosenDeck - 1].selectTopCard();</b>
+<i>64</i>&nbsp;                    }
+<b class="fc"><i>65</i>&nbsp;                } else {</b>
+<b class="nc"><i>66</i>&nbsp;                    table.turnOf().setErrorMessage(&quot;Wrong selection: this deck is empty. &quot;);</b>
+<i>67</i>&nbsp;                }
+<b class="fc"><i>68</i>&nbsp;            } catch (IndexOutOfBoundsException e){</b>
+<b class="fc"><i>69</i>&nbsp;                table.turnOf().setErrorMessage(&quot;Wrong selection: There is no such deck. &quot;);</b>
+<b class="fc"><i>70</i>&nbsp;            }</b>
+<b class="fc"><i>71</i>&nbsp;        } else table.turnOf().setErrorMessage(&quot;You can&#39;t do this action&quot;);</b>
+<b class="fc"><i>72</i>&nbsp;    }</b>
+<i>73</i>&nbsp;
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    /**
+<i>76</i>&nbsp;     * Checks if the player can place the chosen card on one of his slots
+<i>77</i>&nbsp;     * @param card chosen card
+<i>78</i>&nbsp;     * @return true if he can place the card, false otherwise
+<i>79</i>&nbsp;     */
+<i>80</i>&nbsp;    private boolean atLeastOneDevSlotIsAvailable(DevCard card){
+<b class="fc"><i>81</i>&nbsp;        boolean result = false;</b>
+<b class="fc"><i>82</i>&nbsp;        for(int i = 0; i &lt; table.turnOf().getDevSlots().length; i++)</b>
+<b class="fc"><i>83</i>&nbsp;            result = result || table.turnOf().getDevSlots()[i].isInsertable(card);</b>
+<b class="fc"><i>84</i>&nbsp;        return result;</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * Checks if the player had already chose a card
+<i>89</i>&nbsp;     * @return true if a selection had already been made, false otherwise
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    private boolean thereIsASelection(){
+<b class="fc"><i>92</i>&nbsp;        for(DevDeck deck: table.getDevDecks()){</b>
+<i>93</i>&nbsp;            try {
+<b class="fc"><i>94</i>&nbsp;                if(deck.getTopCard() != null &amp;&amp; deck.getTopCard().isSelected())</b>
+<b class="fc"><i>95</i>&nbsp;                    return true;</b>
+<b class="nc"><i>96</i>&nbsp;            } catch (IndexOutOfBoundsException ignored){</b>
+<i>97</i>&nbsp;
+<b class="fc"><i>98</i>&nbsp;            }</b>
+<i>99</i>&nbsp;        }
+<b class="fc"><i>100</i>&nbsp;        return false;</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * Makes effective the choice of buying the selected development card
+<i>105</i>&nbsp;     * sets an error in case player hasn&#39;t the previous step in the process of buying a new development card
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    public void buyDevCard(){
+<b class="fc"><i>108</i>&nbsp;        table.turnOf().clearErrorMessage();</b>
+<i>109</i>&nbsp;
+<b class="fc"><i>110</i>&nbsp;        if (this.thereIsASelection() &amp;&amp; table.turnOf().getMacroTurnType() == MacroTurnType.NONE){</b>
+<b class="fc"><i>111</i>&nbsp;            table.turnOf().setMacroTurnType(MacroTurnType.BUY_NEW_CARD);</b>
+<b class="fc"><i>112</i>&nbsp;            table.turnOf().setMicroTurnType(MicroTurnType.SETTING_UP);</b>
+<b class="fc"><i>113</i>&nbsp;            for(DevDeck deck: table.getDevDecks()){</b>
+<b class="fc"><i>114</i>&nbsp;                if(deck.getTopCard()!= null &amp;&amp; deck.getTopCard().isSelected()) {</b>
+<b class="fc"><i>115</i>&nbsp;                    table.updatePlayerOfTurnSupportContainer(deck.getTopCard().getCost());</b>
+<b class="fc"><i>116</i>&nbsp;                    break;</b>
+<i>117</i>&nbsp;                }
+<i>118</i>&nbsp;            }
+<b class="fc"><i>119</i>&nbsp;        } else table.turnOf().setErrorMessage(&quot;You can&#39;t do this action&quot;);</b>
+<b class="fc"><i>120</i>&nbsp;    }</b>
+<i>121</i>&nbsp;
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    /**
+<i>124</i>&nbsp;     * Applies the discount of a leader card chosen by the player;
+<i>125</i>&nbsp;     * sets an error message in the following cases:
+<i>126</i>&nbsp;     * - player doesn&#39;t own that card
+<i>127</i>&nbsp;     * - player didn&#39;t activate the card
+<i>128</i>&nbsp;     * - chosen card has not a discount ability
+<i>129</i>&nbsp;     * - player has already made his turn
+<i>130</i>&nbsp;     * - player hasn&#39;t the previous step in the process of buying a new development card
+<i>131</i>&nbsp;     * @param id chosen leader card id
+<i>132</i>&nbsp;     */
+<i>133</i>&nbsp;    public void applyDiscountAbility(int id){
+<b class="fc"><i>134</i>&nbsp;        table.turnOf().clearErrorMessage();</b>
+<i>135</i>&nbsp;
+<b class="fc"><i>136</i>&nbsp;        if (table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD &amp;&amp; this.thereIsASelection() &amp;&amp;  table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){</b>
+<b class="fc"><i>137</i>&nbsp;            LeaderCard card = getUsableLeaderCard(id);</b>
+<b class="fc"><i>138</i>&nbsp;            if (card == null) table.turnOf().setErrorMessage(&quot;This Leader Card doesn&#39;t exist or hasn&#39;t been played. &quot;);</b>
+<i>139</i>&nbsp;            else{
+<b class="fc"><i>140</i>&nbsp;                if(appliedDiscounts.contains(id)) return;</b>
+<b class="fc"><i>141</i>&nbsp;                EnumMap&lt;Resource, Integer&gt; toBePaid = table.turnOf().getSupportContainer().content();</b>
+<i>142</i>&nbsp;                try {
+<b class="fc"><i>143</i>&nbsp;                    toBePaid.replaceAll((k, v) -&gt; v - ((card.getAbility().getDiscount().get(k) != null) ? card.getAbility().getDiscount().get(k) : 0));</b>
+<b class="fc"><i>144</i>&nbsp;                    for(Map.Entry&lt;Resource, Integer&gt; entry: toBePaid.entrySet())</b>
+<b class="fc"><i>145</i>&nbsp;                        if(entry.getValue() == 0)</b>
+<b class="fc"><i>146</i>&nbsp;                            toBePaid.remove(entry.getKey());</b>
+<i>147</i>&nbsp;
+<b class="fc"><i>148</i>&nbsp;                    table.updatePlayerOfTurnSupportContainer(toBePaid);</b>
+<i>149</i>&nbsp;
+<b class="fc"><i>150</i>&nbsp;                    if(toBePaid.isEmpty()){</b>
+<b class="fc"><i>151</i>&nbsp;                        table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);</b>
+<i>152</i>&nbsp;                    }
+<b class="nc"><i>153</i>&nbsp;                } catch (WrongLeaderCardType e){</b>
+<b class="nc"><i>154</i>&nbsp;                    table.turnOf().setErrorMessage(&quot;This Leader Card has not a discount ability. &quot;);</b>
+<b class="fc"><i>155</i>&nbsp;                }</b>
+<i>156</i>&nbsp;            }
+<b class="fc"><i>157</i>&nbsp;        } else table.turnOf().setErrorMessage(&quot;You can&#39;t do this action&quot;);</b>
+<b class="fc"><i>158</i>&nbsp;    }</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    /**
+<i>161</i>&nbsp;     * Selects a resource from a shelf
+<i>162</i>&nbsp;     * @param resType type of resource to select
+<i>163</i>&nbsp;     * @param numberOfShelf number of shelf to select from
+<i>164</i>&nbsp;     * @return true if the selection was successfully made, false otherwise
+<i>165</i>&nbsp;     */
+<i>166</i>&nbsp;    public boolean selectionFromShelf(Resource resType, int numberOfShelf){
+<b class="fc"><i>167</i>&nbsp;        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD &amp;&amp; this.thereIsASelection() &amp;&amp; table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){</b>
+<b class="fc"><i>168</i>&nbsp;            selectFromShelf(resType, numberOfShelf);</b>
+<b class="fc"><i>169</i>&nbsp;            return true;</b>
+<i>170</i>&nbsp;        }
+<b class="fc"><i>171</i>&nbsp;        return false;</b>
+<i>172</i>&nbsp;    }
+<i>173</i>&nbsp;
+<i>174</i>&nbsp;    /**
+<i>175</i>&nbsp;     * Selects a resource from a leader card with storage ability
+<i>176</i>&nbsp;     * @param resType type of resource to select
+<i>177</i>&nbsp;     * @param serial id of the leader card with storage ability
+<i>178</i>&nbsp;     * @param resPosition position of the resource inside the storage
+<i>179</i>&nbsp;     * @return true if the selection was successfully made, false otherwise
+<i>180</i>&nbsp;     */
+<i>181</i>&nbsp;    public boolean selectionFromLeaderStorage(Resource resType, int serial, int resPosition){
+<b class="fc"><i>182</i>&nbsp;        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD &amp;&amp; this.thereIsASelection() &amp;&amp; table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){</b>
+<b class="fc"><i>183</i>&nbsp;            selectFromLeaderStorage(resType, serial, resPosition);</b>
+<b class="fc"><i>184</i>&nbsp;            return true;</b>
+<i>185</i>&nbsp;        }
+<b class="fc"><i>186</i>&nbsp;        return false;</b>
+<i>187</i>&nbsp;    }
+<i>188</i>&nbsp;
+<i>189</i>&nbsp;    /**
+<i>190</i>&nbsp;     * Selects a resource from the strongbox
+<i>191</i>&nbsp;     * @param resType type of resource to select
+<i>192</i>&nbsp;     * @param quantity quantity of the chosen resource to select
+<i>193</i>&nbsp;     * @return true if the selection was successfully made, false otherwise
+<i>194</i>&nbsp;     */
+<i>195</i>&nbsp;    public boolean selectionFromStrongBox(Resource resType, int quantity){
+<b class="fc"><i>196</i>&nbsp;        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD &amp;&amp; this.thereIsASelection() &amp;&amp; table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){</b>
+<b class="fc"><i>197</i>&nbsp;            selectFromStrongBox(resType, quantity);</b>
+<b class="fc"><i>198</i>&nbsp;            return true;</b>
+<i>199</i>&nbsp;        }
+<b class="fc"><i>200</i>&nbsp;        return false;</b>
+<i>201</i>&nbsp;    }
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;    /**
+<i>204</i>&nbsp;     * Deselects a resource from a shelf
+<i>205</i>&nbsp;     * @param resType type of resource to deselect
+<i>206</i>&nbsp;     * @param numberOfShelf number of shelf to deselect from
+<i>207</i>&nbsp;     * @return true if the deselection was successfully made, false otherwise
+<i>208</i>&nbsp;     */
+<i>209</i>&nbsp;    public boolean deselectionFromShelf(Resource resType, int numberOfShelf){
+<b class="fc"><i>210</i>&nbsp;        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD &amp;&amp; this.thereIsASelection() &amp;&amp; table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP) {</b>
+<b class="fc"><i>211</i>&nbsp;            deselectFromShelf(resType, numberOfShelf);</b>
+<b class="fc"><i>212</i>&nbsp;            return true;</b>
+<i>213</i>&nbsp;        }
+<b class="fc"><i>214</i>&nbsp;        return false;</b>
+<i>215</i>&nbsp;    }
+<i>216</i>&nbsp;
+<i>217</i>&nbsp;    /**
+<i>218</i>&nbsp;     * Deselects a resource from the strongbox
+<i>219</i>&nbsp;     * @param resType type of resource to deselect
+<i>220</i>&nbsp;     * @param quantity quantity of the chosen resource to deselect
+<i>221</i>&nbsp;     * @return true if the deselection was successfully made, false otherwise
+<i>222</i>&nbsp;     */
+<i>223</i>&nbsp;    public boolean deselectionFromStrongBox(Resource resType, int quantity){
+<b class="fc"><i>224</i>&nbsp;        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD &amp;&amp; this.thereIsASelection() &amp;&amp; table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){</b>
+<b class="fc"><i>225</i>&nbsp;            deselectFromStrongBox(resType, quantity);</b>
+<b class="fc"><i>226</i>&nbsp;            return true;</b>
+<i>227</i>&nbsp;        }
+<b class="fc"><i>228</i>&nbsp;        return false;</b>
+<i>229</i>&nbsp;    }
+<i>230</i>&nbsp;
+<i>231</i>&nbsp;    /**
+<i>232</i>&nbsp;     * Makes effective the payment of the selected resources;
+<i>233</i>&nbsp;     * sets an error message int he following cases:
+<i>234</i>&nbsp;     * - the total selection doesn&#39;t match the cost of the card
+<i>235</i>&nbsp;     * - player has already made his turn
+<i>236</i>&nbsp;     * - player hasn&#39;t the previous step in the process of buying a new development card
+<i>237</i>&nbsp;     */
+<i>238</i>&nbsp;    public void paySelected(){
+<b class="fc"><i>239</i>&nbsp;        table.turnOf().clearErrorMessage();</b>
+<i>240</i>&nbsp;
+<b class="fc"><i>241</i>&nbsp;        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD &amp;&amp; this.thereIsASelection() &amp;&amp; table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){</b>
+<i>242</i>&nbsp;
+<b class="fc"><i>243</i>&nbsp;            if(!this.isEnough()){</b>
+<b class="fc"><i>244</i>&nbsp;                table.turnOf().setErrorMessage(&quot;Your selection doesn&#39;t match the cost.&quot;);</b>
+<b class="fc"><i>245</i>&nbsp;                return;</b>
+<i>246</i>&nbsp;            }
+<i>247</i>&nbsp;
+<b class="fc"><i>248</i>&nbsp;            for(Payable payable: this.getPayableWithSelection())</b>
+<b class="fc"><i>249</i>&nbsp;                table.payPlayerOfTurn(payable);</b>
+<b class="fc"><i>250</i>&nbsp;            table.turnOf().setMicroTurnType(MicroTurnType.ANY_DECISION);</b>
+<b class="fc"><i>251</i>&nbsp;        } else table.turnOf().setErrorMessage(&quot;You can&#39;t do this action&quot;);</b>
+<b class="fc"><i>252</i>&nbsp;    }</b>
+<i>253</i>&nbsp;
+<i>254</i>&nbsp;
+<i>255</i>&nbsp;    /**
+<i>256</i>&nbsp;     * Checks if the total selection of resources to pay matches the cost of the chosen card
+<i>257</i>&nbsp;     * @return true if the selection matches the cost, false otherwise
+<i>258</i>&nbsp;     */
+<i>259</i>&nbsp;    private boolean isEnough(){
+<b class="fc"><i>260</i>&nbsp;        Depot temp = new Depot();</b>
+<b class="fc"><i>261</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; tempMap = new EnumMap&lt;&gt;(Resource.class);</b>
+<b class="fc"><i>262</i>&nbsp;        if(table.turnOf().getStrongBox().getSelection() != null){</b>
+<b class="fc"><i>263</i>&nbsp;            temp.addEnumMap(table.turnOf().getStrongBox().getSelection());</b>
+<i>264</i>&nbsp;        }
+<b class="fc"><i>265</i>&nbsp;        for(int i = 0; i &lt; table.turnOf().getShelves().length; i++){</b>
+<b class="fc"><i>266</i>&nbsp;            if(!table.turnOf().getShelves()[i].isEmpty()){</b>
+<b class="nc"><i>267</i>&nbsp;                tempMap.put(table.turnOf().getShelves()[i].getResourceType(), table.turnOf().getShelves()[i].getQuantitySelected());</b>
+<b class="nc"><i>268</i>&nbsp;                temp.addEnumMap(tempMap);</b>
+<b class="nc"><i>269</i>&nbsp;                tempMap.clear();</b>
+<i>270</i>&nbsp;            }
+<i>271</i>&nbsp;        }
+<b class="fc"><i>272</i>&nbsp;        for(int i = 0; i &lt; table.turnOf().getLeaderCards().length; i++){</b>
+<b class="nc"><i>273</i>&nbsp;            if(table.turnOf().getLeaderCards()[i].hasBeenPlayed()){</b>
+<i>274</i>&nbsp;                try {
+<b class="nc"><i>275</i>&nbsp;                    temp.addEnumMap(table.turnOf().getLeaderCards()[i].getAbility().getSelected());</b>
+<b class="nc"><i>276</i>&nbsp;                } catch (WrongLeaderCardType ignored) {</b>
+<i>277</i>&nbsp;
+<b class="nc"><i>278</i>&nbsp;                }</b>
+<i>279</i>&nbsp;            }
+<i>280</i>&nbsp;        }
+<i>281</i>&nbsp;
+<b class="fc"><i>282</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; selected = temp.content();</b>
+<b class="fc"><i>283</i>&nbsp;        if(selected == null) selected = new EnumMap&lt;&gt;(Resource.class);</b>
+<b class="fc"><i>284</i>&nbsp;        EnumMap&lt;Resource, Integer&gt; supportContainerContent = table.turnOf().getSupportContainer().content();</b>
+<b class="fc"><i>285</i>&nbsp;        if(supportContainerContent == null) supportContainerContent = new EnumMap&lt;&gt;(Resource.class);</b>
+<b class="fc"><i>286</i>&nbsp;        return selected.equals(supportContainerContent);</b>
+<i>287</i>&nbsp;
+<i>288</i>&nbsp;    }
+<i>289</i>&nbsp;
+<i>290</i>&nbsp;    /**
+<i>291</i>&nbsp;     * Puts the bought card on top of the chosen slot;
+<i>292</i>&nbsp;     * sets an error message in the following cases:
+<i>293</i>&nbsp;     * - player has already made his turn
+<i>294</i>&nbsp;     * - player hasn&#39;t the previous step in the process of buying a new development card
+<i>295</i>&nbsp;     * - the chosen slot can&#39;t contain the bought card
+<i>296</i>&nbsp;     * - number of slot is wrong
+<i>297</i>&nbsp;     * @param numberOfSlot number of the slot to put the card onto
+<i>298</i>&nbsp;     * @throws GameOver when player bought his 7th card (in this case the game must end)
+<i>299</i>&nbsp;     */
+<i>300</i>&nbsp;    public void chooseDevSlot(int numberOfSlot) throws GameOver {
+<b class="fc"><i>301</i>&nbsp;        table.turnOf().clearErrorMessage();</b>
+<i>302</i>&nbsp;
+<b class="fc"><i>303</i>&nbsp;        if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD &amp;&amp; this.thereIsASelection() &amp;&amp; table.turnOf().getMicroTurnType() == MicroTurnType.ANY_DECISION){</b>
+<b class="fc"><i>304</i>&nbsp;            DevDeck[] devDecks = table.getDevDecks();</b>
+<i>305</i>&nbsp;            int numberOfDeck;
+<b class="fc"><i>306</i>&nbsp;            for (numberOfDeck = 0; numberOfDeck&lt;devDecks.length; numberOfDeck++){</b>
+<b class="fc"><i>307</i>&nbsp;                if (devDecks[numberOfDeck].getTopCard()!= null &amp;&amp; devDecks[numberOfDeck].getTopCard().isSelected()){</b>
+<b class="fc"><i>308</i>&nbsp;                    break;</b>
+<i>309</i>&nbsp;                }
+<i>310</i>&nbsp;            }
+<i>311</i>&nbsp;
+<b class="fc"><i>312</i>&nbsp;            if (numberOfDeck&lt;devDecks.length){</b>
+<i>313</i>&nbsp;                try {
+<b class="fc"><i>314</i>&nbsp;                    table.updatePlayerOfTurnDevSlot(numberOfSlot, devDecks[numberOfDeck].getTopCard());</b>
+<b class="fc"><i>315</i>&nbsp;                    table.drawDevDeck(numberOfDeck);</b>
+<b class="fc"><i>316</i>&nbsp;                    table.turnOf().setMicroTurnType(MicroTurnType.NONE);</b>
+<b class="fc"><i>317</i>&nbsp;                    table.turnOf().setMacroTurnType(MacroTurnType.DONE);</b>
+<b class="fc"><i>318</i>&nbsp;                    appliedDiscounts.clear();</b>
+<b class="fc"><i>319</i>&nbsp;                    if(table.turnOf().getNumberOfDevCardOwned() == 7){</b>
+<b class="fc"><i>320</i>&nbsp;                        table.setLastLap();</b>
+<b class="fc"><i>321</i>&nbsp;                        throw new GameOver();</b>
+<i>322</i>&nbsp;                    }
+<b class="nc"><i>323</i>&nbsp;                } catch (CantPutThisHere e) {</b>
+<b class="nc"><i>324</i>&nbsp;                    table.turnOf().setErrorMessage(&quot;This Slot can&#39;t contain your card. &quot;);</b>
+<b class="fc"><i>325</i>&nbsp;                } catch (IndexOutOfBoundsException e) {</b>
+<b class="fc"><i>326</i>&nbsp;                    table.turnOf().setErrorMessage(&quot;Wrong selection: there is not such slot. &quot;);</b>
+<b class="fc"><i>327</i>&nbsp;                }</b>
+<i>328</i>&nbsp;            }
+<b class="fc"><i>329</i>&nbsp;        } else table.turnOf().setErrorMessage(&quot;You can&#39;t do this action&quot;);</b>
+<b class="fc"><i>330</i>&nbsp;    }</b>
+<i>331</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

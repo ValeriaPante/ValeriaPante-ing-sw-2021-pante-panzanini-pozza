@@ -1,0 +1,435 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: InGameControllerSwitch</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: InGameControllerSwitch (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">InGameControllerSwitch</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 33)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 197)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Exceptions.GameOver;
+<i>4</i>&nbsp;import it.polimi.ingsw.Messages.InGameMessages.ConcreteMessages.*;
+<i>5</i>&nbsp;import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+<i>6</i>&nbsp;import it.polimi.ingsw.Model.Game.Table;
+<i>7</i>&nbsp;import it.polimi.ingsw.Model.Player.RealPlayer;
+<i>8</i>&nbsp;import it.polimi.ingsw.PreGameModel.Lobby;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * This class is used for visitor pattern as visitor.
+<i>12</i>&nbsp; * It is implemented in order to avoid the usage of a &quot;switch&quot; made of multiples &quot;instanceof&quot;.
+<i>13</i>&nbsp; * It extracts the content of each message and passes it to the right controller.
+<i>14</i>&nbsp; * Since some messages can correspond to calls of methods on different controller that cannot be
+<i>15</i>&nbsp; * decided before, since it is up to the business logic of the game, whe used the pattern &quot;chain of responsibility&quot;:
+<i>16</i>&nbsp; * an example is the implementation of the &quot;actionOnMessage&quot; method for a message which type is &quot;shelfSelection&quot;.
+<i>17</i>&nbsp; * All the possible methods, on the different controllers, are called and tried to be performed and according to the
+<i>18</i>&nbsp; * result, different calls on methods are considered.
+<i>19</i>&nbsp; */
+<i>20</i>&nbsp;public class InGameControllerSwitch {
+<i>21</i>&nbsp;    private final BuyDevCardController buyDevCardController;
+<i>22</i>&nbsp;    private final GameController gameController;
+<i>23</i>&nbsp;    private final LeaderController leaderController;
+<i>24</i>&nbsp;    private final MarketController marketController;
+<i>25</i>&nbsp;    private final ProductionController productionController;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;    /**
+<i>28</i>&nbsp;     * Creates all the controllers and all the game elements
+<i>29</i>&nbsp;     * @param lobby lobby of the players that will play this match
+<i>30</i>&nbsp;     */
+<b class="nc"><i>31</i>&nbsp;    public InGameControllerSwitch(Lobby lobby){</b>
+<b class="nc"><i>32</i>&nbsp;        gameController = new GameController(lobby);</b>
+<b class="nc"><i>33</i>&nbsp;        buyDevCardController = new BuyDevCardController(gameController.getFaithTrackController());</b>
+<b class="nc"><i>34</i>&nbsp;        productionController = new ProductionController(gameController.getFaithTrackController());</b>
+<b class="nc"><i>35</i>&nbsp;        marketController = new MarketController(gameController.getFaithTrackController());</b>
+<b class="nc"><i>36</i>&nbsp;        leaderController = new LeaderController(gameController.getFaithTrackController());</b>
+<b class="nc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    private boolean isActionFromTurnOf(InGameMessage message){
+<b class="nc"><i>40</i>&nbsp;        Table table = gameController.getTable();</b>
+<i>41</i>&nbsp;
+<b class="nc"><i>42</i>&nbsp;        RealPlayer senderPlayer = null;</b>
+<b class="nc"><i>43</i>&nbsp;        for (RealPlayer player : table.getPlayers()){</b>
+<b class="nc"><i>44</i>&nbsp;            if (player.getId() == message.getSenderId()){</b>
+<b class="nc"><i>45</i>&nbsp;                senderPlayer = player;</b>
+<i>46</i>&nbsp;            }
+<i>47</i>&nbsp;        }
+<b class="nc"><i>48</i>&nbsp;        if (table.isSinglePlayer() &amp;&amp; table.isLorenzoTurn()){</b>
+<b class="nc"><i>49</i>&nbsp;            if (senderPlayer != null){</b>
+<b class="nc"><i>50</i>&nbsp;                senderPlayer.setErrorMessage(&quot;It is not your turn!&quot;);</b>
+<i>51</i>&nbsp;            }
+<b class="nc"><i>52</i>&nbsp;            return false;</b>
+<i>53</i>&nbsp;        }
+<b class="nc"><i>54</i>&nbsp;        if (message.getSenderId() != table.turnOf().getId()){</b>
+<b class="nc"><i>55</i>&nbsp;            System.out.println(table.turnOf().getId());</b>
+<b class="nc"><i>56</i>&nbsp;            if (senderPlayer != null){</b>
+<b class="nc"><i>57</i>&nbsp;                senderPlayer.setErrorMessage(&quot;It is not your turn!&quot;);</b>
+<i>58</i>&nbsp;            }
+<b class="nc"><i>59</i>&nbsp;            return false;</b>
+<i>60</i>&nbsp;        }
+<b class="nc"><i>61</i>&nbsp;        return true;</b>
+<i>62</i>&nbsp;    }
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;    public synchronized void actionOnMessage(DeselectAllResources message){
+<b class="nc"><i>65</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>66</i>&nbsp;            return;</b>
+<i>67</i>&nbsp;        }
+<b class="nc"><i>68</i>&nbsp;        marketController.deselectAllResources();</b>
+<b class="nc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public synchronized void actionOnMessage(AllProductionPowerSelectionMessage message){
+<b class="nc"><i>72</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>73</i>&nbsp;            return;</b>
+<i>74</i>&nbsp;        }
+<b class="nc"><i>75</i>&nbsp;        productionController.selectAllProductionPowers();</b>
+<b class="nc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    public synchronized void actionOnMessage(AnySelectionMessage message){
+<b class="nc"><i>79</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>80</i>&nbsp;            return;</b>
+<i>81</i>&nbsp;        }
+<i>82</i>&nbsp;        try{
+<b class="nc"><i>83</i>&nbsp;            productionController.anySelection(message.getResource());</b>
+<b class="nc"><i>84</i>&nbsp;        } catch (GameOver gameOver) {</b>
+<b class="nc"><i>85</i>&nbsp;            gameController.endGame();</b>
+<b class="nc"><i>86</i>&nbsp;        }</b>
+<b class="nc"><i>87</i>&nbsp;    }</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;    public synchronized void actionOnMessage(BackFromAnySelectionMessage message){
+<b class="nc"><i>90</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>91</i>&nbsp;            return;</b>
+<i>92</i>&nbsp;        }
+<b class="nc"><i>93</i>&nbsp;        productionController.backFromAnySelection();</b>
+<b class="nc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    public synchronized void actionOnMessage(BuyDevCardMessage message){
+<b class="nc"><i>97</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>98</i>&nbsp;            return;</b>
+<i>99</i>&nbsp;        }
+<b class="nc"><i>100</i>&nbsp;        buyDevCardController.buyDevCard();</b>
+<b class="nc"><i>101</i>&nbsp;    }</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    public synchronized void actionOnMessage(CardProductionSelectionMessage message){
+<b class="nc"><i>104</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>105</i>&nbsp;            return;</b>
+<i>106</i>&nbsp;        }
+<b class="nc"><i>107</i>&nbsp;        productionController.selectCardProduction(message.getInteger());</b>
+<b class="nc"><i>108</i>&nbsp;    }</b>
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    public synchronized void actionOnMessage(ChooseDevCardMessage message){
+<b class="nc"><i>111</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>112</i>&nbsp;            return;</b>
+<i>113</i>&nbsp;        }
+<b class="nc"><i>114</i>&nbsp;        buyDevCardController.chooseDevCard(message.getInteger());</b>
+<b class="nc"><i>115</i>&nbsp;    }</b>
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;    public synchronized void actionOnMessage(ChooseDevSlotMessage message){
+<b class="nc"><i>118</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>119</i>&nbsp;            return;</b>
+<i>120</i>&nbsp;        }
+<i>121</i>&nbsp;        try{
+<b class="nc"><i>122</i>&nbsp;            buyDevCardController.chooseDevSlot(message.getInteger());</b>
+<b class="nc"><i>123</i>&nbsp;        } catch (GameOver gameOver) {</b>
+<b class="nc"><i>124</i>&nbsp;            gameController.endGame();</b>
+<b class="nc"><i>125</i>&nbsp;        }</b>
+<b class="nc"><i>126</i>&nbsp;    }</b>
+<i>127</i>&nbsp;
+<i>128</i>&nbsp;    public synchronized void actionOnMessage(DiscountAbilityMessage message){
+<b class="nc"><i>129</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>130</i>&nbsp;            return;</b>
+<i>131</i>&nbsp;        }
+<b class="nc"><i>132</i>&nbsp;        buyDevCardController.applyDiscountAbility(message.getInteger());</b>
+<b class="nc"><i>133</i>&nbsp;    }</b>
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;    public synchronized void actionOnMessage(EndTurnMessage message){
+<b class="nc"><i>136</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>137</i>&nbsp;            return;</b>
+<i>138</i>&nbsp;        }
+<b class="nc"><i>139</i>&nbsp;        gameController.endTurn();</b>
+<b class="nc"><i>140</i>&nbsp;    }</b>
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    public synchronized void actionOnMessage(ExchangeMessage message){
+<b class="nc"><i>143</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>144</i>&nbsp;            return;</b>
+<i>145</i>&nbsp;        }
+<b class="nc"><i>146</i>&nbsp;        marketController.exchange();</b>
+<b class="nc"><i>147</i>&nbsp;    }</b>
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;    public synchronized void actionOnMessage(LeaderCardActionMessage message){
+<b class="nc"><i>150</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>151</i>&nbsp;            return;</b>
+<i>152</i>&nbsp;        }
+<i>153</i>&nbsp;        try{
+<b class="nc"><i>154</i>&nbsp;            leaderController.actionOnLeaderCard(message.getInteger(), message.isaBoolean());</b>
+<b class="nc"><i>155</i>&nbsp;        } catch (GameOver gameOver) {</b>
+<b class="nc"><i>156</i>&nbsp;            gameController.endGame();</b>
+<b class="nc"><i>157</i>&nbsp;        }</b>
+<b class="nc"><i>158</i>&nbsp;    }</b>
+<i>159</i>&nbsp;
+<i>160</i>&nbsp;    public synchronized void actionOnMessage(LeaderDiscardMessage message){
+<b class="nc"><i>161</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>162</i>&nbsp;            return;</b>
+<i>163</i>&nbsp;        }
+<b class="nc"><i>164</i>&nbsp;        gameController.discardLeaderCard(message.getInteger());</b>
+<b class="nc"><i>165</i>&nbsp;    }</b>
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    public synchronized void actionOnMessage(LeaderStorageSelectionMessage message){
+<b class="nc"><i>168</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>169</i>&nbsp;            return;</b>
+<i>170</i>&nbsp;        }
+<i>171</i>&nbsp;        boolean bool;
+<b class="nc"><i>172</i>&nbsp;        bool = marketController.selectionFromLeaderStorage(message.getResource(), message.getId(), message.getResPosition());</b>
+<b class="nc"><i>173</i>&nbsp;        if (!bool){</b>
+<b class="nc"><i>174</i>&nbsp;            bool = buyDevCardController.selectionFromLeaderStorage(message.getResource(), message.getId(), message.getResPosition());</b>
+<b class="nc"><i>175</i>&nbsp;            if (!bool) {</b>
+<b class="nc"><i>176</i>&nbsp;                bool = productionController.selectionFromLeaderStorage(message.getResource(), message.getId(), message.getResPosition());</b>
+<b class="nc"><i>177</i>&nbsp;                if (!bool)</b>
+<b class="nc"><i>178</i>&nbsp;                    gameController.getTable().turnOf().setErrorMessage(&quot;You cannot perform this action now!&quot;);</b>
+<i>179</i>&nbsp;            }
+<i>180</i>&nbsp;        }
+<b class="nc"><i>181</i>&nbsp;    }</b>
+<i>182</i>&nbsp;
+<i>183</i>&nbsp;    public synchronized void actionOnMessage(MarketSelectionMessage message){
+<b class="nc"><i>184</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>185</i>&nbsp;            return;</b>
+<i>186</i>&nbsp;        }
+<b class="nc"><i>187</i>&nbsp;        marketController.selectFromMarket(message.getInteger(), message.isaBoolean());</b>
+<b class="nc"><i>188</i>&nbsp;    }</b>
+<i>189</i>&nbsp;
+<i>190</i>&nbsp;    public synchronized void actionOnMessage(MoveToLeaderStorageMessage message){
+<b class="nc"><i>191</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>192</i>&nbsp;            return;</b>
+<i>193</i>&nbsp;        }
+<b class="nc"><i>194</i>&nbsp;        marketController.moveToLeaderStorage(message.getInteger());</b>
+<b class="nc"><i>195</i>&nbsp;    }</b>
+<i>196</i>&nbsp;
+<i>197</i>&nbsp;    public synchronized void actionOnMessage(MoveToShelfMessage message){
+<b class="nc"><i>198</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>199</i>&nbsp;            return;</b>
+<i>200</i>&nbsp;        }
+<b class="nc"><i>201</i>&nbsp;        marketController.moveToShelf(message.getInteger());</b>
+<b class="nc"><i>202</i>&nbsp;    }</b>
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;    public synchronized void actionOnMessage(MoveToSupportContainerMessage message){
+<b class="nc"><i>205</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>206</i>&nbsp;            return;</b>
+<i>207</i>&nbsp;        }
+<b class="nc"><i>208</i>&nbsp;        marketController.moveSelectedToSupportContainer();</b>
+<b class="nc"><i>209</i>&nbsp;    }</b>
+<i>210</i>&nbsp;
+<i>211</i>&nbsp;    public synchronized void actionOnMessage(PaySelectedMessage message){
+<b class="nc"><i>212</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>213</i>&nbsp;            return;</b>
+<i>214</i>&nbsp;        }
+<b class="nc"><i>215</i>&nbsp;        buyDevCardController.paySelected();</b>
+<b class="nc"><i>216</i>&nbsp;    }</b>
+<i>217</i>&nbsp;
+<i>218</i>&nbsp;    public synchronized void actionOnMessage(ProductionActivationMessage message){
+<b class="nc"><i>219</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>220</i>&nbsp;            return;</b>
+<i>221</i>&nbsp;        }
+<i>222</i>&nbsp;        try{
+<b class="nc"><i>223</i>&nbsp;            productionController.activateProduction();</b>
+<b class="nc"><i>224</i>&nbsp;        } catch (GameOver gameOver) {</b>
+<b class="nc"><i>225</i>&nbsp;            gameController.endGame();</b>
+<b class="nc"><i>226</i>&nbsp;        }</b>
+<b class="nc"><i>227</i>&nbsp;    }</b>
+<i>228</i>&nbsp;
+<i>229</i>&nbsp;    public synchronized void actionOnMessage(QuitFromMarketMessage message){
+<b class="nc"><i>230</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>231</i>&nbsp;            return;</b>
+<i>232</i>&nbsp;        }
+<i>233</i>&nbsp;        try{
+<b class="nc"><i>234</i>&nbsp;            marketController.quit();</b>
+<b class="nc"><i>235</i>&nbsp;        } catch (GameOver gameOver) {</b>
+<b class="nc"><i>236</i>&nbsp;            gameController.endGame();</b>
+<b class="nc"><i>237</i>&nbsp;        }</b>
+<b class="nc"><i>238</i>&nbsp;    }</b>
+<i>239</i>&nbsp;
+<i>240</i>&nbsp;    public synchronized void actionOnMessage(SelectResourceMessage message){
+<b class="nc"><i>241</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>242</i>&nbsp;            return;</b>
+<i>243</i>&nbsp;        }
+<b class="nc"><i>244</i>&nbsp;        gameController.selectResource(message.getInteger(), message.getResource());</b>
+<b class="nc"><i>245</i>&nbsp;    }</b>
+<i>246</i>&nbsp;    
+<i>247</i>&nbsp;    public synchronized void actionOnMessage(ShelfDeselectionMessage message){
+<b class="nc"><i>248</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>249</i>&nbsp;            return;</b>
+<i>250</i>&nbsp;        }
+<i>251</i>&nbsp;        boolean bool;
+<b class="nc"><i>252</i>&nbsp;        bool = marketController.deselectionFromShelf(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>253</i>&nbsp;        if (!bool){</b>
+<b class="nc"><i>254</i>&nbsp;            bool = buyDevCardController.deselectionFromShelf(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>255</i>&nbsp;            if (!bool) {</b>
+<b class="nc"><i>256</i>&nbsp;                bool = productionController.deselectionFromShelf(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>257</i>&nbsp;                if (!bool)</b>
+<b class="nc"><i>258</i>&nbsp;                    gameController.getTable().turnOf().setErrorMessage(&quot;You cannot perform this deselection now!&quot;);</b>
+<i>259</i>&nbsp;            }
+<i>260</i>&nbsp;        }
+<b class="nc"><i>261</i>&nbsp;    }</b>
+<i>262</i>&nbsp;
+<i>263</i>&nbsp;    public synchronized void actionOnMessage(ShelfSelectionMessage message){
+<b class="nc"><i>264</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>265</i>&nbsp;            return;</b>
+<i>266</i>&nbsp;        }
+<i>267</i>&nbsp;        boolean bool;
+<b class="nc"><i>268</i>&nbsp;        bool = marketController.selectionFromShelf(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>269</i>&nbsp;        if (!bool){</b>
+<b class="nc"><i>270</i>&nbsp;            bool = buyDevCardController.selectionFromShelf(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>271</i>&nbsp;            if (!bool) {</b>
+<b class="nc"><i>272</i>&nbsp;                bool = productionController.selectionFromShelf(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>273</i>&nbsp;                if (!bool)</b>
+<b class="nc"><i>274</i>&nbsp;                    gameController.getTable().turnOf().setErrorMessage(&quot;You cannot perform this selection now!&quot;);</b>
+<i>275</i>&nbsp;            }
+<i>276</i>&nbsp;        }
+<b class="nc"><i>277</i>&nbsp;    }</b>
+<i>278</i>&nbsp;
+<i>279</i>&nbsp;    public synchronized void actionOnMessage(StrongBoxDeselectionMessage message){
+<b class="nc"><i>280</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>281</i>&nbsp;            return;</b>
+<i>282</i>&nbsp;        }
+<i>283</i>&nbsp;        boolean bool;
+<b class="nc"><i>284</i>&nbsp;        bool = buyDevCardController.deselectionFromStrongBox(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>285</i>&nbsp;            if (!bool) {</b>
+<b class="nc"><i>286</i>&nbsp;                bool = productionController.deselectionFromStrongBox(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>287</i>&nbsp;                if (!bool)</b>
+<b class="nc"><i>288</i>&nbsp;                    gameController.getTable().turnOf().setErrorMessage(&quot;You cannot perform this deselection now!&quot;);</b>
+<i>289</i>&nbsp;            }
+<b class="nc"><i>290</i>&nbsp;    }</b>
+<i>291</i>&nbsp;
+<i>292</i>&nbsp;    public synchronized void actionOnMessage(StrongBoxSelectionMessage message){
+<b class="nc"><i>293</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>294</i>&nbsp;            return;</b>
+<i>295</i>&nbsp;        }
+<i>296</i>&nbsp;        boolean bool;
+<b class="nc"><i>297</i>&nbsp;        bool = buyDevCardController.selectionFromStrongBox(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>298</i>&nbsp;        if (!bool) {</b>
+<b class="nc"><i>299</i>&nbsp;            bool = productionController.selectionFromStrongBox(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>300</i>&nbsp;            if (!bool)</b>
+<b class="nc"><i>301</i>&nbsp;                gameController.getTable().turnOf().setErrorMessage(&quot;You cannot perform this selection now!&quot;);</b>
+<i>302</i>&nbsp;        }
+<b class="nc"><i>303</i>&nbsp;    }</b>
+<i>304</i>&nbsp;
+<i>305</i>&nbsp;    public synchronized void actionOnMessage(SupportContainerDeselectionMessage message){
+<b class="nc"><i>306</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>307</i>&nbsp;            return;</b>
+<i>308</i>&nbsp;        }
+<b class="nc"><i>309</i>&nbsp;        marketController.deselectFromSupportContainer(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>310</i>&nbsp;    }</b>
+<i>311</i>&nbsp;
+<i>312</i>&nbsp;    public synchronized void actionOnMessage(SupportContainerSelectionMessage message){
+<b class="nc"><i>313</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>314</i>&nbsp;            return;</b>
+<i>315</i>&nbsp;        }
+<b class="nc"><i>316</i>&nbsp;        marketController.selectFromSupportContainer(message.getResource(), message.getInteger());</b>
+<b class="nc"><i>317</i>&nbsp;    }</b>
+<i>318</i>&nbsp;
+<i>319</i>&nbsp;    public synchronized void actionOnMessage(TakeFromMarketMessage message){
+<b class="nc"><i>320</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>321</i>&nbsp;            return;</b>
+<i>322</i>&nbsp;        }
+<i>323</i>&nbsp;        try{
+<b class="nc"><i>324</i>&nbsp;            marketController.takeFromMarket();</b>
+<b class="nc"><i>325</i>&nbsp;        } catch (GameOver gameOver) {</b>
+<b class="nc"><i>326</i>&nbsp;            gameController.endGame();</b>
+<b class="nc"><i>327</i>&nbsp;        }</b>
+<b class="nc"><i>328</i>&nbsp;    }</b>
+<i>329</i>&nbsp;
+<i>330</i>&nbsp;    public synchronized void actionOnMessage(TransmutationMessage message){
+<b class="nc"><i>331</i>&nbsp;        if (!isActionFromTurnOf(message)){</b>
+<b class="nc"><i>332</i>&nbsp;            return;</b>
+<i>333</i>&nbsp;        }
+<i>334</i>&nbsp;        try{
+<b class="nc"><i>335</i>&nbsp;            marketController.selectTransmutation(message.getSerial1(), message.getQuantity1(), message.getSerial2(), message.getQuantity2());</b>
+<b class="nc"><i>336</i>&nbsp;        } catch (GameOver gameOver) {</b>
+<b class="nc"><i>337</i>&nbsp;            gameController.endGame();</b>
+<b class="nc"><i>338</i>&nbsp;        }</b>
+<b class="nc"><i>339</i>&nbsp;    }</b>
+<i>340</i>&nbsp;
+<i>341</i>&nbsp;    public void connectionClosed(int playerId){
+<b class="nc"><i>342</i>&nbsp;        int id = 0;</b>
+<b class="nc"><i>343</i>&nbsp;        RealPlayer[] players = gameController.getTable().getPlayers();</b>
+<b class="nc"><i>344</i>&nbsp;        for (int i=0; i&lt;players.length; i++){</b>
+<b class="nc"><i>345</i>&nbsp;            if (players[i].getId() == playerId){</b>
+<b class="nc"><i>346</i>&nbsp;                id = i+1;</b>
+<b class="nc"><i>347</i>&nbsp;                break;</b>
+<i>348</i>&nbsp;            }
+<i>349</i>&nbsp;        }
+<b class="nc"><i>350</i>&nbsp;        gameController.getTable().closeAll(id);</b>
+<b class="nc"><i>351</i>&nbsp;    }</b>
+<i>352</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

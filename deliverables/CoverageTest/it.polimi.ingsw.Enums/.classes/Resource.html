@@ -1,0 +1,198 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Resource</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Enums</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Resource (it.polimi.ingsw.Enums)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Resource</td>
+<td class="coverageStat">
+  <span class="percent">
+    80%
+  </span>
+  <span class="absValue">
+    (4/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    42,9%
+  </span>
+  <span class="absValue">
+    (12/ 28)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">Resource$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    83,3%
+  </span>
+  <span class="absValue">
+    (5/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    44,8%
+  </span>
+  <span class="absValue">
+    (13/ 29)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Enums;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.View.CLI.Color;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * This enumeration is used to represent the resources of the game. The resource &quot;ANY&quot; correspond to a
+<i>7</i>&nbsp; * resource without a specific type, that should be converted into another: an example of usage is
+<i>8</i>&nbsp; * the basic production power of the dashboard
+<i>9</i>&nbsp; */
+<b class="fc"><i>10</i>&nbsp;public enum Resource {</b>
+<b class="fc"><i>11</i>&nbsp;    COIN, STONE, SERVANT, SHIELD, FAITH, WHITE, ANY;</b>
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Converts a string into a resource if possible, otherwise returns null
+<i>15</i>&nbsp;     * @param alias a string corresponding to the name of a resource (written in full length without abbreviations)
+<i>16</i>&nbsp;     * @return the resource corresponding to the string passed as a parameter or null if
+<i>17</i>&nbsp;     * that string does not correspond to a resource of this game
+<i>18</i>&nbsp;     */
+<i>19</i>&nbsp;    public static Resource fromAlias(String alias){
+<b class="fc"><i>20</i>&nbsp;        switch (alias.toUpperCase()){</b>
+<i>21</i>&nbsp;            case (&quot;COIN&quot;):
+<b class="fc"><i>22</i>&nbsp;                return Resource.COIN;</b>
+<i>23</i>&nbsp;            case (&quot;STONE&quot;):
+<b class="fc"><i>24</i>&nbsp;                return Resource.STONE;</b>
+<i>25</i>&nbsp;            case (&quot;SERVANT&quot;):
+<b class="fc"><i>26</i>&nbsp;                return Resource.SERVANT;</b>
+<i>27</i>&nbsp;            case (&quot;SHIELD&quot;):
+<b class="fc"><i>28</i>&nbsp;                return Resource.SHIELD;</b>
+<i>29</i>&nbsp;            case (&quot;FAITH&quot;):
+<b class="nc"><i>30</i>&nbsp;                return Resource.FAITH;</b>
+<i>31</i>&nbsp;            case (&quot;WHITE&quot;):
+<b class="nc"><i>32</i>&nbsp;                return Resource.WHITE;</b>
+<i>33</i>&nbsp;            case (&quot;ANY&quot;):
+<b class="nc"><i>34</i>&nbsp;                return Resource.ANY;</b>
+<i>35</i>&nbsp;            default:
+<b class="nc"><i>36</i>&nbsp;                return null;</b>
+<i>37</i>&nbsp;        }
+<i>38</i>&nbsp;    }
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    /**
+<i>41</i>&nbsp;     * Converts a resource into a string corresponding to the full name of that resource
+<i>42</i>&nbsp;     * @param resource target resource
+<i>43</i>&nbsp;     * @return the full name of the resource passed as a parameter
+<i>44</i>&nbsp;     */
+<i>45</i>&nbsp;    public static String toAliasFull(Resource resource){
+<b class="pc"><i>46</i>&nbsp;        switch (resource){</b>
+<i>47</i>&nbsp;            case COIN:
+<b class="nc"><i>48</i>&nbsp;                return &quot;COIN&quot;;</b>
+<i>49</i>&nbsp;            case STONE:
+<b class="nc"><i>50</i>&nbsp;                return &quot;STONE&quot;;</b>
+<i>51</i>&nbsp;            case SERVANT:
+<b class="nc"><i>52</i>&nbsp;                return &quot;SERVANT&quot;;</b>
+<i>53</i>&nbsp;            case SHIELD:
+<b class="nc"><i>54</i>&nbsp;                return &quot;SHIELD&quot;;</b>
+<i>55</i>&nbsp;            case FAITH:
+<b class="nc"><i>56</i>&nbsp;                return &quot;FAITH&quot;;</b>
+<i>57</i>&nbsp;            case WHITE:
+<b class="nc"><i>58</i>&nbsp;                return &quot;WHITE&quot;;</b>
+<i>59</i>&nbsp;            case ANY:
+<b class="nc"><i>60</i>&nbsp;                return &quot;ANY&quot;;</b>
+<i>61</i>&nbsp;            default:
+<b class="nc"><i>62</i>&nbsp;                return null;</b>
+<i>63</i>&nbsp;        }
+<i>64</i>&nbsp;    }
+<i>65</i>&nbsp;
+<i>66</i>&nbsp;    /**
+<i>67</i>&nbsp;     * Converts a resource into a string corresponding to an abbreviation of that resource
+<i>68</i>&nbsp;     * @param resource target resource
+<i>69</i>&nbsp;     * @return the abbreviation of the resource passed as a parameter
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    public static String toAliasCompact(Resource resource){
+<b class="fc"><i>72</i>&nbsp;        switch (resource){</b>
+<i>73</i>&nbsp;            case COIN:
+<b class="fc"><i>74</i>&nbsp;                return Color.colourText(&quot;COI&quot;, &quot;YELLOW&quot;);</b>
+<i>75</i>&nbsp;            case STONE:
+<b class="fc"><i>76</i>&nbsp;                return Color.colourText(&quot;STO&quot;, &quot;CYAN&quot;);</b>
+<i>77</i>&nbsp;            case SERVANT:
+<b class="fc"><i>78</i>&nbsp;                return Color.colourText(&quot;SER&quot;, &quot;PURPLE&quot;);</b>
+<i>79</i>&nbsp;            case SHIELD:
+<b class="fc"><i>80</i>&nbsp;                return Color.colourText(&quot;SHI&quot;, &quot;BLUE&quot;);</b>
+<i>81</i>&nbsp;            case ANY:
+<b class="nc"><i>82</i>&nbsp;                return Color.colourText(&quot;ANY&quot;, &quot;RED&quot;);</b>
+<i>83</i>&nbsp;            case WHITE:
+<b class="nc"><i>84</i>&nbsp;                return Color.colourText(&quot;WHI&quot;, &quot;WHITE&quot;);</b>
+<i>85</i>&nbsp;            default:
+<b class="nc"><i>86</i>&nbsp;                return &quot; X &quot;;</b>
+<i>87</i>&nbsp;        }
+<i>88</i>&nbsp;    }
+<i>89</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

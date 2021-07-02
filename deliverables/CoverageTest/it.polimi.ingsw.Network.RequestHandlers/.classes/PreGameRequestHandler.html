@@ -1,0 +1,145 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PreGameRequestHandler</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Network.RequestHandlers</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PreGameRequestHandler (it.polimi.ingsw.Network.RequestHandlers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PreGameRequestHandler</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 16)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Network.RequestHandlers;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.gson.Gson;
+<i>4</i>&nbsp;import com.google.gson.GsonBuilder;
+<i>5</i>&nbsp;import it.polimi.ingsw.Controller.PreGameControllerSwitch;
+<i>6</i>&nbsp;import it.polimi.ingsw.CustomDeserializers.PreGameDeserializer;
+<i>7</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.*;
+<i>8</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
+<i>9</i>&nbsp;import it.polimi.ingsw.PreGameModel.User;
+<i>10</i>&nbsp;import it.polimi.ingsw.Network.Server.ConnectionHandler;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * Class that handles the incoming client&#39;s requests, when they are deciding the lobby to join, etc...
+<i>14</i>&nbsp; */
+<i>15</i>&nbsp;public class PreGameRequestHandler implements RequestHandler{
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    private final PreGameControllerSwitch preGameControllerSwitch;
+<i>18</i>&nbsp;    private final Gson customGson;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    /**
+<i>21</i>&nbsp;     * Constructor
+<i>22</i>&nbsp;     */
+<b class="nc"><i>23</i>&nbsp;    public PreGameRequestHandler(){</b>
+<b class="nc"><i>24</i>&nbsp;        GsonBuilder gsonBuilder = new GsonBuilder();</b>
+<b class="nc"><i>25</i>&nbsp;        gsonBuilder.registerTypeAdapter(PreGameMessage.class, new PreGameDeserializer());</b>
+<b class="nc"><i>26</i>&nbsp;        this.customGson = gsonBuilder.create();</b>
+<b class="nc"><i>27</i>&nbsp;        this.preGameControllerSwitch = new PreGameControllerSwitch();</b>
+<b class="nc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * Request Evaluator
+<i>32</i>&nbsp;     * @param id id of the client that made this request
+<i>33</i>&nbsp;     * @param request request arrived
+<i>34</i>&nbsp;     */
+<i>35</i>&nbsp;    @Override
+<i>36</i>&nbsp;    public void requestEvaluator(int id, String request) {
+<b class="nc"><i>37</i>&nbsp;        PreGameMessage message = customGson.fromJson(request, PreGameMessage.class);</b>
+<b class="nc"><i>38</i>&nbsp;        message.setSenderId(id);</b>
+<b class="nc"><i>39</i>&nbsp;        message.readThrough(preGameControllerSwitch);</b>
+<b class="nc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * Connection crashed
+<i>44</i>&nbsp;     * @param id id of the crashed client
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;    @Override
+<i>47</i>&nbsp;    public void connectionClosed(int id) {
+<b class="nc"><i>48</i>&nbsp;        DisconnectMessage message = new DisconnectMessage();</b>
+<b class="nc"><i>49</i>&nbsp;        message.setSenderId(id);</b>
+<b class="nc"><i>50</i>&nbsp;        message.readThrough(preGameControllerSwitch);</b>
+<b class="nc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Connection of a new client
+<i>55</i>&nbsp;     * @param username of the new client
+<i>56</i>&nbsp;     * @param connectionHandler which connection handler must take care of the client requests
+<i>57</i>&nbsp;     */
+<i>58</i>&nbsp;    public void addNewSocket(String username, ConnectionHandler connectionHandler){
+<b class="nc"><i>59</i>&nbsp;        this.preGameControllerSwitch.addNewUser(new User(username, connectionHandler));</b>
+<b class="nc"><i>60</i>&nbsp;    }</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

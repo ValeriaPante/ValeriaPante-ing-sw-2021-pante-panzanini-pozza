@@ -64,5 +64,5 @@ in order to have the latest update of the assets, which can vary if any customis
 
 
 ### Coverage Tests
-HTML documentation that reports the overall test coverage is available [here](https://github.com/ValeriaPante/ing-sw-2021-pante-panzanini-pozza/tree/main/deliverables/CoverageTest).
+HTML documentation that reports the overall test coverage is available [here](../deliverables/CoverageTest).
 

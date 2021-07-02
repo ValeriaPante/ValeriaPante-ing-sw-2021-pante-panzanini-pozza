@@ -1,0 +1,533 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DevCardPersonalizationScene</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.ServerGUI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DevCardPersonalizationScene (it.polimi.ingsw.View.ServerGUI)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DevCardPersonalizationScene</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 18)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 208)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">DevCardPersonalizationScene$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 14)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">DevCardPersonalizationScene$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 15)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 237)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.ServerGUI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.gson.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.Enums.Colour;
+<i>5</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>6</i>&nbsp;import javafx.event.ActionEvent;
+<i>7</i>&nbsp;import javafx.event.EventHandler;
+<i>8</i>&nbsp;import javafx.geometry.Insets;
+<i>9</i>&nbsp;import javafx.scene.Scene;
+<i>10</i>&nbsp;import javafx.scene.control.Button;
+<i>11</i>&nbsp;import javafx.scene.control.TextField;
+<i>12</i>&nbsp;import javafx.scene.image.Image;
+<i>13</i>&nbsp;import javafx.scene.image.ImageView;
+<i>14</i>&nbsp;import javafx.scene.layout.Pane;
+<i>15</i>&nbsp;import javafx.scene.text.Font;
+<i>16</i>&nbsp;import javafx.scene.text.Text;
+<i>17</i>&nbsp;import javafx.stage.FileChooser;
+<i>18</i>&nbsp;import javafx.stage.Stage;
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;import java.io.*;
+<i>21</i>&nbsp;import java.net.MalformedURLException;
+<i>22</i>&nbsp;import java.net.URISyntaxException;
+<i>23</i>&nbsp;import java.util.Arrays;
+<i>24</i>&nbsp;import java.util.LinkedHashMap;
+<i>25</i>&nbsp;import java.util.stream.Collectors;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;public class DevCardPersonalizationScene extends CustomScenes{
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;    private final String[] order;
+<i>30</i>&nbsp;    private final Resource[] resourcesOrder;
+<i>31</i>&nbsp;    private String pathImageCard;
+<i>32</i>&nbsp;
+<i>33</i>&nbsp;    private Image coinImage;
+<i>34</i>&nbsp;    private Image servantImage;
+<i>35</i>&nbsp;    private Image stoneImage;
+<i>36</i>&nbsp;    private Image shieldImage;
+<i>37</i>&nbsp;    private Image faithImage;
+<i>38</i>&nbsp;    private Image anyImage;
+<i>39</i>&nbsp;
+<i>40</i>&nbsp;    private JsonObject devCardsJson;
+<i>41</i>&nbsp;    private int devCardLv;
+<i>42</i>&nbsp;    private int devCardType;
+<i>43</i>&nbsp;    private int devCardPos;
+<i>44</i>&nbsp;    private LinkedHashMap&lt;String, JsonArray&gt; modifiedDevCards;
+<i>45</i>&nbsp;    private JsonArray pathNewCards;
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    private Scene devCardPersonalizationScene;
+<i>48</i>&nbsp;    private Pane root;
+<i>49</i>&nbsp;    private ImageView imageSlot;
+<i>50</i>&nbsp;    private Button changeImage;
+<i>51</i>&nbsp;    private Text victoryPoints;
+<i>52</i>&nbsp;    private TextField victoryPointsNum;
+<i>53</i>&nbsp;    private Text resourceRequired;
+<i>54</i>&nbsp;    private ImageDescription[] cost;
+<i>55</i>&nbsp;
+<i>56</i>&nbsp;    private Text productionPower;
+<i>57</i>&nbsp;    private Text inputText;
+<i>58</i>&nbsp;    private ImageDescription[] input;
+<i>59</i>&nbsp;    private Text outputText;
+<i>60</i>&nbsp;    private ImageDescription[] output;
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    private Button nextButton;
+<i>63</i>&nbsp;
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    private void positionImageDescription(ImageDescription[] imageDescriptions, double xPosStart, double yPosStart, int xSpacing, int ySpacing){
+<b class="nc"><i>66</i>&nbsp;        for (int i=0; i&lt;imageDescriptions.length; i++){</b>
+<b class="nc"><i>67</i>&nbsp;            if (i==0){</b>
+<b class="nc"><i>68</i>&nbsp;                imageDescriptions[i].setPosition(xPosStart, yPosStart + ySpacing);</b>
+<i>69</i>&nbsp;            }
+<i>70</i>&nbsp;            else{
+<b class="nc"><i>71</i>&nbsp;                imageDescriptions[i].setPosition(imageDescriptions[i-1].getImageX() + imageDescriptions[i-1].getImageFitWidth() + xSpacing, yPosStart + ySpacing);</b>
+<i>72</i>&nbsp;            }
+<i>73</i>&nbsp;        }
+<b class="nc"><i>74</i>&nbsp;    }</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    private void modifyCost(JsonObject card){
+<b class="nc"><i>77</i>&nbsp;        JsonObject resourcesReq = card.get(&quot;cost&quot;).getAsJsonObject();</b>
+<i>78</i>&nbsp;        JsonElement amount;
+<b class="nc"><i>79</i>&nbsp;        for (int i=0; i&lt;this.cost.length; i++){</b>
+<b class="nc"><i>80</i>&nbsp;            amount = resourcesReq.get(this.resourcesOrder[i].toString());</b>
+<b class="nc"><i>81</i>&nbsp;            this.cost[i].setText((amount == null) ? &quot;0&quot; : amount.getAsString());</b>
+<i>82</i>&nbsp;        }
+<b class="nc"><i>83</i>&nbsp;    }</b>
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;    private void modifyInOut(JsonObject input, ImageDescription[] descriptors){
+<i>86</i>&nbsp;        JsonElement amount;
+<b class="nc"><i>87</i>&nbsp;        for (int i=0; i&lt;descriptors.length; i++){</b>
+<b class="nc"><i>88</i>&nbsp;            amount = input.get(this.resourcesOrder[i].toString());</b>
+<b class="nc"><i>89</i>&nbsp;            descriptors[i].setText((amount == null) ? &quot;0&quot; : amount.getAsString());</b>
+<i>90</i>&nbsp;        }
+<b class="nc"><i>91</i>&nbsp;    }</b>
+<i>92</i>&nbsp;
+<i>93</i>&nbsp;    private void modifyScene(){
+<b class="nc"><i>94</i>&nbsp;        this.pathImageCard = &quot;default&quot;;</b>
+<b class="nc"><i>95</i>&nbsp;        JsonArray cards = this.devCardsJson.getAsJsonArray(this.devCardLv+this.order[this.devCardType]);</b>
+<b class="nc"><i>96</i>&nbsp;        JsonObject card = cards.get(this.devCardPos).getAsJsonObject();</b>
+<b class="nc"><i>97</i>&nbsp;        this.imageSlot.setImage(new Image(this.getClass().getResourceAsStream(&quot;/accessible/assets/imgs/&quot; + card.get(&quot;id&quot;).getAsInt() + &quot;.png&quot;)));</b>
+<b class="nc"><i>98</i>&nbsp;        this.victoryPointsNum.setText(card.get(&quot;victoryPoints&quot;).getAsString());</b>
+<b class="nc"><i>99</i>&nbsp;        this.modifyCost(card);</b>
+<b class="nc"><i>100</i>&nbsp;        this.modifyInOut(card.get(&quot;prodpower&quot;).getAsJsonObject().get(&quot;input&quot;).getAsJsonObject(), this.input);</b>
+<b class="nc"><i>101</i>&nbsp;        this.modifyInOut(card.get(&quot;prodpower&quot;).getAsJsonObject().get(&quot;output&quot;).getAsJsonObject(), this.output);</b>
+<b class="nc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;
+<i>104</i>&nbsp;    private JsonObject enumMapExtractor(ImageDescription[] descriptions, Enum[] map){
+<b class="nc"><i>105</i>&nbsp;        JsonObject enumMap = new JsonObject();</b>
+<i>106</i>&nbsp;        int amount;
+<b class="nc"><i>107</i>&nbsp;        for (int i=0; i&lt;descriptions.length; i++){</b>
+<b class="nc"><i>108</i>&nbsp;            amount = Integer.parseInt(descriptions[i].getText());</b>
+<b class="nc"><i>109</i>&nbsp;            if (amount&gt;0){</b>
+<b class="nc"><i>110</i>&nbsp;                enumMap.add(map[i].toString(), new JsonPrimitive(amount));</b>
+<i>111</i>&nbsp;            }
+<i>112</i>&nbsp;        }
+<b class="nc"><i>113</i>&nbsp;        return enumMap;</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    private void update(){
+<b class="nc"><i>117</i>&nbsp;        String deckType = this.devCardLv + this.order[devCardType];</b>
+<b class="nc"><i>118</i>&nbsp;        int cardId = this.devCardsJson.getAsJsonArray(deckType).get(this.devCardPos).getAsJsonObject().get(&quot;id&quot;).getAsInt();</b>
+<b class="nc"><i>119</i>&nbsp;        JsonObject pathDescriptor = new JsonObject();</b>
+<b class="nc"><i>120</i>&nbsp;        pathDescriptor.add(&quot;name&quot;, new JsonPrimitive(cardId+&quot;.png&quot;));</b>
+<b class="nc"><i>121</i>&nbsp;        pathDescriptor.add(&quot;path&quot;, new JsonPrimitive(this.pathImageCard));</b>
+<b class="nc"><i>122</i>&nbsp;        this.pathNewCards.add(pathDescriptor);</b>
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;        //building json object for card
+<b class="nc"><i>125</i>&nbsp;        JsonObject card = new JsonObject();</b>
+<b class="nc"><i>126</i>&nbsp;        card.add(&quot;id&quot;, new JsonPrimitive(cardId));</b>
+<b class="nc"><i>127</i>&nbsp;        card.add(&quot;victoryPoints&quot;, new JsonPrimitive(Integer.parseInt(this.victoryPointsNum.getCharacters().toString())));</b>
+<b class="nc"><i>128</i>&nbsp;        card.add(&quot;cost&quot;, this.enumMapExtractor(this.cost, this.resourcesOrder));</b>
+<b class="nc"><i>129</i>&nbsp;        JsonObject prodPower = new JsonObject();</b>
+<b class="nc"><i>130</i>&nbsp;        prodPower.add(&quot;input&quot;, this.enumMapExtractor(this.input, this.resourcesOrder));</b>
+<b class="nc"><i>131</i>&nbsp;        prodPower.add(&quot;output&quot;, this.enumMapExtractor(this.output, this.resourcesOrder));</b>
+<b class="nc"><i>132</i>&nbsp;        card.add(&quot;prodpower&quot;, prodPower);</b>
+<i>133</i>&nbsp;
+<b class="nc"><i>134</i>&nbsp;        JsonArray cards = this.modifiedDevCards.get(deckType);</b>
+<b class="nc"><i>135</i>&nbsp;        if (cards == null){</b>
+<b class="nc"><i>136</i>&nbsp;            cards = new JsonArray();</b>
+<i>137</i>&nbsp;        }
+<b class="nc"><i>138</i>&nbsp;        cards.add(card);</b>
+<b class="nc"><i>139</i>&nbsp;        this.modifiedDevCards.put(deckType, cards);</b>
+<b class="nc"><i>140</i>&nbsp;    }</b>
+<i>141</i>&nbsp;
+<i>142</i>&nbsp;    private void finish(){
+<b class="nc"><i>143</i>&nbsp;        String serverPath = null;</b>
+<i>144</i>&nbsp;        try {
+<b class="nc"><i>145</i>&nbsp;            serverPath = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParent();</b>
+<b class="nc"><i>146</i>&nbsp;        }catch (URISyntaxException ignored){</b>
+<b class="nc"><i>147</i>&nbsp;        }</b>
+<i>148</i>&nbsp;
+<b class="nc"><i>149</i>&nbsp;        for (int i=0; i&lt;this.pathNewCards.size(); i++){</b>
+<b class="nc"><i>150</i>&nbsp;            String relativePath = File.separator + &quot;accessible&quot; + File.separator + &quot;assets&quot; + File.separator + &quot;imgs&quot; + File.separator;</b>
+<b class="nc"><i>151</i>&nbsp;            File dir = new File(serverPath + relativePath);</b>
+<b class="nc"><i>152</i>&nbsp;            if (!dir.exists()){</b>
+<b class="nc"><i>153</i>&nbsp;                dir.mkdirs();</b>
+<i>154</i>&nbsp;            }
+<b class="nc"><i>155</i>&nbsp;            JsonObject pathDescriptor = this.pathNewCards.get(i).getAsJsonObject();</b>
+<b class="nc"><i>156</i>&nbsp;            String name = pathDescriptor.get(&quot;name&quot;).getAsString();</b>
+<b class="nc"><i>157</i>&nbsp;            String path = pathDescriptor.get(&quot;path&quot;).getAsString();</b>
+<b class="nc"><i>158</i>&nbsp;            byte[] buffer = new byte[1024];</b>
+<i>159</i>&nbsp;            InputStream imageStream;
+<i>160</i>&nbsp;            int count;
+<i>161</i>&nbsp;            try {
+<b class="nc"><i>162</i>&nbsp;                if (&quot;default&quot;.equals(path)) {</b>
+<b class="nc"><i>163</i>&nbsp;                    imageStream = this.getClass().getResourceAsStream(&quot;/accessible/assets/imgs/&quot; + name);</b>
+<i>164</i>&nbsp;                } else {
+<b class="nc"><i>165</i>&nbsp;                    imageStream = new FileInputStream(path);</b>
+<i>166</i>&nbsp;                }
+<b class="nc"><i>167</i>&nbsp;                FileOutputStream fileOutputStream = new FileOutputStream(serverPath + relativePath + name);</b>
+<b class="nc"><i>168</i>&nbsp;                while ((count = imageStream.read(buffer)) != -1) {</b>
+<b class="nc"><i>169</i>&nbsp;                    fileOutputStream.write(buffer, 0, count);</b>
+<i>170</i>&nbsp;                }
+<b class="nc"><i>171</i>&nbsp;                fileOutputStream.close();</b>
+<b class="nc"><i>172</i>&nbsp;                imageStream.close();</b>
+<b class="nc"><i>173</i>&nbsp;            }catch (IOException ignored){</b>
+<b class="nc"><i>174</i>&nbsp;            }</b>
+<i>175</i>&nbsp;        }
+<i>176</i>&nbsp;
+<i>177</i>&nbsp;        //json copy
+<b class="nc"><i>178</i>&nbsp;        Gson prettyPrinting = new GsonBuilder().setPrettyPrinting().create();</b>
+<b class="nc"><i>179</i>&nbsp;        String output = prettyPrinting.toJson(this.modifiedDevCards);</b>
+<b class="nc"><i>180</i>&nbsp;        File outputDir = new File(serverPath + File.separator + &quot;accessible&quot; + File.separator + &quot;JSONs&quot; + File.separator);</b>
+<b class="nc"><i>181</i>&nbsp;        if (!outputDir.exists()){</b>
+<b class="nc"><i>182</i>&nbsp;            outputDir.mkdirs();</b>
+<i>183</i>&nbsp;        }
+<i>184</i>&nbsp;        try {
+<b class="nc"><i>185</i>&nbsp;            FileOutputStream jsonFile = new FileOutputStream(outputDir.getAbsolutePath() + File.separator + &quot;DevCardsConfig.json&quot;);</b>
+<b class="nc"><i>186</i>&nbsp;            jsonFile.write(output.getBytes());</b>
+<b class="nc"><i>187</i>&nbsp;            jsonFile.close();</b>
+<b class="nc"><i>188</i>&nbsp;        }catch (IOException ignored){</b>
+<b class="nc"><i>189</i>&nbsp;        }</b>
+<i>190</i>&nbsp;
+<b class="nc"><i>191</i>&nbsp;        super.setNextScene(new FaithTrackPersonalizationScene(super.mainStage).getScene());</b>
+<b class="nc"><i>192</i>&nbsp;    }</b>
+<i>193</i>&nbsp;
+<i>194</i>&nbsp;    private boolean allCorrect(){
+<i>195</i>&nbsp;        try {
+<b class="nc"><i>196</i>&nbsp;            int vp = Integer.parseInt(this.victoryPointsNum.getCharacters().toString());</b>
+<b class="nc"><i>197</i>&nbsp;            return vp &lt;= 99 &amp;&amp; vp &gt;= 1;</b>
+<b class="nc"><i>198</i>&nbsp;        }catch (NumberFormatException e){</b>
+<b class="nc"><i>199</i>&nbsp;            return false;</b>
+<i>200</i>&nbsp;        }
+<i>201</i>&nbsp;    }
+<i>202</i>&nbsp;
+<i>203</i>&nbsp;    private void setOnActions() {
+<b class="nc"><i>204</i>&nbsp;        Arrays.stream(this.cost).forEach(ImageDescription::setDefaultOnClickHandler);</b>
+<b class="nc"><i>205</i>&nbsp;        Arrays.stream(this.input).forEach(ImageDescription::setDefaultOnClickHandler);</b>
+<b class="nc"><i>206</i>&nbsp;        Arrays.stream(this.output).forEach(ImageDescription::setDefaultOnClickHandler);</b>
+<i>207</i>&nbsp;
+<b class="nc"><i>208</i>&nbsp;        this.nextButton.setOnAction(new EventHandler&lt;ActionEvent&gt;() {</b>
+<i>209</i>&nbsp;            @Override
+<i>210</i>&nbsp;            public void handle(ActionEvent actionEvent) {
+<b class="nc"><i>211</i>&nbsp;                if (allCorrect()) {</b>
+<b class="nc"><i>212</i>&nbsp;                    update();</b>
+<b class="nc"><i>213</i>&nbsp;                    devCardPos++;</b>
+<b class="nc"><i>214</i>&nbsp;                    if (devCardPos &gt;= devCardsJson.getAsJsonArray(devCardLv + order[devCardType]).size()){</b>
+<b class="nc"><i>215</i>&nbsp;                        devCardPos = 0;</b>
+<b class="nc"><i>216</i>&nbsp;                        devCardType ++;</b>
+<b class="nc"><i>217</i>&nbsp;                        if (devCardType &gt;= order.length){</b>
+<b class="nc"><i>218</i>&nbsp;                            devCardType = 0;</b>
+<b class="nc"><i>219</i>&nbsp;                            devCardLv ++;</b>
+<i>220</i>&nbsp;                        }
+<i>221</i>&nbsp;                    }
+<i>222</i>&nbsp;
+<b class="nc"><i>223</i>&nbsp;                    if (devCardsJson.get(devCardLv + order[devCardType]) == null){</b>
+<b class="nc"><i>224</i>&nbsp;                        finish();</b>
+<i>225</i>&nbsp;                    }
+<i>226</i>&nbsp;                    else{
+<b class="nc"><i>227</i>&nbsp;                        modifyScene();</b>
+<i>228</i>&nbsp;                    }
+<i>229</i>&nbsp;                }
+<b class="nc"><i>230</i>&nbsp;            }</b>
+<i>231</i>&nbsp;        });
+<b class="nc"><i>232</i>&nbsp;        this.changeImage.setOnAction(new EventHandler&lt;ActionEvent&gt;() {</b>
+<i>233</i>&nbsp;            @Override
+<i>234</i>&nbsp;            public void handle(ActionEvent actionEvent) {
+<b class="nc"><i>235</i>&nbsp;                root.setDisable(true);</b>
+<b class="nc"><i>236</i>&nbsp;                FileChooser fileChooser = new FileChooser();</b>
+<b class="nc"><i>237</i>&nbsp;                fileChooser.setTitle(&quot;Choose new image&quot;);</b>
+<b class="nc"><i>238</i>&nbsp;                fileChooser.getExtensionFilters().add(</b>
+<i>239</i>&nbsp;                        new FileChooser.ExtensionFilter(&quot;Image Files&quot;, &quot;*.png&quot;)
+<i>240</i>&nbsp;                );
+<b class="nc"><i>241</i>&nbsp;                File selectedFile = fileChooser.showOpenDialog(null);</b>
+<b class="nc"><i>242</i>&nbsp;                if (selectedFile!=null){</b>
+<i>243</i>&nbsp;                    try {
+<b class="nc"><i>244</i>&nbsp;                        pathImageCard = selectedFile.getAbsolutePath();</b>
+<b class="nc"><i>245</i>&nbsp;                        String path = selectedFile.toURI().toURL().toExternalForm();</b>
+<i>246</i>&nbsp;                        //System.out.println(path);
+<b class="nc"><i>247</i>&nbsp;                        imageSlot.setImage(new Image(path));</b>
+<b class="nc"><i>248</i>&nbsp;                    } catch (MalformedURLException e) {</b>
+<b class="nc"><i>249</i>&nbsp;                        e.printStackTrace();</b>
+<b class="nc"><i>250</i>&nbsp;                    }</b>
+<i>251</i>&nbsp;                }
+<b class="nc"><i>252</i>&nbsp;                root.setDisable(false);</b>
+<b class="nc"><i>253</i>&nbsp;            }</b>
+<i>254</i>&nbsp;        });
+<b class="nc"><i>255</i>&nbsp;    }</b>
+<i>256</i>&nbsp;
+<i>257</i>&nbsp;    private void positionGraphic(){
+<b class="nc"><i>258</i>&nbsp;        this.imageSlot.setX(20); this.imageSlot.setY(20); this.imageSlot.setFitWidth((2*462)/3f); this.imageSlot.setFitHeight((2*698)/3f);</b>
+<b class="nc"><i>259</i>&nbsp;        this.imageSlot.setPreserveRatio(true);</b>
+<i>260</i>&nbsp;
+<b class="nc"><i>261</i>&nbsp;        this.changeImage.setFont(new Font(14));</b>
+<b class="nc"><i>262</i>&nbsp;        this.changeImage.setLayoutX(this.imageSlot.getX() + this.imageSlot.getFitWidth()/2 - 50);</b>
+<b class="nc"><i>263</i>&nbsp;        this.changeImage.setLayoutY(this.imageSlot.getY()+this.imageSlot.getFitHeight() + 20);</b>
+<i>264</i>&nbsp;
+<b class="nc"><i>265</i>&nbsp;        this.victoryPoints.setFont(new Font(19));</b>
+<b class="nc"><i>266</i>&nbsp;        this.victoryPoints.setX(this.imageSlot.getX() + this.imageSlot.getFitWidth() + 30);</b>
+<b class="nc"><i>267</i>&nbsp;        this.victoryPoints.setY(this.imageSlot.getY() + this.victoryPoints.getLayoutBounds().getHeight());</b>
+<i>268</i>&nbsp;
+<b class="nc"><i>269</i>&nbsp;        this.victoryPointsNum.setLayoutX(this.victoryPoints.getX() + this.victoryPoints.getLayoutBounds().getWidth() + 20);</b>
+<b class="nc"><i>270</i>&nbsp;        this.victoryPointsNum.setLayoutY(this.victoryPoints.getLayoutBounds().getHeight());</b>
+<b class="nc"><i>271</i>&nbsp;        this.victoryPointsNum.setPrefWidth(50);</b>
+<i>272</i>&nbsp;
+<b class="nc"><i>273</i>&nbsp;        this.resourceRequired.setFont(new Font(19));</b>
+<b class="nc"><i>274</i>&nbsp;        this.resourceRequired.setX(this.imageSlot.getX() + this.imageSlot.getFitWidth() + 30);</b>
+<b class="nc"><i>275</i>&nbsp;        this.resourceRequired.setY(this.victoryPoints.getY()+this.resourceRequired.getLayoutBounds().getHeight() + 10);</b>
+<i>276</i>&nbsp;
+<b class="nc"><i>277</i>&nbsp;        Arrays.stream(this.cost).forEach(imageDescription -&gt; {</b>
+<b class="nc"><i>278</i>&nbsp;            imageDescription.setImageFitSize(50,50);</b>
+<b class="nc"><i>279</i>&nbsp;            imageDescription.setPreservedRatio(true);</b>
+<b class="nc"><i>280</i>&nbsp;            imageDescription.setTextFontSize(17);</b>
+<b class="nc"><i>281</i>&nbsp;        });</b>
+<b class="nc"><i>282</i>&nbsp;        this.positionImageDescription(this.cost, this.resourceRequired.getX(), this.resourceRequired.getY(), 10, 20);</b>
+<i>283</i>&nbsp;
+<b class="nc"><i>284</i>&nbsp;        this.productionPower.setFont(new Font(19));</b>
+<b class="nc"><i>285</i>&nbsp;        this.productionPower.setX(this.cost[0].getImageX());</b>
+<b class="nc"><i>286</i>&nbsp;        this.productionPower.setY(this.cost[0].getTextY() + 2*this.cost[0].getTextFontSize());</b>
+<i>287</i>&nbsp;
+<b class="nc"><i>288</i>&nbsp;        this.inputText.setFont(new Font(19));</b>
+<b class="nc"><i>289</i>&nbsp;        this.inputText.setX(this.productionPower.getX());</b>
+<b class="nc"><i>290</i>&nbsp;        this.inputText.setY(this.productionPower.getY() + 2*this.productionPower.getFont().getSize());</b>
+<b class="nc"><i>291</i>&nbsp;        Arrays.stream(this.input).forEach(imageDescription -&gt; {</b>
+<b class="nc"><i>292</i>&nbsp;            imageDescription.setImageFitSize(50,50);</b>
+<b class="nc"><i>293</i>&nbsp;            imageDescription.setPreservedRatio(true);</b>
+<b class="nc"><i>294</i>&nbsp;            imageDescription.setTextFontSize(17);</b>
+<b class="nc"><i>295</i>&nbsp;        });</b>
+<b class="nc"><i>296</i>&nbsp;        this.positionImageDescription(this.input, this.inputText.getX(), this.inputText.getY(), 10, 20);</b>
+<b class="nc"><i>297</i>&nbsp;        this.outputText.setFont(new Font(19));</b>
+<b class="nc"><i>298</i>&nbsp;        this.outputText.setX(this.inputText.getX());</b>
+<b class="nc"><i>299</i>&nbsp;        this.outputText.setY(this.input[0].getTextY() + 2*this.input[0].getTextFontSize());</b>
+<i>300</i>&nbsp;
+<b class="nc"><i>301</i>&nbsp;        Arrays.stream(this.output).forEach(imageDescription -&gt; {</b>
+<b class="nc"><i>302</i>&nbsp;            imageDescription.setImageFitSize(50,50);</b>
+<b class="nc"><i>303</i>&nbsp;            imageDescription.setPreservedRatio(true);</b>
+<b class="nc"><i>304</i>&nbsp;            imageDescription.setTextFontSize(17);</b>
+<b class="nc"><i>305</i>&nbsp;        });</b>
+<b class="nc"><i>306</i>&nbsp;        this.positionImageDescription(this.output, this.outputText.getX(), this.outputText.getY(), 10, 20);</b>
+<i>307</i>&nbsp;
+<b class="nc"><i>308</i>&nbsp;        this.nextButton.setFont(new Font(14));</b>
+<b class="nc"><i>309</i>&nbsp;        this.nextButton.setLayoutX(this.output[0].getImageX() + (this.output[this.output.length-1].getImageX() - this.output[0].getImageX())/2);</b>
+<b class="nc"><i>310</i>&nbsp;        this.nextButton.setLayoutY(this.changeImage.getLayoutY());</b>
+<b class="nc"><i>311</i>&nbsp;    }</b>
+<i>312</i>&nbsp;
+<i>313</i>&nbsp;    private void buildGraphic(){
+<b class="nc"><i>314</i>&nbsp;        this.root = new Pane();</b>
+<b class="nc"><i>315</i>&nbsp;        this.root.setPadding(new Insets(20));</b>
+<b class="nc"><i>316</i>&nbsp;        this.imageSlot = new ImageView();</b>
+<b class="nc"><i>317</i>&nbsp;        this.victoryPoints = new Text(&quot;Victory Points:&quot;);</b>
+<b class="nc"><i>318</i>&nbsp;        this.victoryPointsNum = new TextField();</b>
+<b class="nc"><i>319</i>&nbsp;        this.changeImage = new Button(&quot;Change Image&quot;);</b>
+<b class="nc"><i>320</i>&nbsp;        this.resourceRequired = new Text(&quot;Resources Required:&quot;);</b>
+<i>321</i>&nbsp;
+<b class="nc"><i>322</i>&nbsp;        this.cost = new ImageDescription[4];</b>
+<b class="nc"><i>323</i>&nbsp;        this.cost[0] = new ImageDescription(this.coinImage);</b>
+<b class="nc"><i>324</i>&nbsp;        this.cost[1] = new ImageDescription(this.servantImage);</b>
+<b class="nc"><i>325</i>&nbsp;        this.cost[2] = new ImageDescription(this.stoneImage);</b>
+<b class="nc"><i>326</i>&nbsp;        this.cost[3] = new ImageDescription(this.shieldImage);</b>
+<i>327</i>&nbsp;
+<b class="nc"><i>328</i>&nbsp;        this.productionPower = new Text(&quot;Production Power:&quot;);</b>
+<b class="nc"><i>329</i>&nbsp;        this.inputText = new Text(&quot;Input:&quot;);</b>
+<b class="nc"><i>330</i>&nbsp;        this.input = new ImageDescription[6];</b>
+<b class="nc"><i>331</i>&nbsp;        this.input[0] = new ImageDescription(this.coinImage);</b>
+<b class="nc"><i>332</i>&nbsp;        this.input[1] = new ImageDescription(this.servantImage);</b>
+<b class="nc"><i>333</i>&nbsp;        this.input[2] = new ImageDescription(this.stoneImage);</b>
+<b class="nc"><i>334</i>&nbsp;        this.input[3] = new ImageDescription(this.shieldImage);</b>
+<b class="nc"><i>335</i>&nbsp;        this.input[4] = new ImageDescription(this.faithImage); this.input[4].setDisable(true);</b>
+<b class="nc"><i>336</i>&nbsp;        this.input[5] = new ImageDescription(this.anyImage);</b>
+<b class="nc"><i>337</i>&nbsp;        this.outputText = new Text(&quot;Output:&quot;);</b>
+<b class="nc"><i>338</i>&nbsp;        this.output = new ImageDescription[6];</b>
+<b class="nc"><i>339</i>&nbsp;        this.output[0] = new ImageDescription(this.coinImage);</b>
+<b class="nc"><i>340</i>&nbsp;        this.output[1] = new ImageDescription(this.servantImage);</b>
+<b class="nc"><i>341</i>&nbsp;        this.output[2] = new ImageDescription(this.stoneImage);</b>
+<b class="nc"><i>342</i>&nbsp;        this.output[3] = new ImageDescription(this.shieldImage);</b>
+<b class="nc"><i>343</i>&nbsp;        this.output[4] = new ImageDescription(this.faithImage);</b>
+<b class="nc"><i>344</i>&nbsp;        this.output[5] = new ImageDescription(this.anyImage);</b>
+<i>345</i>&nbsp;
+<b class="nc"><i>346</i>&nbsp;        this.nextButton = new Button(&quot;Next&quot;);</b>
+<i>347</i>&nbsp;
+<b class="nc"><i>348</i>&nbsp;        this.root.getChildren().addAll(this.imageSlot, this.changeImage, this.victoryPoints, this.victoryPointsNum, this.resourceRequired);</b>
+<b class="nc"><i>349</i>&nbsp;        Arrays.stream(this.cost).forEach(imageDescription -&gt; imageDescription.addToPane(this.root));</b>
+<b class="nc"><i>350</i>&nbsp;        this.root.getChildren().addAll(this.productionPower, this.inputText, this.outputText);</b>
+<b class="nc"><i>351</i>&nbsp;        Arrays.stream(this.input).forEach(imageDescription -&gt; imageDescription.addToPane(this.root));</b>
+<b class="nc"><i>352</i>&nbsp;        Arrays.stream(this.output).forEach(imageDescription -&gt; imageDescription.addToPane(this.root));</b>
+<b class="nc"><i>353</i>&nbsp;        this.root.getChildren().add(this.nextButton);</b>
+<b class="nc"><i>354</i>&nbsp;        this.devCardPersonalizationScene = new Scene(this.root);</b>
+<b class="nc"><i>355</i>&nbsp;    }</b>
+<i>356</i>&nbsp;
+<i>357</i>&nbsp;    private void loadImages(){
+<b class="nc"><i>358</i>&nbsp;        this.coinImage = new Image(this.getClass().getResourceAsStream(&quot;/constantAssets/coin.png&quot;));</b>
+<b class="nc"><i>359</i>&nbsp;        this.servantImage = new Image(this.getClass().getResourceAsStream(&quot;/constantAssets/servant.png&quot;));</b>
+<b class="nc"><i>360</i>&nbsp;        this.stoneImage = new Image(this.getClass().getResourceAsStream(&quot;/constantAssets/stone.png&quot;));</b>
+<b class="nc"><i>361</i>&nbsp;        this.shieldImage = new Image(this.getClass().getResourceAsStream(&quot;/constantAssets/shield.png&quot;));</b>
+<b class="nc"><i>362</i>&nbsp;        this.faithImage = new Image(this.getClass().getResourceAsStream(&quot;/constantAssets/faith.png&quot;));</b>
+<b class="nc"><i>363</i>&nbsp;        this.anyImage = new Image(this.getClass().getResourceAsStream(&quot;/constantAssets/any.png&quot;));</b>
+<b class="nc"><i>364</i>&nbsp;    }</b>
+<i>365</i>&nbsp;
+<i>366</i>&nbsp;    private void readJson(){
+<b class="nc"><i>367</i>&nbsp;        JsonParser parser = new JsonParser();</b>
+<b class="nc"><i>368</i>&nbsp;        this.modifiedDevCards = new LinkedHashMap&lt;&gt;();</b>
+<b class="nc"><i>369</i>&nbsp;        this.pathNewCards = new JsonArray();</b>
+<b class="nc"><i>370</i>&nbsp;        InputStream inputStream = this.getClass().getResourceAsStream(&quot;/accessible/JSONs/DevCardsConfig.json&quot;);</b>
+<b class="nc"><i>371</i>&nbsp;        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));</b>
+<b class="nc"><i>372</i>&nbsp;        this.devCardsJson = parser.parse(reader.lines().collect(Collectors.joining())).getAsJsonObject();</b>
+<i>373</i>&nbsp;        try{
+<b class="nc"><i>374</i>&nbsp;            reader.close();</b>
+<b class="nc"><i>375</i>&nbsp;        }catch (IOException ignore){</b>
+<b class="nc"><i>376</i>&nbsp;        }</b>
+<b class="nc"><i>377</i>&nbsp;        this.devCardLv = 1;</b>
+<b class="nc"><i>378</i>&nbsp;        this.devCardType = 0;</b>
+<b class="nc"><i>379</i>&nbsp;        this.devCardPos = 0;</b>
+<b class="nc"><i>380</i>&nbsp;    }</b>
+<i>381</i>&nbsp;
+<i>382</i>&nbsp;    public DevCardPersonalizationScene(Stage stage) {
+<b class="nc"><i>383</i>&nbsp;        super(stage);</b>
+<b class="nc"><i>384</i>&nbsp;        this.order = Arrays.stream(Colour.values()).map(Enum::toString).toArray(String[]::new);</b>
+<b class="nc"><i>385</i>&nbsp;        this.resourcesOrder = new Resource[]{</b>
+<i>386</i>&nbsp;                Resource.COIN,
+<i>387</i>&nbsp;                Resource.SERVANT,
+<i>388</i>&nbsp;                Resource.STONE,
+<i>389</i>&nbsp;                Resource.SHIELD,
+<i>390</i>&nbsp;                Resource.FAITH,
+<i>391</i>&nbsp;                Resource.ANY
+<i>392</i>&nbsp;        };
+<b class="nc"><i>393</i>&nbsp;        this.readJson();</b>
+<b class="nc"><i>394</i>&nbsp;        this.loadImages();</b>
+<b class="nc"><i>395</i>&nbsp;        this.buildGraphic();</b>
+<b class="nc"><i>396</i>&nbsp;        this.positionGraphic();</b>
+<b class="nc"><i>397</i>&nbsp;        this.setOnActions();</b>
+<b class="nc"><i>398</i>&nbsp;        this.modifyScene();</b>
+<b class="nc"><i>399</i>&nbsp;    }</b>
+<i>400</i>&nbsp;
+<i>401</i>&nbsp;    @Override
+<i>402</i>&nbsp;    public Scene getScene(){
+<b class="nc"><i>403</i>&nbsp;        return this.devCardPersonalizationScene;</b>
+<i>404</i>&nbsp;    }
+<i>405</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

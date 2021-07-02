@@ -1,0 +1,111 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: WithTransmutationAbilityBehavior</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model.Abilities.TransmutationAbility</a> ]
+</div>
+
+<h1>Coverage Summary for Class: WithTransmutationAbilityBehavior (it.polimi.ingsw.Model.Abilities.TransmutationAbility)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">WithTransmutationAbilityBehavior</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model.Abilities.TransmutationAbility;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>4</i>&nbsp;import java.util.EnumMap;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;/**
+<i>7</i>&nbsp; * Implementation of the Ability Transmutation behaviour of LeaderCards
+<i>8</i>&nbsp; */
+<i>9</i>&nbsp;public class WithTransmutationAbilityBehavior implements TransmutationAbilityBehavior{
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    private final EnumMap&lt;Resource, Integer&gt; whiteInto;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;    /**
+<i>14</i>&nbsp;     * Constructor
+<i>15</i>&nbsp;     * @param whiteInto amount of resources that the white must be transmuted into
+<i>16</i>&nbsp;     */
+<b class="fc"><i>17</i>&nbsp;    public WithTransmutationAbilityBehavior(EnumMap&lt;Resource, Integer&gt; whiteInto){</b>
+<b class="fc"><i>18</i>&nbsp;        this.whiteInto = whiteInto.clone();</b>
+<b class="fc"><i>19</i>&nbsp;    }</b>
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    /**
+<i>22</i>&nbsp;     * Getter
+<i>23</i>&nbsp;     * @return the map containing the transmutation
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    public EnumMap&lt;Resource,Integer&gt; getWhiteInto(){
+<b class="fc"><i>26</i>&nbsp;        return this.whiteInto.clone();</b>
+<i>27</i>&nbsp;    }
+<i>28</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

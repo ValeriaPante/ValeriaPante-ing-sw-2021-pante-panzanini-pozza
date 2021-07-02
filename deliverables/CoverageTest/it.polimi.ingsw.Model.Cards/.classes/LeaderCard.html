@@ -1,0 +1,217 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LeaderCard</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model.Cards</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LeaderCard (it.polimi.ingsw.Model.Cards)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LeaderCard</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    93,9%
+  </span>
+  <span class="absValue">
+    (31/ 33)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model.Cards;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>4</i>&nbsp;import it.polimi.ingsw.Enums.LeaderCardType;
+<i>5</i>&nbsp;import it.polimi.ingsw.Model.Abilities.Ability;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.*;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Representation of Leader Card
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class LeaderCard extends CardVP{
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    private final EnumMap&lt;Resource, Integer&gt; resourceReq;
+<i>15</i>&nbsp;    private final Map&lt;DevCardType, Integer&gt; devCardReq;
+<i>16</i>&nbsp;    private final LeaderCardType type;
+<i>17</i>&nbsp;    private final EnumMap&lt;Resource, Integer&gt; input;
+<i>18</i>&nbsp;    private final EnumMap&lt;Resource, Integer&gt; output;
+<i>19</i>&nbsp;    private Ability ability;
+<i>20</i>&nbsp;    private boolean played;
+<i>21</i>&nbsp;    private final int id;
+<i>22</i>&nbsp;    private boolean selected;
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Leader card constructor
+<i>27</i>&nbsp;     * @param vp victory points
+<i>28</i>&nbsp;     * @param resourceReq requirements on resources owned by the player
+<i>29</i>&nbsp;     * @param devCardReq requirements on development card owned by the player
+<i>30</i>&nbsp;     * @param type type of leader card (transmutation, storage, discount, production)
+<i>31</i>&nbsp;     * @param input input needed for the ability of the card
+<i>32</i>&nbsp;     * @param output output given by the ability of the card
+<i>33</i>&nbsp;     * @param id id of the card
+<i>34</i>&nbsp;     * @throws IllegalArgumentException if one of the parameters are null
+<i>35</i>&nbsp;     */
+<i>36</i>&nbsp;    public LeaderCard(int vp, EnumMap&lt;Resource, Integer&gt; resourceReq, Map&lt;DevCardType, Integer&gt; devCardReq, LeaderCardType type, EnumMap&lt;Resource, Integer&gt; input, EnumMap&lt;Resource, Integer&gt; output, int id) throws IllegalArgumentException{
+<b class="fc"><i>37</i>&nbsp;        super(vp);</b>
+<i>38</i>&nbsp;
+<b class="fc"><i>39</i>&nbsp;        if(resourceReq == null || devCardReq == null || type == null || input == null){</b>
+<b class="nc"><i>40</i>&nbsp;            throw new IllegalArgumentException();</b>
+<i>41</i>&nbsp;        }
+<b class="fc"><i>42</i>&nbsp;        this.type = type;</b>
+<b class="fc"><i>43</i>&nbsp;        this.resourceReq = resourceReq.clone();</b>
+<b class="fc"><i>44</i>&nbsp;        Map&lt;DevCardType, Integer&gt; temp = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>45</i>&nbsp;        for (Map.Entry&lt;DevCardType, Integer&gt; entry : devCardReq.entrySet()) {</b>
+<b class="fc"><i>46</i>&nbsp;            temp.put(new DevCardType(entry.getKey().getLevel(), entry.getKey().getColor()), entry.getValue());</b>
+<b class="fc"><i>47</i>&nbsp;        }</b>
+<b class="fc"><i>48</i>&nbsp;        this.devCardReq = temp;</b>
+<b class="fc"><i>49</i>&nbsp;        this.input = input.clone();</b>
+<b class="fc"><i>50</i>&nbsp;        this.output = output.clone();</b>
+<b class="fc"><i>51</i>&nbsp;        this.ability = null;</b>
+<b class="fc"><i>52</i>&nbsp;        played = false;</b>
+<b class="fc"><i>53</i>&nbsp;        selected = false;</b>
+<b class="fc"><i>54</i>&nbsp;        this.id = id;</b>
+<b class="fc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    /**
+<i>58</i>&nbsp;     * Resource requirements getter
+<i>59</i>&nbsp;     * @return all resource requirements of the card
+<i>60</i>&nbsp;     */
+<i>61</i>&nbsp;    public EnumMap&lt;Resource, Integer&gt; getResourceReq(){
+<b class="fc"><i>62</i>&nbsp;        return resourceReq.clone();</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * Development card requirements getter
+<i>67</i>&nbsp;     * @return all development card requirements of the card
+<i>68</i>&nbsp;     */
+<i>69</i>&nbsp;    public Map&lt;DevCardType, Integer&gt; getDevCardReq(){
+<b class="fc"><i>70</i>&nbsp;        Map&lt;DevCardType, Integer&gt; temp = new HashMap&lt;&gt;();</b>
+<i>71</i>&nbsp;
+<b class="fc"><i>72</i>&nbsp;        for (Map.Entry&lt;DevCardType, Integer&gt; entry : devCardReq.entrySet()) {</b>
+<b class="fc"><i>73</i>&nbsp;            temp.put(new DevCardType(entry.getKey().getLevel(), entry.getKey().getColor()), entry.getValue());</b>
+<b class="fc"><i>74</i>&nbsp;        }</b>
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;        return temp;</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    /**
+<i>80</i>&nbsp;     * Leader card type getter
+<i>81</i>&nbsp;     * @return type of the card
+<i>82</i>&nbsp;     */
+<i>83</i>&nbsp;    public LeaderCardType getType(){
+<b class="nc"><i>84</i>&nbsp;        return type;</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    /**
+<i>88</i>&nbsp;     * Leader card ability getter
+<i>89</i>&nbsp;     * @return ability of the card
+<i>90</i>&nbsp;     */
+<i>91</i>&nbsp;    public Ability getAbility(){
+<b class="fc"><i>92</i>&nbsp;        return ability;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    /**
+<i>96</i>&nbsp;     * Checks if the card has already been played
+<i>97</i>&nbsp;     * @return true if the card has been played, false otherwise
+<i>98</i>&nbsp;     */
+<i>99</i>&nbsp;    public boolean hasBeenPlayed(){
+<b class="fc"><i>100</i>&nbsp;        return played;</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * Plays the card
+<i>105</i>&nbsp;     */
+<i>106</i>&nbsp;    public void play(){
+<b class="fc"><i>107</i>&nbsp;        this.played = true;</b>
+<b class="fc"><i>108</i>&nbsp;        this.ability = new Ability(this.input, this.output, this.type);</b>
+<i>109</i>&nbsp;
+<b class="fc"><i>110</i>&nbsp;    }</b>
+<i>111</i>&nbsp;
+<i>112</i>&nbsp;    /**
+<i>113</i>&nbsp;     * Checks if the card has been selected
+<i>114</i>&nbsp;     * @return true if the card is selected, false otherwise
+<i>115</i>&nbsp;     */
+<i>116</i>&nbsp;    public boolean isSelected(){
+<b class="fc"><i>117</i>&nbsp;        return this.selected;</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    /**
+<i>121</i>&nbsp;     * Selects the card
+<i>122</i>&nbsp;     */
+<i>123</i>&nbsp;    public void select(){
+<b class="fc"><i>124</i>&nbsp;        this.selected = !this.selected;</b>
+<b class="fc"><i>125</i>&nbsp;    }</b>
+<i>126</i>&nbsp;
+<i>127</i>&nbsp;    /**
+<i>128</i>&nbsp;     * Leader card id getter
+<i>129</i>&nbsp;     * @return id of the card
+<i>130</i>&nbsp;     */
+<i>131</i>&nbsp;    public int getId(){
+<b class="fc"><i>132</i>&nbsp;        return this.id;</b>
+<i>133</i>&nbsp;    }
+<i>134</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

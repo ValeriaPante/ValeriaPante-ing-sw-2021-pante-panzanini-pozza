@@ -1,0 +1,189 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LocalMessageManager</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Network.Client</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LocalMessageManager (it.polimi.ingsw.Network.Client)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LocalMessageManager</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Network.Client;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Controller.InGameControllerSwitch;
+<i>4</i>&nbsp;import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
+<i>5</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
+<i>6</i>&nbsp;import it.polimi.ingsw.Network.Server.LocalMessageSender;
+<i>7</i>&nbsp;import it.polimi.ingsw.PreGameModel.Lobby;
+<i>8</i>&nbsp;import it.polimi.ingsw.PreGameModel.User;
+<i>9</i>&nbsp;import it.polimi.ingsw.View.View;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import java.io.*;
+<i>12</i>&nbsp;import java.net.URISyntaxException;
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;/**
+<i>15</i>&nbsp; * Manages the messages from/to the player in an offline game
+<i>16</i>&nbsp; */
+<i>17</i>&nbsp;public class LocalMessageManager implements MessageManager{
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    private final InGameControllerSwitch inGameControllerSwitch;
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;    private void copyFile(File fileToCopy, String outputDirPath){
+<b class="nc"><i>22</i>&nbsp;        if (fileToCopy.isDirectory()){</b>
+<b class="nc"><i>23</i>&nbsp;            File dir = new File(outputDirPath + File.separator + fileToCopy.getName());</b>
+<b class="nc"><i>24</i>&nbsp;            if (!dir.exists()){</b>
+<b class="nc"><i>25</i>&nbsp;                dir.mkdirs();</b>
+<i>26</i>&nbsp;            }
+<b class="nc"><i>27</i>&nbsp;            for (File file : fileToCopy.listFiles()){</b>
+<b class="nc"><i>28</i>&nbsp;                this.copyFile(file, dir.getAbsolutePath());</b>
+<i>29</i>&nbsp;            }
+<b class="nc"><i>30</i>&nbsp;        }</b>
+<b class="nc"><i>31</i>&nbsp;        else if (fileToCopy.isFile()){</b>
+<i>32</i>&nbsp;            try {
+<b class="nc"><i>33</i>&nbsp;                FileInputStream fileInputStream = new FileInputStream(fileToCopy);</b>
+<b class="nc"><i>34</i>&nbsp;                FileOutputStream fileOutputStream = new FileOutputStream(outputDirPath + File.separator + fileToCopy.getName(), false);</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;                try {
+<i>37</i>&nbsp;                    int count;
+<b class="nc"><i>38</i>&nbsp;                    byte[] buffer = new byte[1024];</b>
+<b class="nc"><i>39</i>&nbsp;                    while ((count = fileInputStream.read(buffer)) != -1) {</b>
+<b class="nc"><i>40</i>&nbsp;                        fileOutputStream.write(buffer, 0, count);</b>
+<i>41</i>&nbsp;                    }
+<b class="nc"><i>42</i>&nbsp;                }catch (IOException ignored){}</b>
+<i>43</i>&nbsp;
+<b class="nc"><i>44</i>&nbsp;                fileInputStream.close();</b>
+<b class="nc"><i>45</i>&nbsp;                fileOutputStream.close();</b>
+<b class="nc"><i>46</i>&nbsp;            }catch (IOException ignored){}</b>
+<i>47</i>&nbsp;        }
+<b class="nc"><i>48</i>&nbsp;    }</b>
+<i>49</i>&nbsp;
+<i>50</i>&nbsp;    private void settingUpAssets(){
+<i>51</i>&nbsp;        try {
+<b class="nc"><i>52</i>&nbsp;            File jarFolder = new File(this.getClass().getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile();</b>
+<b class="nc"><i>53</i>&nbsp;            File outputDir = new File(jarFolder.getAbsolutePath() + File.separator + &quot;accessible&quot;);</b>
+<b class="nc"><i>54</i>&nbsp;            if (!outputDir.exists()){</b>
+<b class="nc"><i>55</i>&nbsp;                outputDir.mkdirs();</b>
+<i>56</i>&nbsp;            }
+<b class="nc"><i>57</i>&nbsp;            for (File file : jarFolder.listFiles()){</b>
+<b class="nc"><i>58</i>&nbsp;                if (file.isDirectory() &amp;&amp; !file.getAbsolutePath().equals(outputDir.getAbsolutePath())){</b>
+<b class="nc"><i>59</i>&nbsp;                    this.copyFile(file, outputDir.getAbsolutePath());</b>
+<i>60</i>&nbsp;                }
+<i>61</i>&nbsp;            }
+<b class="nc"><i>62</i>&nbsp;        }catch (URISyntaxException ignored){}</b>
+<b class="nc"><i>63</i>&nbsp;    }</b>
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * Constructor
+<i>67</i>&nbsp;     * @param view view modality chosen by the player
+<i>68</i>&nbsp;     */
+<b class="nc"><i>69</i>&nbsp;    public LocalMessageManager(View view) {</b>
+<b class="nc"><i>70</i>&nbsp;        this.settingUpAssets();</b>
+<b class="nc"><i>71</i>&nbsp;        Lobby lobby = new Lobby(0);</b>
+<b class="nc"><i>72</i>&nbsp;        User user = new User(&quot;you&quot;, new LocalMessageSender(view));</b>
+<b class="nc"><i>73</i>&nbsp;        user.setId(1);</b>
+<b class="nc"><i>74</i>&nbsp;        lobby.addUser(user);</b>
+<b class="nc"><i>75</i>&nbsp;        this.inGameControllerSwitch = new InGameControllerSwitch(lobby);</b>
+<b class="nc"><i>76</i>&nbsp;    }</b>
+<i>77</i>&nbsp;
+<i>78</i>&nbsp;    /**
+<i>79</i>&nbsp;     * Sends a message to the server
+<i>80</i>&nbsp;     * @param message message to send
+<i>81</i>&nbsp;     */
+<i>82</i>&nbsp;    @Override
+<i>83</i>&nbsp;    public synchronized void update(InGameMessage message) {
+<b class="nc"><i>84</i>&nbsp;        message.setSenderId(1);</b>
+<b class="nc"><i>85</i>&nbsp;        message.readThrough(inGameControllerSwitch);</b>
+<b class="nc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;    /**
+<i>89</i>&nbsp;     * Sends a message to the server
+<i>90</i>&nbsp;     * @param message message to send
+<i>91</i>&nbsp;     */
+<i>92</i>&nbsp;    @Override
+<i>93</i>&nbsp;    public synchronized void update(PreGameMessage message) {
+<b class="nc"><i>94</i>&nbsp;    }</b>
+<i>95</i>&nbsp;
+<i>96</i>&nbsp;    /**
+<i>97</i>&nbsp;     * Starts the connection with the server if possible
+<i>98</i>&nbsp;     * @param ip IP address of the server
+<i>99</i>&nbsp;     * @param port port used by the server
+<i>100</i>&nbsp;     * @param username username chosen by the player
+<i>101</i>&nbsp;     */
+<i>102</i>&nbsp;    @Override
+<i>103</i>&nbsp;    public void connect(String ip, String port, String username) {
+<i>104</i>&nbsp;
+<b class="nc"><i>105</i>&nbsp;    }</b>
+<i>106</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

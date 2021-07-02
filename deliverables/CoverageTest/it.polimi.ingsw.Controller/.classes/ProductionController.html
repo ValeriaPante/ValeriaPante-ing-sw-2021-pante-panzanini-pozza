@@ -1,0 +1,677 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ProductionController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ProductionController (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ProductionController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (19/ 19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,5%
+  </span>
+  <span class="absValue">
+    (191/ 211)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">ProductionController$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ProductionController$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ProductionController$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ProductionController$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">ProductionController$5</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (24/ 24)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90,8%
+  </span>
+  <span class="absValue">
+    (198/ 218)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Exceptions.WrongLeaderCardType;
+<i>4</i>&nbsp;import it.polimi.ingsw.Model.Abilities.ProductionPower.ProductionPower;
+<i>5</i>&nbsp;import it.polimi.ingsw.Model.Deposit.Depot;
+<i>6</i>&nbsp;import it.polimi.ingsw.Model.Deposit.Payable;
+<i>7</i>&nbsp;import it.polimi.ingsw.Model.Cards.LeaderCard;
+<i>8</i>&nbsp;import it.polimi.ingsw.Model.Deposit.Shelf;
+<i>9</i>&nbsp;import it.polimi.ingsw.Enums.MacroTurnType;
+<i>10</i>&nbsp;import it.polimi.ingsw.Enums.MicroTurnType;
+<i>11</i>&nbsp;import it.polimi.ingsw.Model.Player.DevSlot;
+<i>12</i>&nbsp;import it.polimi.ingsw.Model.Player.RealPlayer;
+<i>13</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;import java.util.ArrayList;
+<i>16</i>&nbsp;import java.util.EnumMap;
+<i>17</i>&nbsp;import java.util.List;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;/**
+<i>20</i>&nbsp; * Controller of the production phase in the game
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;public class ProductionController extends CardActionController{
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    private RealPlayer player;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    /**
+<i>27</i>&nbsp;     * Production Controller constructor
+<i>28</i>&nbsp;     * @param ftc Faith Track Controller
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    public ProductionController(FaithTrackController ftc) {
+<b class="fc"><i>31</i>&nbsp;        super(ftc);</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    /**
+<i>35</i>&nbsp;     * Getter
+<i>36</i>&nbsp;     * @param player player to evaluate
+<i>37</i>&nbsp;     * @return all the already selected production powers of a player
+<i>38</i>&nbsp;     */
+<i>39</i>&nbsp;    private ArrayList&lt;ProductionPower&gt; getSelectedProductionPowers(RealPlayer player){
+<b class="fc"><i>40</i>&nbsp;        ArrayList&lt;ProductionPower&gt; selectedProdPowers = new ArrayList&lt;&gt;();</b>
+<i>41</i>&nbsp;
+<b class="fc"><i>42</i>&nbsp;        if (player.getBasicProductionPower().isSelected()){</b>
+<b class="fc"><i>43</i>&nbsp;            selectedProdPowers.add(player.getBasicProductionPower().getProductionPower());</b>
+<i>44</i>&nbsp;        }
+<i>45</i>&nbsp;
+<b class="fc"><i>46</i>&nbsp;        for (DevSlot devSlot : player.getDevSlots()){</b>
+<b class="fc"><i>47</i>&nbsp;            if (!devSlot.isEmpty() &amp;&amp; devSlot.topCard().isSelected()){</b>
+<b class="fc"><i>48</i>&nbsp;                selectedProdPowers.add(devSlot.topCard().getProdPower());</b>
+<i>49</i>&nbsp;            }
+<i>50</i>&nbsp;        }
+<i>51</i>&nbsp;
+<b class="fc"><i>52</i>&nbsp;        for (LeaderCard leaderCard : player.getLeaderCards()){</b>
+<b class="fc"><i>53</i>&nbsp;            if (leaderCard.isSelected()){</b>
+<i>54</i>&nbsp;                try {
+<b class="fc"><i>55</i>&nbsp;                    selectedProdPowers.add(leaderCard.getAbility().getProductionPower());</b>
+<i>56</i>&nbsp;                }
+<b class="nc"><i>57</i>&nbsp;                catch (WrongLeaderCardType ignored){</b>
+<b class="fc"><i>58</i>&nbsp;                }</b>
+<i>59</i>&nbsp;            }
+<i>60</i>&nbsp;        }
+<i>61</i>&nbsp;
+<b class="fc"><i>62</i>&nbsp;        return selectedProdPowers;</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * Check if the player can afford to activate this production power plus all the production powers already selected
+<i>67</i>&nbsp;     * @param productionPower the new production power
+<i>68</i>&nbsp;     * @param player the player that wants to activate it
+<i>69</i>&nbsp;     * @return true if the player can afford to activate this production power plus all the production powers already selected, false otherwise
+<i>70</i>&nbsp;     */
+<i>71</i>&nbsp;    private boolean isAffordableSomehow(ProductionPower productionPower, RealPlayer player){
+<b class="fc"><i>72</i>&nbsp;        Depot resourceRequired = new Depot();</b>
+<b class="fc"><i>73</i>&nbsp;        for (ProductionPower alreadySelectedProdPower : this.getSelectedProductionPowers(player)){</b>
+<b class="fc"><i>74</i>&nbsp;            resourceRequired.addEnumMap(alreadySelectedProdPower.getInput());</b>
+<b class="fc"><i>75</i>&nbsp;        }</b>
+<b class="fc"><i>76</i>&nbsp;        resourceRequired.addEnumMap(productionPower.getInput());</b>
+<b class="fc"><i>77</i>&nbsp;        return super.isAffordableSomehow(resourceRequired.content());</b>
+<i>78</i>&nbsp;    }
+<i>79</i>&nbsp;
+<i>80</i>&nbsp;    /**
+<i>81</i>&nbsp;     * Select a production power
+<i>82</i>&nbsp;     * @param idCard the id of a card production (0 for the basic production power)
+<i>83</i>&nbsp;     * @param player player with that production power
+<i>84</i>&nbsp;     */
+<i>85</i>&nbsp;    private void selectCard(int idCard, RealPlayer player){
+<i>86</i>&nbsp;
+<b class="fc"><i>87</i>&nbsp;        if (idCard == 0){</b>
+<b class="fc"><i>88</i>&nbsp;            if (player.getBasicProductionPower().isSelected()){</b>
+<b class="fc"><i>89</i>&nbsp;                player.getBasicProductionPower().select();</b>
+<i>90</i>&nbsp;            }
+<i>91</i>&nbsp;            else{
+<b class="fc"><i>92</i>&nbsp;                if (this.isAffordableSomehow(player.getBasicProductionPower().getProductionPower(), player)){</b>
+<b class="fc"><i>93</i>&nbsp;                    player.getBasicProductionPower().select();</b>
+<i>94</i>&nbsp;                }
+<i>95</i>&nbsp;                else{
+<b class="fc"><i>96</i>&nbsp;                    player.setErrorMessage(&quot;You can&#39;t activate this production because you don&#39;t have enough resources&quot;, idCard);</b>
+<b class="fc"><i>97</i>&nbsp;                    return;</b>
+<i>98</i>&nbsp;                }
+<i>99</i>&nbsp;            }
+<b class="fc"><i>100</i>&nbsp;            return;</b>
+<i>101</i>&nbsp;        }
+<i>102</i>&nbsp;
+<b class="fc"><i>103</i>&nbsp;        for (DevSlot devSlot : player.getDevSlots()) {</b>
+<b class="fc"><i>104</i>&nbsp;            if (!devSlot.isEmpty() &amp;&amp; devSlot.topCard().getId() == idCard) {</b>
+<b class="fc"><i>105</i>&nbsp;                if (devSlot.topCard().isSelected()) {</b>
+<b class="nc"><i>106</i>&nbsp;                    devSlot.selectTopCard();</b>
+<i>107</i>&nbsp;                } else {
+<b class="fc"><i>108</i>&nbsp;                    if (this.isAffordableSomehow(devSlot.topCard().getProdPower(), player)) {</b>
+<b class="fc"><i>109</i>&nbsp;                        devSlot.selectTopCard();</b>
+<i>110</i>&nbsp;                    } else {
+<b class="fc"><i>111</i>&nbsp;                        player.setErrorMessage(&quot;You can&#39;t activate this production because you don&#39;t have enough resources&quot;, idCard);</b>
+<i>112</i>&nbsp;                    }
+<i>113</i>&nbsp;                }
+<b class="fc"><i>114</i>&nbsp;                return;</b>
+<i>115</i>&nbsp;            }
+<i>116</i>&nbsp;        }
+<i>117</i>&nbsp;
+<b class="fc"><i>118</i>&nbsp;        for (LeaderCard leaderCard : player.getLeaderCards()) {</b>
+<b class="fc"><i>119</i>&nbsp;            if (leaderCard.getId() == idCard) {</b>
+<b class="fc"><i>120</i>&nbsp;                if (leaderCard.isSelected()) {</b>
+<b class="nc"><i>121</i>&nbsp;                    leaderCard.select();</b>
+<i>122</i>&nbsp;                } else {
+<i>123</i>&nbsp;                    ProductionPower leaderProductionPower;
+<i>124</i>&nbsp;                    try {
+<b class="fc"><i>125</i>&nbsp;                        leaderProductionPower = leaderCard.getAbility().getProductionPower();</b>
+<b class="nc"><i>126</i>&nbsp;                    } catch (WrongLeaderCardType e) {</b>
+<b class="nc"><i>127</i>&nbsp;                        player.setErrorMessage(&quot;This is not a production LeaderCard&quot;, idCard);</b>
+<b class="nc"><i>128</i>&nbsp;                        return;</b>
+<b class="fc"><i>129</i>&nbsp;                    }</b>
+<i>130</i>&nbsp;
+<b class="fc"><i>131</i>&nbsp;                    if (this.isAffordableSomehow(leaderProductionPower, player)) {</b>
+<b class="fc"><i>132</i>&nbsp;                        leaderCard.select();</b>
+<i>133</i>&nbsp;                    } else {
+<b class="fc"><i>134</i>&nbsp;                        player.setErrorMessage(&quot;You can&#39;t activate this production because you don&#39;t have enough resources&quot;, idCard);</b>
+<i>135</i>&nbsp;                    }
+<i>136</i>&nbsp;                }
+<b class="fc"><i>137</i>&nbsp;                return;</b>
+<i>138</i>&nbsp;            }
+<i>139</i>&nbsp;        }
+<i>140</i>&nbsp;
+<b class="nc"><i>141</i>&nbsp;        player.setErrorMessage(&quot;Card not owned&quot;, idCard);</b>
+<b class="nc"><i>142</i>&nbsp;    }</b>
+<i>143</i>&nbsp;
+<i>144</i>&nbsp;    /**
+<i>145</i>&nbsp;     *
+<i>146</i>&nbsp;     * @return true if the player of turn is in a state in which he can do something related to the production
+<i>147</i>&nbsp;     */
+<i>148</i>&nbsp;    private boolean isTurnTypeValid(){
+<b class="fc"><i>149</i>&nbsp;        this.player = super.table.turnOf();</b>
+<i>150</i>&nbsp;
+<b class="fc"><i>151</i>&nbsp;        if (this.player.getMacroTurnType() == MacroTurnType.NONE &amp;&amp; this.player.getMicroTurnType() == MicroTurnType.NONE){</b>
+<b class="fc"><i>152</i>&nbsp;            this.player.setMacroTurnType(MacroTurnType.PRODUCTION);</b>
+<b class="fc"><i>153</i>&nbsp;            this.player.setMicroTurnType(MicroTurnType.SETTING_UP);</b>
+<b class="fc"><i>154</i>&nbsp;            return true;</b>
+<i>155</i>&nbsp;        }
+<i>156</i>&nbsp;        else{
+<b class="fc"><i>157</i>&nbsp;            return this.player.getMacroTurnType() == MacroTurnType.PRODUCTION &amp;&amp; this.player.getMicroTurnType() == MicroTurnType.SETTING_UP;</b>
+<i>158</i>&nbsp;        }
+<i>159</i>&nbsp;    }
+<i>160</i>&nbsp;
+<i>161</i>&nbsp;    /**
+<i>162</i>&nbsp;     * Select a card production if possible, if it&#39;s already selected deselects it
+<i>163</i>&nbsp;     * If the card is not a production card doesn&#39;t get selected
+<i>164</i>&nbsp;     * @param idCard the card id
+<i>165</i>&nbsp;     */
+<i>166</i>&nbsp;    public void selectCardProduction(int idCard){
+<b class="fc"><i>167</i>&nbsp;        if (!this.isTurnTypeValid()){</b>
+<b class="fc"><i>168</i>&nbsp;            return;</b>
+<i>169</i>&nbsp;        }
+<b class="fc"><i>170</i>&nbsp;        this.selectCard(idCard, this.player);</b>
+<i>171</i>&nbsp;
+<b class="fc"><i>172</i>&nbsp;        this.checkResetCondition();</b>
+<b class="fc"><i>173</i>&nbsp;    }</b>
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;    /**
+<i>176</i>&nbsp;     * Selects all production Cards if possible
+<i>177</i>&nbsp;     * Those dont get selected if the player does not have enough resources to activate everything
+<i>178</i>&nbsp;     */
+<i>179</i>&nbsp;    public void selectAllProductionPowers(){
+<b class="fc"><i>180</i>&nbsp;        if (!this.isTurnTypeValid()){</b>
+<b class="nc"><i>181</i>&nbsp;            return;</b>
+<i>182</i>&nbsp;        }
+<i>183</i>&nbsp;
+<b class="fc"><i>184</i>&nbsp;        Depot allInputs = new Depot();</b>
+<i>185</i>&nbsp;
+<b class="fc"><i>186</i>&nbsp;        for (ProductionPower productionPower : this.player.getAllProductionPowers()){</b>
+<b class="fc"><i>187</i>&nbsp;            allInputs.addEnumMap(productionPower.getInput());</b>
+<b class="fc"><i>188</i>&nbsp;        }</b>
+<i>189</i>&nbsp;
+<b class="fc"><i>190</i>&nbsp;        if (!super.isAffordableSomehow(allInputs.content())){</b>
+<b class="fc"><i>191</i>&nbsp;            this.player.setErrorMessage(&quot;you can&#39;t activate all production Powers together because you don&#39; have enough resources&quot;);</b>
+<b class="fc"><i>192</i>&nbsp;            this.checkResetCondition();</b>
+<b class="fc"><i>193</i>&nbsp;            return;</b>
+<i>194</i>&nbsp;        }
+<i>195</i>&nbsp;
+<b class="fc"><i>196</i>&nbsp;        if (!this.player.getBasicProductionPower().isSelected()) {</b>
+<b class="fc"><i>197</i>&nbsp;            this.player.getBasicProductionPower().select();</b>
+<i>198</i>&nbsp;        }
+<b class="fc"><i>199</i>&nbsp;        for (DevSlot devSlot : this.player.getDevSlots()){</b>
+<b class="fc"><i>200</i>&nbsp;            if (!devSlot.isEmpty() &amp;&amp; !devSlot.topCard().isSelected()){</b>
+<b class="fc"><i>201</i>&nbsp;                devSlot.selectTopCard();</b>
+<i>202</i>&nbsp;            }
+<i>203</i>&nbsp;        }
+<i>204</i>&nbsp;
+<b class="fc"><i>205</i>&nbsp;        for (LeaderCard leaderCard : this.player.getLeaderCards()){</b>
+<b class="fc"><i>206</i>&nbsp;            if (leaderCard.hasBeenPlayed()){</b>
+<b class="fc"><i>207</i>&nbsp;                if (!leaderCard.isSelected()) {</b>
+<i>208</i>&nbsp;                    try {
+<b class="fc"><i>209</i>&nbsp;                        leaderCard.getAbility().getProductionPower();</b>
+<b class="fc"><i>210</i>&nbsp;                        leaderCard.select();</b>
+<b class="fc"><i>211</i>&nbsp;                    } catch (WrongLeaderCardType ignored) {</b>
+<b class="fc"><i>212</i>&nbsp;                    }</b>
+<i>213</i>&nbsp;                }
+<i>214</i>&nbsp;            }
+<i>215</i>&nbsp;        }
+<b class="fc"><i>216</i>&nbsp;        this.player.setMacroTurnType(MacroTurnType.PRODUCTION);</b>
+<b class="fc"><i>217</i>&nbsp;        this.player.setMicroTurnType(MicroTurnType.SETTING_UP);</b>
+<b class="fc"><i>218</i>&nbsp;    }</b>
+<i>219</i>&nbsp;
+<i>220</i>&nbsp;    /**
+<i>221</i>&nbsp;     * Selects a resource in a shelf
+<i>222</i>&nbsp;     * @param resource resource type
+<i>223</i>&nbsp;     * @param numberOfShelf the target shelf
+<i>224</i>&nbsp;     * @return true if i handled this selection
+<i>225</i>&nbsp;     */
+<i>226</i>&nbsp;    public boolean selectionFromShelf(Resource resource, int numberOfShelf){
+<b class="fc"><i>227</i>&nbsp;        if (!this.isTurnTypeValid()){</b>
+<b class="fc"><i>228</i>&nbsp;            return false;</b>
+<i>229</i>&nbsp;        }
+<b class="fc"><i>230</i>&nbsp;        super.selectFromShelf(resource, numberOfShelf);</b>
+<b class="fc"><i>231</i>&nbsp;        this.checkResetCondition();</b>
+<b class="fc"><i>232</i>&nbsp;        return true;</b>
+<i>233</i>&nbsp;    }
+<i>234</i>&nbsp;
+<i>235</i>&nbsp;    /**
+<i>236</i>&nbsp;     * Deselection a resource in a shelf
+<i>237</i>&nbsp;     * @param resource resource type
+<i>238</i>&nbsp;     * @param numberOfShelf the target shelf
+<i>239</i>&nbsp;     * @return true if i handled this selection
+<i>240</i>&nbsp;     */
+<i>241</i>&nbsp;    public boolean deselectionFromShelf(Resource resource, int numberOfShelf){
+<b class="fc"><i>242</i>&nbsp;        if (!this.isTurnTypeValid()){</b>
+<b class="fc"><i>243</i>&nbsp;            return false;</b>
+<i>244</i>&nbsp;        }
+<b class="fc"><i>245</i>&nbsp;        super.deselectFromShelf(resource, numberOfShelf);</b>
+<b class="fc"><i>246</i>&nbsp;        this.checkResetCondition();</b>
+<b class="fc"><i>247</i>&nbsp;        return true;</b>
+<i>248</i>&nbsp;    }
+<i>249</i>&nbsp;
+<i>250</i>&nbsp;    /**
+<i>251</i>&nbsp;     * Selects a resource type and amount in the strongbox
+<i>252</i>&nbsp;     * @param resource resource type
+<i>253</i>&nbsp;     * @param quantity resource amount
+<i>254</i>&nbsp;     * @return true if i handled this selection
+<i>255</i>&nbsp;     */
+<i>256</i>&nbsp;    public boolean selectionFromStrongBox(Resource resource, int quantity){
+<b class="fc"><i>257</i>&nbsp;        if (!this.isTurnTypeValid()){</b>
+<b class="fc"><i>258</i>&nbsp;            return false;</b>
+<i>259</i>&nbsp;        }
+<b class="fc"><i>260</i>&nbsp;        super.selectFromStrongBox(resource, quantity);</b>
+<b class="fc"><i>261</i>&nbsp;        this.checkResetCondition();</b>
+<b class="fc"><i>262</i>&nbsp;        return true;</b>
+<i>263</i>&nbsp;    }
+<i>264</i>&nbsp;
+<i>265</i>&nbsp;    /**
+<i>266</i>&nbsp;     * Deselects a resource type and amount in the strongbox
+<i>267</i>&nbsp;     * @param resource resource type
+<i>268</i>&nbsp;     * @param quantity resource amount
+<i>269</i>&nbsp;     * @return true if i handled this selection
+<i>270</i>&nbsp;     */
+<i>271</i>&nbsp;    public boolean deselectionFromStrongBox(Resource resource, int quantity){
+<b class="fc"><i>272</i>&nbsp;        if (!this.isTurnTypeValid()){</b>
+<b class="fc"><i>273</i>&nbsp;            return false;</b>
+<i>274</i>&nbsp;        }
+<b class="fc"><i>275</i>&nbsp;        super.deselectFromStrongBox(resource, quantity);</b>
+<b class="fc"><i>276</i>&nbsp;        this.checkResetCondition();</b>
+<b class="fc"><i>277</i>&nbsp;        return true;</b>
+<i>278</i>&nbsp;    }
+<i>279</i>&nbsp;
+<i>280</i>&nbsp;    /**
+<i>281</i>&nbsp;     * Selects a resource in a storage type Leader card, if its already selected deselect it
+<i>282</i>&nbsp;     * @param resource resource type
+<i>283</i>&nbsp;     * @param idCard the card id
+<i>284</i>&nbsp;     * @param resPosition the position of the resource in the storage
+<i>285</i>&nbsp;     * @return true if i handled this selection
+<i>286</i>&nbsp;     */
+<i>287</i>&nbsp;    public boolean selectionFromLeaderStorage(Resource resource, int idCard, int resPosition){
+<b class="fc"><i>288</i>&nbsp;        if (!this.isTurnTypeValid()){</b>
+<b class="fc"><i>289</i>&nbsp;            return false;</b>
+<i>290</i>&nbsp;        }
+<b class="fc"><i>291</i>&nbsp;        super.selectFromLeaderStorage(resource, idCard, resPosition);</b>
+<b class="fc"><i>292</i>&nbsp;        this.checkResetCondition();</b>
+<b class="fc"><i>293</i>&nbsp;        return true;</b>
+<i>294</i>&nbsp;    }
+<i>295</i>&nbsp;
+<i>296</i>&nbsp;    /**
+<i>297</i>&nbsp;     * Rollback if the player of turn has no production powers selected and no resources selected
+<i>298</i>&nbsp;     */
+<i>299</i>&nbsp;    private void checkResetCondition(){
+<b class="fc"><i>300</i>&nbsp;        this.player = super.table.turnOf();</b>
+<b class="fc"><i>301</i>&nbsp;        if (this.getSelectedProductionPowers(this.player).isEmpty()){</b>
+<b class="fc"><i>302</i>&nbsp;            if (super.getPayableWithSelection().isEmpty()){</b>
+<b class="fc"><i>303</i>&nbsp;                this.player.setMacroTurnType(MacroTurnType.NONE);</b>
+<b class="fc"><i>304</i>&nbsp;                this.player.setMicroTurnType(MicroTurnType.NONE);</b>
+<i>305</i>&nbsp;            }
+<i>306</i>&nbsp;        }
+<b class="fc"><i>307</i>&nbsp;    }</b>
+<i>308</i>&nbsp;
+<i>309</i>&nbsp;    /**
+<i>310</i>&nbsp;     * Activate the production if possible
+<i>311</i>&nbsp;     * The production doesn&#39;t start if the player has selected more o less resources that are needed
+<i>312</i>&nbsp;     * Sets the turn to ANYDECISION if there is some any in output
+<i>313</i>&nbsp;     */
+<i>314</i>&nbsp;    public void activateProduction(){
+<b class="fc"><i>315</i>&nbsp;        this.player = super.table.turnOf();</b>
+<i>316</i>&nbsp;
+<b class="fc"><i>317</i>&nbsp;        if (!(this.player.getMacroTurnType() == MacroTurnType.PRODUCTION &amp;&amp; this.player.getMicroTurnType() == MicroTurnType.SETTING_UP)){</b>
+<b class="nc"><i>318</i>&nbsp;            this.player.setErrorMessage(&quot;You can&#39;t now&quot;);</b>
+<b class="nc"><i>319</i>&nbsp;            return;</b>
+<i>320</i>&nbsp;        }
+<i>321</i>&nbsp;
+<b class="fc"><i>322</i>&nbsp;        ArrayList&lt;ProductionPower&gt; selectedProdPowers = this.getSelectedProductionPowers(this.player);</b>
+<b class="fc"><i>323</i>&nbsp;        if (selectedProdPowers.isEmpty()){</b>
+<b class="nc"><i>324</i>&nbsp;            this.player.setErrorMessage(&quot;Please select some production power&quot;);</b>
+<b class="nc"><i>325</i>&nbsp;            return;</b>
+<i>326</i>&nbsp;        }
+<i>327</i>&nbsp;
+<b class="fc"><i>328</i>&nbsp;        Depot resourceSelected = new Depot();</b>
+<i>329</i>&nbsp;
+<b class="fc"><i>330</i>&nbsp;        for (Shelf shelf : this.player.getShelves()){</b>
+<b class="fc"><i>331</i>&nbsp;            if (!shelf.isEmpty() &amp;&amp; shelf.getQuantitySelected()!=0) {</b>
+<b class="fc"><i>332</i>&nbsp;                resourceSelected.addEnumMap(new EnumMap&lt;&gt;(Resource.class) {{</b>
+<b class="fc"><i>333</i>&nbsp;                    put(shelf.getResourceType(), shelf.getQuantitySelected());</b>
+<b class="fc"><i>334</i>&nbsp;                }});</b>
+<i>335</i>&nbsp;            }
+<i>336</i>&nbsp;        }
+<i>337</i>&nbsp;
+<b class="fc"><i>338</i>&nbsp;        if (this.player.getStrongBox().areThereSelections()) {</b>
+<b class="fc"><i>339</i>&nbsp;            resourceSelected.addEnumMap(this.player.getStrongBox().getSelection());</b>
+<i>340</i>&nbsp;        }
+<i>341</i>&nbsp;
+<b class="fc"><i>342</i>&nbsp;        for (LeaderCard leaderCard : this.player.getLeaderCards()){</b>
+<b class="fc"><i>343</i>&nbsp;            if (leaderCard.hasBeenPlayed()){</b>
+<i>344</i>&nbsp;                try{
+<b class="fc"><i>345</i>&nbsp;                    if (!leaderCard.getAbility().getSelected().isEmpty()){</b>
+<b class="fc"><i>346</i>&nbsp;                        resourceSelected.addEnumMap(leaderCard.getAbility().getSelected());</b>
+<i>347</i>&nbsp;                    }
+<i>348</i>&nbsp;                }
+<b class="fc"><i>349</i>&nbsp;                catch(WrongLeaderCardType ignored){</b>
+<b class="fc"><i>350</i>&nbsp;                }</b>
+<i>351</i>&nbsp;            }
+<i>352</i>&nbsp;        }
+<i>353</i>&nbsp;
+<b class="fc"><i>354</i>&nbsp;        if (resourceSelected.isEmpty()){</b>
+<b class="nc"><i>355</i>&nbsp;            this.player.setErrorMessage(&quot;Please select some resources&quot;);</b>
+<b class="nc"><i>356</i>&nbsp;            return;</b>
+<i>357</i>&nbsp;        }
+<i>358</i>&nbsp;
+<b class="fc"><i>359</i>&nbsp;        Depot allInputs = new Depot();</b>
+<b class="fc"><i>360</i>&nbsp;        Depot allOutputs = new Depot();</b>
+<b class="fc"><i>361</i>&nbsp;        for (ProductionPower productionPower : selectedProdPowers){</b>
+<b class="fc"><i>362</i>&nbsp;            allInputs.addEnumMap(productionPower.getInput());</b>
+<b class="fc"><i>363</i>&nbsp;            allOutputs.addEnumMap(productionPower.getOutput());</b>
+<b class="fc"><i>364</i>&nbsp;        }</b>
+<i>365</i>&nbsp;
+<b class="fc"><i>366</i>&nbsp;        if (allInputs.content().containsKey(Resource.ANY)){</b>
+<b class="fc"><i>367</i>&nbsp;            int anyAmount = allInputs.content().get(Resource.ANY);</b>
+<b class="fc"><i>368</i>&nbsp;            EnumMap&lt;Resource, Integer&gt; inputsWithoutAny = allInputs.content();</b>
+<b class="fc"><i>369</i>&nbsp;            inputsWithoutAny.remove(Resource.ANY);</b>
+<i>370</i>&nbsp;
+<b class="fc"><i>371</i>&nbsp;            Depot temp = new Depot(){{addEnumMap(inputsWithoutAny);}};</b>
+<b class="fc"><i>372</i>&nbsp;            if (resourceSelected.contains(inputsWithoutAny) &amp;&amp; resourceSelected.countAll() == temp.countAll() + anyAmount){</b>
+<b class="fc"><i>373</i>&nbsp;                this.setANYDECISIONIfNeeded(this.player, super.getPayableWithSelection(), allOutputs.content());</b>
+<i>374</i>&nbsp;            }
+<i>375</i>&nbsp;            else{
+<b class="nc"><i>376</i>&nbsp;                this.player.setErrorMessage(&quot;Selection doesn&#39;t match the cost&quot;);</b>
+<i>377</i>&nbsp;            }
+<b class="fc"><i>378</i>&nbsp;        }</b>
+<i>379</i>&nbsp;        else{
+<b class="fc"><i>380</i>&nbsp;            if (resourceSelected.content().equals(allInputs.content())){</b>
+<b class="fc"><i>381</i>&nbsp;                this.setANYDECISIONIfNeeded(this.player, super.getPayableWithSelection(), allOutputs.content());</b>
+<i>382</i>&nbsp;            }
+<i>383</i>&nbsp;            else{
+<b class="nc"><i>384</i>&nbsp;                this.player.setErrorMessage(&quot;Selection doesn&#39;t match the cost&quot;);</b>
+<i>385</i>&nbsp;            }
+<i>386</i>&nbsp;        }
+<b class="fc"><i>387</i>&nbsp;    }</b>
+<i>388</i>&nbsp;
+<i>389</i>&nbsp;    /**
+<i>390</i>&nbsp;     * Check if the output of the production has some any inside, if so updates the player state
+<i>391</i>&nbsp;     * @param player the player that activated the production
+<i>392</i>&nbsp;     * @param payableWithSelection All the storages with some selection in it
+<i>393</i>&nbsp;     * @param toPutInStrongBox the output of the production
+<i>394</i>&nbsp;     */
+<i>395</i>&nbsp;    private void setANYDECISIONIfNeeded(RealPlayer player, List&lt;Payable&gt; payableWithSelection, EnumMap&lt;Resource, Integer&gt; toPutInStrongBox){
+<b class="fc"><i>396</i>&nbsp;        if (toPutInStrongBox.containsKey(Resource.ANY)){</b>
+<b class="fc"><i>397</i>&nbsp;            player.getSupportContainer().clear();</b>
+<b class="fc"><i>398</i>&nbsp;            table.updatePlayerOfTurnSupportContainer(new EnumMap&lt;&gt;(Resource.class){{put(Resource.ANY, toPutInStrongBox.get(Resource.ANY));}});</b>
+<b class="fc"><i>399</i>&nbsp;            player.setMicroTurnType(MicroTurnType.ANY_DECISION);</b>
+<i>400</i>&nbsp;        }
+<i>401</i>&nbsp;        else{
+<b class="fc"><i>402</i>&nbsp;            this.effectiveTransaction(player, payableWithSelection, toPutInStrongBox);</b>
+<i>403</i>&nbsp;        }
+<b class="fc"><i>404</i>&nbsp;    }</b>
+<i>405</i>&nbsp;
+<i>406</i>&nbsp;    /**
+<i>407</i>&nbsp;     * Deselect all the production cards that the player has
+<i>408</i>&nbsp;     * @param player the player to deselect all the production cards
+<i>409</i>&nbsp;     */
+<i>410</i>&nbsp;    private void deselectAllProdPowersSelected(RealPlayer player){
+<b class="fc"><i>411</i>&nbsp;        if (player.getBasicProductionPower().isSelected()){</b>
+<b class="nc"><i>412</i>&nbsp;            player.getBasicProductionPower().select();</b>
+<i>413</i>&nbsp;        }
+<i>414</i>&nbsp;
+<b class="fc"><i>415</i>&nbsp;        for (DevSlot devSlot : player.getDevSlots()){</b>
+<b class="fc"><i>416</i>&nbsp;            if (!devSlot.isEmpty() &amp;&amp; devSlot.topCard().isSelected()){</b>
+<b class="fc"><i>417</i>&nbsp;                devSlot.selectTopCard();</b>
+<i>418</i>&nbsp;            }
+<i>419</i>&nbsp;        }
+<i>420</i>&nbsp;
+<b class="fc"><i>421</i>&nbsp;        for (LeaderCard leaderCard : player.getLeaderCards()){</b>
+<b class="fc"><i>422</i>&nbsp;            if (leaderCard.isSelected()){</b>
+<b class="fc"><i>423</i>&nbsp;                leaderCard.select();</b>
+<i>424</i>&nbsp;            }
+<i>425</i>&nbsp;        }
+<b class="fc"><i>426</i>&nbsp;    }</b>
+<i>427</i>&nbsp;
+<i>428</i>&nbsp;    /**
+<i>429</i>&nbsp;     * Removes all the selected resources and put the output in the strongbox
+<i>430</i>&nbsp;     * @param player player that activated the production
+<i>431</i>&nbsp;     * @param payableWithSelection All the storages with some selection in it
+<i>432</i>&nbsp;     * @param toPutInStrongBox the output of the production to be put in the strongbox
+<i>433</i>&nbsp;     */
+<i>434</i>&nbsp;    private void effectiveTransaction(RealPlayer player, List&lt;Payable&gt; payableWithSelection, EnumMap&lt;Resource, Integer&gt; toPutInStrongBox){
+<b class="fc"><i>435</i>&nbsp;        for (Payable payable : payableWithSelection){</b>
+<b class="fc"><i>436</i>&nbsp;            this.table.payPlayerOfTurn(payable);</b>
+<b class="fc"><i>437</i>&nbsp;        }</b>
+<b class="fc"><i>438</i>&nbsp;        Integer faithPoints = toPutInStrongBox.remove(Resource.FAITH);</b>
+<b class="fc"><i>439</i>&nbsp;        this.table.addToPlayerOfTurnStrongbox(toPutInStrongBox);</b>
+<i>440</i>&nbsp;
+<b class="fc"><i>441</i>&nbsp;        if (faithPoints != null){</b>
+<b class="fc"><i>442</i>&nbsp;            super.faithTrackController.movePlayerOfTurn(faithPoints);</b>
+<i>443</i>&nbsp;        }
+<b class="fc"><i>444</i>&nbsp;        player.setMacroTurnType(MacroTurnType.DONE);</b>
+<b class="fc"><i>445</i>&nbsp;        player.setMicroTurnType(MicroTurnType.NONE);</b>
+<i>446</i>&nbsp;
+<b class="fc"><i>447</i>&nbsp;        this.deselectAllProdPowersSelected(player);</b>
+<b class="fc"><i>448</i>&nbsp;    }</b>
+<i>449</i>&nbsp;
+<i>450</i>&nbsp;    /**
+<i>451</i>&nbsp;     * Stores a resource that a any will be converted into
+<i>452</i>&nbsp;     * @param resource A resource that a any will be converted into
+<i>453</i>&nbsp;     */
+<i>454</i>&nbsp;    public void anySelection(Resource resource){
+<b class="fc"><i>455</i>&nbsp;        RealPlayer player = super.table.turnOf();</b>
+<b class="fc"><i>456</i>&nbsp;        if (player.getMicroTurnType() != MicroTurnType.ANY_DECISION) {</b>
+<b class="nc"><i>457</i>&nbsp;            player.setErrorMessage(&quot;You can&#39;t do this now&quot;);</b>
+<b class="nc"><i>458</i>&nbsp;            return;</b>
+<i>459</i>&nbsp;        }
+<b class="fc"><i>460</i>&nbsp;        if (resource == Resource.ANY || resource == Resource.WHITE || resource == Resource.FAITH){</b>
+<b class="fc"><i>461</i>&nbsp;            player.setErrorMessage(&quot;Resource specified not allowed&quot;);</b>
+<b class="fc"><i>462</i>&nbsp;            return;</b>
+<i>463</i>&nbsp;        }
+<i>464</i>&nbsp;
+<b class="fc"><i>465</i>&nbsp;        this.table.addToSupportContainer(new EnumMap&lt;&gt;(Resource.class){{put(resource, 1);}});</b>
+<b class="fc"><i>466</i>&nbsp;        int anyAmount = player.getSupportContainer().content().get(Resource.ANY);</b>
+<i>467</i>&nbsp;
+<b class="fc"><i>468</i>&nbsp;        if (player.getSupportContainer().countAll() == 2*anyAmount){</b>
+<b class="fc"><i>469</i>&nbsp;            Depot allOutputs = new Depot();</b>
+<b class="fc"><i>470</i>&nbsp;            for (ProductionPower productionPower : this.getSelectedProductionPowers(player)){</b>
+<b class="fc"><i>471</i>&nbsp;                allOutputs.addEnumMap(productionPower.getOutput());</b>
+<b class="fc"><i>472</i>&nbsp;            }</b>
+<b class="fc"><i>473</i>&nbsp;            allOutputs.addEnumMap(player.getSupportContainer().content());</b>
+<b class="fc"><i>474</i>&nbsp;            super.table.updatePlayerOfTurnSupportContainer(new EnumMap&lt;&gt;(Resource.class));</b>
+<b class="fc"><i>475</i>&nbsp;            this.effectiveTransaction(player, super.getPayableWithSelection(), new EnumMap&lt;&gt;(allOutputs.content()){{remove(Resource.ANY);}});</b>
+<i>476</i>&nbsp;        }
+<b class="fc"><i>477</i>&nbsp;    }</b>
+<i>478</i>&nbsp;
+<i>479</i>&nbsp;    /**
+<i>480</i>&nbsp;     * Allows to go back to the selection of resources and cards from the selection of the Any as output
+<i>481</i>&nbsp;     */
+<i>482</i>&nbsp;    public void backFromAnySelection(){
+<b class="fc"><i>483</i>&nbsp;        this.player = super.table.turnOf();</b>
+<b class="fc"><i>484</i>&nbsp;        if (this.player.getMicroTurnType() != MicroTurnType.ANY_DECISION){</b>
+<b class="fc"><i>485</i>&nbsp;            this.player.setErrorMessage(&quot;You can&#39;t go back from here&quot;);</b>
+<b class="fc"><i>486</i>&nbsp;            return;</b>
+<i>487</i>&nbsp;        }
+<b class="fc"><i>488</i>&nbsp;        super.table.updatePlayerOfTurnSupportContainer(new EnumMap&lt;&gt;(Resource.class));</b>
+<b class="fc"><i>489</i>&nbsp;        super.table.turnOf().setMicroTurnType(MicroTurnType.SETTING_UP);</b>
+<b class="fc"><i>490</i>&nbsp;    }</b>
+<i>491</i>&nbsp;
+<i>492</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

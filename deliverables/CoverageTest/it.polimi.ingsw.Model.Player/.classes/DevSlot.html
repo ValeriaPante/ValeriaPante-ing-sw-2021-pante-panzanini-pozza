@@ -1,0 +1,197 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: DevSlot</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model.Player</a> ]
+</div>
+
+<h1>Coverage Summary for Class: DevSlot (it.polimi.ingsw.Model.Player)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DevSlot</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (9/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    82,1%
+  </span>
+  <span class="absValue">
+    (23/ 28)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model.Player;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.Cards.DevCard;
+<i>4</i>&nbsp;import it.polimi.ingsw.Model.Cards.DevCardType;
+<i>5</i>&nbsp;import it.polimi.ingsw.Exceptions.*;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.*;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Representation of Slot where the player puts his development cards
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class DevSlot{
+<i>13</i>&nbsp;    private final List&lt;DevCard&gt; cards;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Constructor
+<i>17</i>&nbsp;     */
+<b class="fc"><i>18</i>&nbsp;    public DevSlot(){</b>
+<b class="fc"><i>19</i>&nbsp;        cards = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    /**
+<i>23</i>&nbsp;     * Getter of the card contained in the slot
+<i>24</i>&nbsp;     * @return a list of the development cards contained in the slot
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    public List&lt;DevCard&gt; getCards(){
+<b class="nc"><i>27</i>&nbsp;        List&lt;DevCard&gt; result = new ArrayList&lt;&gt;();</b>
+<i>28</i>&nbsp;        int i;
+<b class="nc"><i>29</i>&nbsp;        for (i = 0; i &lt; cards.size(); i++){</b>
+<b class="nc"><i>30</i>&nbsp;            result.add(cards.get(i).clone());</b>
+<i>31</i>&nbsp;        }
+<b class="nc"><i>32</i>&nbsp;        return result;</b>
+<i>33</i>&nbsp;    }
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    /**
+<i>36</i>&nbsp;     * Selects the card on top of the slot
+<i>37</i>&nbsp;     */
+<i>38</i>&nbsp;    public void selectTopCard(){
+<b class="fc"><i>39</i>&nbsp;        if (!this.isEmpty()){</b>
+<b class="fc"><i>40</i>&nbsp;            this.cards.get(0).select();</b>
+<i>41</i>&nbsp;        }
+<b class="fc"><i>42</i>&nbsp;    }</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * Getter of the number of cards contained
+<i>46</i>&nbsp;     * @return the number of cards contained in the slot
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    public int numberOfCards(){
+<b class="fc"><i>49</i>&nbsp;        return cards.size();</b>
+<i>50</i>&nbsp;    }
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;    /**
+<i>53</i>&nbsp;     * Checks if the slot is empty
+<i>54</i>&nbsp;     * @return true if the slot is empty, false otherwise
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    public boolean isEmpty(){
+<b class="fc"><i>57</i>&nbsp;        return cards.isEmpty();</b>
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;
+<i>60</i>&nbsp;    /**
+<i>61</i>&nbsp;     * Getter of the card on top of the slot
+<i>62</i>&nbsp;     * @return development card on top of the slot
+<i>63</i>&nbsp;     */
+<i>64</i>&nbsp;    public DevCard topCard(){
+<b class="fc"><i>65</i>&nbsp;        if(!this.isEmpty()) return cards.get(0).clone();</b>
+<b class="fc"><i>66</i>&nbsp;        else return  null;</b>
+<i>67</i>&nbsp;    }
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * Add a card on top of the slot
+<i>71</i>&nbsp;     * @param card development card to place
+<i>72</i>&nbsp;     * @throws CantPutThisHere if the card can&#39;t be placed on top of the others contained in the slot
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    public void addCard(DevCard card) throws CantPutThisHere{
+<b class="fc"><i>75</i>&nbsp;        if(this.isInsertable(card)) {</b>
+<b class="fc"><i>76</i>&nbsp;            cards.add(0, card.clone());</b>
+<i>77</i>&nbsp;        } else {
+<b class="fc"><i>78</i>&nbsp;            throw new CantPutThisHere();</b>
+<i>79</i>&nbsp;        }
+<b class="fc"><i>80</i>&nbsp;    }</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /**
+<i>83</i>&nbsp;     * Checks if a development card can be placed on top of the slot
+<i>84</i>&nbsp;     * @param card card player wants to place
+<i>85</i>&nbsp;     * @return true if the card can be placed on top, false otherwise
+<i>86</i>&nbsp;     */
+<i>87</i>&nbsp;    public boolean isInsertable(DevCard card){
+<b class="fc"><i>88</i>&nbsp;        return ((this.isEmpty() &amp;&amp; card.getType().getLevel() == 1)) || (this.topCard() != null &amp;&amp; (card.getType().getLevel() == this.topCard().getType().getLevel() + 1));</b>
+<i>89</i>&nbsp;    }
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**
+<i>92</i>&nbsp;     * Getter of the types (color-level) of development card contained in the slot
+<i>93</i>&nbsp;     * @return the list of the types contained
+<i>94</i>&nbsp;     */
+<i>95</i>&nbsp;    public ArrayList&lt;DevCardType&gt; getDevCardTypeContained(){
+<b class="fc"><i>96</i>&nbsp;        ArrayList&lt;DevCardType&gt; result = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>97</i>&nbsp;        for (DevCard t : cards){</b>
+<b class="fc"><i>98</i>&nbsp;            result.add(new DevCardType(t.getType().getLevel(), t.getType().getColor()));</b>
+<b class="fc"><i>99</i>&nbsp;        }</b>
+<b class="fc"><i>100</i>&nbsp;        return result;</b>
+<i>101</i>&nbsp;    }
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    /**
+<i>104</i>&nbsp;     * Getter of the total points of the cards contained
+<i>105</i>&nbsp;     * @return the sum of the victory points of the development card contained in the slot
+<i>106</i>&nbsp;     */
+<i>107</i>&nbsp;    public int totalPoints(){
+<b class="fc"><i>108</i>&nbsp;        int result = 0;</b>
+<b class="fc"><i>109</i>&nbsp;        for(DevCard card: this.cards)</b>
+<b class="nc"><i>110</i>&nbsp;            result += card.getVictoryPoints();</b>
+<b class="fc"><i>111</i>&nbsp;        return result;</b>
+<i>112</i>&nbsp;    }
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,178 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LeaderController</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LeaderController (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LeaderController</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (35/ 35)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.Cards.DevCardType;
+<i>4</i>&nbsp;import it.polimi.ingsw.Model.Cards.LeaderCard;
+<i>5</i>&nbsp;import it.polimi.ingsw.Model.Deposit.Depot;
+<i>6</i>&nbsp;import it.polimi.ingsw.Enums.MacroTurnType;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.*;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Controller that manages the request of activation or discarding of a leader card by a player
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class LeaderController extends SelectionController{
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    public LeaderController(FaithTrackController ftc) {
+<b class="fc"><i>16</i>&nbsp;        super(ftc);</b>
+<b class="fc"><i>17</i>&nbsp;    }</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /**
+<i>20</i>&nbsp;     * Makes an action (discard or activate) on a leader card if possibile, otherwise sets an error message
+<i>21</i>&nbsp;     * @param id chosen leader card id
+<i>22</i>&nbsp;     * @param discard indicates whether the card is to discard (true) or to activate (false)
+<i>23</i>&nbsp;     */
+<i>24</i>&nbsp;    public void actionOnLeaderCard(int id, Boolean discard) {
+<b class="fc"><i>25</i>&nbsp;        table.turnOf().clearErrorMessage();</b>
+<b class="fc"><i>26</i>&nbsp;        if(table.turnOf().getMacroTurnType() == MacroTurnType.NONE || table.turnOf().getMacroTurnType() == MacroTurnType.DONE){</b>
+<b class="fc"><i>27</i>&nbsp;            LeaderCard chosenCard = this.leaderCardFromID(id);</b>
+<i>28</i>&nbsp;
+<b class="fc"><i>29</i>&nbsp;            if(chosenCard != null){</b>
+<b class="fc"><i>30</i>&nbsp;                if (discard){</b>
+<b class="fc"><i>31</i>&nbsp;                    table.actionOnLeaderCard(chosenCard, true);</b>
+<b class="fc"><i>32</i>&nbsp;                    this.faithTrackController.movePlayerOfTurn(1);</b>
+<b class="fc"><i>33</i>&nbsp;                } else if (!chosenCard.hasBeenPlayed()){</b>
+<b class="fc"><i>34</i>&nbsp;                    if (!checkRequirements(chosenCard))</b>
+<b class="fc"><i>35</i>&nbsp;                        table.turnOf().setErrorMessage(&quot;You don&#39;t have the requirements needed. &quot;);</b>
+<i>36</i>&nbsp;                    else{
+<b class="fc"><i>37</i>&nbsp;                        table.actionOnLeaderCard(chosenCard, false);</b>
+<i>38</i>&nbsp;                    }
+<i>39</i>&nbsp;                }
+<i>40</i>&nbsp;            }
+<b class="fc"><i>41</i>&nbsp;        } else table.turnOf().setErrorMessage(&quot;You can&#39;t do this action&quot;);</b>
+<b class="fc"><i>42</i>&nbsp;    }</b>
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;
+<i>45</i>&nbsp;    /**
+<i>46</i>&nbsp;     * Checks leader card requirements if the player wants to activate it
+<i>47</i>&nbsp;     * @param leaderCardForAction leader card to activate
+<i>48</i>&nbsp;     * @return true if the player satisfies all requirements, false otherwise
+<i>49</i>&nbsp;     */
+<i>50</i>&nbsp;    private boolean checkRequirements(LeaderCard leaderCardForAction){
+<b class="fc"><i>51</i>&nbsp;        return checkResourceReq(leaderCardForAction) &amp;&amp; checkDevCardTypeReq(leaderCardForAction);</b>
+<i>52</i>&nbsp;    }
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /**
+<i>56</i>&nbsp;     * Checks leader card requirements on the resources owned by the player
+<i>57</i>&nbsp;     * @param leaderCardForAction leader card to activate
+<i>58</i>&nbsp;     * @return true if the player satisfies all resource requirements, false otherwise
+<i>59</i>&nbsp;     */
+<i>60</i>&nbsp;    private boolean checkResourceReq(LeaderCard leaderCardForAction){
+<b class="fc"><i>61</i>&nbsp;        Depot allResourceOwned = new Depot();</b>
+<i>62</i>&nbsp;
+<b class="fc"><i>63</i>&nbsp;        allResourceOwned.addEnumMap(table.turnOf().getResourcesOwned());</b>
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;        return allResourceOwned.contains(leaderCardForAction.getResourceReq());</b>
+<i>66</i>&nbsp;    }
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;    /**
+<i>70</i>&nbsp;     * Checks leader card requirements on the type of development card owned by the player
+<i>71</i>&nbsp;     * @param leaderCardForAction leader card to activate
+<i>72</i>&nbsp;     * @return true if the player satisfies all development card type requirements, false otherwise
+<i>73</i>&nbsp;     */
+<i>74</i>&nbsp;    private boolean checkDevCardTypeReq(LeaderCard leaderCardForAction){
+<b class="fc"><i>75</i>&nbsp;        boolean devCardReq = true;</b>
+<b class="fc"><i>76</i>&nbsp;        if(!leaderCardForAction.getDevCardReq().isEmpty()){</b>
+<b class="fc"><i>77</i>&nbsp;            ArrayList&lt;DevCardType&gt; ownedDevCard = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>78</i>&nbsp;            for(int i = 0; i &lt; table.turnOf().getDevSlots().length; i++)</b>
+<b class="fc"><i>79</i>&nbsp;                ownedDevCard.addAll(table.turnOf().getDevSlots()[i].getDevCardTypeContained());</b>
+<i>80</i>&nbsp;            int sum;
+<b class="fc"><i>81</i>&nbsp;            for (Map.Entry&lt;DevCardType, Integer&gt; entry : leaderCardForAction.getDevCardReq().entrySet()) {</b>
+<b class="fc"><i>82</i>&nbsp;                sum = 0;</b>
+<b class="fc"><i>83</i>&nbsp;                for (DevCardType devCardType : ownedDevCard) {</b>
+<b class="fc"><i>84</i>&nbsp;                    if ((entry.getKey().getLevel() == 0 &amp;&amp; devCardType.getColor() == entry.getKey().getColor()) || (entry.getKey().getLevel() &lt;= devCardType.getLevel() &amp;&amp; devCardType.getColor() == entry.getKey().getColor()))</b>
+<b class="fc"><i>85</i>&nbsp;                        sum++;</b>
+<b class="fc"><i>86</i>&nbsp;                }</b>
+<b class="fc"><i>87</i>&nbsp;                if (sum != entry.getValue()){</b>
+<b class="fc"><i>88</i>&nbsp;                    devCardReq = false;</b>
+<b class="fc"><i>89</i>&nbsp;                    break;</b>
+<i>90</i>&nbsp;                }
+<b class="fc"><i>91</i>&nbsp;            }</b>
+<i>92</i>&nbsp;        }
+<b class="fc"><i>93</i>&nbsp;        return devCardReq;</b>
+<i>94</i>&nbsp;    }
+<i>95</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

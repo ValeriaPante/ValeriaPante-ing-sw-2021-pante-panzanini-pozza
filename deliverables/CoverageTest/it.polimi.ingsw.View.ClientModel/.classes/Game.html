@@ -1,0 +1,192 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Game</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.ClientModel</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Game (it.polimi.ingsw.View.ClientModel)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Game</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    85,7%
+  </span>
+  <span class="absValue">
+    (18/ 21)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    87,2%
+  </span>
+  <span class="absValue">
+    (34/ 39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.ClientModel;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.ArrayList;
+<i>6</i>&nbsp;import java.util.HashMap;
+<i>7</i>&nbsp;import java.util.LinkedHashMap;
+<i>8</i>&nbsp;import java.util.Map;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Simplified model of the game
+<i>12</i>&nbsp; */
+<b class="fc"><i>13</i>&nbsp;public class Game {</b>
+<i>14</i>&nbsp;    private Resource[][] grid;
+<i>15</i>&nbsp;    private Resource slide;
+<i>16</i>&nbsp;    private int[][] devDecks;
+<i>17</i>&nbsp;    private int localPlayerId;
+<b class="fc"><i>18</i>&nbsp;    private final LinkedHashMap&lt;Integer, SimplifiedPlayer&gt; players = new LinkedHashMap&lt;&gt;();</b>
+<b class="fc"><i>19</i>&nbsp;    private final HashMap&lt;Integer, String[]&gt; lobbies = new HashMap&lt;&gt;();</b>
+<i>20</i>&nbsp;    private int localPlayerLobbyId;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    public synchronized SimplifiedPlayer getPlayerFromId(int id){
+<b class="fc"><i>23</i>&nbsp;        return players.get(id);</b>
+<i>24</i>&nbsp;    }
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    public synchronized void updateMarketState(Resource[][] grid, Resource slide){
+<b class="fc"><i>27</i>&nbsp;        this.grid = grid;</b>
+<b class="fc"><i>28</i>&nbsp;        this.slide = slide;</b>
+<b class="fc"><i>29</i>&nbsp;    }</b>
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    public synchronized void updateDevDeck(int numDeck, int cardId){
+<b class="nc"><i>32</i>&nbsp;        devDecks[numDeck/4][numDeck%4] = cardId;</b>
+<b class="nc"><i>33</i>&nbsp;    }</b>
+<i>34</i>&nbsp;
+<i>35</i>&nbsp;    public synchronized void initialiseDevDecks(int[][] decks){
+<b class="fc"><i>36</i>&nbsp;        this.devDecks = decks;</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    public synchronized Resource[][] getGrid() {
+<b class="fc"><i>40</i>&nbsp;        return grid;</b>
+<i>41</i>&nbsp;    }
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    public synchronized Resource getSlide() {
+<b class="fc"><i>44</i>&nbsp;        return slide;</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public synchronized int[][] getDevDecks() {
+<b class="fc"><i>48</i>&nbsp;        return devDecks;</b>
+<i>49</i>&nbsp;    }
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    public synchronized void addPlayer(int playerId, SimplifiedPlayer player){
+<b class="fc"><i>52</i>&nbsp;        players.put(playerId, player);</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    public synchronized ArrayList&lt;String&gt; getUsernames(){
+<b class="fc"><i>56</i>&nbsp;        ArrayList&lt;String&gt; usernames = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>57</i>&nbsp;        for(Map.Entry&lt;Integer, SimplifiedPlayer&gt; player: players.entrySet()){</b>
+<b class="fc"><i>58</i>&nbsp;            usernames.add(player.getValue().getUsername());</b>
+<b class="fc"><i>59</i>&nbsp;        }</b>
+<b class="fc"><i>60</i>&nbsp;        return usernames;</b>
+<i>61</i>&nbsp;    }
+<i>62</i>&nbsp;
+<i>63</i>&nbsp;    public synchronized int getLocalPlayerId() {
+<b class="fc"><i>64</i>&nbsp;        return localPlayerId;</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    public synchronized void setLocalPlayerId(int localPlayerId) {
+<b class="fc"><i>68</i>&nbsp;        this.localPlayerId = localPlayerId;</b>
+<b class="fc"><i>69</i>&nbsp;    }</b>
+<i>70</i>&nbsp;
+<i>71</i>&nbsp;    public synchronized int getLocalPlayerIndex(){
+<b class="fc"><i>72</i>&nbsp;        return new ArrayList&lt;&gt;(players.keySet()).indexOf(localPlayerId);</b>
+<i>73</i>&nbsp;    }
+<i>74</i>&nbsp;
+<i>75</i>&nbsp;    public synchronized int getPlayerIndex(int playerId){
+<b class="nc"><i>76</i>&nbsp;        return new ArrayList&lt;&gt;(players.keySet()).indexOf(playerId);</b>
+<i>77</i>&nbsp;    }
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;    public synchronized int getNumberOfPlayers(){
+<b class="fc"><i>80</i>&nbsp;        return players.keySet().size();</b>
+<i>81</i>&nbsp;    }
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;    public synchronized int getLocalPlayerLobbyId() {
+<b class="fc"><i>84</i>&nbsp;        return localPlayerLobbyId;</b>
+<i>85</i>&nbsp;    }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;    public synchronized void setLocalPlayerLobbyId(int localPlayerLobbyId) {
+<b class="fc"><i>88</i>&nbsp;        this.localPlayerLobbyId = localPlayerLobbyId;</b>
+<b class="fc"><i>89</i>&nbsp;    }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    public synchronized HashMap&lt;Integer, String[]&gt; getLobbies() {
+<b class="fc"><i>92</i>&nbsp;        return lobbies;</b>
+<i>93</i>&nbsp;    }
+<i>94</i>&nbsp;
+<i>95</i>&nbsp;    public synchronized void addLobby(int lobbyId, String[] players) {
+<b class="fc"><i>96</i>&nbsp;        lobbies.put(lobbyId, players);</b>
+<b class="fc"><i>97</i>&nbsp;    }</b>
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;    public synchronized void removeLobby(int lobbyId) {
+<b class="nc"><i>100</i>&nbsp;        lobbies.remove(lobbyId);</b>
+<b class="nc"><i>101</i>&nbsp;    }</b>
+<i>102</i>&nbsp;
+<i>103</i>&nbsp;    public synchronized ArrayList&lt;Integer&gt; getPLayersID(){
+<b class="fc"><i>104</i>&nbsp;        ArrayList&lt;Integer&gt; playersID = new ArrayList&lt;&gt;();</b>
+<b class="fc"><i>105</i>&nbsp;        for(Map.Entry&lt;Integer, SimplifiedPlayer&gt; player: players.entrySet())</b>
+<b class="fc"><i>106</i>&nbsp;            playersID.add(player.getKey());</b>
+<b class="fc"><i>107</i>&nbsp;        return playersID;</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

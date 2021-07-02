@@ -1,0 +1,136 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: StrongBoxPrinter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.CLI.Printers</a> ]
+</div>
+
+<h1>Coverage Summary for Class: StrongBoxPrinter (it.polimi.ingsw.View.CLI.Printers)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">StrongBoxPrinter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (15/ 15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.CLI.Printers;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.Map;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;/**
+<i>8</i>&nbsp; * This class is used to print on the terminal strongbox or support container
+<i>9</i>&nbsp; * (in general containers whose content can be represented with a map that has not a maximum limit on the entries equals to one, as with shelves)
+<i>10</i>&nbsp; */
+<b class="fc"><i>11</i>&nbsp;public class StrongBoxPrinter {</b>
+<i>12</i>&nbsp;    /**
+<i>13</i>&nbsp;     * Prints on terminal the support container containing the resources with the quantities specified in the map passed as a parameter
+<i>14</i>&nbsp;     * @param map content of the support container (mapping each resource to its quantity in the container)
+<i>15</i>&nbsp;     */
+<i>16</i>&nbsp;    public void printSupportContainer(Map&lt;Resource, Integer&gt; map){
+<b class="fc"><i>17</i>&nbsp;        System.out.println(&quot;\n&quot; +</b>
+<i>18</i>&nbsp;                &quot;+---- SUPPORT CONTAINER CONTENT: ----\n&quot; +
+<i>19</i>&nbsp;                &quot;|&quot;);
+<b class="fc"><i>20</i>&nbsp;        print(map);</b>
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Prints on terminal the strongbox containing the resources with the quantities specified in the map passed as a parameter
+<i>25</i>&nbsp;     * @param map content of the strongbox (mapping each resource to its quantity in the container)
+<i>26</i>&nbsp;     */
+<i>27</i>&nbsp;    public void printStrongBox(Map&lt;Resource, Integer&gt; map){
+<b class="fc"><i>28</i>&nbsp;        System.out.println(&quot;\n&quot; +</b>
+<i>29</i>&nbsp;                &quot;+-------- STRONGBOX CONTENT: --------\n&quot; +
+<i>30</i>&nbsp;                &quot;|&quot;);
+<b class="fc"><i>31</i>&nbsp;        print(map);</b>
+<b class="fc"><i>32</i>&nbsp;    }</b>
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    private void print(Map&lt;Resource, Integer&gt; map){
+<b class="fc"><i>35</i>&nbsp;        if (map.isEmpty()) {</b>
+<b class="fc"><i>36</i>&nbsp;            System.out.println(</b>
+<i>37</i>&nbsp;                    &quot;|      |¯*¯*¯|\n&quot; +
+<i>38</i>&nbsp;                    &quot;|      *     *   IS COMPLETELY EMPTY\n&quot; +
+<i>39</i>&nbsp;                    &quot;|      |_*_*_|\n&quot;+
+<i>40</i>&nbsp;                    &quot;|&quot;);
+<i>41</i>&nbsp;        } else {
+<b class="fc"><i>42</i>&nbsp;            for(Map.Entry&lt;Resource, Integer&gt; entry : map.entrySet()){</b>
+<b class="fc"><i>43</i>&nbsp;                System.out.println(</b>
+<i>44</i>&nbsp;                        &quot;|      |¯¯¯¯¯| \n&quot; +
+<b class="fc"><i>45</i>&nbsp;                        &quot;|      | &quot; + Resource.toAliasCompact(entry.getKey()) + &quot; |   x  &quot; + entry.getValue() + &quot; \n&quot; +</b>
+<i>46</i>&nbsp;                        &quot;|      |_____|\n&quot; +
+<i>47</i>&nbsp;                        &quot;|&quot;);
+<b class="fc"><i>48</i>&nbsp;            }</b>
+<i>49</i>&nbsp;        }
+<b class="fc"><i>50</i>&nbsp;        System.out.println(</b>
+<i>51</i>&nbsp;                &quot;+------------------------------------&quot;);
+<b class="fc"><i>52</i>&nbsp;    }</b>
+<i>53</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

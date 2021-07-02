@@ -1,0 +1,326 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Receiver</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Network</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Receiver (it.polimi.ingsw.Network)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Receiver</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 104)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Network;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.gson.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.io.ByteArrayInputStream;
+<i>6</i>&nbsp;import java.io.IOException;
+<i>7</i>&nbsp;import java.io.InputStream;
+<i>8</i>&nbsp;import java.util.ArrayList;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;/**
+<i>11</i>&nbsp; * Utility class that read on a InputStream
+<i>12</i>&nbsp; */
+<i>13</i>&nbsp;public class Receiver {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    private final InputStream inputStream;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Constructor
+<i>19</i>&nbsp;     * @param inputStream to read on
+<i>20</i>&nbsp;     */
+<b class="nc"><i>21</i>&nbsp;    public Receiver(InputStream inputStream){</b>
+<b class="nc"><i>22</i>&nbsp;        this.inputStream = inputStream;</b>
+<b class="nc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Convert a string in a json object if possible
+<i>27</i>&nbsp;     * @param toEvaluate string to evaluate
+<i>28</i>&nbsp;     * @return the JsonObject associated to this string or null if the format was not correct
+<i>29</i>&nbsp;     */
+<i>30</i>&nbsp;    private JsonObject toJsonObjectIfPossible(String toEvaluate){
+<b class="nc"><i>31</i>&nbsp;        JsonParser parser = new JsonParser();</b>
+<i>32</i>&nbsp;        JsonElement element;
+<i>33</i>&nbsp;        try{
+<b class="nc"><i>34</i>&nbsp;            element = parser.parse(toEvaluate);</b>
+<b class="nc"><i>35</i>&nbsp;        } catch (JsonParseException e){</b>
+<b class="nc"><i>36</i>&nbsp;            return null;</b>
+<b class="nc"><i>37</i>&nbsp;        }</b>
+<b class="nc"><i>38</i>&nbsp;        if (!element.isJsonObject()){</b>
+<b class="nc"><i>39</i>&nbsp;            return null;</b>
+<i>40</i>&nbsp;        }
+<b class="nc"><i>41</i>&nbsp;        return element.getAsJsonObject();</b>
+<i>42</i>&nbsp;    }
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    /**
+<i>45</i>&nbsp;     * Checking is a string is in the correct format
+<i>46</i>&nbsp;     * @param arrived string to evaluate
+<i>47</i>&nbsp;     * @return true if the string is in the correct format, false otherwise
+<i>48</i>&nbsp;     */
+<i>49</i>&nbsp;    private boolean isAssetHeaderJsonValid(String arrived){
+<b class="nc"><i>50</i>&nbsp;        JsonObject header = toJsonObjectIfPossible(arrived);</b>
+<b class="nc"><i>51</i>&nbsp;        if (header==null){</b>
+<b class="nc"><i>52</i>&nbsp;            return false;</b>
+<i>53</i>&nbsp;        }
+<b class="nc"><i>54</i>&nbsp;        JsonElement type = header.get(&quot;type&quot;);</b>
+<b class="nc"><i>55</i>&nbsp;        JsonElement name = header.get(&quot;name&quot;);</b>
+<b class="nc"><i>56</i>&nbsp;        JsonElement size = header.get(&quot;size&quot;);</b>
+<b class="nc"><i>57</i>&nbsp;        if (type == null || name == null || size == null){</b>
+<b class="nc"><i>58</i>&nbsp;            return false;</b>
+<i>59</i>&nbsp;        }
+<b class="nc"><i>60</i>&nbsp;        return (type.isJsonPrimitive() &amp;&amp; type.getAsJsonPrimitive().isString()) &amp;&amp;</b>
+<b class="nc"><i>61</i>&nbsp;                (name.isJsonPrimitive() &amp;&amp; name.getAsJsonPrimitive().isString()) &amp;&amp;</b>
+<b class="nc"><i>62</i>&nbsp;                (size.isJsonPrimitive() &amp;&amp; size.getAsJsonPrimitive().isNumber());</b>
+<i>63</i>&nbsp;    }
+<i>64</i>&nbsp;
+<i>65</i>&nbsp;    /**
+<i>66</i>&nbsp;     * Checking is a string is in the correct format
+<i>67</i>&nbsp;     * @param arrived string to evaluate
+<i>68</i>&nbsp;     * @return true if the string is in the correct format, false otherwise
+<i>69</i>&nbsp;     */
+<i>70</i>&nbsp;    private boolean isAssetHeaderFinish(String arrived){
+<b class="nc"><i>71</i>&nbsp;        JsonObject header = toJsonObjectIfPossible(arrived);</b>
+<b class="nc"><i>72</i>&nbsp;        if (header==null){</b>
+<b class="nc"><i>73</i>&nbsp;            return false;</b>
+<i>74</i>&nbsp;        }
+<b class="nc"><i>75</i>&nbsp;        return (header.get(&quot;type&quot;).getAsString().equals(&quot;assetsEnd&quot;)) &amp;&amp;</b>
+<b class="nc"><i>76</i>&nbsp;                (header.get(&quot;name&quot;).getAsString().equals(&quot;null&quot;)) &amp;&amp;</b>
+<b class="nc"><i>77</i>&nbsp;                (header.get(&quot;format&quot;).getAsString().equals(&quot;null&quot;)) &amp;&amp;</b>
+<b class="nc"><i>78</i>&nbsp;                (header.get(&quot;size&quot;).getAsInt() == 0);</b>
+<i>79</i>&nbsp;    }
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;    /**
+<i>82</i>&nbsp;     * Checking is a string is in the correct format
+<i>83</i>&nbsp;     * @param fromServer string to evaluate
+<i>84</i>&nbsp;     * @return true if the string is in the correct format, false otherwise
+<i>85</i>&nbsp;     */
+<i>86</i>&nbsp;    private boolean isAssetDescriptorsHeaderJsonValid(String fromServer){
+<b class="nc"><i>87</i>&nbsp;        JsonObject header = toJsonObjectIfPossible(fromServer);</b>
+<b class="nc"><i>88</i>&nbsp;        if (header==null){</b>
+<b class="nc"><i>89</i>&nbsp;            return false;</b>
+<i>90</i>&nbsp;        }
+<b class="nc"><i>91</i>&nbsp;        JsonElement type = header.get(&quot;type&quot;);</b>
+<b class="nc"><i>92</i>&nbsp;        JsonElement path = header.get(&quot;folderPath&quot;);</b>
+<b class="nc"><i>93</i>&nbsp;        JsonElement hashAlg = header.get(&quot;hashAlg&quot;);</b>
+<b class="nc"><i>94</i>&nbsp;        JsonElement size = header.get(&quot;size&quot;);</b>
+<i>95</i>&nbsp;
+<b class="nc"><i>96</i>&nbsp;        if (type == null || path == null || hashAlg == null){</b>
+<b class="nc"><i>97</i>&nbsp;            return false;</b>
+<i>98</i>&nbsp;        }
+<b class="nc"><i>99</i>&nbsp;        return (type.isJsonPrimitive() &amp;&amp; type.getAsJsonPrimitive().isString() &amp;&amp; type.getAsJsonPrimitive().getAsString().equals(&quot;assetsDesc&quot;)) &amp;&amp;</b>
+<b class="nc"><i>100</i>&nbsp;                (path.isJsonPrimitive() &amp;&amp; path.getAsJsonPrimitive().isString()) &amp;&amp;</b>
+<b class="nc"><i>101</i>&nbsp;                (hashAlg.isJsonPrimitive() &amp;&amp; hashAlg.getAsJsonPrimitive().isString()) &amp;&amp;</b>
+<b class="nc"><i>102</i>&nbsp;                (size.isJsonPrimitive() &amp;&amp; size.getAsJsonPrimitive().isNumber());</b>
+<i>103</i>&nbsp;    }
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;    /**
+<i>106</i>&nbsp;     * Checking is a string is in the correct format
+<i>107</i>&nbsp;     * @param fromServer string to evaluate
+<i>108</i>&nbsp;     * @return true if the string is in the correct format, false otherwise
+<i>109</i>&nbsp;     */
+<i>110</i>&nbsp;    private boolean isMessageHeaderValid(String fromServer){
+<b class="nc"><i>111</i>&nbsp;        JsonObject header = this.toJsonObjectIfPossible(fromServer);</b>
+<b class="nc"><i>112</i>&nbsp;        if (header==null){</b>
+<b class="nc"><i>113</i>&nbsp;            return false;</b>
+<i>114</i>&nbsp;        }
+<b class="nc"><i>115</i>&nbsp;        JsonElement type = header.get(&quot;type&quot;);</b>
+<b class="nc"><i>116</i>&nbsp;        JsonElement size = header.get(&quot;size&quot;);</b>
+<b class="nc"><i>117</i>&nbsp;        if (type==null || size==null){</b>
+<b class="nc"><i>118</i>&nbsp;            return false;</b>
+<i>119</i>&nbsp;        }
+<b class="nc"><i>120</i>&nbsp;        return (type.isJsonPrimitive() &amp;&amp; type.getAsJsonPrimitive().isString() &amp;&amp; type.getAsJsonPrimitive().getAsString().equals(&quot;message&quot;)) &amp;&amp;</b>
+<b class="nc"><i>121</i>&nbsp;                (size.isJsonPrimitive() &amp;&amp; size.getAsJsonPrimitive().isNumber());</b>
+<i>122</i>&nbsp;    }
+<i>123</i>&nbsp;
+<i>124</i>&nbsp;    /**
+<i>125</i>&nbsp;     * Reads on the inputs stream waiting for the header of the next message
+<i>126</i>&nbsp;     * @return the header read
+<i>127</i>&nbsp;     * @throws IOException if an error occurs while reading or if the input stream has been closed
+<i>128</i>&nbsp;     */
+<i>129</i>&nbsp;    private String getHeader() throws IOException {
+<b class="nc"><i>130</i>&nbsp;        ArrayList&lt;Byte&gt; header = new ArrayList&lt;&gt;();</b>
+<b class="nc"><i>131</i>&nbsp;        Integer byteArrived = this.inputStream.read();</b>
+<i>132</i>&nbsp;
+<b class="nc"><i>133</i>&nbsp;        while (byteArrived!=10){        //(int)&#39;\n&#39; = 10</b>
+<b class="nc"><i>134</i>&nbsp;            if (byteArrived == -1){</b>
+<b class="nc"><i>135</i>&nbsp;                throw new IOException();</b>
+<i>136</i>&nbsp;            }
+<b class="nc"><i>137</i>&nbsp;            header.add(byteArrived.byteValue());</b>
+<b class="nc"><i>138</i>&nbsp;            byteArrived = this.inputStream.read();</b>
+<i>139</i>&nbsp;        }
+<i>140</i>&nbsp;
+<b class="nc"><i>141</i>&nbsp;        byte[] headerByteArray = new byte[header.size()];</b>
+<i>142</i>&nbsp;
+<b class="nc"><i>143</i>&nbsp;        for (int i=0; i&lt;header.size(); i++){</b>
+<b class="nc"><i>144</i>&nbsp;            headerByteArray[i] = header.get(i);</b>
+<i>145</i>&nbsp;        }
+<b class="nc"><i>146</i>&nbsp;        return new String(headerByteArray, 0, headerByteArray.length);</b>
+<i>147</i>&nbsp;    }
+<i>148</i>&nbsp;
+<i>149</i>&nbsp;    /**
+<i>150</i>&nbsp;     * Reads on the input stream a specific amount of bytes an returns it as a byte array
+<i>151</i>&nbsp;     * @param nbrToRead amount of bytes to read
+<i>152</i>&nbsp;     * @return bytes read
+<i>153</i>&nbsp;     * @throws IOException if an error occurs while reading
+<i>154</i>&nbsp;     */
+<i>155</i>&nbsp;    private byte[] getByteArrayMessage(int nbrToRead) throws IOException {
+<b class="nc"><i>156</i>&nbsp;        byte[] byteArray = new byte[nbrToRead];</b>
+<b class="nc"><i>157</i>&nbsp;        int nbrRd = 0;</b>
+<b class="nc"><i>158</i>&nbsp;        int nbrLeftToRead = nbrToRead;</b>
+<b class="nc"><i>159</i>&nbsp;        while (nbrLeftToRead&gt;0){</b>
+<b class="nc"><i>160</i>&nbsp;            int rd = this.inputStream.read(byteArray, nbrRd, nbrLeftToRead);</b>
+<b class="nc"><i>161</i>&nbsp;            if (rd&lt;0){</b>
+<b class="nc"><i>162</i>&nbsp;                break;</b>
+<i>163</i>&nbsp;            }
+<b class="nc"><i>164</i>&nbsp;            nbrRd += rd;</b>
+<b class="nc"><i>165</i>&nbsp;            nbrLeftToRead -= rd;</b>
+<b class="nc"><i>166</i>&nbsp;        }</b>
+<b class="nc"><i>167</i>&nbsp;        return byteArray;</b>
+<i>168</i>&nbsp;    }
+<i>169</i>&nbsp;
+<i>170</i>&nbsp;    private String readMessage(int nbrToRead) throws IOException {
+<b class="nc"><i>171</i>&nbsp;        byte[] byteArray = this.getByteArrayMessage(nbrToRead);</b>
+<b class="nc"><i>172</i>&nbsp;        return new String(byteArray,0,byteArray.length);</b>
+<i>173</i>&nbsp;    }
+<i>174</i>&nbsp;
+<i>175</i>&nbsp;    /**
+<i>176</i>&nbsp;     * Convert the next message on the stream as String[3]
+<i>177</i>&nbsp;     * @return the files infos: (message received, folder evaluated client side, hash algorithm for hashing files client side)
+<i>178</i>&nbsp;     * @throws IOException if there are problems reading on the stream or the header is not correct
+<i>179</i>&nbsp;     */
+<i>180</i>&nbsp;    public String[] readAssetsDescription() throws IOException {
+<b class="nc"><i>181</i>&nbsp;        JsonParser jsonParser = new JsonParser();</b>
+<b class="nc"><i>182</i>&nbsp;        String fromClient = this.getHeader();</b>
+<b class="nc"><i>183</i>&nbsp;        if(this.isAssetHeaderFinish(fromClient)){</b>
+<b class="nc"><i>184</i>&nbsp;            return null;</b>
+<i>185</i>&nbsp;        }
+<b class="nc"><i>186</i>&nbsp;        else if (!this.isAssetDescriptorsHeaderJsonValid(fromClient)){</b>
+<b class="nc"><i>187</i>&nbsp;            return null;</b>
+<i>188</i>&nbsp;        }
+<i>189</i>&nbsp;        String folderPath;
+<i>190</i>&nbsp;        String hashAlg;
+<i>191</i>&nbsp;
+<b class="nc"><i>192</i>&nbsp;        JsonObject header = jsonParser.parse(fromClient).getAsJsonObject();</b>
+<b class="nc"><i>193</i>&nbsp;        folderPath = header.get(&quot;folderPath&quot;).getAsString();</b>
+<b class="nc"><i>194</i>&nbsp;        hashAlg = header.get(&quot;hashAlg&quot;).getAsString();</b>
+<b class="nc"><i>195</i>&nbsp;        String msg = this.readMessage(header.get(&quot;size&quot;).getAsInt());</b>
+<i>196</i>&nbsp;
+<b class="nc"><i>197</i>&nbsp;        return new String[]{msg, folderPath, hashAlg};</b>
+<i>198</i>&nbsp;    }
+<i>199</i>&nbsp;
+<i>200</i>&nbsp;    /**
+<i>201</i>&nbsp;     * Convert the next message on the stream to a string
+<i>202</i>&nbsp;     * @return the next message arrived on the stream as String
+<i>203</i>&nbsp;     * @throws IOException if there are problems reading on the stream or the header is not correct
+<i>204</i>&nbsp;     */
+<i>205</i>&nbsp;    public String readMessage() throws IOException{
+<b class="nc"><i>206</i>&nbsp;        JsonParser jsonParser = new JsonParser();</b>
+<b class="nc"><i>207</i>&nbsp;        String fromServer = this.getHeader();</b>
+<b class="nc"><i>208</i>&nbsp;        if (!this.isMessageHeaderValid(fromServer)){</b>
+<b class="nc"><i>209</i>&nbsp;            return null;</b>
+<i>210</i>&nbsp;        }
+<b class="nc"><i>211</i>&nbsp;        JsonObject header = jsonParser.parse(fromServer).getAsJsonObject();</b>
+<b class="nc"><i>212</i>&nbsp;        return this.readMessage(header.get(&quot;size&quot;).getAsInt());</b>
+<i>213</i>&nbsp;    }
+<i>214</i>&nbsp;
+<i>215</i>&nbsp;    /**
+<i>216</i>&nbsp;     * Convert the next message on the stream as AssetDescriptor
+<i>217</i>&nbsp;     * @return the file information that i need inside a AssetDescriptor
+<i>218</i>&nbsp;     * @throws IOException if there are problems reading on the stream or the header is not correct
+<i>219</i>&nbsp;     */
+<i>220</i>&nbsp;    public AssetDescriptor getAssetDescriptor() throws IOException {
+<b class="nc"><i>221</i>&nbsp;        JsonParser jsonParser = new JsonParser();</b>
+<b class="nc"><i>222</i>&nbsp;        String arrived = this.getHeader();</b>
+<b class="nc"><i>223</i>&nbsp;        if (!this.isAssetHeaderJsonValid(arrived)){</b>
+<b class="nc"><i>224</i>&nbsp;            return null;</b>
+<i>225</i>&nbsp;        }
+<b class="nc"><i>226</i>&nbsp;        else if(this.isAssetHeaderFinish(arrived)){</b>
+<b class="nc"><i>227</i>&nbsp;            return null;</b>
+<i>228</i>&nbsp;        }
+<b class="nc"><i>229</i>&nbsp;        JsonObject header = jsonParser.parse(arrived).getAsJsonObject();</b>
+<b class="nc"><i>230</i>&nbsp;        return new AssetDescriptor(new ByteArrayInputStream(this.getByteArrayMessage(header.get(&quot;size&quot;).getAsInt())), header.get(&quot;name&quot;).getAsString());</b>
+<i>231</i>&nbsp;    }
+<i>232</i>&nbsp;
+<i>233</i>&nbsp;    /**
+<i>234</i>&nbsp;     * Closes the input stream
+<i>235</i>&nbsp;     */
+<i>236</i>&nbsp;    public void close(){
+<i>237</i>&nbsp;        try{
+<b class="nc"><i>238</i>&nbsp;            this.inputStream.close();</b>
+<b class="nc"><i>239</i>&nbsp;        }catch (IOException ignored){</b>
+<b class="nc"><i>240</i>&nbsp;        }</b>
+<i>241</i>&nbsp;
+<b class="nc"><i>242</i>&nbsp;    }</b>
+<i>243</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

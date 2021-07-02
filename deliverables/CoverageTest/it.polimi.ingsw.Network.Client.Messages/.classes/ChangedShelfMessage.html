@@ -1,0 +1,120 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ChangedShelfMessage</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Network.Client.Messages</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ChangedShelfMessage (it.polimi.ingsw.Network.Client.Messages)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ChangedShelfMessage</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    20%
+  </span>
+  <span class="absValue">
+    (1/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    58,3%
+  </span>
+  <span class="absValue">
+    (7/ 12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Network.Client.Messages;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>4</i>&nbsp;import it.polimi.ingsw.Network.Client.Visitor;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;public class ChangedShelfMessage extends WithIntMessage{
+<i>7</i>&nbsp;
+<b class="fc"><i>8</i>&nbsp;    private String type = &quot;changedShelf&quot;;</b>
+<i>9</i>&nbsp;    private final int numberOfShelf;
+<i>10</i>&nbsp;    private final Resource resourceType;
+<i>11</i>&nbsp;    private final int quantity;
+<i>12</i>&nbsp;
+<b class="fc"><i>13</i>&nbsp;    public ChangedShelfMessage(int playerId, int numberOfShelf, Resource resourceType, int quantity) {</b>
+<b class="fc"><i>14</i>&nbsp;        this.id = playerId;</b>
+<b class="fc"><i>15</i>&nbsp;        this.numberOfShelf = numberOfShelf;</b>
+<b class="fc"><i>16</i>&nbsp;        this.resourceType = resourceType;</b>
+<b class="fc"><i>17</i>&nbsp;        this.quantity = quantity;</b>
+<b class="fc"><i>18</i>&nbsp;    }</b>
+<i>19</i>&nbsp;
+<i>20</i>&nbsp;    public int getNumberOfShelf() {
+<b class="nc"><i>21</i>&nbsp;        return numberOfShelf;</b>
+<i>22</i>&nbsp;    }
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;    public Resource getResourceType() {
+<b class="nc"><i>25</i>&nbsp;        return resourceType;</b>
+<i>26</i>&nbsp;    }
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;    public int getQuantity() {
+<b class="nc"><i>29</i>&nbsp;        return quantity;</b>
+<i>30</i>&nbsp;    }
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;    @Override
+<i>33</i>&nbsp;    public boolean visit(Visitor v){
+<b class="nc"><i>34</i>&nbsp;        v.updateModel(this);</b>
+<b class="nc"><i>35</i>&nbsp;        return false;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

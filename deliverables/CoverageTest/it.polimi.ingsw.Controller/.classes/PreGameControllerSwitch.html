@@ -1,0 +1,186 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PreGameControllerSwitch</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Controller</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PreGameControllerSwitch (it.polimi.ingsw.Controller)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PreGameControllerSwitch</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/ 44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Controller;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Messages.PreGameMessages.ConcreteMessages.*;
+<i>4</i>&nbsp;import it.polimi.ingsw.Network.RequestHandlers.InGameRequestHandler;
+<i>5</i>&nbsp;import it.polimi.ingsw.PreGameModel.*;
+<i>6</i>&nbsp;
+<i>7</i>&nbsp;import java.util.Random;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * Controller for the Pre game state: (creation lobby, changing lobby etc..)
+<i>11</i>&nbsp; */
+<i>12</i>&nbsp;public class PreGameControllerSwitch {
+<i>13</i>&nbsp;
+<i>14</i>&nbsp;    private final RemotePreGameModel preGameModel;
+<i>15</i>&nbsp;    private final Random random;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Constructor
+<i>19</i>&nbsp;     */
+<b class="nc"><i>20</i>&nbsp;    public PreGameControllerSwitch(){</b>
+<b class="nc"><i>21</i>&nbsp;        this.preGameModel = new RemotePreGameModel();</b>
+<b class="nc"><i>22</i>&nbsp;        this.random = new Random();</b>
+<b class="nc"><i>23</i>&nbsp;    }</b>
+<i>24</i>&nbsp;
+<i>25</i>&nbsp;    /**
+<i>26</i>&nbsp;     * Creation of a new lobby
+<i>27</i>&nbsp;     * @param creationLobbyMessage message to evaluate
+<i>28</i>&nbsp;     */
+<i>29</i>&nbsp;    public synchronized void actionOnMessage(CreationLobbyMessage creationLobbyMessage){
+<b class="nc"><i>30</i>&nbsp;        int id = random.nextInt(200);</b>
+<b class="nc"><i>31</i>&nbsp;        while (this.preGameModel.getAllLobbiesId().contains(id)){</b>
+<b class="nc"><i>32</i>&nbsp;            id = random.nextInt(200);</b>
+<i>33</i>&nbsp;        }
+<b class="nc"><i>34</i>&nbsp;        this.preGameModel.createLobby(id);</b>
+<b class="nc"><i>35</i>&nbsp;        User user = this.preGameModel.getAndRemoveUser(creationLobbyMessage.getSenderId());</b>
+<b class="nc"><i>36</i>&nbsp;        if (user == null){</b>
+<b class="nc"><i>37</i>&nbsp;            return;</b>
+<i>38</i>&nbsp;        }
+<b class="nc"><i>39</i>&nbsp;        this.preGameModel.addUserToLobby(user, id);</b>
+<b class="nc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;    /**
+<i>43</i>&nbsp;     * User disconnection
+<i>44</i>&nbsp;     * @param disconnectMessage message to evaluate
+<i>45</i>&nbsp;     */
+<i>46</i>&nbsp;    public synchronized void actionOnMessage(DisconnectMessage disconnectMessage){
+<b class="nc"><i>47</i>&nbsp;        User userDisconnected = this.preGameModel.getAndRemoveUser(disconnectMessage.getSenderId());</b>
+<b class="nc"><i>48</i>&nbsp;        if (userDisconnected != null){</b>
+<b class="nc"><i>49</i>&nbsp;            userDisconnected.closeConnection();</b>
+<i>50</i>&nbsp;        }
+<b class="nc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;
+<i>53</i>&nbsp;    /**
+<i>54</i>&nbsp;     * Moving from a lobby to another
+<i>55</i>&nbsp;     * @param moveToLobbyMessage message to evaluate
+<i>56</i>&nbsp;     */
+<i>57</i>&nbsp;    public synchronized void actionOnMessage(MoveToLobbyMessage moveToLobbyMessage){
+<b class="nc"><i>58</i>&nbsp;        User user = this.preGameModel.getAndRemoveUser(moveToLobbyMessage.getSenderId());</b>
+<b class="nc"><i>59</i>&nbsp;        if (user==null){</b>
+<b class="nc"><i>60</i>&nbsp;            return;</b>
+<i>61</i>&nbsp;        }
+<b class="nc"><i>62</i>&nbsp;        if (this.preGameModel.isLobbyFull(moveToLobbyMessage.getLobbyId())){</b>
+<b class="nc"><i>63</i>&nbsp;            return;</b>
+<i>64</i>&nbsp;        }
+<b class="nc"><i>65</i>&nbsp;        this.preGameModel.addUserToLobby(user, moveToLobbyMessage.getLobbyId());</b>
+<b class="nc"><i>66</i>&nbsp;    }</b>
+<i>67</i>&nbsp;
+<i>68</i>&nbsp;    /**
+<i>69</i>&nbsp;     * Starting a game for a lobby
+<i>70</i>&nbsp;     * @param startGameMessage message to evaluate
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public synchronized void actionOnMessage(StartGameMessage startGameMessage){
+<b class="nc"><i>73</i>&nbsp;        int lobbyId = this.preGameModel.getUserLobbyId(startGameMessage.getSenderId());</b>
+<b class="nc"><i>74</i>&nbsp;        if (lobbyId == 0){</b>
+<b class="nc"><i>75</i>&nbsp;            this.preGameModel.notifyError(startGameMessage.getSenderId(), &quot;You can&#39;t start the game, you are not the first&quot;);</b>
+<b class="nc"><i>76</i>&nbsp;            return;</b>
+<i>77</i>&nbsp;        }
+<b class="nc"><i>78</i>&nbsp;        Lobby lobby = this.preGameModel.getAndRemoveLobby(lobbyId);</b>
+<b class="nc"><i>79</i>&nbsp;        if (lobby == null){</b>
+<b class="nc"><i>80</i>&nbsp;            return;</b>
+<i>81</i>&nbsp;        }
+<i>82</i>&nbsp;
+<b class="nc"><i>83</i>&nbsp;        new Thread(() -&gt;{</b>
+<b class="nc"><i>84</i>&nbsp;            InGameRequestHandler inGameRequestHandler = new InGameRequestHandler(lobby);</b>
+<b class="nc"><i>85</i>&nbsp;            for (User user: lobby.getUsers()){</b>
+<b class="nc"><i>86</i>&nbsp;                user.setRequestHandler(inGameRequestHandler);</b>
+<b class="nc"><i>87</i>&nbsp;            }</b>
+<b class="nc"><i>88</i>&nbsp;        }).start();</b>
+<b class="nc"><i>89</i>&nbsp;    }</b>
+<i>90</i>&nbsp;
+<i>91</i>&nbsp;    /**
+<i>92</i>&nbsp;     * Adding a new user
+<i>93</i>&nbsp;     * @param user user to add
+<i>94</i>&nbsp;     */
+<i>95</i>&nbsp;    public synchronized void addNewUser(User user){
+<b class="nc"><i>96</i>&nbsp;        int id = this.random.nextInt(100000);</b>
+<b class="nc"><i>97</i>&nbsp;        while (this.preGameModel.getAllUsersIds().contains(id)){</b>
+<b class="nc"><i>98</i>&nbsp;            id = this.random.nextInt(100000);</b>
+<i>99</i>&nbsp;        }
+<b class="nc"><i>100</i>&nbsp;        user.setId(id);</b>
+<b class="nc"><i>101</i>&nbsp;        this.preGameModel.addNewUser(user);</b>
+<b class="nc"><i>102</i>&nbsp;    }</b>
+<i>103</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

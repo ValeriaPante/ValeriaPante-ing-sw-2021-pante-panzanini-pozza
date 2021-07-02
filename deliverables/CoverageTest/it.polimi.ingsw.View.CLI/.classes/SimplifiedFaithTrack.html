@@ -1,0 +1,158 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: SimplifiedFaithTrack</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: SimplifiedFaithTrack (it.polimi.ingsw.View.CLI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">SimplifiedFaithTrack</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (20/ 20)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.CLI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Enums.PopeFavorCardState;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import java.util.HashMap;
+<i>6</i>&nbsp;import java.util.List;
+<i>7</i>&nbsp;import java.util.Map;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;/**
+<i>10</i>&nbsp; * This class is used to represent the faith track client side, without any business rule
+<i>11</i>&nbsp; */
+<b class="fc"><i>12</i>&nbsp;public class SimplifiedFaithTrack {</b>
+<i>13</i>&nbsp;    private Map&lt;Integer, Integer&gt; idInternalIndexMapping;
+<i>14</i>&nbsp;    private Map&lt;Integer, Integer&gt; positions;
+<i>15</i>&nbsp;    private PopeFavorCardState[][] cardsState;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Initializes the faith track according to the simplified model on client
+<i>19</i>&nbsp;     * (but only after that model is initialized too, with the init message from the server)
+<i>20</i>&nbsp;     * @param playersID is the list of the ids of the player, ordered in the same order the will play
+<i>21</i>&nbsp;     */
+<i>22</i>&nbsp;    public void initialize(List&lt;Integer&gt; playersID){
+<b class="fc"><i>23</i>&nbsp;        this.cardsState = new PopeFavorCardState[playersID.size()][3];</b>
+<b class="fc"><i>24</i>&nbsp;        this.idInternalIndexMapping = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>25</i>&nbsp;        this.positions = new HashMap&lt;&gt;();</b>
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;        int i=0;</b>
+<b class="fc"><i>28</i>&nbsp;        for (int id : playersID){</b>
+<b class="fc"><i>29</i>&nbsp;            idInternalIndexMapping.put(id, i);</b>
+<b class="fc"><i>30</i>&nbsp;            positions.put(id,0);</b>
+<b class="fc"><i>31</i>&nbsp;            i++;</b>
+<b class="fc"><i>32</i>&nbsp;        }</b>
+<i>33</i>&nbsp;
+<b class="fc"><i>34</i>&nbsp;        for (int j=0; j&lt;playersID.size(); j++)</b>
+<b class="fc"><i>35</i>&nbsp;            for (int k=0; k&lt;3; k++)</b>
+<b class="fc"><i>36</i>&nbsp;                cardsState[j][k] = PopeFavorCardState.FACEDOWN;</b>
+<b class="fc"><i>37</i>&nbsp;    }</b>
+<i>38</i>&nbsp;
+<i>39</i>&nbsp;    /**
+<i>40</i>&nbsp;     * Changes the position of the player with &quot;id&quot; equals to &quot;playerID&quot;
+<i>41</i>&nbsp;     * @param playerID id of the player to be moved
+<i>42</i>&nbsp;     * @param newPosition new position of the player with id equals to playerID
+<i>43</i>&nbsp;     */
+<i>44</i>&nbsp;    public synchronized void changePosition(int playerID, int newPosition){
+<b class="fc"><i>45</i>&nbsp;        positions.put(playerID, newPosition);</b>
+<b class="fc"><i>46</i>&nbsp;    }</b>
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Changes the state of the Pope favor card of the player with &quot;id&quot; equals to &quot;playerID&quot;
+<i>50</i>&nbsp;     * @param playerID id of the player target
+<i>51</i>&nbsp;     * @param newStates state of all the pope favor card of the player with &quot;id&quot; equals to &quot;playerID&quot;,
+<i>52</i>&nbsp;     *                  ordered with the same order the player reaches the correspondent Pope favor area following the faith track
+<i>53</i>&nbsp;     */
+<i>54</i>&nbsp;    public synchronized void changeState(int playerID, PopeFavorCardState[] newStates){
+<b class="fc"><i>55</i>&nbsp;        cardsState[idInternalIndexMapping.get(playerID)] = newStates;</b>
+<b class="fc"><i>56</i>&nbsp;    }</b>
+<i>57</i>&nbsp;
+<i>58</i>&nbsp;    /**
+<i>59</i>&nbsp;     * A request for the position of player with &quot;id&quot; equals to &quot;playerID&quot;
+<i>60</i>&nbsp;     * @param playerID id of the player target
+<i>61</i>&nbsp;     * @return the position on the faith track (if &quot;0&quot; it means that the player is still in the beginning position of the track) of target player
+<i>62</i>&nbsp;     */
+<i>63</i>&nbsp;    public synchronized int getPosition(int playerID){
+<b class="fc"><i>64</i>&nbsp;        return positions.get(playerID);</b>
+<i>65</i>&nbsp;    }
+<i>66</i>&nbsp;
+<i>67</i>&nbsp;    /**
+<i>68</i>&nbsp;     * A request for the cards state of player with &quot;id&quot; equals to &quot;playerID&quot;
+<i>69</i>&nbsp;     * @param playerID id of the player target
+<i>70</i>&nbsp;     * @return the state of all the pope favor card of target player
+<i>71</i>&nbsp;     */
+<i>72</i>&nbsp;    public synchronized PopeFavorCardState[] getCardsState(int playerID){
+<b class="fc"><i>73</i>&nbsp;        return cardsState[idInternalIndexMapping.get(playerID)];</b>
+<i>74</i>&nbsp;    }
+<i>75</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

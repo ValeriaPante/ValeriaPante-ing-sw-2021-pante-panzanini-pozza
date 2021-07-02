@@ -1,0 +1,142 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: Color</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.CLI</a> ]
+</div>
+
+<h1>Coverage Summary for Class: Color (it.polimi.ingsw.View.CLI)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Color</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (9/ 12)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.CLI;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;/**
+<i>4</i>&nbsp; * This class is used to color strings or integers so they will appear with the specified color once printed on the terminal
+<i>5</i>&nbsp; */
+<b class="nc"><i>6</i>&nbsp;public class Color {</b>
+<i>7</i>&nbsp;    private static final String RESET = &quot;\u001B[0m&quot;;
+<i>8</i>&nbsp;    private static final String BLACK = &quot;\u001B[30m&quot;;
+<i>9</i>&nbsp;    private static final String RED = &quot;\u001B[31m&quot;;
+<i>10</i>&nbsp;    private static final String GREEN = &quot;\u001B[32m&quot;;
+<i>11</i>&nbsp;    private static final String YELLOW = &quot;\u001B[33m&quot;;
+<i>12</i>&nbsp;    private static final String BLUE = &quot;\u001B[34m&quot;;
+<i>13</i>&nbsp;    private static final String PURPLE = &quot;\u001B[35m&quot;;
+<i>14</i>&nbsp;    private static final String CYAN = &quot;\u001B[36m&quot;;
+<i>15</i>&nbsp;    private static final String WHITE = &quot;\u001B[37m&quot;;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    /**
+<i>18</i>&nbsp;     * Takes a string and will return the same string with an additional prefix and
+<i>19</i>&nbsp;     * an additional suffix so the string will be printed with the specified color on terminal
+<i>20</i>&nbsp;     * @param text the string to be colored
+<i>21</i>&nbsp;     * @param inputColor a string corresponding to a color, you can pick between &quot;BLACK&quot;, &quot;RED&quot;, &quot;GREEN&quot;, &quot;BLU&quot;, &quot;PURPLE&quot;, &quot;CYAN&quot;, &quot;WHITE&quot;, &quot;YELLOW&quot;
+<i>22</i>&nbsp;     *                   (it is not case sensitive). If this parameter is not corresponding to one of the color listed before, the text will not be colored
+<i>23</i>&nbsp;     * @return the &quot;text&quot; with the prefix and suffix that will make it colored when printed on terminal
+<i>24</i>&nbsp;     */
+<i>25</i>&nbsp;    public static String colourText(String text, String inputColor){
+<b class="fc"><i>26</i>&nbsp;        switch (inputColor.toUpperCase()){</b>
+<i>27</i>&nbsp;            case &quot;BLACK&quot;:
+<b class="nc"><i>28</i>&nbsp;                return BLACK + text + RESET;</b>
+<i>29</i>&nbsp;            case &quot;RED&quot;:
+<b class="fc"><i>30</i>&nbsp;                return RED + text + RESET;</b>
+<i>31</i>&nbsp;            case &quot;GREEN&quot;:
+<b class="fc"><i>32</i>&nbsp;                return GREEN + text + RESET;</b>
+<i>33</i>&nbsp;            case &quot;BLUE&quot;:
+<b class="fc"><i>34</i>&nbsp;                return BLUE + text + RESET;</b>
+<i>35</i>&nbsp;            case &quot;PURPLE&quot;:
+<b class="fc"><i>36</i>&nbsp;                return PURPLE + text + RESET;</b>
+<i>37</i>&nbsp;            case &quot;CYAN&quot;:
+<b class="fc"><i>38</i>&nbsp;                return CYAN + text + RESET;</b>
+<i>39</i>&nbsp;            case &quot;WHITE&quot;:
+<b class="fc"><i>40</i>&nbsp;                return WHITE + text + RESET;</b>
+<i>41</i>&nbsp;            case &quot;YELLOW&quot;:
+<b class="fc"><i>42</i>&nbsp;                return YELLOW + text + RESET;</b>
+<i>43</i>&nbsp;            default:
+<b class="nc"><i>44</i>&nbsp;                return text;</b>
+<i>45</i>&nbsp;        }
+<i>46</i>&nbsp;    }
+<i>47</i>&nbsp;
+<i>48</i>&nbsp;    /**
+<i>49</i>&nbsp;     * Takes am integer and will return it &quot;stringed&quot; with an additional prefix and
+<i>50</i>&nbsp;     * an additional suffix so it will be printed with the specified color on terminal
+<i>51</i>&nbsp;     * @param number the integer to be colored
+<i>52</i>&nbsp;     * @param color a string corresponding to a color, you can pick between &quot;BLACK&quot;, &quot;RED&quot;, &quot;GREEN&quot;, &quot;BLU&quot;, &quot;PURPLE&quot;, &quot;CYAN&quot;, &quot;WHITE&quot;, &quot;YELLOW&quot;
+<i>53</i>&nbsp;     *                   (it is not case sensitive). If this parameter is not corresponding to one of the color listed before, the integer will not be colored
+<i>54</i>&nbsp;     * @return the integer &quot;stringed&quot; with the prefix and suffix that will make it colored when printed on terminal
+<i>55</i>&nbsp;     */
+<i>56</i>&nbsp;    public static String colourInt (int number, String color){
+<b class="fc"><i>57</i>&nbsp;        return colourText(&quot;&quot; + number,color);</b>
+<i>58</i>&nbsp;    }
+<i>59</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

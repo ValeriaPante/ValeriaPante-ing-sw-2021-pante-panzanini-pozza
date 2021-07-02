@@ -1,0 +1,352 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: LeaderCardPrinter</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.View.CLI.Printers</a> ]
+</div>
+
+<h1>Coverage Summary for Class: LeaderCardPrinter (it.polimi.ingsw.View.CLI.Printers)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">LeaderCardPrinter</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,4%
+  </span>
+  <span class="absValue">
+    (74/ 76)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">LeaderCardPrinter$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LeaderCardPrinter$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LeaderCardPrinter$3</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LeaderCardPrinter$4</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LeaderCardPrinter$5</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">LeaderCardPrinter$6</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,6%
+  </span>
+  <span class="absValue">
+    (80/ 82)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.View.CLI.Printers;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import com.google.gson.*;
+<i>4</i>&nbsp;import com.google.gson.reflect.TypeToken;
+<i>5</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>6</i>&nbsp;import it.polimi.ingsw.View.CLI.Color;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.io.BufferedReader;
+<i>9</i>&nbsp;import java.io.InputStream;
+<i>10</i>&nbsp;import java.io.InputStreamReader;
+<i>11</i>&nbsp;import java.util.HashMap;
+<i>12</i>&nbsp;import java.util.Map;
+<i>13</i>&nbsp;import java.util.stream.Collectors;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;/**
+<i>16</i>&nbsp; * This class is used to print on terminal the leader cards written down in the &quot;.json&quot; file named: &quot;LeaderCardsConfig.json&quot;
+<i>17</i>&nbsp; */
+<i>18</i>&nbsp;public class LeaderCardPrinter extends MapPrinter {
+<i>19</i>&nbsp;    private final Gson gson;
+<i>20</i>&nbsp;    private final JsonArray array;
+<i>21</i>&nbsp;    private JsonObject currentCard;
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Opens the &quot;.json&quot; file containing the leader cards
+<i>25</i>&nbsp;     */
+<b class="fc"><i>26</i>&nbsp;    public LeaderCardPrinter(){</b>
+<b class="fc"><i>27</i>&nbsp;        InputStream in = getClass().getResourceAsStream(&quot;/accessible/JSONs/LeaderCardsConfig.json&quot;);</b>
+<b class="fc"><i>28</i>&nbsp;        BufferedReader reader = new BufferedReader(new InputStreamReader(in));</b>
+<b class="fc"><i>29</i>&nbsp;        String config = reader.lines().collect(Collectors.joining());</b>
+<i>30</i>&nbsp;
+<b class="fc"><i>31</i>&nbsp;        gson = new Gson();</b>
+<b class="fc"><i>32</i>&nbsp;        JsonParser parser = new JsonParser();</b>
+<b class="fc"><i>33</i>&nbsp;        JsonElement elements = parser.parse(config);</b>
+<b class="fc"><i>34</i>&nbsp;        if (!elements.isJsonArray())</b>
+<b class="nc"><i>35</i>&nbsp;            throw new IllegalArgumentException(&quot;Check the config file and his syntax&quot;);</b>
+<i>36</i>&nbsp;
+<b class="fc"><i>37</i>&nbsp;        array = elements.getAsJsonArray();</b>
+<b class="fc"><i>38</i>&nbsp;        currentCard = null;</b>
+<b class="fc"><i>39</i>&nbsp;    }</b>
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    /**
+<i>42</i>&nbsp;     * Prints the leader card with the &quot;id&quot; specified as parameter
+<i>43</i>&nbsp;     * @param id unique identifier of the leader card that has to be printed (it must be ranging from 49 to 64)
+<i>44</i>&nbsp;     * @param content it is an array of the resources contained in the leader card:
+<i>45</i>&nbsp;     *                so it is null if the leader card has not got a leader storage ability or
+<i>46</i>&nbsp;     *                if it has got but it is empty. Otherwise, it is not null
+<i>47</i>&nbsp;     */
+<i>48</i>&nbsp;    public void printFromID(int id, Resource[] content){
+<b class="fc"><i>49</i>&nbsp;        for (int i=0; i &lt; array.size(); i++) {</b>
+<b class="fc"><i>50</i>&nbsp;            JsonObject card = array.get(i).getAsJsonObject();</b>
+<b class="fc"><i>51</i>&nbsp;            if (card.get(&quot;id&quot;).getAsInt() == id) {</b>
+<b class="fc"><i>52</i>&nbsp;                currentCard = card;</b>
+<b class="fc"><i>53</i>&nbsp;                System.out.print(&quot;\n&quot; +</b>
+<i>54</i>&nbsp;                        &quot;     |¯¯¯¯¯¯¯¯¯¯¯¯¯¯¯|\n&quot; +
+<b class="fc"><i>55</i>&nbsp;                        &quot;     | &quot;+ Color.colourText(&quot; LEADER CARD &quot;, &quot;YELLOW&quot;) +&quot; |\n&quot; +</b>
+<i>56</i>&nbsp;                        &quot;     |               |\n&quot; +
+<b class="fc"><i>57</i>&nbsp;                        &quot;     |             ID: &quot; + Color.colourInt( id, &quot;YELLOW&quot;) + &quot;\n&quot; +</b>
+<i>58</i>&nbsp;                        &quot;     |           COST: &quot;);
+<i>59</i>&nbsp;
+<b class="fc"><i>60</i>&nbsp;                printCost();</b>
+<i>61</i>&nbsp;
+<b class="fc"><i>62</i>&nbsp;                System.out.println(</b>
+<b class="fc"><i>63</i>&nbsp;                        &quot;     | VICTORY POINTS: &quot; + card.get(&quot;victoryPoints&quot;).getAsString());</b>
+<i>64</i>&nbsp;
+<b class="fc"><i>65</i>&nbsp;                printAbility(content);</b>
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;                System.out.println(</b>
+<i>68</i>&nbsp;                        &quot;     |_______________|&quot;);
+<i>69</i>&nbsp;
+<b class="fc"><i>70</i>&nbsp;                currentCard = null;</b>
+<b class="fc"><i>71</i>&nbsp;                break;</b>
+<i>72</i>&nbsp;            }
+<i>73</i>&nbsp;        }
+<b class="fc"><i>74</i>&nbsp;    }</b>
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;    private void printAbility(Resource[] content){
+<b class="fc"><i>77</i>&nbsp;        String leaderCardType = currentCard.get(&quot;LeaderCardType&quot;).getAsString();</b>
+<i>78</i>&nbsp;
+<b class="fc"><i>79</i>&nbsp;        System.out.println(</b>
+<i>80</i>&nbsp;                &quot;     |   ABILITY TYPE: &quot; + leaderCardType);
+<b class="fc"><i>81</i>&nbsp;        switch (leaderCardType){</b>
+<i>82</i>&nbsp;            case &quot;DISCOUNT&quot;:
+<b class="fc"><i>83</i>&nbsp;                System.out.print(&quot;     |       PAY LESS: &quot;);</b>
+<b class="fc"><i>84</i>&nbsp;                printMapCompact(gson.fromJson(currentCard.get(&quot;discount&quot;), new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType()));</b>
+<b class="fc"><i>85</i>&nbsp;                break;</b>
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;            case &quot;PRODPOWER&quot;:
+<b class="fc"><i>88</i>&nbsp;                System.out.print(&quot;     |          INPUT: &quot;);</b>
+<b class="fc"><i>89</i>&nbsp;                printMapCompact(gson.fromJson(currentCard.get(&quot;prodpower&quot;).getAsJsonObject().get(&quot;input&quot;), new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType()));</b>
+<b class="fc"><i>90</i>&nbsp;                System.out.print(&quot;     |         OUTPUT: &quot;);</b>
+<b class="fc"><i>91</i>&nbsp;                printMapCompact(gson.fromJson(currentCard.get(&quot;prodpower&quot;).getAsJsonObject().get(&quot;output&quot;), new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType()));</b>
+<b class="fc"><i>92</i>&nbsp;                break;</b>
+<i>93</i>&nbsp;
+<i>94</i>&nbsp;            case &quot;TRANSMUTATION&quot;:
+<b class="fc"><i>95</i>&nbsp;                System.out.print(&quot;     |TURN WHITE INTO: &quot;);</b>
+<b class="fc"><i>96</i>&nbsp;                printMapCompact(gson.fromJson(currentCard.get(&quot;transmutation&quot;), new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType()));</b>
+<b class="fc"><i>97</i>&nbsp;                break;</b>
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;            case &quot;STORAGE&quot;:
+<b class="fc"><i>100</i>&nbsp;                System.out.print(&quot;     |       CAPACITY: &quot;);</b>
+<b class="fc"><i>101</i>&nbsp;                printMapCompact(gson.fromJson(currentCard.get(&quot;storage&quot;), new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType()));</b>
+<b class="fc"><i>102</i>&nbsp;                System.out.print(&quot;     |        CONTENT: &quot;);</b>
+<b class="fc"><i>103</i>&nbsp;                if (content == null || content.length == 0)</b>
+<b class="fc"><i>104</i>&nbsp;                    System.out.println(&quot;nothing&quot;);</b>
+<i>105</i>&nbsp;                else{
+<b class="fc"><i>106</i>&nbsp;                    boolean commaNeeded = false;</b>
+<b class="fc"><i>107</i>&nbsp;                    for (int i=0; i&lt; content.length; i++){</b>
+<b class="fc"><i>108</i>&nbsp;                        if (commaNeeded)</b>
+<b class="fc"><i>109</i>&nbsp;                            System.out.print(&quot;,&quot;);</b>
+<b class="fc"><i>110</i>&nbsp;                        if (!commaNeeded)</b>
+<b class="fc"><i>111</i>&nbsp;                            commaNeeded = true;</b>
+<b class="fc"><i>112</i>&nbsp;                        if (content[i] == null)</b>
+<b class="nc"><i>113</i>&nbsp;                            System.out.print(&quot; __&quot;);</b>
+<i>114</i>&nbsp;                        else
+<b class="fc"><i>115</i>&nbsp;                            System.out.print(Resource.toAliasCompact(content[i]));</b>
+<i>116</i>&nbsp;                    }
+<b class="fc"><i>117</i>&nbsp;                    System.out.print(&quot;\n&quot;);</b>
+<i>118</i>&nbsp;                }
+<i>119</i>&nbsp;                break;
+<i>120</i>&nbsp;        }
+<b class="fc"><i>121</i>&nbsp;    }</b>
+<i>122</i>&nbsp;
+<i>123</i>&nbsp;    private void printCost(){
+<b class="fc"><i>124</i>&nbsp;        Map&lt;Resource, Integer&gt; cost = gson.fromJson(currentCard.get(&quot;resourceReq&quot;), new TypeToken&lt;HashMap&lt;Resource, Integer&gt;&gt;(){}.getType());</b>
+<b class="fc"><i>125</i>&nbsp;        if (!cost.isEmpty()){</b>
+<b class="fc"><i>126</i>&nbsp;            printMapCompact(cost);</b>
+<b class="fc"><i>127</i>&nbsp;            return;</b>
+<i>128</i>&nbsp;        }
+<i>129</i>&nbsp;
+<b class="fc"><i>130</i>&nbsp;        boolean commaNeeded = false;</b>
+<b class="fc"><i>131</i>&nbsp;        JsonArray devCost = currentCard.get(&quot;devCardReq&quot;).getAsJsonArray();</b>
+<i>132</i>&nbsp;        JsonObject devCard;
+<b class="fc"><i>133</i>&nbsp;        for (int i=0; i &lt; devCost.size(); i++){</b>
+<b class="fc"><i>134</i>&nbsp;            devCard= devCost.get(i).getAsJsonObject();</b>
+<b class="fc"><i>135</i>&nbsp;            if (commaNeeded)</b>
+<b class="fc"><i>136</i>&nbsp;                System.out.print(&quot;, &quot;);</b>
+<i>137</i>&nbsp;            else
+<b class="fc"><i>138</i>&nbsp;                commaNeeded = true;</b>
+<b class="fc"><i>139</i>&nbsp;            System.out.print(devCard.get(&quot;quantity&quot;)+ &quot; x (&quot;);</b>
+<b class="fc"><i>140</i>&nbsp;            JsonObject devCardType = devCard.get(&quot;devCardType&quot;).getAsJsonObject();</b>
+<b class="fc"><i>141</i>&nbsp;            System.out.print(devCardType.get(&quot;color&quot;).getAsString() + &quot; development card&quot;);</b>
+<b class="fc"><i>142</i>&nbsp;            if (devCardType.get(&quot;level&quot;).getAsInt() != 0)</b>
+<b class="fc"><i>143</i>&nbsp;                System.out.print(&quot; of level &quot; + devCardType.get(&quot;level&quot;));</b>
+<b class="fc"><i>144</i>&nbsp;            System.out.print(&quot;)&quot;);</b>
+<i>145</i>&nbsp;        }
+<b class="fc"><i>146</i>&nbsp;        System.out.print(&quot;\n&quot;);</b>
+<b class="fc"><i>147</i>&nbsp;    }</b>
+<i>148</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,173 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: BasicProductionPower</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">it.polimi.ingsw.Model.Player</a> ]
+</div>
+
+<h1>Coverage Summary for Class: BasicProductionPower (it.polimi.ingsw.Model.Player)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">BasicProductionPower</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/ 8)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">BasicProductionPower$1</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+  <tr>
+    <td class="name">BasicProductionPower$2</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (6/ 6)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package it.polimi.ingsw.Model.Player;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import it.polimi.ingsw.Model.Abilities.ProductionPower.ProductionPower;
+<i>4</i>&nbsp;import it.polimi.ingsw.Enums.Resource;
+<i>5</i>&nbsp;
+<i>6</i>&nbsp;import java.util.EnumMap;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;/**
+<i>9</i>&nbsp; * Representation of the basic production power
+<i>10</i>&nbsp; */
+<i>11</i>&nbsp;public class BasicProductionPower {
+<i>12</i>&nbsp;    private boolean selected;
+<i>13</i>&nbsp;    private final ProductionPower productionPower;
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    /**
+<i>16</i>&nbsp;     * Constructor
+<i>17</i>&nbsp;     */
+<b class="fc"><i>18</i>&nbsp;    public BasicProductionPower(){</b>
+<b class="fc"><i>19</i>&nbsp;        this.selected = false;</b>
+<b class="fc"><i>20</i>&nbsp;        this.productionPower = new ProductionPower(new EnumMap&lt;&gt;(Resource.class){{put(Resource.ANY, 2);}}, new EnumMap&lt;&gt;(Resource.class){{put(Resource.ANY, 1);}});</b>
+<b class="fc"><i>21</i>&nbsp;    }</b>
+<i>22</i>&nbsp;
+<i>23</i>&nbsp;    /**
+<i>24</i>&nbsp;     * Selects this Production Power
+<i>25</i>&nbsp;     */
+<i>26</i>&nbsp;    public void select(){
+<b class="fc"><i>27</i>&nbsp;        this.selected = !this.selected;</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /**
+<i>31</i>&nbsp;     * Getter
+<i>32</i>&nbsp;     * @return true if this Production Power is selected
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    public boolean isSelected(){
+<b class="fc"><i>35</i>&nbsp;        return this.selected;</b>
+<i>36</i>&nbsp;    }
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;    /**
+<i>39</i>&nbsp;     * Getter
+<i>40</i>&nbsp;     * @return the Production Power associated with this Basic Production Power
+<i>41</i>&nbsp;     */
+<i>42</i>&nbsp;    public ProductionPower getProductionPower(){
+<b class="fc"><i>43</i>&nbsp;        return new ProductionPower(this.productionPower.getInput().clone(), this.productionPower.getOutput().clone());</b>
+<i>44</i>&nbsp;    }
+<i>45</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2021-07-02 14:15</div>
+</div>
+</body>
+</html>
