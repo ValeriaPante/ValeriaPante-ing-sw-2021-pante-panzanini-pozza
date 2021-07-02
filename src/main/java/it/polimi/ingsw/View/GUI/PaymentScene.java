@@ -272,7 +272,7 @@ public class PaymentScene extends Initializable{
                 ( root.lookup("#minusButton5")).setDisable(false);
             }
             if(currentCount == strongbox.get(Resource.SHIELD)){
-                ( root.lookup("#plusButton1")).setDisable(true);
+                ( root.lookup("#plusButton5")).setDisable(true);
             }
         });
         if(strongbox.get(Resource.SHIELD) == 0) ( root.lookup("#plusButton5")).setDisable(true);

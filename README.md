@@ -50,7 +50,7 @@ To start the game in the CLI version, you need to digit the following command on
 
 The complete list of all the commands and their explanation is available [here](https://github.com/ValeriaPante/ing-sw-2021-pante-panzanini-pozza/tree/main/deliverables/CLI%20commands/CLI%20commands.pdf).
 
->For a better command line game experience it is necessary that the client supports UTF-8 encoding, otherwise some features of the CLI, such as colours, will be lost.
+>For a better command line game experience it is necessary that the client supports UTF-8 encoding and ANSI escapes, otherwise some features of the CLI, such as colours, will be lost.
 
 
 
