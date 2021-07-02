@@ -5,14 +5,18 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Button;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -28,7 +32,11 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
     private Line separator;
     private Button nextButton;
 
+    private Button showImageButton;
+    private Button changeImageButton;
+
     private JsonObject faithTrackInfo;
+    private String pathFaithTrackImage;
 
     private boolean allCorrect(){
         int one;
@@ -122,7 +130,12 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
         }
 
         try {
-            InputStream imgInputStream = this.getClass().getResourceAsStream("/accessible/assets/imgs/colored.png");
+            InputStream imgInputStream;
+            if (this.pathFaithTrackImage.equals("default")){
+                imgInputStream = this.getClass().getResourceAsStream("/accessible/assets/imgs/colored.png");
+            }else{
+                imgInputStream = new FileInputStream(this.pathFaithTrackImage);
+            }
             FileOutputStream fileOutputStream = new FileOutputStream(serverPath + File.separator + "accessible" + File.separator + "assets" + File.separator + "imgs" + File.separator + "colored.png");
             int count;
             byte[] buffer = new byte[1024];
@@ -147,6 +160,57 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
                 }
             }
         });
+        this.showImageButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                root.setDisable(true);
+                Stage imagStage = new Stage();
+                Pane pane = new Pane();
+                ImageView faithTrackImage = new ImageView();
+                faithTrackImage.setPreserveRatio(true);
+                faithTrackImage.setFitWidth(1000);
+                faithTrackImage.setFitHeight(1000);
+                InputStream imageIS;
+                if (pathFaithTrackImage.equals("default")){
+                    imageIS = this.getClass().getResourceAsStream("/accessible/assets/imgs/colored.png");
+                }else{
+                    try {
+                        imageIS = new FileInputStream(pathFaithTrackImage);
+                    }catch (IOException e){
+                        pathFaithTrackImage = "default";
+                        imageIS = this.getClass().getResourceAsStream("/accessible/assets/imgs/colored.png");
+                    }
+                }
+                faithTrackImage.setImage(new Image(imageIS));
+                pane.getChildren().add(faithTrackImage);
+                Scene faithTrackImageScene = new Scene(pane);
+                imagStage.setScene(faithTrackImageScene);
+                imagStage.showAndWait();
+                root.setDisable(false);
+            }
+        });
+        this.changeImageButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                root.setDisable(true);
+                FileChooser fileChooser = new FileChooser();
+                fileChooser.setTitle("Choose new image");
+                fileChooser.getExtensionFilters().add(
+                        new FileChooser.ExtensionFilter("Image Files", "*.png")
+                );
+                File selectedFile = fileChooser.showOpenDialog(null);
+                if (selectedFile!=null){
+                    try {
+                        pathFaithTrackImage = selectedFile.getAbsolutePath();
+                        String path = selectedFile.toURI().toURL().toExternalForm();
+                        //System.out.println(path);
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+                }
+                root.setDisable(false);
+            }
+        });
     }
 
     private void modifyScene(){
@@ -167,6 +231,7 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
     }
 
     private void readJson(){
+        this.pathFaithTrackImage = "default";
         JsonParser parser = new JsonParser();
         InputStream inputStream = this.getClass().getResourceAsStream("/accessible/JSONs/FaithTrackConfig.json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
@@ -216,6 +281,13 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
         this.nextButton.setFont(new Font(14));
         this.nextButton.setLayoutX(this.vaticanRelations[0].getX() + this.vaticanRelations[0].getWidth());
         this.nextButton.setLayoutY(this.separator.getEndY());
+
+        this.showImageButton.setFont(new Font(14));
+        this.showImageButton.setLayoutX(this.smallPaths[0].getX());
+        this.showImageButton.setLayoutY(this.smallPaths[4].getY() + this.smallPaths[4].getHeight() + 20);
+        this.changeImageButton.setFont(new Font(14));
+        this.changeImageButton.setLayoutX(this.showImageButton.getLayoutX() + this.showImageButton.getText().length()*this.showImageButton.getFont().getSize() );
+        this.changeImageButton.setLayoutY(this.showImageButton.getLayoutY());
     }
 
     private void buildGraphic(){
@@ -240,9 +312,13 @@ public class FaithTrackPersonalizationScene extends CustomScenes{
 
         this.nextButton = new Button("Next");
 
+        this.showImageButton = new Button("Show image");
+        this.changeImageButton = new Button("Change Image");
+
         this.root.getChildren().addAll(this.smallPathsText, this.separator, this.vaticanRelationText, this.nextButton);
         Arrays.stream(this.smallPaths).forEach(threeTextInput -> threeTextInput.addToPane(this.root));
         Arrays.stream(this.vaticanRelations).forEach(twoTextInput -> twoTextInput.addToPane(this.root));
+        this.root.getChildren().addAll(this.showImageButton, this.changeImageButton);
         this.faithTrackPersonalizationScene = new Scene(this.root);
     }
 

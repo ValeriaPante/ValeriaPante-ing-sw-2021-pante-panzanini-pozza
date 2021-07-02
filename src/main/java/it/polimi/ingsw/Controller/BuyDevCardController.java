@@ -37,7 +37,7 @@ public class BuyDevCardController extends CardActionController{
     /**
      * Selects the card on top of the chosen deck if possible (if a card had been chosen before, it will be deselected);
      * sets an error message in the following cases:
-     * - player has alredy made his turn
+     * - player has already made his turn
      * - chosen number of deck doesn't exist
      * - chosen deck is empty
      * - there is no available slot to contain the card

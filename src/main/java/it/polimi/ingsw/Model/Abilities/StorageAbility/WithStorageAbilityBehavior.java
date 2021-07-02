@@ -104,6 +104,10 @@ public class WithStorageAbilityBehavior implements StorageAbilityBehavior{
         return result;
     }
 
+    /**
+     * Getter
+     * @return the content of this storage LeaderCard with null in empty spaces
+     */
     @Override
     public Resource[] fullContent() {
         Resource[] fullContent = new Resource[this.contentState.values().stream().mapToInt(value -> value.length).reduce(0, Integer::sum)];
