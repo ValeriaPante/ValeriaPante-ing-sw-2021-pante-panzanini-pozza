@@ -51,7 +51,7 @@ public class SinglePlayerMainScene extends ObservableByGUI{
             FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +"colored.png");
             backgroundImage.setImage(new Image(fileInputStream));
 
-        } catch(Exception e) {
+        } catch(Exception ignored) {
         }
         backgroundImage.setFitWidth(1006.0);
         backgroundImage.setFitHeight(654.0);
@@ -72,7 +72,7 @@ public class SinglePlayerMainScene extends ObservableByGUI{
             FileInputStream fileInputStream2 = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator+lc.get(1)+".png");
             image2.setImage(new Image(fileInputStream2));
 
-        } catch(Exception e) {
+        } catch(Exception ignored) {
         }
         image1.setFitWidth(190);
         image2.setFitWidth(190);
@@ -120,6 +120,7 @@ public class SinglePlayerMainScene extends ObservableByGUI{
         } catch (IOException e) {
             e.printStackTrace();
         }
+        assert tooltip != null;
         ((Label)tooltip.lookup("#coin")).setText("0");
         ((Label)tooltip.lookup("#shield")).setText("0");
         ((Label)tooltip.lookup("#stone")).setText("0");

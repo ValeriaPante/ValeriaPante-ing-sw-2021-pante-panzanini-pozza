@@ -21,7 +21,6 @@ import it.polimi.ingsw.Network.Client.Messages.*;
 import java.util.*;
 
 public class Table {
-    public static final int maxPlayers = 4;
     private boolean isLastLap;
     private boolean singlePlayer;
     private final Market market;
@@ -29,10 +28,8 @@ public class Table {
     private final LinkedList<RealPlayer> players;
     private LorenzoIlMagnifico lorenzoIlMagnifico;
     private int turnOf;
-    private ArrayList<Player> winner;
+    private final ArrayList<Player> winner;
     private boolean isLorenzoTurn;
-
-    private String broadcastMessage;
 
     private DevDeck[] devDecks;
 
@@ -61,7 +58,6 @@ public class Table {
         this.players = new LinkedList<>();
         this.faithTrack = new FaithTrack();
         this.initialiseDevDecks();
-        this.broadcastMessage = null;
         this.winner = new ArrayList<>();
     }
 
@@ -113,12 +109,13 @@ public class Table {
         return isLorenzoTurn;
     }
 
-    //ritorna solo un realplayer
-    //SE volete lorenzo chiamate getLorenzo()
     public RealPlayer turnOf(){
         return this.players.get(this.turnOf);
     }
 
+    /**
+     * Sets player in turn
+     */
     public void nextTurn(){
         if (!this.singlePlayer){
             this.turnOf = (this.turnOf + 1) % this.players.size();
@@ -132,6 +129,9 @@ public class Table {
         }
     }
 
+    /**
+     * Initialise the game
+     */
     public void initLeaderCards(){
         LeaderDeck leaderDeck = new LeaderDeck();
         leaderDeck.shuffle();
@@ -158,6 +158,11 @@ public class Table {
         }
     }
 
+    /**
+     * Makes an action on a leader card
+     * @param card id of the leader card
+     * @param discard if true the card is to discard, otherwise the card needs to be played
+     */
     public void actionOnLeaderCard(LeaderCard card, boolean discard){
         if (discard) {
             this.turnOf().discardLeaderCard(card);
@@ -168,23 +173,40 @@ public class Table {
         this.notifyAllPlayer(message);
     }
 
+    /**
+     * Adds resources to the strongbox of the player in turn
+     * @param toAdd resources to add
+     */
     public void addToPlayerOfTurnStrongbox(EnumMap<Resource, Integer> toAdd){
         this.turnOf().getStrongBox().addEnumMap(toAdd);
         this.notifyStrongBoxChange();
     }
 
+    /**
+     * Updates the state of the support container
+     * @param cost new content of the support container
+     */
     public void updatePlayerOfTurnSupportContainer(EnumMap<Resource, Integer> cost){
         StrongBox supportContainer = this.turnOf().getSupportContainer();
         supportContainer.clear();
         addToSupportContainer(cost);
     }
 
+    /**
+     * Adds resources to the support container
+     * @param map resources to put inside
+     */
     public void addToSupportContainer(EnumMap<Resource, Integer> map){
         if (map != null)
             this.turnOf().getSupportContainer().addEnumMap(map);
         this.notifySupportContainerChange();
     }
 
+    /**
+     * Adds a development card to a slot
+     * @param devSlotNum slot in which to put the card
+     * @param chosenCard development card to put on the slot
+     */
     public void updatePlayerOfTurnDevSlot(int devSlotNum, DevCard chosenCard){
         if(chosenCard.isSelected()) chosenCard.select();
         this.turnOf().getDevSlots()[devSlotNum - 1].addCard(chosenCard);
@@ -192,13 +214,17 @@ public class Table {
         this.notifyAllPlayer(message);
     }
 
-    //pensando al riuso di questo
+    /**
+     * Draws a development card from a deck
+     * @param numberOfDeck deck from which the card needs to be drawn
+     * @return card drawn
+     */
     public DevCard drawDevDeck(int numberOfDeck){
         DevCard cardDrawn = this.devDecks[numberOfDeck].draw();
         DevCard newTopCard = null;
         try{
              newTopCard = this.devDecks[numberOfDeck].getTopCard();
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException ignored) {
 
         }
         NewTopCardMessage message = new NewTopCardMessage((newTopCard==null)? 0 : newTopCard.getId(), numberOfDeck);
@@ -206,12 +232,20 @@ public class Table {
         return cardDrawn;
     }
 
+    /**
+     * Takes resources from the market
+     * @return resources obtained
+     */
     public EnumMap<Resource, Integer> takeFromMarket(){
         EnumMap<Resource, Integer> picked = market.takeSelection();
         notifyAllPlayer(new NewMarketStateMessage(market.getState(), market.getSlide()));
         return picked;
     }
 
+    /**
+     * Draws an Action Token
+     * @return action token drawn
+     */
     public ActionToken drawToken(){
         ActionToken token = this.lorenzoIlMagnifico.getActionTokenDeck().draw();
         this.notifyAllPlayer(new LorenzoTurnMessage(token.getType()));
@@ -225,8 +259,8 @@ public class Table {
     public void discardTwoDevCards(Colour color){
         int cardToDiscards = 2;
         int level = 0;
-        int i = 0;
-        for (i=0; i<this.devDecks.length; i++){
+        int i;
+        for (i = 0; i<this.devDecks.length; i++){
             if (this.devDecks[i].getType().getColor() == color){
                 break;
             }
@@ -251,6 +285,10 @@ public class Table {
         }
     }
 
+    /**
+     * Setter of the winner
+     * @param winners all the players who got the maximum amount of total points
+     */
     public void addWinners(List<Player> winners){
         this.winner.addAll(winners);
         Player winner = this.winner.get(0);
@@ -264,6 +302,12 @@ public class Table {
         this.notifyAllPlayer(message);
     }
 
+    /**
+     * Adds what is possible inside a shelf
+     * @param capacity capacity of the shelf
+     * @param resourceToAdd resource to add to the shelf
+     * @param quantity amount of resources to add
+     */
     public void addAllIfPossibleToShelf(int capacity, Resource resourceToAdd, int quantity){
         for (Shelf s : this.turnOf().getShelves())
             if (s.getCapacity() == capacity){
@@ -328,6 +372,10 @@ public class Table {
         this.notifyAllPlayer(message);
     }
 
+    /**
+     * Pays what has been selected
+     * @param payable container from which it will be removed what has been selected
+     */
     public void payPlayerOfTurn(Payable payable){
         payable.pay();
 
@@ -354,6 +402,11 @@ public class Table {
 
     }
 
+    /**
+     * Updates the position of a player on the faith track
+     * @param playerId player
+     * @param amount amount of faith points to add
+     */
     public void moveForwardOnFaithTrack(int playerId, int amount){
         FromServerMessage message = null;
         if (playerId == 0){
@@ -374,6 +427,10 @@ public class Table {
         }
     }
 
+    /**
+     * Updates the state of the pope favour card of a player
+     * @param vaticanRelationId id of the vatican relation
+     */
     public void updatePlayersPopeCards(int vaticanRelationId){
         VaticanRelation vaticanRelation = this.faithTrack.getVaticanRelations()[vaticanRelationId];
         for (int i=0; i<this.players.size(); i++){
@@ -388,21 +445,14 @@ public class Table {
         }
     }
 
-    public void clearWinners(){ this.winner.clear(); }
-
     public DevDeck[] getDevDecks() {
         return Arrays.copyOf(this.devDecks, this.devDecks.length);
     }
 
-    public void setBroadcastMessage(String newErrorMessage) {
-        this.broadcastMessage = newErrorMessage;
-        //notify to client
-    }
-
-    public void clearBroadcastMessage(){
-        this.broadcastMessage = null;
-    }
-
+    /**
+     * Discconnects all the players
+     * @param id player who caused the disconnection
+     */
     public void closeAll(int id){
         FromServerMessage message = new DisconnectionMessage("Player disconnected", id);
         this.notifyAllPlayer(message);

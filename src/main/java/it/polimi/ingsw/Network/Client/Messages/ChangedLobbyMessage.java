@@ -4,12 +4,11 @@ import it.polimi.ingsw.Network.Client.Visitor;
 
 public class ChangedLobbyMessage extends WithIntMessage{
 
+    private String type  = "changedLobby";
     private final String[] players;
     private final boolean itsYou;
-    private final String type;
 
     public ChangedLobbyMessage(int lobbyId, String[] players, boolean itsYou) {
-        this.type = "changedLobby";
         this.id = lobbyId;
         this.players = players;
         this.itsYou = itsYou;

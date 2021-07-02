@@ -10,14 +10,23 @@ import java.util.HashMap;
  */
 public class SimplifiedPlayer {
     private String username;
-    private HashMap<Integer, Resource[]> leaderStorages = new HashMap<>();
-    private HashMap<Resource, Integer> strongbox = new HashMap<>();
-    private HashMap<Resource, Integer> supportContainer = new HashMap<>();
-    private HashMap<Resource, Integer>[] shelves = new HashMap[] {
-            new HashMap(), new HashMap(), new HashMap()
-    };
-    private ArrayList<Integer> leaderCards = new ArrayList<>();
-    private int[][] devSlots = new int[3][3];
+    private final HashMap<Integer, Resource[]> leaderStorages;
+    private HashMap<Resource, Integer> strongbox;
+    private HashMap<Resource, Integer> supportContainer;
+    private final HashMap<Resource, Integer>[] shelves;
+    private final ArrayList<Integer> leaderCards;
+    private final int[][] devSlots;
+
+    public SimplifiedPlayer(){
+        leaderStorages = new HashMap<>();
+        strongbox = new HashMap<>();
+        supportContainer = new HashMap<>();
+        shelves  = new HashMap[] {
+                new HashMap<Resource, Integer>(), new HashMap<Resource, Integer>(), new HashMap<Resource, Integer>()
+        };
+        leaderCards = new ArrayList<>();
+        devSlots = new int[3][3];
+    }
 
     public synchronized String getUsername() {
         return username;

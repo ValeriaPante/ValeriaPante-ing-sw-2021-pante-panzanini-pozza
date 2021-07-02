@@ -29,8 +29,8 @@ public class State {
             Initializable toMove = toDo.get(0);
             done.add(0, toDo.get(0));
             toDo.remove(0);
-            Platform.runLater(() -> Transition.setDialogScene(toMove.getRoot()));;
-            Platform.runLater(() -> Transition.reshowDialog());
+            Platform.runLater(() -> Transition.setDialogScene(toMove.getRoot()));
+            Platform.runLater(Transition::reshowDialog);
         }
     }
 

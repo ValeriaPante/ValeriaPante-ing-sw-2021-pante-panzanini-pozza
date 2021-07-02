@@ -5,14 +5,9 @@ import it.polimi.ingsw.Network.Client.MessageToServerManager;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Scene displaying game logo, where player can choose if to play online or offline

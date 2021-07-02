@@ -4,7 +4,7 @@ import it.polimi.ingsw.Model.Decks.ActionTokenDeck;
 
 public class LorenzoIlMagnifico extends Player{
 
-    private ActionTokenDeck actionTokenDeck;
+    private final ActionTokenDeck actionTokenDeck;
 
     public LorenzoIlMagnifico(){
         super("Lorenzo il Magnifico");

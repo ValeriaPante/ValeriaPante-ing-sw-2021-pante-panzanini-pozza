@@ -1,18 +1,16 @@
 package it.polimi.ingsw.View.GUI.States;
 
-import it.polimi.ingsw.Enums.Resource;
 import it.polimi.ingsw.View.ClientModel.SimplifiedPlayer;
 import it.polimi.ingsw.View.GUI.*;
 import javafx.application.Platform;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * State indicating that the player chose to activate his production powers
  */
 public class ProductionState extends State{
-    private SimplifiedPlayer player;
+    private final SimplifiedPlayer player;
 
     public ProductionState(GUI gui){
         toDo = new ArrayList<>();

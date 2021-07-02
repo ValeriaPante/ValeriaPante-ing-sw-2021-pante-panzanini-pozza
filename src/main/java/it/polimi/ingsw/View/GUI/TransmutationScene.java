@@ -20,7 +20,7 @@ import java.util.ArrayList;
  */
 public class TransmutationScene extends Initializable{
 
-    private static ArrayList<Integer> transmutationLC = new ArrayList();
+    private final static ArrayList<Integer> transmutationLC = new ArrayList<>();
 
     public TransmutationScene(){
         try {
@@ -43,7 +43,7 @@ public class TransmutationScene extends Initializable{
                 FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +lc.get(i)+".png");
                 image.setImage(new Image(fileInputStream));
 
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             image.setFitWidth(255);
             image.setPreserveRatio(true);

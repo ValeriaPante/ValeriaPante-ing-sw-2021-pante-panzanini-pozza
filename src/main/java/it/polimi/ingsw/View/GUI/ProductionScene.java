@@ -19,7 +19,7 @@ import java.io.IOException;
  */
 public class ProductionScene extends PaymentScene{
     private static final int[] devCardOnTop = new int[5];
-    private static Node[] ticks = new Node[6];
+    private static final Node[] ticks = new Node[6];
     private static Node quit;
 
     public ProductionScene(){
@@ -41,9 +41,7 @@ public class ProductionScene extends PaymentScene{
     public void initialise(){
 
         quit = root.lookup("#quit");
-        root.lookup("#quit").setOnMouseClicked(mouseEvent -> {
-            Transition.hideDialog();
-        });
+        root.lookup("#quit").setOnMouseClicked(mouseEvent -> Transition.hideDialog());
 
         initialiseButtons();
         AnchorPane card1 = (AnchorPane) root.lookup("#card1");
@@ -56,7 +54,7 @@ public class ProductionScene extends PaymentScene{
                 FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[0]+".png");
                 image.setImage(new Image(fileInputStream));
 
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
@@ -79,7 +77,7 @@ public class ProductionScene extends PaymentScene{
                 FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[1]+".png");
                 image.setImage(new Image(fileInputStream));
 
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
@@ -102,7 +100,7 @@ public class ProductionScene extends PaymentScene{
                 FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[2]+".png");
                 image.setImage(new Image(fileInputStream));
 
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
@@ -125,7 +123,7 @@ public class ProductionScene extends PaymentScene{
                 FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[3]+".png");
                 image.setImage(new Image(fileInputStream));
 
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
@@ -148,7 +146,7 @@ public class ProductionScene extends PaymentScene{
                 FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +devCardOnTop[4]+".png");
                 image.setImage(new Image(fileInputStream));
 
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             image.setFitWidth(150);
             image.setPreserveRatio(true);
@@ -188,23 +186,21 @@ public class ProductionScene extends PaymentScene{
     }
 
     public static void deselectIfSelected(int cardId){
-        if(ticks != null){
-            if(cardId == 0){
-                ticks[5].setVisible(false);
-            } else {
-                for(int i = 0; i < devCardOnTop.length - 1; i++){
-                    if(devCardOnTop[i] == cardId){
-                        ticks[i].setVisible(false);
-                    }
+        if(cardId == 0){
+            ticks[5].setVisible(false);
+        } else {
+            for(int i = 0; i < devCardOnTop.length - 1; i++){
+                if(devCardOnTop[i] == cardId){
+                    ticks[i].setVisible(false);
                 }
             }
-
-            for(int i = 0; i < ticks.length; i++){
-                if(ticks[i] != null && ticks[i].isVisible()) return;
-            }
-
-            if(quit != null) quit.setVisible(true);
         }
+
+        for (Node tick : ticks) {
+            if (tick != null && tick.isVisible()) return;
+        }
+
+        if(quit != null) quit.setVisible(true);
     }
 
 }

@@ -9,7 +9,6 @@ import it.polimi.ingsw.Network.Client.MessageManager;
 import it.polimi.ingsw.Network.Client.MessageToServerManager;
 import it.polimi.ingsw.View.CLI.Printers.Printer;
 import it.polimi.ingsw.View.ClientModel.Game;
-import it.polimi.ingsw.View.Observable;
 import it.polimi.ingsw.View.View;
 
 import java.util.Scanner;
@@ -21,7 +20,7 @@ import java.util.concurrent.ThreadPoolExecutor;
  * It keeps an executor in order to not stop for too long the thread that should listen the net.
  * Before Starting the connection, or the game if local, there is just one main thread playing
  */
-public class CLI extends Observable implements View{
+public class CLI implements View{
     private MessageManager client;
     private final Game model;
     private final SimplifiedFaithTrack simplifiedFaithTrack;

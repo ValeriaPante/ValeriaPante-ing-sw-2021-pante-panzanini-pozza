@@ -227,7 +227,7 @@ public class ContainersScene extends Initializable{
                 FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator + "assets"+ File.separator + "imgs"+ File.separator +storage.getKey()+".png");
                 image.setImage(new Image(fileInputStream));
 
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             image.setFitWidth(200);
             image.setPreserveRatio(true);
@@ -252,6 +252,7 @@ public class ContainersScene extends Initializable{
 
                         AnchorPane source = (AnchorPane) dragEvent.getSource();
                         if(source.getChildren().size() != 0) {
+                            assert resources != null;
                             sendMessage(new LeaderStorageSelectionMessage(storage.getKey(), resPosition, resources[resPosition]));
                             new Thread(() -> sendMessage(new ExchangeMessage())).start();
                         }

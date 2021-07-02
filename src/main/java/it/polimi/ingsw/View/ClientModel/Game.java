@@ -15,8 +15,8 @@ public class Game {
     private Resource slide;
     private int[][] devDecks;
     private int localPlayerId;
-    private LinkedHashMap<Integer, SimplifiedPlayer> players = new LinkedHashMap<>();
-    private  HashMap<Integer, String[]> lobbies = new HashMap<>();
+    private final LinkedHashMap<Integer, SimplifiedPlayer> players = new LinkedHashMap<>();
+    private final HashMap<Integer, String[]> lobbies = new HashMap<>();
     private int localPlayerLobbyId;
 
     public synchronized SimplifiedPlayer getPlayerFromId(int id){

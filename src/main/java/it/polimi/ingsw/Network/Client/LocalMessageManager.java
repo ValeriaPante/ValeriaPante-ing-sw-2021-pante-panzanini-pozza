@@ -1,10 +1,8 @@
 package it.polimi.ingsw.Network.Client;
 
 import it.polimi.ingsw.Controller.InGameControllerSwitch;
-import it.polimi.ingsw.Controller.PreGameControllerSwitch;
 import it.polimi.ingsw.Messages.InGameMessages.InGameMessage;
 import it.polimi.ingsw.Messages.PreGameMessages.PreGameMessage;
-import it.polimi.ingsw.Network.Client.Messages.FromServerMessage;
 import it.polimi.ingsw.Network.Server.LocalMessageSender;
 import it.polimi.ingsw.PreGameModel.Lobby;
 import it.polimi.ingsw.PreGameModel.User;
@@ -12,7 +10,6 @@ import it.polimi.ingsw.View.View;
 
 import java.io.*;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 /**
  * Manages the messages from/to the player in an offline game

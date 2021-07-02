@@ -11,14 +11,12 @@ import java.util.*;
  */
 public class DevSlot{
     private final List<DevCard> cards;
-    private boolean selected;
 
     /**
      * Constructor
      */
     public DevSlot(){
         cards = new ArrayList<>();
-        selected = false;
     }
 
     /**

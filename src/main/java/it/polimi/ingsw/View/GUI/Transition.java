@@ -60,9 +60,7 @@ public class Transition {
     }
 
     public static void setExitOnClose(){
-        primaryStage.setOnCloseRequest(windowEvent -> {
-            System.exit(1);
-        });
+        primaryStage.setOnCloseRequest(windowEvent -> System.exit(1));
     }
 
     public static void setDialogScene(Pane scene){
@@ -183,16 +181,6 @@ public class Transition {
     }
 
     /**
-     * Removes from view a leader card player chose from his inital ones
-     * @param index index of the card
-     */
-    public static void updateLeaderCards(int index){
-        GridPane gridPane = (GridPane) leaderCardsScene.getRoot().lookup("#gridPane");
-        gridPane.getChildren().remove(index);
-        gridPane.add(new Pane(),index,0);
-    }
-
-    /**
      * Adds a card in a slot (multiplayer case)
      * @param playerIndex index of the player to which apply the update
      * @param cardId id of the card to insert
@@ -206,7 +194,7 @@ public class Transition {
             FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +cardId+".png");
             image.setImage(new Image(fileInputStream));
 
-        } catch(Exception e) {
+        } catch(Exception ignored) {
         }
         image.setFitWidth(50);
         image.setPreserveRatio(true);
@@ -228,7 +216,7 @@ public class Transition {
             FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +cardId+".png");
             image.setImage(new Image(fileInputStream));
 
-        } catch(Exception e) {
+        } catch(Exception ignored) {
         }
         image.setFitWidth(150);
         image.setPreserveRatio(true);
@@ -287,7 +275,7 @@ public class Transition {
                 FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +cardId+".png");
                 image.setImage(new Image(fileInputStream));
 
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             image.setFitWidth(100);
             image.setPreserveRatio(true);
@@ -508,6 +496,7 @@ public class Transition {
         }
 
         for(Map.Entry<Resource, Integer> entry: inside.entrySet()){
+            assert tooltip != null;
             ((Label)tooltip.lookup("#"+entry.getKey().toString().toLowerCase())).setText(entry.getValue().toString());
         }
 

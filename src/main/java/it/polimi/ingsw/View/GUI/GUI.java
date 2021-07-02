@@ -185,7 +185,7 @@ public class GUI extends Application implements View {
         containersScene.initialise();
         Platform.runLater(() -> {
             Platform.runLater(() -> Transition.setDialogScene(containersScene.getRoot()));
-            Platform.runLater(() -> Transition.reshowDialog());
+            Platform.runLater(Transition::reshowDialog);
         });
 
     }
@@ -332,6 +332,7 @@ public class GUI extends Application implements View {
     @Override
     public void addDevCardInSlot(int playerId, int cardId, int slot) {
         if(playerId == model.getLocalPlayerId()){
+            currentState.next();
             ProductionScene.setDevCardOnTop(slot-1, cardId);
             toDoneState();
         }
@@ -401,7 +402,7 @@ public class GUI extends Application implements View {
     @Override
     public void showSelectionError(String message, int cardId){
 
-        Platform.runLater(() -> DevDecksScene.deselectAll());
+        Platform.runLater(DevDecksScene::deselectAll);
         Platform.runLater(() -> ProductionScene.deselectIfSelected(cardId));
         Platform.runLater(() -> Transition.showErrorMessage(message));
 

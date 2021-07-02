@@ -45,6 +45,7 @@ public class LobbiesScene extends ObservableByGUI{
             } catch (IOException e) {
                 e.printStackTrace();
             }
+            assert lobbyPane != null;
             Pane pane = (Pane) lobbyPane.lookup("#scrollPane");
             Label lobbyId = (Label) pane.getChildren().get(0);
             lobbyId.setText(orderedLobby.toString());

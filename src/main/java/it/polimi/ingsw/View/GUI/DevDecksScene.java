@@ -47,7 +47,7 @@ public class DevDecksScene extends ObservableByGUI{
                         FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator + "assets"+ File.separator + "imgs"+ File.separator +devDecks[i][j]+".png");
                         image.setImage(new Image(fileInputStream));
 
-                    } catch(Exception e) {
+                    } catch(Exception ignored) {
                     }
                     image.setFitWidth(120);
                     image.setPreserveRatio(true);
@@ -79,11 +79,6 @@ public class DevDecksScene extends ObservableByGUI{
             for(Map.Entry<Integer, Region> card: selection.entrySet())
                 card.getValue().setVisible(false);
         }
-    }
-
-    public static void deselectIfSelected(int cardId){
-        if(selection != null && selection.containsKey(cardId)) selection.get(cardId+1).setVisible(false);
-        deselectAll();
     }
 
     public Pane getRoot() {

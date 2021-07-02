@@ -45,7 +45,6 @@ public class BuyDevCardController extends CardActionController{
      */
     public void chooseDevCard(int chosenDeck){
         table.turnOf().clearErrorMessage();
-        table.clearBroadcastMessage();
 
         if(table.turnOf().getMacroTurnType() == MacroTurnType.NONE) {
             try {
@@ -107,7 +106,6 @@ public class BuyDevCardController extends CardActionController{
      */
     public void buyDevCard(){
         table.turnOf().clearErrorMessage();
-        table.clearBroadcastMessage();
 
         if (this.thereIsASelection() && table.turnOf().getMacroTurnType() == MacroTurnType.NONE){
             table.turnOf().setMacroTurnType(MacroTurnType.BUY_NEW_CARD);
@@ -134,7 +132,6 @@ public class BuyDevCardController extends CardActionController{
      */
     public void applyDiscountAbility(int id){
         table.turnOf().clearErrorMessage();
-        table.clearBroadcastMessage();
 
         if (table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() &&  table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
             LeaderCard card = getUsableLeaderCard(id);
@@ -240,7 +237,6 @@ public class BuyDevCardController extends CardActionController{
      */
     public void paySelected(){
         table.turnOf().clearErrorMessage();
-        table.clearBroadcastMessage();
 
         if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.SETTING_UP){
 
@@ -303,11 +299,10 @@ public class BuyDevCardController extends CardActionController{
      */
     public void chooseDevSlot(int numberOfSlot) throws GameOver {
         table.turnOf().clearErrorMessage();
-        table.clearBroadcastMessage();
 
         if(table.turnOf().getMacroTurnType() == MacroTurnType.BUY_NEW_CARD && this.thereIsASelection() && table.turnOf().getMicroTurnType() == MicroTurnType.ANY_DECISION){
             DevDeck[] devDecks = table.getDevDecks();
-            int numberOfDeck = 0;
+            int numberOfDeck;
             for (numberOfDeck = 0; numberOfDeck<devDecks.length; numberOfDeck++){
                 if (devDecks[numberOfDeck].getTopCard()!= null && devDecks[numberOfDeck].getTopCard().isSelected()){
                     break;

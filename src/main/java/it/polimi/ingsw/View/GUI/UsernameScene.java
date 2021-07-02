@@ -31,7 +31,7 @@ public class UsernameScene extends ObservableByGUI {
                 Platform.runLater(() -> Transition.setDisconnectOnClose(this.observer.getMessageManager()));
                 LobbiesScene lobbiesScene = new LobbiesScene(this.observer);
                 Platform.runLater(() -> Transition.setLobbiesScene(lobbiesScene));
-                Platform.runLater(() -> Transition.toLobbiesScene());
+                Platform.runLater(Transition::toLobbiesScene);
                 new Thread(() -> this.connect(ip.getText(), port.getText(), username.getText())).start();
             }
         });

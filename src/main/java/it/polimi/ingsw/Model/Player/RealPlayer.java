@@ -22,15 +22,15 @@ import java.util.LinkedList;
 
 public class RealPlayer extends Player{
 
-    private User connection;
+    private final User connection;
     private DevSlot[] devSlots;
     private Shelf[] shelves;
-    private StrongBox strongBox;
-    private ArrayList<LeaderCard> leaderCards;
+    private final StrongBox strongBox;
+    private final ArrayList<LeaderCard> leaderCards;
     private PopeFavorCard[] popeFavorCards;
-    private BasicProductionPower basicProductionPower;
-    private TurnType turnType;
-    private StrongBox supportContainer;
+    private final BasicProductionPower basicProductionPower;
+    private final TurnType turnType;
+    private final StrongBox supportContainer;
     private String errorMessage;
 
     private void initialiseShelves(){
@@ -57,7 +57,6 @@ public class RealPlayer extends Player{
         };
     }
 
-    //---Constructor---
     public RealPlayer(User user){
        super(user.getUsername());
        this.connection = user;
@@ -76,12 +75,9 @@ public class RealPlayer extends Player{
         this.leaderCards.add(leaderCard);
     }
     public void discardLeaderCard(LeaderCard leaderCard){
-        //this.connection.send(new ActionOnLeaderCardMessage());
         this.leaderCards.remove(leaderCard);
     }
 
-
-    //---Getters---
     public BasicProductionPower getBasicProductionPower(){
         return this.basicProductionPower;
     }
@@ -114,23 +110,24 @@ public class RealPlayer extends Player{
     }
     public int getNumberOfDevCardOwned(){
         int result = 0;
-        for(int i = 0; i < devSlots.length; i++){
-            result += devSlots[i].getDevCardTypeContained().size();
+        for (DevSlot devSlot : devSlots) {
+            result += devSlot.getDevCardTypeContained().size();
         }
         return result;
     }
-    //-----
 
-    //--Setter
+
     public void setMacroTurnType(MacroTurnType type){
         this.turnType.setMacroTurnType(type);
     }
     public void setMicroTurnType(MicroTurnType type){
         this.turnType.setMicroTurnType(type);
     }
-    //
 
-    // returns null if the player owns no Resources, otherwise it will return an EnumMap with the copy of all resources
+    /**
+     * Gets all the resources owned by this player
+     * @return null if the player owns no Resources, otherwise it will return an EnumMap with the copy of all resources
+     */
     private EnumMap<Resource, Integer> resourcesOwned() {
         Depot allResources = new Depot();
 
@@ -146,36 +143,33 @@ public class RealPlayer extends Player{
                 try {
                     if (!leaderCard.getAbility().isEmpty())
                         allResources.addEnumMap(leaderCard.getAbility().getContent());
-                } catch (WrongLeaderCardType e) {
+                } catch (WrongLeaderCardType ignored) {
                 }
             }
         }
         return (allResources.content() == null) ? new EnumMap<>(Resource.class) : allResources.content();
     }
 
-    //Returns all the production powers that the player has
+    /**
+     * Gets all the production powers of this player
+     * @return all the production powers that the player has
+     */
     private LinkedList<ProductionPower> calculateAllProductionPowers(){
         LinkedList<ProductionPower> allProductionPowers = new LinkedList<>();
 
-        //default
         allProductionPowers.add(this.basicProductionPower.getProductionPower());
 
-        //ProdPowers in devslots
         for (DevSlot devSlot : this.devSlots){
             if (!devSlot.isEmpty()){
-                //here i should have a dev card
                 allProductionPowers.add(devSlot.topCard().getProdPower());
             }
         }
 
-        //leaderCards
         for (LeaderCard leaderCard : this.leaderCards){
             if (leaderCard.hasBeenPlayed()) {
                 try {
-                    //no Exceptions -> the leaderCard type = ProdPower
                     allProductionPowers.add(leaderCard.getAbility().getProductionPower());
-                } catch (WrongLeaderCardType e) {
-                    //pass
+                } catch (WrongLeaderCardType ignored) {
                 }
             }
         }

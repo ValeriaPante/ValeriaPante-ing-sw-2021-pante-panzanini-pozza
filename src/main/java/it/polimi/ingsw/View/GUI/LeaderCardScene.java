@@ -36,7 +36,7 @@ public class LeaderCardScene extends ObservableByGUI{
                 FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator +"assets"+ File.separator +"imgs"+ File.separator +leaderCards.get(i)+".png");
                 image.setImage(new Image(fileInputStream));
 
-            } catch(Exception e) {
+            } catch(Exception ignored) {
             }
             image.setFitWidth(200);
             image.setPreserveRatio(true);

@@ -25,18 +25,9 @@ public class DevSlotChoiceScene extends Initializable{
 
     @Override
     public void initialise(){
-        root.lookup("#slot1").setOnMouseClicked(mouseEvent -> {
-            new Thread(() -> sendMessage(new ChooseDevSlotMessage(1))).start();
-            observer.getCurrentState().next();
-        });
-        root.lookup("#slot2").setOnMouseClicked(mouseEvent -> {
-            new Thread(() -> sendMessage(new ChooseDevSlotMessage(2))).start();
-            observer.getCurrentState().next();
-        });
-        root.lookup("#slot3").setOnMouseClicked(mouseEvent -> {
-            new Thread(() -> sendMessage(new ChooseDevSlotMessage(3))).start();
-            observer.getCurrentState().next();
-        });
+        root.lookup("#slot1").setOnMouseClicked(mouseEvent -> new Thread(() -> sendMessage(new ChooseDevSlotMessage(1))).start());
+        root.lookup("#slot2").setOnMouseClicked(mouseEvent -> new Thread(() -> sendMessage(new ChooseDevSlotMessage(2))).start());
+        root.lookup("#slot3").setOnMouseClicked(mouseEvent -> new Thread(() -> sendMessage(new ChooseDevSlotMessage(3))).start());
 
         int[][] devCards = observer.getModel().getPlayerFromId(observer.getModel().getLocalPlayerId()).getDevSlots();
         for(int i = 0; i < devCards.length; i++)
@@ -49,7 +40,7 @@ public class DevSlotChoiceScene extends Initializable{
                         FileInputStream fileInputStream = new FileInputStream(fullPath.getParentFile().getPath() + File.separator + "assets"+ File.separator +"imgs"+ File.separator +devCards[i][j]+".png");
                         image.setImage(new Image(fileInputStream));
 
-                    } catch(Exception e) {
+                    } catch(Exception ignored) {
                     }
                     image.setFitWidth(150);
                     image.setPreserveRatio(true);
