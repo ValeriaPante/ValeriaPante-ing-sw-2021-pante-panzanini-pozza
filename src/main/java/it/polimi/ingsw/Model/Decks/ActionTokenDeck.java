@@ -9,8 +9,8 @@ import java.util.*;
  * Representation of a deck of Action Tokens
  */
 public class ActionTokenDeck implements Deck{
-    private List<ActionToken> active;
-    private List<ActionToken> inactive;
+    private final List<ActionToken> active;
+    private final List<ActionToken> inactive;
 
     /**
      * Constructor
