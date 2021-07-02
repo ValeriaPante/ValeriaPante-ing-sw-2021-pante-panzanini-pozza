@@ -26,6 +26,7 @@ The goal of the project was to create a software version of the board game Maste
  3. Local game
 
 ### How to run JARs
+It is required at least Java 11 to run JARs.
 #### Server
 ***For the correct behavior it's mandatory to complete the customisation process at least once.***
 
