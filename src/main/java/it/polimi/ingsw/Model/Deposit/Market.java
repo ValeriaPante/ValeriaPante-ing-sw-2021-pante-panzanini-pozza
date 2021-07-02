@@ -174,7 +174,7 @@ public class Market {
      */
     public synchronized int getPosSelected() throws IndexOutOfBoundsException{
         if (posSelected == -1)
-            throw new IndexOutOfBoundsException(); //there was no selection!
+            throw new IndexOutOfBoundsException();
 
         return posSelected;
     }
@@ -193,10 +193,9 @@ public class Market {
 
         Collections.shuffle(pickingList);
 
-        //initialization by row
         for (i=0; i<3; i++){
             for (j=0; j<4; j++){
-                grid[i][j] = pickingList.remove(pickingList.size()-1);               //pickingList.remove returns the removed object
+                grid[i][j] = pickingList.remove(pickingList.size()-1);
             }
         }
         slide = pickingList.remove(0);

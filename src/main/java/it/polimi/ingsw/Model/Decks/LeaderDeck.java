@@ -17,13 +17,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * Representaion of Leader Deck
+ * Representation of Leader Deck
  */
 public class LeaderDeck implements Deck{
     private final List<LeaderCard> deck;
 
     /**
-     * Constucts a leader deck from a JSON file
+     * Constructs a leader deck from the JSON file
      */
     public LeaderDeck() {
         deck = new ArrayList<>();

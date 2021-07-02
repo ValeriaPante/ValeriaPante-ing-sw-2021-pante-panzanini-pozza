@@ -33,7 +33,6 @@ public class Depot{
         if (!this.contains(mapToBeRemoved))
             throw new IndexOutOfBoundsException();
 
-        //in this case it is possible to remove the whole enumMap
         this.removeEnumMapWhatPossible(mapToBeRemoved);
 
         return new EnumMap<>(mapToBeRemoved);
@@ -46,7 +45,6 @@ public class Depot{
      * @throws NullPointerException if a parameter equals to null is passed
      */
     public synchronized EnumMap<Resource, Integer> removeEnumMapWhatPossible (EnumMap<Resource, Integer> mapToBeRemoved) throws NullPointerException{
-        //this can raise a NullPointerException
         EnumMap<Resource, Integer> notRemoved = isMissing(mapToBeRemoved);
 
         for (Resource r: Resource.values())
@@ -139,6 +137,9 @@ public class Depot{
         return (missingResources.isEmpty()) ? null : missingResources;
     }
 
+    /**
+     * Constructor
+     */
     public Depot(){
         inside = new EnumMap<>(Resource.class);
     }
