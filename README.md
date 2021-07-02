@@ -19,9 +19,9 @@ The goal of the project was to create a software version of the board game Maste
       - production power
       - images
     - Faith Track:
-      - Division
-      - Pope favour position
-      - Image
+      - division
+      - pope favour position
+      - image
  2. Multiple games
  3. Local game
 
@@ -29,7 +29,7 @@ The goal of the project was to create a software version of the board game Maste
 #### Server
 ***For the correct behavior it's mandatory to complete the customisation process at least once.***
 
-The server by default is bind to the port 42000.
+The server is bind to the port 42000.
 
 To customize the assets of the game through GUI you can launch the server with the following command on the terminal.
 
