@@ -267,7 +267,7 @@ public class ContainersScene extends Initializable{
                     int position = i;
                     Resource resourceType = resources[i - 1];
                     if(resourceType != null){
-                        InputStream input = Transition.class.getResourceAsStream(File.separator + "constantAssets"+ File.separator +resources[i - 1].toString().toLowerCase()+".png");
+                        InputStream input = Transition.class.getResourceAsStream("/constantAssets/" +resources[i - 1].toString().toLowerCase()+".png");
                         ImageView resourceImage = new ImageView();
                         resourceImage.setImage(new Image(input));
                         resourceImage.setFitWidth(40);
